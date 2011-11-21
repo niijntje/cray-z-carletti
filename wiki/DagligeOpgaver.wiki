@@ -23,7 +23,7 @@ Vi skal vel egentlig lige have kigget på vores use cases igen her efter at vi u
   * Brug af design-patterns - Rita overvejer observer-pattern til mellemvarer, og kæmper stadig med om strategy-pattern kan bruges til noget til Delbehandling-Tørring-Dragering-problemet
 
 ===Opgaver til i morgen:===
-  * Mads: Sove ;-)
+  * Mads: Lave Validering-klasse. Sove ;-)
   * Rasmus: Skrive use-case + DSD til sendTilDragering()  - *HUSK: Jeg har ændret i MellemlagerPlads*
   * Rita: Implementere Delbehandling + Dragering ud fra det færdige DSD. Opdatere og uploade designklassediagram
 
