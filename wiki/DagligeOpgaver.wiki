@@ -4,9 +4,9 @@
 =Daglige opgaver=
 
 ==Onsdag d. 16. november==
-Mads: Implementer Palle, Placering og Drageringshal
-Rasmus: Implementer Mellemvare, Produkttype, Behandling
-Rita: Implementerer Delbehandling, Tørring, Dragering
+  * Mads: Implementer Palle, Placering og Drageringshal
+  * Rasmus: Implementer Mellemvare, Produkttype, Behandling
+  * Rita: Implementerer Delbehandling, Tørring, Dragering
 
 ==Torsdag d. 17. november==
   * Mads: DSD for Find palle-use-casen. getResterendeTid()
