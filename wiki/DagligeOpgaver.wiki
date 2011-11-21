@@ -27,5 +27,4 @@ Mads: Sove ;-)
 Rasmus: Skrive use-case + DSD til sendTilDragering()  - *HUSK: Jeg har ændret i MellemlagerPlads*
 Rita: Implementere Delbehandling + Dragering ud fra det færdige DSD. Opdatere og uploade designklassediagram
 
-==Tirsdag d. 21. november==
-
+==Tirsdag d. 22. november==
