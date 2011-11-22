@@ -3,18 +3,20 @@
  */
 package model;
 
+import model.Palle;
 
 /**
  * v.0.3
+ * 
  * @author Mads Dahl Jensen
- *
+ * 
  */
 public class MellemlagerPlads {
-	
+
 	private String stregkode;
 	private Palle palle;
-	
-	public MellemlagerPlads(String stregkode){
+
+	public MellemlagerPlads(String stregkode) {
 		this.stregkode = stregkode;
 	}
 
@@ -26,11 +28,12 @@ public class MellemlagerPlads {
 		this.stregkode = stregkode;
 	}
 
+	// ------ Associering mellem palle og mellemlagerPlads ------
 	public Palle getPalle() {
 		return palle;
 	}
-	
-	void placerPalleUD(Palle palle){
+
+	void placerPalleUD(Palle palle) {
 		this.palle = palle;
 	}
 
@@ -39,14 +42,16 @@ public class MellemlagerPlads {
 		palle.placerPalleUD(this);
 	}
 
-	public String toString(){
-		return this.getStregkode();
+	// ---------------------------------------------------------
+
+	public String toString() {
+		return "Plads: " + this.getStregkode() + " - Palle: "+this.palle;
 	}
-	
-	public String toStringLong(){
+
+	public String toStringLong() {
 		String palleString = "";
-		if (this.getPalle() != null){
-			palleString = " - " +this.getPalle().toString();
+		if (this.getPalle() != null) {
+			palleString = " - " + this.getPalle().toString();
 		}
 		return this.toString() + palleString;
 	}
