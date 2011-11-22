@@ -45,7 +45,7 @@ public class MellemlagerPlads {
 	// ---------------------------------------------------------
 
 	public String toString() {
-		return "Plads: " + this.getStregkode() + " - Palle: "+this.palle;
+		return this.getStregkode();
 	}
 
 	public String toStringLong() {
