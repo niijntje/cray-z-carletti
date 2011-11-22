@@ -92,13 +92,13 @@ public class Service {
 	 * Tilfoejer en delbehandling til en behandling Krav: Behandling skal
 	 * eksistere i databasen
 	 * 
-	 * @param b
+	 * @param behandling
 	 * @param delbandlingNavn
 	 * @param delbandlingIndex
 	 */
-	public void tilfoejDelbehandling(Behandling b, String delbandlingNavn,
-			int delbandlingIndex) {
-
+	public void tilfoejDelbehandling(Behandling b,
+			Delbehandling nyDelbehandling, int delbandlingIndex) {
+		b.addDelbehandling(nyDelbehandling, delbandlingIndex);
 	}
 
 	/**
