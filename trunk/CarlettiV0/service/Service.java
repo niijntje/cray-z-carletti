@@ -1,6 +1,7 @@
 package service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import model.Behandling;
 import model.Delbehandling;
@@ -154,10 +155,23 @@ public class Service {
 			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
 		}
 	}
+	
+	public ArrayList<Palle> getPaller(){
+		return new ArrayList<Palle>(dao.paller());
+	}
+	
+	public ArrayList<MellemlagerPlads> getPladser(){
+		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
+	}
+	
+	public ArrayList<Produkttype>getProdukttyper(){
+		return new ArrayList<Produkttype>(dao.produkttyper());
+	}
 
 	public void createSomeObjects() {
 		Palle palle1 = opretPalle("00001");
 		Palle palle2 = opretPalle("00002");
+		Palle palle3 = opretPalle("00003");
 
 		MellemlagerPlads mPlads1 = opretMellemlagerPlads("001");
 		MellemlagerPlads mPlads2 = opretMellemlagerPlads("002");
@@ -181,7 +195,8 @@ public class Service {
 		opretMellemvare("01", p, palle2);
 		placerPalleMellemvarelager(palle2, mPlads1);
 		opretMellemvare("02", p2, palle1);
-		placerPalleMellemvarelager(palle1, mPlads3);
+//		placerPalleMellemvarelager(palle1, mPlads3);
+//		opretMellemvare("03", p, palle3);
 
 	}
 }
