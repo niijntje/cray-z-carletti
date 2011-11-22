@@ -44,7 +44,6 @@ public class Service {
 		Palle p = new Palle(stregkode);
 		dao.gemPalle(p);
 		return p;
-
 	}
 
 	/**
