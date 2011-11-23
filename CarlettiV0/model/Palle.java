@@ -4,6 +4,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 /**
@@ -123,24 +124,41 @@ public class Palle {
 	 * 
 	 * @return
 	 */
+	//Argh hvor dumt! Skal jo bare tjekke på delbehandling - hvis to varer har samme delbehandling, har de pr. definition også samme produkttype! :-S
 	public boolean alleVarerErEns() {	//Lød mere sigende end 'areIdentical()'
-		boolean identical = true;
+		HashMap<Produkttype, Delbehandling> hm = new HashMap<Produkttype, Delbehandling>();
 		if (mellemvarer.size() > 0) {
-			Produkttype pt = mellemvarer.get(0).getProdukttype();
-			Delbehandling db = mellemvarer.get(0)
-					.getIgangvaerendeDelbehandling();
 			for (Mellemvare m : mellemvarer) {
-				if (m.getProdukttype() != pt) {
-					identical = false;
-				}
-				if (m.getIgangvaerendeDelbehandling() != db) {
-					identical = false;
+				if (!(hm.containsKey(m.getProdukttype()) && hm.get(m.getProdukttype()) == m.getIgangvaerendeDelbehandling())){
+					hm.put(m.getProdukttype(), m.getIgangvaerendeDelbehandling());
 				}
 			}
 		}
-		return identical;
+		return (hm.size()<=1);
 	}
 	
+	public int getAntalMellemvarerAfType(Mellemvare mellemvare){
+		int antal = 0;
+		Produkttype pt = mellemvarer.get(0).getProdukttype();
+		Delbehandling db = mellemvarer.get(0)
+				.getIgangvaerendeDelbehandling();
+		for (Mellemvare m : mellemvarer) {
+			if (m.getProdukttype() == pt && m.getIgangvaerendeDelbehandling() == db){
+				antal++;
+			}
+		}
+		return antal;
+	}
+	
+	public HashMap<Mellemvare, Integer> getMellemvareAntalMap(){
+		HashMap hm = new HashMap<Produkttype, Integer>();
+		for (Mellemvare m : mellemvarer){
+//			if (hm.containsKey(m.getProdukttype()) && hm.con)
+		}
+		return hm;
+	}
+	
+	@Override
 	public String toString(){
 		return "#"+this.getStregkode();
 	}
