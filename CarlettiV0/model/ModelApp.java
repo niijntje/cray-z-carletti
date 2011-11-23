@@ -3,6 +3,8 @@
  */
 package model;
 
+import gui.Validering;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -68,7 +70,7 @@ public class ModelApp {
 		
 		HashMap<Mellemvare, Integer> mellemvaretyperMedAntal = pa1.getMellemvareAntalMapping();
 		for (Mellemvare m : mellemvaretyperMedAntal.keySet()){
-			System.out.println(m.getProdukttype()+"\t"+m.getIgangvaerendeDelbehandling()+ "\t"+mellemvaretyperMedAntal.get(m)+" stk.");
+			System.out.println(m.getProdukttype()+"\t"+m.getIgangvaerendeDelbehandling()+ "\t"+mellemvaretyperMedAntal.get(m)+" stk. "+Validering.millisekunderTildato(m.getResterendeTid()));
 		}
 	}
 
