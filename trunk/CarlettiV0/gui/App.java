@@ -10,7 +10,7 @@ public class App {
 		mainFrame.setVisible(true);
 		SubFrameTilfoejMellemvarer subframeMellemvarer = new SubFrameTilfoejMellemvarer(mainFrame);
 		subframeMellemvarer.setVisible(true);
-
+		
 	}
 
 }
