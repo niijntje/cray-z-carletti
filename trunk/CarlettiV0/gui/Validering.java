@@ -1,9 +1,7 @@
-package Gui;
+package gui;
 
 public class Validering
 {
-	
-	
 	public String millisekunderTildato(long tid)
 	{
 		int dage;
