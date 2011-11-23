@@ -54,7 +54,6 @@ public class Toerring extends Delbehandling {
 	@Override
 	public long getResterendeTid(GregorianCalendar startTid) {
 		long tidSidenStart = startTid.getTimeInMillis()-System.currentTimeMillis();
-		
 		if (tidSidenStart < 0){
 			throw new RuntimeException("startTid er ikke indtruffet endnu! Angiv en startTid f¿r systemets nuv¾rende tid.");
 		}
