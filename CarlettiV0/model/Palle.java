@@ -124,8 +124,7 @@ public class Palle {
 	 * 
 	 * @return
 	 */
-	//Argh hvor dumt! Skal jo bare tjekke på delbehandling - hvis to varer har samme delbehandling, har de pr. definition også samme produkttype! :-S
-	public boolean alleVarerErEns() {	//Lød mere sigende end 'areIdentical()'
+	public boolean alleVarerErEns() {	
 		HashMap<Produkttype, Delbehandling> hm = new HashMap<Produkttype, Delbehandling>();
 		if (mellemvarer.size() > 0) {
 			for (Mellemvare m : mellemvarer) {
@@ -137,26 +136,30 @@ public class Palle {
 		return (hm.size()<=1);
 	}
 	
-	public int getAntalMellemvarerAfType(Mellemvare mellemvare){
-		int antal = 0;
-		Produkttype pt = mellemvarer.get(0).getProdukttype();
-		Delbehandling db = mellemvarer.get(0)
-				.getIgangvaerendeDelbehandling();
-		for (Mellemvare m : mellemvarer) {
-			if (m.getProdukttype() == pt && m.getIgangvaerendeDelbehandling() == db){
+	
+	public Integer getAntalAfSammeType(Mellemvare mellemvare){
+		Integer antal = 0;
+		for (Mellemvare m: mellemvarer){
+			if (m.getProdukttype() == mellemvare.getProdukttype() && m.getIgangvaerendeDelbehandling() == mellemvare.getIgangvaerendeDelbehandling()){
 				antal++;
 			}
 		}
 		return antal;
 	}
 	
-	public HashMap<Mellemvare, Integer> getMellemvareAntalMap(){
-		HashMap hm = new HashMap<Produkttype, Integer>();
-		for (Mellemvare m : mellemvarer){
-//			if (hm.containsKey(m.getProdukttype()) && hm.con)
+	public HashMap<Mellemvare, Integer> getMellemvareAntalMapping(){
+		HashMap<Produkttype, Delbehandling> optaltePDpar = new HashMap<Produkttype, Delbehandling>();
+		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();
+		for (Mellemvare m: mellemvarer){
+			if (!(optaltePDpar.containsKey(m.getProdukttype()) && optaltePDpar.get(m.getProdukttype())==m.getIgangvaerendeDelbehandling())){
+				optaltePDpar.put(m.getProdukttype(), m.getIgangvaerendeDelbehandling());
+				ensMellemvareAntalMapping.put(m, getAntalAfSammeType(m));
+			}
 		}
-		return hm;
+		return ensMellemvareAntalMapping;
 	}
+	
+	
 	
 	@Override
 	public String toString(){
