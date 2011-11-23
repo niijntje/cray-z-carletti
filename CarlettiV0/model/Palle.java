@@ -123,6 +123,7 @@ public class Palle {
 	 * lidt forskel på registreringerne af de enkelte mellemvarer.
 	 * 
 	 * @return
+	 * @author Rita Holst Jacobsen
 	 */
 	public boolean alleVarerErEns() {	
 		HashMap<Produkttype, Delbehandling> hm = new HashMap<Produkttype, Delbehandling>();
@@ -137,6 +138,11 @@ public class Palle {
 	}
 	
 	
+	/**
+	 * @param mellemvare
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public Integer getAntalAfSammeType(Mellemvare mellemvare){
 		Integer antal = 0;
 		for (Mellemvare m: mellemvarer){
@@ -147,6 +153,10 @@ public class Palle {
 		return antal;
 	}
 	
+	/**
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public HashMap<Mellemvare, Integer> getMellemvareAntalMapping(){
 		HashMap<Produkttype, Delbehandling> optaltePDpar = new HashMap<Produkttype, Delbehandling>();
 		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();

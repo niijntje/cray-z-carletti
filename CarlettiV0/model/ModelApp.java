@@ -29,11 +29,11 @@ public class ModelApp {
 		
 		Behandling b3 = new Behandling("B3 - MŒnegrus og lakridspinde. Kernest¿rrelse 2.5-3.5");
 		
-		Delbehandling d1 = new Toerring("T¿rring 1", b3,100000000, 150000000, 200000000);
+		Delbehandling d1 = new Toerring("T¿rring 1a", b3,100000000, 150000000, 200000000);
 		b3.addDelbehandling(d1, -1);
 		
 		Produkttype pt1 = new Produkttype("Lakridspinde 1", "Gr¿nne lakridspinde med kernest¿rrelse 3.\nOpskrift: B3", b3);
-		Produkttype pt2 = new Produkttype("Vingummibamser 1", "R¿de vingummibamser.\nOpskrift: B3", b3);
+		Produkttype pt2 = new Produkttype("MŒnegrus 2B", "Rester fra lakridspinde med varierende kernest¿rrelse.\nOpskrift: B3", b3);
 		
 		
 		Mellemvare m1 = new Mellemvare("300000001", pt1, pa1);
@@ -54,21 +54,22 @@ public class ModelApp {
 		pa1.placerPalle(pl2);
 		
 		
-		System.out.println("Paller:");
-		System.out.println(pa1);
-		System.out.println(pa2);
-		System.out.println();
-		
-		System.out.println("Palle "+pa1.toString());
-		System.out.println("Placering: "+pa1.getPlacering()+":\n");
-		for (Mellemvare m : pa1.getMellemvarer()){
-			System.out.println(m.toStringLong());
-		}
-		System.out.println();
+//		System.out.println("Paller:");
+//		System.out.println(pa1);
+//		System.out.println(pa2);
+//		System.out.println();
+//		
+//		System.out.println("Palle "+pa1.toString());
+//		System.out.println("Placering: "+pa1.getPlacering()+":\n");
+//		for (Mellemvare m : pa1.getMellemvarer()){
+//			System.out.println(m.toStringLong());
+//		}
+//		System.out.println();
 		
 		HashMap<Mellemvare, Integer> mellemvaretyperMedAntal = pa1.getMellemvareAntalMapping();
-		System.out.println(mellemvaretyperMedAntal.toString());
-//		HashSet<E>
+		for (Mellemvare m : mellemvaretyperMedAntal.keySet()){
+			System.out.println(m.getProdukttype()+"\t"+m.getIgangvaerendeDelbehandling()+ "\t"+mellemvaretyperMedAntal.get(m)+" stk.");
+		}
 	}
 
 }
