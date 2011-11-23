@@ -10,7 +10,7 @@ import service.Service;
  * @author nijntje
  *
  */
-public class Test {
+public class App {
 
 	/**
 	 * @param args
