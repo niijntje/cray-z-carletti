@@ -47,9 +47,17 @@ public abstract class Delbehandling {
 	
 	/**
 	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes exception)
-	 * @return resterende tid. Hvis negativ er tiden overskredet. Alt efter typen af delbehandling kan det betyde at varen skal kasseres eller at den er f¾rdigbehandlet.
+	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden passeret, returneres tiden 0, modsat i getResterendeTidTilNaeste(),
+	 * hvor der returneres en negativ tid, hvis maxTid er overskredet.
 	 */
-	public abstract long getResterendeTid(GregorianCalendar startTid) throws RuntimeException;
+	public abstract long[] getResterendeTider(GregorianCalendar startTid) throws RuntimeException;
+	
+	/**
+	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes exception)
+	 * @return resterende tid. Hvis negativ er tiden overskredet. Alt efter typen af delbehandling kan det betyde at varen skal kasseres eller at den er f¾rdigbehandlet.
+	 * @throws RuntimeException
+	 */
+	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid) throws RuntimeException;
 	
 	public String toString(){
 		return getNavn();
