@@ -199,4 +199,16 @@ public class Service {
 //		opretMellemvare("03", p, palle3);
 
 	}
+
+	public static String getStregkode(Palle palle) {
+		return palle.getStregkode();
+	}
+	
+	public static String getStregkode(Mellemvare mellemvare) {
+		return mellemvare.getBakkestregkode();
+	}
+	
+	public static String getStregkode(MellemlagerPlads mellemlagerPlads) {
+		return mellemlagerPlads.getStregkode();
+	}
 }

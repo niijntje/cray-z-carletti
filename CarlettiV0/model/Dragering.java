@@ -32,9 +32,29 @@ public class Dragering extends Delbehandling {
 	}
 
 	@Override
-	public long getResterendeTid(GregorianCalendar startTid) throws RuntimeException {
+	public long[] getResterendeTider(GregorianCalendar startTid) throws RuntimeException {
+		long tidSidenStart = System.currentTimeMillis()-startTid.getTimeInMillis();
+		if (tidSidenStart < 0){
+			throw new RuntimeException("startTid er ikke indtruffet endnu! Angiv en startTid f¿r systemets nuv¾rende tid.");
+		}
+		long[] tid = new long[1];
+		if (tidSidenStart < this.getVarighed()){
+			tid[0] = this.getVarighed()-tidSidenStart;
+		}
+		else {
+			tid[0] = 0;
+		}
+		return tid;
+	}
 
-		return this.getVarighed();
+	@Override
+	public long getResterendeTidTilNaeste(GregorianCalendar startTid) throws RuntimeException {
+		long tid = getResterendeTider(startTid)[0];
+		if (tid == 0){
+			long tidSidenStart = System.currentTimeMillis()-startTid.getTimeInMillis();
+			tid = this.getVarighed()-tidSidenStart;
+		}
+		return tid;
 	}
 
 }

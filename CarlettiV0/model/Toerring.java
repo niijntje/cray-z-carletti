@@ -51,25 +51,55 @@ public class Toerring extends Delbehandling {
 		this.maxVarighed = maxVarighed;
 	}
 
+
+	
 	@Override
-	public long getResterendeTid(GregorianCalendar startTid) {
+	public long[] getResterendeTider(GregorianCalendar startTid) throws RuntimeException {
+		
 		long tidSidenStart = System.currentTimeMillis()-startTid.getTimeInMillis();
 		if (tidSidenStart < 0){
 			throw new RuntimeException("startTid er ikke indtruffet endnu! Angiv en startTid f¿r systemets nuv¾rende tid.");
 		}
-		long resterendeTid = 0;
-
+		long[] tider = new long[3];
+		
 		if (tidSidenStart < this.getMinVarighed()){
-			resterendeTid = this.getMinVarighed()-tidSidenStart;
+			tider[0] = this.getMinVarighed()-tidSidenStart;
 		}
-		else if (tidSidenStart < this.getIdealVarighed()){
-			resterendeTid = this.getIdealVarighed()-tidSidenStart;
+		else {
+			tider[0] = 0;
 		}
-		else if (tidSidenStart < this.getMaxVarighed()){
-			resterendeTid = this.getMaxVarighed()-tidSidenStart;
+		if (tidSidenStart < this.getIdealVarighed()){
+			tider[1] = this.getIdealVarighed()-tidSidenStart;
 		}
-		else resterendeTid = this.getMaxVarighed()-tidSidenStart; //Jeg ved godt at de sidste to else'er er ens, men sidste returnerer en negativ v¾rdi
-		return resterendeTid;
+		else {
+			tider[1] = 0;
+		}
+		if (tidSidenStart < this.getMaxVarighed()){
+			tider[2] = this.getMaxVarighed()-tidSidenStart;
+		}
+		else {
+			tider[2] = 0;
+					}
+		return tider;
+	}
+	
+
+	@Override
+	public long getResterendeTidTilNaeste(GregorianCalendar startTid) throws RuntimeException {		
+		long[] tider = this.getResterendeTider(startTid);
+		
+		long tid = tider[0];
+		if (tider[0] == 0){
+			tid = tider[1];
+		}
+		if (tider[1] == 0){
+			tid = tider[2];
+		}
+		if (tider[2] == 0){
+			long tidSidenStart = System.currentTimeMillis()-startTid.getTimeInMillis();
+			tid = this.getMaxVarighed()-tidSidenStart;
+		}
+		return tid;
 	}
 
 

@@ -56,21 +56,21 @@ public class ModelApp {
 		pa1.placerPalle(pl2);
 		
 		
-//		System.out.println("Paller:");
-//		System.out.println(pa1);
-//		System.out.println(pa2);
-//		System.out.println();
-//		
-//		System.out.println("Palle "+pa1.toString());
-//		System.out.println("Placering: "+pa1.getPlacering()+":\n");
-//		for (Mellemvare m : pa1.getMellemvarer()){
-//			System.out.println(m.toStringLong());
-//		}
-//		System.out.println();
+		System.out.println("Paller:");
+		System.out.println(pa1);
+		System.out.println(pa2);
+		System.out.println();
+		
+		System.out.println("Palle "+pa1.toString());
+		System.out.println("Placering: "+pa1.getPlacering()+":\n");
+		for (Mellemvare m : pa1.getMellemvarer()){
+			System.out.println(m.toStringLong());
+		}
+		System.out.println();
 		
 		HashMap<Mellemvare, Integer> mellemvaretyperMedAntal = pa1.getMellemvareAntalMapping();
 		for (Mellemvare m : mellemvaretyperMedAntal.keySet()){
-			System.out.println(m.getProdukttype()+"\t"+m.getIgangvaerendeDelbehandling()+ "\t"+mellemvaretyperMedAntal.get(m)+" stk. "+Validering.millisekunderTildato(m.getResterendeTid()));
+			System.out.println(m.getProdukttype()+"\t"+m.getIgangvaerendeDelbehandling()+ "\t"+mellemvaretyperMedAntal.get(m)+" stk.\t"+Validering.millisekunderTildato(m.getResterendeTidTilNaeste()));
 		}
 	}
 

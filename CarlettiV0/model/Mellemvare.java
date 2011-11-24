@@ -84,17 +84,21 @@ public class Mellemvare {
 //		palle.removeMellemvare(this);
 	}
 	
-	public long getResterendeTid()
+	public long[] getResterendeTider()
 	{
-			return this.getIgangvaerendeDelbehandling().getResterendeTid(getTidspunkter().get(tidspunkter.size()-1));
+			return this.getIgangvaerendeDelbehandling().getResterendeTider(getTidspunkter().get(tidspunkter.size()-1));
+	}
+	
+	public long getResterendeTidTilNaeste(){
+		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(getTidspunkter().get(tidspunkter.size()-1));
 	}
 	
 	public String toString(){
-		return this.getBakkestregkode()+" "+this.getProdukttype();
+		return this.getBakkestregkode()+"\t"+this.getProdukttype();
 	}
 	
 	public String toStringLong(){
-		return this.toString() + " " + this.getIgangvaerendeDelbehandling().toString();		//+ " " + gui.validering(this.getResterendeTid())
+		return this.toString() + "\t" + this.getIgangvaerendeDelbehandling().toString();		//+ " " + gui.Validering(this.getResterendeTid())
 	}
 
 }

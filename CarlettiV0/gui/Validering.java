@@ -2,7 +2,7 @@ package gui;
 
 public class Validering
 {
-	public String millisekunderTildato(long tid)
+	public static String millisekunderTildato(long tid)
 	{
 		int dage;
 		int timer;
@@ -12,7 +12,7 @@ public class Validering
 		timer = (int) (tid-(86400000*dage))/3600000;
 		minutter = (int) (tid-86400000*dage-3600000*timer)/60000;
 		
-		return dage + " dage, " + timer + " timer, " + "og " + minutter + " minutter";
+		return dage + " d. " + timer + " t. " + minutter + " m.";
 	}
 	
 }
