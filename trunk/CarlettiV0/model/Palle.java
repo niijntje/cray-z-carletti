@@ -38,6 +38,12 @@ public class Palle {
 	}
 
 	void placerPalleUD(MellemlagerPlads placering) {
+		if (this.mellemlagerPlads != null){
+			mellemlagerPlads.placerPalleUD(null);
+		}
+		if (this.drageringshal != null){
+			drageringshal.removePalleUD(this);
+		}
 		this.mellemlagerPlads = placering;
 	}
 
