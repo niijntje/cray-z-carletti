@@ -18,9 +18,9 @@ public class Dragering extends Delbehandling {
 	 * @param navn
 	 * @param behandling
 	 */
-	public Dragering(String navn, Behandling behandling) {
+	public Dragering(String navn, Behandling behandling, long varighed) {
 		super(navn, behandling);
-		// TODO Auto-generated constructor stub
+		this.varighed = varighed;
 	}
 
 	public long getVarighed() {

@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import dao.ListDao;
 
+import service.ObjectCreater;
 import service.Service;
 import model.Behandling;
 import model.Delbehandling;
@@ -26,7 +27,8 @@ public class App {
 //		SubFramePlacerPalle subframePlacerPalle = new SubFramePlacerPalle(mainFrame);
 //		subframePlacerPalle.setVisible(true);
 		
-		Service.getInstance().createSomeObjects();
+		ObjectCreater.getInstance().createSomeObjects();
+		
 		SubFramePalleOversigt subFramePalleOversigt = new SubFramePalleOversigt(mainFrame, Service.getInstance().findPalle("20000001"));
 		subFramePalleOversigt.setVisible(true);		
 	
