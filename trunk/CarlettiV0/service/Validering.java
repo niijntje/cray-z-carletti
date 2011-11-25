@@ -1,4 +1,4 @@
-package gui;
+package service;
 
 public class Validering
 {
