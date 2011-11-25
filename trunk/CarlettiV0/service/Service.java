@@ -11,6 +11,7 @@ import javax.swing.DefaultListModel;
 
 import model.Behandling;
 import model.Delbehandling;
+import model.Dragering;
 import model.Drageringshal;
 import model.MellemlagerPlads;
 import model.Mellemvare;
@@ -105,8 +106,8 @@ public class Service {
 	 * @param delbandlingIndex
 	 */
 	public void tilfoejDelbehandling(Behandling b,
-			Delbehandling nyDelbehandling, int delbandlingIndex) {
-		b.addDelbehandling(nyDelbehandling, delbandlingIndex);
+			Delbehandling nyDelbehandling, int delbehandlingIndex) {
+		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
 	}
 
 	/**
@@ -120,7 +121,7 @@ public class Service {
 		dao.gemMellemlagerPlads(m);
 		return m;
 	}
-	
+
 
 	/**
 	 * Opretter en ny Delbehandling af typen Toerring og tilføjer den til Behandling b
@@ -132,9 +133,16 @@ public class Service {
 	 * @param index. Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes sidst i listen
 	 * @return
 	 */
-	private Delbehandling opretToerring(String navn, Behandling b, int minTid,
-			int idealTid, int maxTid, int index) {
+	public Delbehandling opretToerring(String navn, Behandling b, long minTid,
+			long idealTid, long maxTid, int index) {
 		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
+		tilfoejDelbehandling(b, d, -1);
+		dao.gemDelbehandling(d);
+		return d;
+	}
+
+	public Delbehandling opretDragering(String navn, Behandling b, long varighed, int index){
+		Delbehandling d = new Dragering(navn, b, varighed);
 		tilfoejDelbehandling(b, d, -1);
 		dao.gemDelbehandling(d);
 		return d;
@@ -180,15 +188,15 @@ public class Service {
 			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
 		}
 	}
-	
+
 	public ArrayList<Palle> getPaller(){
 		return new ArrayList<Palle>(dao.paller());
 	}
-	
+
 	public ArrayList<MellemlagerPlads> getPladser(){
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
 	}
-	
+
 	public ArrayList<Produkttype>getProdukttyper(){
 		return new ArrayList<Produkttype>(dao.produkttyper());
 	}
@@ -198,7 +206,7 @@ public class Service {
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
-	
+
 	public Palle findPalle(String stregkode){
 		ArrayList<Palle> paller = ListDao.getListDao().getPaller();
 		Palle p = null;
@@ -214,11 +222,11 @@ public class Service {
 		}
 		return p;
 	}
-	
+
 	public String getStregkode(Mellemvare mellemvare) {
 		return mellemvare.getBakkestregkode();
 	}
-	
+
 	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
 		return mellemlagerPlads.getStregkode();
 	}
@@ -248,75 +256,34 @@ public class Service {
 		}
 		return data;
 	}
-	
-	
-	
-	/**
-	 * Opretter objekter og tilføjer dem til Dao.
+
+	/** 
+	 * Benyttes af gui.SubFramePalleOversigt til at vise detaljerede informationer om individuelle bakker på en given palle
+	 * 
+	 * @param m
+	 * @return
 	 */
-	public void createSomeObjects() {
-		
-		Palle pa1 = opretPalle("20000001");
-		opretPalle("20000002");
-		Palle palle1 = opretPalle("00001");
-		opretPalle("00002");
-		opretPalle("00003");
-
-		MellemlagerPlads pl1 = opretMellemlagerPlads("100100101");
-		opretMellemlagerPlads("100100102");
-		opretMellemlagerPlads("001");
-		opretMellemlagerPlads("002");
-		opretMellemlagerPlads("003");
-		opretMellemlagerPlads("004");
-		opretMellemlagerPlads("005");
-		opretMellemlagerPlads("006");
-		opretMellemlagerPlads("007");
-		opretMellemlagerPlads("008");
-		opretMellemlagerPlads("009");
-		opretMellemlagerPlads("010");
-
-		Behandling b = opretBehandling("Behandling1");
-		opretToerring("Tørring1", b, 12, 15, 20, -1);
-		Behandling b3 = opretBehandling("B3 - Månegrus og lakridspinde. Kernestørrelse 2.5-3.5");
-		opretToerring("Tørring 1a", b3,100000000, 150000000, 200000000, -1);
-
-		Produkttype p = opretProdukttype("Lakridspinde 3A", "Hvide lakridspinde med kernestørrelse 2.\nOpskrift: B2", b);
-		Produkttype p2 = opretProdukttype("Skumbananer", "Dejlig skum overtrukket af chokolade", b);
-		Produkttype pt1 = opretProdukttype("Lakridspinde 1", "Grønne lakridspinde med kernestørrelse 3.\nOpskrift: B3", b3);
-		Produkttype pt2 = opretProdukttype("Månegrus 2B", "Rester fra lakridspinde med varierende kernestørrelse.\nOpskrift: B3", b3);
-				
-		opretMellemvare("01", p, pa1);
-		opretMellemvare("02", p2, palle1);
-		opretMellemvare("300000001", pt1, pa1);
-		opretMellemvare("300000002", pt1, pa1);
-		opretMellemvare("300000003", pt2, pa1);
-		opretMellemvare("300000004", pt1, pa1);
-		opretMellemvare("300000005", pt1, pa1);
-		opretMellemvare("300000006", pt2, pa1);
-		opretMellemvare("300000007", pt1, pa1);
-		
-		placerPalleMellemvarelager(pa1, pl1);
-//		placerPalleMellemvarelager(pa1, mPlads1);
-	}
-
 	public String getMellemvareInfo(Mellemvare m) {
 		long[] tider = m.getResterendeTider();
-		String infoString = m.toString() + m.getIgangvaerendeDelbehandling()+"\n"
-				+ "Behandlings-log:\n";
+		String infoString = "#"+m.toString() +"\t"+ m.getIgangvaerendeDelbehandling()+"\n"
+				+"\nNæste delbehandling om:\n";
+		for (int i = 0; i<tider.length; i++){
+			infoString+= Validering.millisekunderTildato(tider[i]);
+			if (i<tider.length-1){
+				infoString+=" /\t";
+			}
+		}
+		infoString+= "\n\nBehandlings-log:\n";
 		ArrayList<GregorianCalendar> delbehandlingstider = m.getTidspunkter();
 		ArrayList<Delbehandling> delbehandlinger = m.getProdukttype().getBehandling().getDelbehandlinger();
- 		for (int i = 0; i<delbehandlingstider.size(); i++){
- 			GregorianCalendar c = delbehandlingstider.get(i);
- 			
- 			infoString+= c.YEAR+"-"+c.MONTH+"-"+c.DATE
- 					+c.HOUR_OF_DAY+":"+c.MINUTE
- 					+": "+delbehandlinger.get(i).toString();
+		for (int i = 0; i<delbehandlingstider.size(); i++){
+			GregorianCalendar c = delbehandlingstider.get(i);
+			infoString+= Validering.calendarTilCalendarString(c)+"\t"+delbehandlinger.get(i).toString()+"\n";
 		}
-		
-
-//		+ Validering.millisekunderTildato(m.getResterendeTidTilNaeste());
 		return infoString;
 	}
+
+
 
 
 }

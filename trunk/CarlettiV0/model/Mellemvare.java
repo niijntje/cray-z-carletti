@@ -25,6 +25,24 @@ public class Mellemvare {
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
 		addNuvaerendeTidspunkt();
 	}
+
+	
+	/**
+	 * Benyttes af Service.createSomeObjects()
+	 * 
+	 * @param bakkestregkode
+	 * @param produkttype
+	 * @param palle
+	 * @param starttid
+	 */
+	public Mellemvare(String bakkestregkode, Produkttype produkttype, Palle palle, GregorianCalendar starttid){
+		this.bakkestregkode = bakkestregkode;
+		this.produkttype = produkttype;
+		this.tidspunkter = new ArrayList<GregorianCalendar>();
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		addTidspunkt(starttid);
+	}
+
 	public String getBakkestregkode() {
 		return bakkestregkode;
 	}
@@ -52,6 +70,14 @@ public class Mellemvare {
 		GregorianCalendar calendar = new GregorianCalendar(year, month - 1,
 				dayOfMonth, hourOfDay, minute);
 		tidspunkter.add(calendar);
+	}
+	
+	/** Benyttes af Service.createSomeObjects()
+	 * 
+	 * @param gCal
+	 */
+	public void addTidspunkt(GregorianCalendar gCal){
+		tidspunkter.add(gCal);
 	}
 
 	/**
@@ -95,6 +121,15 @@ public class Mellemvare {
 	
 	public String toString(){
 		return this.getBakkestregkode()+"\t"+this.getProdukttype();
+	}
+	
+	/** Benyttes af Service.createSomeObjects()
+	 * 
+	 * @param nextDelbehandling
+	 */
+	public void setIgangvaerendeDelbehandling(Delbehandling nextDelbehandling) {
+		this.igangvaerendeDelbehandling = nextDelbehandling;
+		
 	}
 
 }

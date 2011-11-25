@@ -227,6 +227,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer{
 
 		JTable table1 = new JTable(dm);
 		scrollPane.setViewportView(table1);
+		table1.setAutoCreateRowSorter(true);
 		
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();
