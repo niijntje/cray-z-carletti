@@ -173,6 +173,56 @@ public class Service {
 		return new ArrayList<Produkttype>(dao.produkttyper());
 	}
 
+
+
+	public String getStregkode(Palle palle) {
+		return palle.getStregkode();
+	}
+	
+	public String getStregkode(Mellemvare mellemvare) {
+		return mellemvare.getBakkestregkode();
+	}
+	
+	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
+		return mellemlagerPlads.getStregkode();
+	}
+
+	public Palle getPalle(Palle palle) {
+		return palle;
+	}
+
+	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
+		return palle.getMellemvarer();
+	}
+
+	/**
+	 * Genererer data til brug for SubFramePalleOversigt
+	 * @param palle
+	 * @return Object[][] - Opsummering af pallens indhold i form af: Produkttype, Delbehandling (igangværende), antal af denne kombination på pallen og resterende tid for samme.
+	 * @author Rita Holst Jacobsen
+	 */
+	public Object[][] generateViewDataProdukttypeDelbehandlingAntalTid(Palle palle) {
+		HashMap<Mellemvare, Integer> mellemvareAntal = palle.getMellemvareAntalMapping();
+		Object[][] data = new Object[4][mellemvareAntal.size()];
+		int i = 0;
+		for (Mellemvare m : mellemvareAntal.keySet()){
+			Object[] mData = new Object[4];
+			mData[0] = m.getProdukttype();
+			mData[1] = m.getIgangvaerendeDelbehandling();
+			mData[2] = mellemvareAntal.get(m);
+			mData[3] = Validering.millisekunderTildato(m.getResterendeTidTilNaeste());
+			data[i] = mData;
+			i++;
+		}
+		return data;
+	}
+	
+	
+	
+	/**
+	 * Opretter objekter og tilføjer dem til Dao.
+	 */
+//NB: Mangler at implementere at de gemmes i dao!
 	public void createSomeObjects() {
 		Palle palle1 = opretPalle("00001");
 		Palle palle2 = opretPalle("00002");
@@ -203,47 +253,5 @@ public class Service {
 //		placerPalleMellemvarelager(palle1, mPlads3);
 //		opretMellemvare("03", p, palle3);
 
-	}
-
-	public String getStregkode(Palle palle) {
-		return palle.getStregkode();
-	}
-	
-	public String getStregkode(Mellemvare mellemvare) {
-		return mellemvare.getBakkestregkode();
-	}
-	
-	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
-		return mellemlagerPlads.getStregkode();
-	}
-
-	public Palle getPalle(Palle palle) {
-		return palle;
-	}
-
-	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
-		return palle.getMellemvarer();
-	}
-
-	/**
-	 * Genererer data til brug for SubFramePalleOversigt
-	 * @param palle
-	 * @return
-	 */
-	public Object[][] generateViewDataProduktDelbehandlingAntal(Palle palle) {
-		HashMap<Mellemvare, Integer> mellemvareAntal = palle.getMellemvareAntalMapping();
-		Object[][] data = new Object[4][mellemvareAntal.size()];
-		System.out.println(Arrays.toString(data));
-		int i = 0;
-		for (Mellemvare m : mellemvareAntal.keySet()){
-			Object[] mData = new Object[4];
-			mData[0] = m.getProdukttype();
-			mData[1] = m.getIgangvaerendeDelbehandling();
-			mData[2] = mellemvareAntal.get(m);
-			mData[3] = Validering.millisekunderTildato(m.getResterendeTidTilNaeste());
-			data[i] = mData;
-			i++;
-		}
-		return data;
 	}
 }
