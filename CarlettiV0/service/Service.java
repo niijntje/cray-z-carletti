@@ -1,7 +1,12 @@
 package service;
 
+
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.swing.DefaultListModel;
 
 import model.Behandling;
 import model.Delbehandling;
@@ -200,15 +205,45 @@ public class Service {
 
 	}
 
-	public static String getStregkode(Palle palle) {
+	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
 	
-	public static String getStregkode(Mellemvare mellemvare) {
+	public String getStregkode(Mellemvare mellemvare) {
 		return mellemvare.getBakkestregkode();
 	}
 	
-	public static String getStregkode(MellemlagerPlads mellemlagerPlads) {
+	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
 		return mellemlagerPlads.getStregkode();
+	}
+
+	public Palle getPalle(Palle palle) {
+		return palle;
+	}
+
+	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
+		return palle.getMellemvarer();
+	}
+
+	/**
+	 * Genererer data til brug for SubFramePalleOversigt
+	 * @param palle
+	 * @return
+	 */
+	public Object[][] generateViewDataProduktDelbehandlingAntal(Palle palle) {
+		HashMap<Mellemvare, Integer> mellemvareAntal = palle.getMellemvareAntalMapping();
+		Object[][] data = new Object[4][mellemvareAntal.size()];
+		System.out.println(Arrays.toString(data));
+		int i = 0;
+		for (Mellemvare m : mellemvareAntal.keySet()){
+			Object[] mData = new Object[4];
+			mData[0] = m.getProdukttype();
+			mData[1] = m.getIgangvaerendeDelbehandling();
+			mData[2] = mellemvareAntal.get(m);
+			mData[3] = Validering.millisekunderTildato(m.getResterendeTidTilNaeste());
+			data[i] = mData;
+			i++;
+		}
+		return data;
 	}
 }

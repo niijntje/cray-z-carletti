@@ -3,12 +3,12 @@
  */
 package model;
 
-import gui.Validering;
 
 import java.util.HashMap;
 import java.util.HashSet;
 
 import service.Service;
+import service.Validering;
 
 /**
  * v.0.3
