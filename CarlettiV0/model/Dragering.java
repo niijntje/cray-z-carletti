@@ -57,4 +57,12 @@ public class Dragering extends Delbehandling {
 		return tid;
 	}
 
+	@Override
+	public String toStringLong() {
+		return super.toString() + "\t Varighed: "+super.getVarighedDagTimeSekundFormateret(varighed);
+	}
+
+
+
+
 }

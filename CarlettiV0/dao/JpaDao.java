@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import model.Behandling;
+import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
@@ -114,6 +115,12 @@ public class JpaDao implements DAO{
 
 	@Override
 	public void close() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void gemDelbehandling(Delbehandling d) {
 		// TODO Auto-generated method stub
 		
 	}

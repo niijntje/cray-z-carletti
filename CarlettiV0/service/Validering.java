@@ -1,5 +1,9 @@
 package service;
 
+/**
+ * @author Mads Dahl Jensen
+ *
+ */
 public class Validering
 {
 	public static String millisekunderTildato(long tid)

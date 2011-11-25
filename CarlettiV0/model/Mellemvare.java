@@ -96,9 +96,5 @@ public class Mellemvare {
 	public String toString(){
 		return this.getBakkestregkode()+"\t"+this.getProdukttype();
 	}
-	
-	public String toStringLong(){
-		return this.toString() + "\t" + this.getIgangvaerendeDelbehandling().toString();		//+ " " + gui.Validering(this.getResterendeTid())
-	}
 
 }

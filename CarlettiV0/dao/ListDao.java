@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Behandling;
+import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
@@ -21,6 +22,7 @@ public class ListDao implements DAO {
 	private ArrayList<Produkttype> produkttyper;
 	private ArrayList<MellemlagerPlads> mellemlagerPladser;
 	private ArrayList<Behandling> behandlinger;
+	private ArrayList<Delbehandling> delbehandlinger;
 
 	private ListDao() {
 		paller = new ArrayList<Palle>();
@@ -28,6 +30,7 @@ public class ListDao implements DAO {
 		produkttyper = new ArrayList<Produkttype>();
 		mellemlagerPladser = new ArrayList<MellemlagerPlads>();
 		behandlinger = new ArrayList<Behandling>();
+		delbehandlinger = new ArrayList<Delbehandling>();
 	}
 
 	public static ListDao getListDao() {
@@ -130,5 +133,15 @@ public class ListDao implements DAO {
 	public void close() {
 		// DO NOTHING
 
+	}
+
+	@Override
+	public void gemDelbehandling(Delbehandling d) {
+		delbehandlinger.add(d);
+		
+	}
+
+	public ArrayList<Palle> getPaller() {
+		return paller;
 	}
 }

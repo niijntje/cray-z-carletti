@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import model.Behandling;
+import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
@@ -31,5 +32,7 @@ public interface DAO {
 	public void removeBehandling(Behandling behandling);
 	
 	public void close();
+	public void gemDelbehandling(Delbehandling d);
+	
 	
 }

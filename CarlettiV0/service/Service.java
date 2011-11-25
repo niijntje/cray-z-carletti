@@ -3,6 +3,7 @@ package service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -63,6 +64,7 @@ public class Service {
 	public Mellemvare opretMellemvare(String bakkestregkode,
 			Produkttype produkttype, Palle palle) {
 		Mellemvare m = new Mellemvare(bakkestregkode, produkttype, palle);
+		palle.addMellemvare(m);
 		dao.gemMellemvare(m);
 		return m;
 	}
@@ -118,6 +120,25 @@ public class Service {
 		dao.gemMellemlagerPlads(m);
 		return m;
 	}
+	
+
+	/**
+	 * Opretter en ny Delbehandling af typen Toerring og tilføjer den til Behandling b
+	 * @param navn
+	 * @param b
+	 * @param minTid
+	 * @param idealTid
+	 * @param maxTid
+	 * @param index. Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes sidst i listen
+	 * @return
+	 */
+	private Delbehandling opretToerring(String navn, Behandling b, int minTid,
+			int idealTid, int maxTid, int index) {
+		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
+		tilfoejDelbehandling(b, d, -1);
+		dao.gemDelbehandling(d);
+		return d;
+	}
 
 	/**
 	 * Placerer en palle på en placering i mellemvarelageret
@@ -125,8 +146,7 @@ public class Service {
 	 * @param palle
 	 * @param placering
 	 */
-	public void placerPalleMellemvarelager(Palle palle,
-			MellemlagerPlads placering) {
+	public void placerPalleMellemvarelager(Palle palle, MellemlagerPlads placering) {
 		palle.placerPalle(placering);
 		palle.setDrageringshal(Drageringshal.getInstance());
 	}
@@ -179,16 +199,28 @@ public class Service {
 		return palle.getStregkode();
 	}
 	
+	public Palle findPalle(String stregkode){
+		ArrayList<Palle> paller = ListDao.getListDao().getPaller();
+		Palle p = null;
+		boolean found = false;
+		int i= 0;
+		while (!found){
+			Palle p1 = paller.get(i);
+			if (p1.getStregkode().equals(stregkode)){
+				p = p1;
+				found = true;
+			}
+			i++;
+		}
+		return p;
+	}
+	
 	public String getStregkode(Mellemvare mellemvare) {
 		return mellemvare.getBakkestregkode();
 	}
 	
 	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
 		return mellemlagerPlads.getStregkode();
-	}
-
-	public Palle getPalle(Palle palle) {
-		return palle;
 	}
 
 	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
@@ -222,36 +254,69 @@ public class Service {
 	/**
 	 * Opretter objekter og tilføjer dem til Dao.
 	 */
-//NB: Mangler at implementere at de gemmes i dao!
 	public void createSomeObjects() {
+		
+		Palle pa1 = opretPalle("20000001");
+		opretPalle("20000002");
 		Palle palle1 = opretPalle("00001");
-		Palle palle2 = opretPalle("00002");
-		Palle palle3 = opretPalle("00003");
+		opretPalle("00002");
+		opretPalle("00003");
 
-		MellemlagerPlads mPlads1 = opretMellemlagerPlads("001");
-		MellemlagerPlads mPlads2 = opretMellemlagerPlads("002");
-		MellemlagerPlads mPlads3 = opretMellemlagerPlads("003");
-		MellemlagerPlads mPlads4 = opretMellemlagerPlads("004");
-		MellemlagerPlads mPlads5 = opretMellemlagerPlads("005");
-		MellemlagerPlads mPlads6 = opretMellemlagerPlads("006");
-		MellemlagerPlads mPlads7 = opretMellemlagerPlads("007");
-		MellemlagerPlads mPlads8 = opretMellemlagerPlads("008");
-		MellemlagerPlads mPlads9 = opretMellemlagerPlads("009");
-		MellemlagerPlads mPlads10 = opretMellemlagerPlads("010");
+		MellemlagerPlads pl1 = opretMellemlagerPlads("100100101");
+		opretMellemlagerPlads("100100102");
+		opretMellemlagerPlads("001");
+		opretMellemlagerPlads("002");
+		opretMellemlagerPlads("003");
+		opretMellemlagerPlads("004");
+		opretMellemlagerPlads("005");
+		opretMellemlagerPlads("006");
+		opretMellemlagerPlads("007");
+		opretMellemlagerPlads("008");
+		opretMellemlagerPlads("009");
+		opretMellemlagerPlads("010");
 
 		Behandling b = opretBehandling("Behandling1");
-		Delbehandling toerring = new Toerring("Tørring1", b, 12, 15, 20);
+		opretToerring("Tørring1", b, 12, 15, 20, -1);
+		Behandling b3 = opretBehandling("B3 - Månegrus og lakridspinde. Kernestørrelse 2.5-3.5");
+		opretToerring("Tørring 1a", b3,100000000, 150000000, 200000000, -1);
 
-		b.addDelbehandling(toerring, 0);
-
-		Produkttype p = opretProdukttype("Lakridspinde", "...", b);
-		Produkttype p2 = opretProdukttype("Skumbananer",
-				"Dejlig skum overtrukket af chokolade", b);
-		opretMellemvare("01", p, palle2);
-		placerPalleMellemvarelager(palle2, mPlads1);
+		Produkttype p = opretProdukttype("Lakridspinde 3A", "Hvide lakridspinde med kernestørrelse 2.\nOpskrift: B2", b);
+		Produkttype p2 = opretProdukttype("Skumbananer", "Dejlig skum overtrukket af chokolade", b);
+		Produkttype pt1 = opretProdukttype("Lakridspinde 1", "Grønne lakridspinde med kernestørrelse 3.\nOpskrift: B3", b3);
+		Produkttype pt2 = opretProdukttype("Månegrus 2B", "Rester fra lakridspinde med varierende kernestørrelse.\nOpskrift: B3", b3);
+				
+		opretMellemvare("01", p, pa1);
 		opretMellemvare("02", p2, palle1);
-//		placerPalleMellemvarelager(palle1, mPlads3);
-//		opretMellemvare("03", p, palle3);
-
+		opretMellemvare("300000001", pt1, pa1);
+		opretMellemvare("300000002", pt1, pa1);
+		opretMellemvare("300000003", pt2, pa1);
+		opretMellemvare("300000004", pt1, pa1);
+		opretMellemvare("300000005", pt1, pa1);
+		opretMellemvare("300000006", pt2, pa1);
+		opretMellemvare("300000007", pt1, pa1);
+		
+		placerPalleMellemvarelager(pa1, pl1);
+//		placerPalleMellemvarelager(pa1, mPlads1);
 	}
+
+	public String getMellemvareInfo(Mellemvare m) {
+		long[] tider = m.getResterendeTider();
+		String infoString = m.toString() + m.getIgangvaerendeDelbehandling()+"\n"
+				+ "Behandlings-log:\n";
+		ArrayList<GregorianCalendar> delbehandlingstider = m.getTidspunkter();
+		ArrayList<Delbehandling> delbehandlinger = m.getProdukttype().getBehandling().getDelbehandlinger();
+ 		for (int i = 0; i<delbehandlingstider.size(); i++){
+ 			GregorianCalendar c = delbehandlingstider.get(i);
+ 			
+ 			infoString+= c.YEAR+"-"+c.MONTH+"-"+c.DATE
+ 					+c.HOUR_OF_DAY+":"+c.MINUTE
+ 					+": "+delbehandlinger.get(i).toString();
+		}
+		
+
+//		+ Validering.millisekunderTildato(m.getResterendeTidTilNaeste());
+		return infoString;
+	}
+
+
 }

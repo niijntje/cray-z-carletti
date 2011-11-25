@@ -12,7 +12,7 @@ public class MainFrame extends JFrame implements Subject {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new BorderLayout());
-		this.setTitle("");
+		this.setTitle("Mellemlager");
 		this.setLocation(20, 20);
 		this.setSize(400, 300);
 	}
