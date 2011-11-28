@@ -41,6 +41,7 @@ public class Produkttype {
 		this.behandling = behandling;
 	}
 
+	@Override
 	public String toString(){
 		return this.getNavn();
 	}

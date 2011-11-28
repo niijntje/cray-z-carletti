@@ -1,18 +1,7 @@
 package gui;
 
-import java.util.Arrays;
-
-import dao.ListDao;
-
 import service.ObjectCreater;
 import service.Service;
-import model.Behandling;
-import model.Delbehandling;
-import model.MellemlagerPlads;
-import model.Mellemvare;
-import model.Palle;
-import model.Produkttype;
-import model.Toerring;
 
 public class App {
 
