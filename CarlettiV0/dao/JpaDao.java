@@ -165,4 +165,16 @@ public class JpaDao implements DAO {
 
 	}
 
+	@Override
+	public List<Mellemvare> faerdigvarer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Mellemvare> kasseredeVarer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
