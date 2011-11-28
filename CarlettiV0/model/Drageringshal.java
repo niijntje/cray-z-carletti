@@ -5,9 +5,9 @@ package model;
 
 import java.util.ArrayList;
 
-
 /**
  * v.0.3
+ * 
  * @author Mads Dahl Jensen
  * 
  */
@@ -17,7 +17,7 @@ public class Drageringshal {
 	private ArrayList<Palle> paller;
 
 	private Drageringshal() {
-		paller  = new ArrayList<Palle>();
+		paller = new ArrayList<Palle>();
 	}
 
 	public static Drageringshal getInstance() {

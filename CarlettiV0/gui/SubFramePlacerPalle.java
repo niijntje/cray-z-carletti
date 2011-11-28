@@ -12,10 +12,11 @@ import model.MellemlagerPlads;
 import model.Palle;
 import service.ObjectCreater;
 import service.Service;
+
 /**
  * 
  * @author Design: Cederdorff, Funktionalitet: Mads
- *
+ * 
  */
 public class SubFramePlacerPalle extends JFrame implements Observer {
 	private Subject mainframe;

@@ -9,8 +9,9 @@ import javax.persistence.ManyToOne;
 
 /**
  * v.0.3
+ * 
  * @author nijntje
- *
+ * 
  */
 @Entity
 public class Mellemvare {
@@ -23,17 +24,18 @@ public class Mellemvare {
 	private Delbehandling igangvaerendeDelbehandling;
 	@ManyToOne
 	private Palle palle;
-	
-	public Mellemvare(String bakkestregkode, Produkttype produkttype, Palle palle){
+
+	public Mellemvare(String bakkestregkode, Produkttype produkttype,
+			Palle palle) {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
+				.getDelbehandling(0);
 		addNuvaerendeTidspunkt();
 		setPalle(palle);
 	}
 
-	
 	/**
 	 * Benyttes af Service.createSomeObjects()
 	 * 
@@ -42,17 +44,20 @@ public class Mellemvare {
 	 * @param palle
 	 * @param starttid
 	 */
-	public Mellemvare(String bakkestregkode, Produkttype produkttype, Palle palle, GregorianCalendar starttid){
+	public Mellemvare(String bakkestregkode, Produkttype produkttype,
+			Palle palle, GregorianCalendar starttid) {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
+				.getDelbehandling(0);
 		addTidspunkt(starttid);
 	}
 
 	public String getBakkestregkode() {
 		return bakkestregkode;
 	}
+
 	public void setBakkestregkode(String bakkestregkode) {
 		this.bakkestregkode = bakkestregkode;
 	}
@@ -60,9 +65,11 @@ public class Mellemvare {
 	public ArrayList<GregorianCalendar> getTidspunkter() {
 		return new ArrayList<GregorianCalendar>(tidspunkter);
 	}
+
 	public Delbehandling getIgangvaerendeDelbehandling() {
 		return igangvaerendeDelbehandling;
 	}
+
 	/**
 	 * Tilf¿jer et tidspunkt til listen tidspunkter med f¿lgende parametre:
 	 * 
@@ -78,12 +85,13 @@ public class Mellemvare {
 				dayOfMonth, hourOfDay, minute);
 		tidspunkter.add(calendar);
 	}
-	
-	/** Benyttes af Service.createSomeObjects()
+
+	/**
+	 * Benyttes af Service.createSomeObjects()
 	 * 
 	 * @param gCal
 	 */
-	public void addTidspunkt(GregorianCalendar gCal){
+	public void addTidspunkt(GregorianCalendar gCal) {
 		tidspunkter.add(gCal);
 	}
 
@@ -97,47 +105,55 @@ public class Mellemvare {
 	}
 
 	public void goToNextDelbehandling() {
-		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling.getNextDelbehandling();
+		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling
+				.getNextDelbehandling();
 		this.addNuvaerendeTidspunkt();
 	}
+
 	public Produkttype getProdukttype() {
 		return produkttype;
 	}
+
 	public void setProdukttype(Produkttype produkttype) {
 		this.produkttype = produkttype;
 	}
+
 	public Palle getPalle() {
 		return palle;
 	}
+
 	public void setPalleUD(Palle palle) {
 		this.palle = palle;
 	}
+
 	public void setPalle(Palle palle) {
 		this.setPalleUD(palle);
 		palle.addMellemvareUD(this);
 	}
-	
-	public long[] getResterendeTider()
-	{
-			return this.getIgangvaerendeDelbehandling().getResterendeTider(getTidspunkter().get(tidspunkter.size()-1));
+
+	public long[] getResterendeTider() {
+		return this.getIgangvaerendeDelbehandling().getResterendeTider(
+				getTidspunkter().get(tidspunkter.size() - 1));
 	}
-	
-	public long getResterendeTidTilNaeste(){
-		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(getTidspunkter().get(tidspunkter.size()-1));
+
+	public long getResterendeTidTilNaeste() {
+		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
+				getTidspunkter().get(tidspunkter.size() - 1));
 	}
-	
+
 	@Override
-	public String toString(){
-		return this.getBakkestregkode()+"\t"+this.getProdukttype();
+	public String toString() {
+		return this.getBakkestregkode() + "\t" + this.getProdukttype();
 	}
-	
-	/** Benyttes af Service.createSomeObjects()
+
+	/**
+	 * Benyttes af Service.createSomeObjects()
 	 * 
 	 * @param nextDelbehandling
 	 */
 	public void setIgangvaerendeDelbehandling(Delbehandling nextDelbehandling) {
 		this.igangvaerendeDelbehandling = nextDelbehandling;
-		
+
 	}
 
 }

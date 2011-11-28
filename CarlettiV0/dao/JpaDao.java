@@ -12,52 +12,59 @@ import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
+
 /**
  * 
  * @author Cederdorff
- *
+ * 
  */
-public class JpaDao implements DAO{
+public class JpaDao implements DAO {
 	private static JpaDao dao;
-	
-	public JpaDao(){
-		//singleton
+
+	public JpaDao() {
+		// singleton
 	}
-	
-	public static JpaDao getDao(){
-		if(dao == null){
+
+	public static JpaDao getDao() {
+		if (dao == null) {
 			dao = new JpaDao();
 		}
 		return dao;
 	}
-	
-	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("CarlettiLageringssytem");
+
+	private EntityManagerFactory emf = Persistence
+			.createEntityManagerFactory("CarlettiLageringssytem");
 	private EntityManager em = emf.createEntityManager();
 	private EntityTransaction tx = em.getTransaction();
 
 	@Override
 	public List<Palle> paller() {
-		return em.createQuery("SELECT p FROM Palle p", Palle.class).getResultList();
+		return em.createQuery("SELECT p FROM Palle p", Palle.class)
+				.getResultList();
 	}
 
 	@Override
 	public List<Mellemvare> mellemvarer() {
-		return em.createQuery("SELECT m FROM Mellemvare m", Mellemvare.class).getResultList();
+		return em.createQuery("SELECT m FROM Mellemvare m", Mellemvare.class)
+				.getResultList();
 	}
 
 	@Override
 	public List<Produkttype> produkttyper() {
-		return em.createQuery("SELECT p FROM Produkttype p", Produkttype.class).getResultList();
+		return em.createQuery("SELECT p FROM Produkttype p", Produkttype.class)
+				.getResultList();
 	}
 
 	@Override
 	public List<MellemlagerPlads> mellemlagerPladser() {
-		return em.createQuery("SELECT m FROM MellemlagerPlads m", MellemlagerPlads.class).getResultList();
+		return em.createQuery("SELECT m FROM MellemlagerPlads m",
+				MellemlagerPlads.class).getResultList();
 	}
 
 	@Override
 	public List<Behandling> behandlinger() {
-		return em.createQuery("SELECT b FROM Behandling b", Behandling.class).getResultList();
+		return em.createQuery("SELECT b FROM Behandling b", Behandling.class)
+				.getResultList();
 	}
 
 	@Override
@@ -65,7 +72,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.persist(palle);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -73,7 +80,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.remove(palle);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -81,7 +88,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.persist(mellemvare);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -89,7 +96,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.remove(mellemvare);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -97,7 +104,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.persist(produkttype);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -105,7 +112,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.remove(produkttype);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -113,7 +120,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.persist(mellemlagerPlads);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -121,7 +128,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.remove(mellemlagerplads);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -129,7 +136,7 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.persist(behandling);
 		tx.commit();
-		
+
 	}
 
 	@Override
@@ -137,9 +144,9 @@ public class JpaDao implements DAO{
 		tx.begin();
 		em.remove(behandling);
 		tx.commit();
-		
+
 	}
-	
+
 	@Override
 	public Palle soegPalle(String stregkode) {
 		// TODO Auto-generated method stub
@@ -155,8 +162,7 @@ public class JpaDao implements DAO{
 	@Override
 	public void close() {
 		em.clear();
-		
-	}
 
+	}
 
 }

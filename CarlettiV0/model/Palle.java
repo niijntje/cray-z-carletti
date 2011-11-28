@@ -14,6 +14,7 @@ import javax.persistence.OneToOne;
 
 /**
  * v.0.3
+ * 
  * @author Mads Dahl Jensen
  * 
  */
@@ -24,7 +25,7 @@ public class Palle {
 	@OneToOne
 	private MellemlagerPlads mellemlagerPlads;
 	@ManyToOne
-	private Drageringshal drageringshal; 
+	private Drageringshal drageringshal;
 	@OneToMany
 	private ArrayList<Mellemvare> mellemvarer;
 
@@ -46,25 +47,34 @@ public class Palle {
 		return mellemlagerPlads;
 	}
 
-	/** Meningen med de første 6 linier er at slette den eventuelle hidtidige dobbeltrettede association mellem Palle og MellemlagerPlads hhv. Dragering.
+	/**
+	 * Meningen med de første 6 linier er at slette den eventuelle hidtidige
+	 * dobbeltrettede association mellem Palle og MellemlagerPlads hhv.
+	 * Dragering.
+	 * 
 	 * @param placering
 	 */
 	void placerPalleUD(MellemlagerPlads placering) {
-		if (this.mellemlagerPlads != null){
+		if (this.mellemlagerPlads != null) {
 			mellemlagerPlads.placerPalleUD(null);
 		}
-		if (this.drageringshal != null){
+		if (this.drageringshal != null) {
 			drageringshal.removePalleUD(this);
 		}
 		this.mellemlagerPlads = placering;
 	}
 
 	/**
-	 * @param placering Krav: Hvis parameteren placering er null, skal den globale attribut mellemlagerPlads være forskellig fra null. 
-	 * Omvendt må den globale attribut mellemlagerPlads ikke være sat til andet end null, hvis metoden kaldes med en parameter forskellig fra null.
-	 * Med andre ord skal man kende status for Palle inden man kalder denne metode. 
-	 * OBS! Dette kan måske blive et problem i det øjeblik man ønsker at flytte
-	 * en palle fra én placering til en anden, og ikke direkte fra mellemlager til drageringshal og omvendt.
+	 * @param placering
+	 *            Krav: Hvis parameteren placering er null, skal den globale
+	 *            attribut mellemlagerPlads være forskellig fra null. Omvendt må
+	 *            den globale attribut mellemlagerPlads ikke være sat til andet
+	 *            end null, hvis metoden kaldes med en parameter forskellig fra
+	 *            null. Med andre ord skal man kende status for Palle inden man
+	 *            kalder denne metode. OBS! Dette kan måske blive et problem i
+	 *            det øjeblik man ønsker at flytte en palle fra én placering til
+	 *            en anden, og ikke direkte fra mellemlager til drageringshal og
+	 *            omvendt.
 	 */
 	public void placerPalle(MellemlagerPlads placering) {
 		if (placering != null) {
@@ -113,8 +123,12 @@ public class Palle {
 
 	public void addMellemvare(Mellemvare mellemvare) {
 		this.addMellemvareUD(mellemvare);
-		mellemvare.setPalleUD(this);	//Så mangler det jo altså at blive tjekket, om mellemvare var knyttet til en anden palle i forvejen, 
-										//der så skal have removet sit link til mellemvare, for det sørger mellemvare.setPalleUD ikke for...
+		mellemvare.setPalleUD(this); // Så mangler det jo altså at blive
+										// tjekket, om mellemvare var knyttet
+										// til en anden palle i forvejen,
+										// der så skal have removet sit link til
+										// mellemvare, for det sørger
+										// mellemvare.setPalleUD ikke for...
 	}
 
 	public void removeMellemvare(Mellemvare mellemvare) {
@@ -143,58 +157,62 @@ public class Palle {
 	 * @return
 	 * @author Rita Holst Jacobsen
 	 */
-	public boolean alleVarerErEns() {	
+	public boolean alleVarerErEns() {
 		HashMap<Produkttype, Delbehandling> hm = new HashMap<Produkttype, Delbehandling>();
 		if (mellemvarer.size() > 0) {
 			for (Mellemvare m : mellemvarer) {
-				if (!(hm.containsKey(m.getProdukttype()) && hm.get(m.getProdukttype()) == m.getIgangvaerendeDelbehandling())){
-					hm.put(m.getProdukttype(), m.getIgangvaerendeDelbehandling());
+				if (!(hm.containsKey(m.getProdukttype()) && hm.get(m
+						.getProdukttype()) == m.getIgangvaerendeDelbehandling())) {
+					hm.put(m.getProdukttype(),
+							m.getIgangvaerendeDelbehandling());
 				}
 			}
 		}
-		return (hm.size()<=1);
+		return (hm.size() <= 1);
 	}
-	
-	
+
 	/**
 	 * @param mellemvare
 	 * @return
 	 * @author Rita Holst Jacobsen
 	 */
-	public Integer getAntalAfSammeType(Mellemvare mellemvare){
+	public Integer getAntalAfSammeType(Mellemvare mellemvare) {
 		Integer antal = 0;
-		for (Mellemvare m: mellemvarer){
-			if (m.getProdukttype() == mellemvare.getProdukttype() && m.getIgangvaerendeDelbehandling() == mellemvare.getIgangvaerendeDelbehandling()){
+		for (Mellemvare m : mellemvarer) {
+			if (m.getProdukttype() == mellemvare.getProdukttype()
+					&& m.getIgangvaerendeDelbehandling() == mellemvare
+							.getIgangvaerendeDelbehandling()) {
 				antal++;
 			}
 		}
 		return antal;
 	}
-	
+
 	/**
 	 * @return
 	 * @author Rita Holst Jacobsen
 	 */
-	public HashMap<Mellemvare, Integer> getMellemvareAntalMapping(){
+	public HashMap<Mellemvare, Integer> getMellemvareAntalMapping() {
 		HashMap<Produkttype, Delbehandling> optaltePDpar = new HashMap<Produkttype, Delbehandling>();
 		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();
-		for (Mellemvare m: mellemvarer){
-			if (!(optaltePDpar.containsKey(m.getProdukttype()) && optaltePDpar.get(m.getProdukttype())==m.getIgangvaerendeDelbehandling())){
-				optaltePDpar.put(m.getProdukttype(), m.getIgangvaerendeDelbehandling());
+		for (Mellemvare m : mellemvarer) {
+			if (!(optaltePDpar.containsKey(m.getProdukttype()) && optaltePDpar
+					.get(m.getProdukttype()) == m
+					.getIgangvaerendeDelbehandling())) {
+				optaltePDpar.put(m.getProdukttype(),
+						m.getIgangvaerendeDelbehandling());
 				ensMellemvareAntalMapping.put(m, getAntalAfSammeType(m));
 			}
 		}
 		return ensMellemvareAntalMapping;
 	}
-	
-	
-	
+
 	@Override
-	public String toString(){
-		return "#"+this.getStregkode();
+	public String toString() {
+		return "#" + this.getStregkode();
 	}
-	
-	public String toStringLong(){
+
+	public String toStringLong() {
 		return this.toString() + " - " + this.getMellemvarer().size() + " bk.";
 	}
 

@@ -19,28 +19,28 @@ public class MainFrame extends JFrame implements Subject {
 
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout());
-		
+
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
+
 		JButton btnPlacerPalle = new JButton("Placer palle");
 		btnPlacerPalle.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+
 			}
 		});
 		panel.add(btnPlacerPalle);
 		this.setTitle("");
 		this.setLocation(20, 20);
 		this.setSize(440, 480);
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
-		
+
 		JMenu mnAdministrer = new JMenu("Administrer");
 		menuBar.add(mnAdministrer);
-		
+
 		JMenuItem mntmPaller = new JMenuItem("Paller");
 		mnAdministrer.add(mntmPaller);
 	}
