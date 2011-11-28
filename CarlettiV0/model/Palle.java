@@ -6,17 +6,26 @@ package model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 /**
  * v.0.3
  * @author Mads Dahl Jensen
  * 
  */
+@Entity
 public class Palle {
-
+	@Id
 	private String stregkode;
+	@OneToOne
 	private MellemlagerPlads mellemlagerPlads;
+	@ManyToOne
 	private Drageringshal drageringshal; 
+	@OneToMany
 	private ArrayList<Mellemvare> mellemvarer;
 
 	public Palle(String stregkode) {
@@ -37,6 +46,9 @@ public class Palle {
 		return mellemlagerPlads;
 	}
 
+	/** Meningen med de f¿rste 6 linier er at slette den eventuelle hidtidige dobbeltrettede association mellem Palle og MellemlagerPlads hhv. Dragering.
+	 * @param placering
+	 */
 	void placerPalleUD(MellemlagerPlads placering) {
 		if (this.mellemlagerPlads != null){
 			mellemlagerPlads.placerPalleUD(null);

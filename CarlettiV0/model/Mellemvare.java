@@ -3,19 +3,25 @@ package model;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 /**
  * v.0.3
  * @author nijntje
  *
  */
+@Entity
 public class Mellemvare {
-	
+	@Id
 	private String bakkestregkode;
 	private ArrayList<GregorianCalendar> tidspunkter;
-
+	@ManyToOne
 	private Produkttype produkttype;
+	@ManyToOne
 	private Delbehandling igangvaerendeDelbehandling;
+	@ManyToOne
 	private Palle palle;
 	
 	public Mellemvare(String bakkestregkode, Produkttype produkttype, Palle palle){
@@ -24,6 +30,7 @@ public class Mellemvare {
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
 		addNuvaerendeTidspunkt();
+		setPalle(palle);
 	}
 
 	
@@ -107,7 +114,7 @@ public class Mellemvare {
 	}
 	public void setPalle(Palle palle) {
 		this.setPalleUD(palle);
-//		palle.removeMellemvare(this);
+		palle.addMellemvareUD(this);
 	}
 	
 	public long[] getResterendeTider()
