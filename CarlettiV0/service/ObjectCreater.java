@@ -182,5 +182,16 @@ public class ObjectCreater {
 		palle.addMellemvare(m);
 		this.dao.gemMellemvare(m);
 	}
+	
+	/**
+	 * Udskriver alle mellemlagerPladser, der er gemt i databasen
+	 */
+	public void udskrivMellemlagerPladser() {
+
+		for (int i = 0; i < dao.mellemlagerPladser().size(); i++) {
+			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
+		}
+	}
+
 
 }
