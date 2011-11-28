@@ -3,6 +3,7 @@
  */
 package model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
@@ -16,9 +17,9 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class MellemlagerPlads {
-	@Id
+	@Id 
 	private String stregkode;
-	@OneToOne
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	private Palle palle;
 
 	public MellemlagerPlads(String stregkode) {

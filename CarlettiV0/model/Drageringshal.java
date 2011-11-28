@@ -4,11 +4,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import javax.annotation.Generated;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 
@@ -22,10 +24,12 @@ import javax.persistence.OneToMany;
 public class Drageringshal {
 	@Id
 	@GeneratedValue
+	private Long id;
 	private static Drageringshal drageringshal;
-	@OneToMany
-	private ArrayList<Palle> paller;
 
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@JoinColumn
+	private List<Palle> paller;
 	private Drageringshal() {
 		paller = new ArrayList<Palle>();
 	}
