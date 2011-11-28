@@ -14,7 +14,6 @@ import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
 import dao.JpaDao;
-import dao.ListDao;
 
 /**
  * 

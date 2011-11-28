@@ -2,13 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/eclipselink.jar"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/sqljdbc4.jar"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Library.zip"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Downloads/jtds-1.2.5-dist.zip"/>
-	<classpathentry kind="lib" path="/Users/cederdorff/Downloads/jtds-1.2.5-dist/jtds-1.2.5.jar"/>
+	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/eclipselink.jar" sourcepath="/Users/nijntje/Kode/JPA User Libraries/eclipselink.jar"/>
+	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar" sourcepath="/Users/nijntje/Kode/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar"/>
+	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/sqljdbc4.jar" sourcepath="/Users/nijntje/Kode/JPA User Libraries"/>
+	<classpathentry kind="lib" path="/Users/nijntje/Kode/jtds-1.2.5-dist/jtds-1.2.5.jar" sourcepath="/Users/nijntje/Kode/jtds-1.2.5-dist/jtds-1.2.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA"/>
+	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar" sourcepath="/Users/nijntje/Kode/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
