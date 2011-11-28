@@ -102,11 +102,11 @@ public class Toerring extends Delbehandling {
 	@Override
 	public String toStringLong() {
 		return super.toString() + "\t Varighed minimum "
-				+ super.getVarighedDagTimeSekundFormateret(minVarighed)
+				+ Varighed.getVarighedDagTimeSekundFormateret(minVarighed)
 				+ "\t Ideel varighed: "
-				+ super.getVarighedDagTimeSekundFormateret(idealVarighed)
+				+ Varighed.getVarighedDagTimeSekundFormateret(idealVarighed)
 				+ "\t Varighed min. "
-				+ super.getVarighedDagTimeSekundFormateret(maxVarighed);
+				+ Varighed.getVarighedDagTimeSekundFormateret(maxVarighed);
 	}
 
 }
