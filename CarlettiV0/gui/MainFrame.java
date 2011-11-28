@@ -13,6 +13,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
 public class MainFrame extends JFrame implements Subject {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ArrayList<Observer> observers;
 
 	public MainFrame() {
