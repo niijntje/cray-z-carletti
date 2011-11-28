@@ -4,9 +4,13 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
@@ -18,10 +22,12 @@ import javax.persistence.OneToMany;
 @Entity
 public class Behandling {
 	@Id
+	@GeneratedValue
 	private String navn;
-	@OneToMany
-	private ArrayList<Delbehandling> delbehandlinger;
-	
+
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@JoinColumn
+	private List<Delbehandling> delbehandlinger;
 	public Behandling(String navn){
 		this.navn = navn;
 		this.delbehandlinger = new ArrayList<Delbehandling>();
@@ -86,7 +92,7 @@ public class Behandling {
 	}
 	
 	public ArrayList<Delbehandling> getDelbehandlinger(){
-		return delbehandlinger;
+		return (ArrayList<Delbehandling>) delbehandlinger;
 
 	}
 
