@@ -25,6 +25,7 @@ public class MainFrame extends JFrame implements Subject {
 		
 		JButton btnPlacerPalle = new JButton("Placer palle");
 		btnPlacerPalle.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				
 			}

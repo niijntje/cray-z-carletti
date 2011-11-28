@@ -2,13 +2,8 @@ package service;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
-
-import javax.swing.DefaultListModel;
-
 import model.Behandling;
 import model.Delbehandling;
 import model.Dragering;

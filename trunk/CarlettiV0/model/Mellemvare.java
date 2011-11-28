@@ -119,6 +119,7 @@ public class Mellemvare {
 		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(getTidspunkter().get(tidspunkter.size()-1));
 	}
 	
+	@Override
 	public String toString(){
 		return this.getBakkestregkode()+"\t"+this.getProdukttype();
 	}

@@ -1,5 +1,6 @@
 package service;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;	
 
 
@@ -42,23 +43,23 @@ public class Validering
 	 *@author Rita Holst Jacobsen
 	 */
 	public static String calendarTilCalendarString(GregorianCalendar gCal){
-		String month = ""+(1+gCal.get(GregorianCalendar.MONTH));
+		String month = ""+(1+gCal.get(Calendar.MONTH));
 		if (month.length()<2){
 			month = "0"+month;
 		}
-		String day = ""+gCal.get(GregorianCalendar.DAY_OF_MONTH);
+		String day = ""+gCal.get(Calendar.DAY_OF_MONTH);
 		if (day.length()<2){
 			day = "0"+day;
 		}
-		String hour = ""+gCal.get(GregorianCalendar.HOUR_OF_DAY);
+		String hour = ""+gCal.get(Calendar.HOUR_OF_DAY);
 		if (hour.length()<2){
 			hour = "0"+hour;
 		}
-		String minute = ""+gCal.get(GregorianCalendar.MINUTE);
+		String minute = ""+gCal.get(Calendar.MINUTE);
 		if (minute.length()<2){
 			minute = "0"+minute;
 		}
-		return gCal.get(GregorianCalendar.YEAR)+"-"+month+"-"+day+"\t"
+		return gCal.get(Calendar.YEAR)+"-"+month+"-"+day+"\t"
 				+hour+":"+minute;
 	}
 	

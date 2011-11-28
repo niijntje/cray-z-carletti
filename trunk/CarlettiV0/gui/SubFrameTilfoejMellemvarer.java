@@ -118,6 +118,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 
 		JButton btnTilfoej = new JButton("Tilfoej");
 		btnTilfoej.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Palle palle = Service.getInstance().soegPalle(
 						txtPallestregkode.getText());
@@ -161,6 +162,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 
 		JButton btnFjern = new JButton("Fjern");
 		btnFjern.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent e) {
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
 				Palle palle = Service.getInstance().soegPalle(

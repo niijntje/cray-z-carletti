@@ -1,18 +1,13 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-
 import model.MellemlagerPlads;
 import model.Palle;
 import service.ObjectCreater;
@@ -98,6 +93,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 	}
 
 	private class Controller implements ActionListener {
+		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnOk) {
 				ObjectCreater.getInstance().createSomeObjects();

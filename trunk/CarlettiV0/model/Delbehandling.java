@@ -59,6 +59,7 @@ public abstract class Delbehandling {
 	 */
 	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid) throws RuntimeException;
 	
+	@Override
 	public String toString(){
 		return getNavn();
 	}

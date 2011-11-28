@@ -50,6 +50,7 @@ public class MellemlagerPlads {
 
 	// ---------------------------------------------------------
 
+	@Override
 	public String toString() {
 		return this.getStregkode();
 	}

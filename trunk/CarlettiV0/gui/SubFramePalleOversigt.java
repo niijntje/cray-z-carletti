@@ -3,24 +3,15 @@
  */
 package gui;
 
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.TextArea;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
 import model.Mellemvare;
@@ -28,29 +19,15 @@ import model.Palle;
 
 import service.Service;
 import javax.swing.JTable;
-import java.awt.ScrollPane;
 import javax.swing.JScrollPane;
 import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
-import java.awt.Panel;
-import javax.swing.SwingConstants;
-import javax.swing.JScrollBar;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.BoxLayout;
-import java.awt.GridLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.Box;
-import javax.swing.JFormattedTextField;
 import javax.swing.JTextArea;
 
 
