@@ -97,7 +97,7 @@ public class Mellemvare {
 	}
 
 	/**
-	 * Tilf¿jer systemets nuv¾rende tidspunkter til listen tidspunkter
+	 * Tilf¿jer systemets nuv¾rende tidspunkt til listen tidspunkter
 	 */
 	public void addNuvaerendeTidspunkt() {
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -141,6 +141,19 @@ public class Mellemvare {
 		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
 				getTidspunkter().get(tidspunkter.size() - 1));
 	}
+	
+	/**
+	 * Sammenligner to mellemvarer. Disse betragtes som ens, hvis de er af samme produkttype og har samme igangv¾rende delbehandling.
+	 * Metoden tager _ikke_ h¿jde for hvor lang tid hver af mellemvarerne har v¾ret i gang med delbehandlingen.
+	 * @param mellemvare
+	 * @return
+	 */
+	public boolean erAfSammeType(Mellemvare mellemvare){
+		if (mellemvare.getProdukttype()==this.getProdukttype() && mellemvare.getIgangvaerendeDelbehandling()==this.getIgangvaerendeDelbehandling()){
+			return true;
+		}
+		else return false;
+	}
 
 	@Override
 	public String toString() {
@@ -152,8 +165,8 @@ public class Mellemvare {
 	 * 
 	 * @param nextDelbehandling
 	 */
-	public void setIgangvaerendeDelbehandling(Delbehandling nextDelbehandling) {
-		this.igangvaerendeDelbehandling = nextDelbehandling;
+	public void setIgangvaerendeDelbehandling(Delbehandling nyDelbehandling) {
+		this.igangvaerendeDelbehandling = nyDelbehandling;
 
 	}
 

@@ -51,13 +51,14 @@ public class ObjectCreater {
 		Palle pa1 = Service.getInstance().opretPalle("20000001");
 		Service.getInstance().opretPalle("20000002");
 		Palle palle1 = Service.getInstance().opretPalle("00001");
-		Service.getInstance().opretPalle("00002");
+		Palle pa2 = Service.getInstance().opretPalle("00002");
 		Service.getInstance().opretPalle("00003");
 
 		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads(
 				"100100101");
-		Service.getInstance().opretMellemlagerPlads("100100102");
-		Service.getInstance().opretMellemlagerPlads("001");
+
+		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads("100100102");
+		MellemlagerPlads pl3 = Service.getInstance().opretMellemlagerPlads("001");
 		Service.getInstance().opretMellemlagerPlads("002");
 		Service.getInstance().opretMellemlagerPlads("003");
 		Service.getInstance().opretMellemlagerPlads("004");
@@ -123,12 +124,13 @@ public class ObjectCreater {
 		opretMellemvare("300000001", pt1, pa1, dato6);
 		opretMellemvare("300000002", pt1, pa1, dato6);
 		opretMellemvare("300000003", pt2, pa1, dato6);
-		opretMellemvare("300000004", pt1, pa1, dato6);
-		opretMellemvare("300000005", pt1, pa1, dato6);
+		opretMellemvare("300000004", pt1, pa2, dato6);
+		opretMellemvare("300000005", pt1, pa2, dato6);
 		opretMellemvare("300000006", pt2, pa1, dato6);
 		opretMellemvare("300000007", pt1, pa1, dato6);
 
 		Service.getInstance().placerPalleMellemvarelager(pa1, pl1);
+		Service.getInstance().placerPalleMellemvarelager(pa2, pl2);
 
 		GregorianCalendar dato7 = new GregorianCalendar();
 		dato7.setTimeInMillis(System.currentTimeMillis() - varighed3);
