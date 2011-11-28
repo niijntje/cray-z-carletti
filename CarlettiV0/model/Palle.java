@@ -74,7 +74,7 @@ public class Palle {
 	 *            kalder denne metode. OBS! Dette kan måske blive et problem i
 	 *            det øjeblik man ønsker at flytte en palle fra én placering til
 	 *            en anden, og ikke direkte fra mellemlager til drageringshal og
-	 *            omvendt.
+	 *            omvendt. Se placerPalleUD, der lige nu håndterer dette - er dét den rigtige/bedste løsning??
 	 */
 	public void placerPalle(MellemlagerPlads placering) {
 		if (placering != null) {
