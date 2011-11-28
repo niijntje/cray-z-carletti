@@ -5,14 +5,18 @@ package model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * v.0.3
  * 
  * @author nijntje
  * 
  */
+@Entity
 public class Dragering extends Delbehandling {
-
 	private long varighed;
 
 	/**

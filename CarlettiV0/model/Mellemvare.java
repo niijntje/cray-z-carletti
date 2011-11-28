@@ -2,8 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
@@ -17,7 +19,7 @@ import javax.persistence.ManyToOne;
 public class Mellemvare {
 	@Id
 	private String bakkestregkode;
-	private ArrayList<GregorianCalendar> tidspunkter;
+	private List<GregorianCalendar> tidspunkter;
 	@ManyToOne
 	private Produkttype produkttype;
 	@ManyToOne

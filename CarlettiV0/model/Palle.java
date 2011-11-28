@@ -5,8 +5,11 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -22,12 +25,12 @@ import javax.persistence.OneToOne;
 public class Palle {
 	@Id
 	private String stregkode;
-	@OneToOne
+	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	private MellemlagerPlads mellemlagerPlads;
 	@ManyToOne
 	private Drageringshal drageringshal;
-	@OneToMany
-	private ArrayList<Mellemvare> mellemvarer;
+	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	private List<Mellemvare> mellemvarer;
 
 	public Palle(String stregkode) {
 		this.stregkode = stregkode;
@@ -74,7 +77,8 @@ public class Palle {
 	 *            kalder denne metode. OBS! Dette kan måske blive et problem i
 	 *            det øjeblik man ønsker at flytte en palle fra én placering til
 	 *            en anden, og ikke direkte fra mellemlager til drageringshal og
-	 *            omvendt. Se placerPalleUD, der lige nu håndterer dette - er dét den rigtige/bedste løsning??
+	 *            omvendt. Se placerPalleUD, der lige nu håndterer dette - er
+	 *            dét den rigtige/bedste løsning??
 	 */
 	public void placerPalle(MellemlagerPlads placering) {
 		if (placering != null) {

@@ -5,14 +5,18 @@ package model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * v.0.3
  * 
  * @author nijntje
  * 
  */
-public class Toerring extends Delbehandling {
-
+@Entity
+public class Toerring extends Delbehandling {	
 	private long minVarighed;
 	private long idealVarighed;
 	private long maxVarighed;

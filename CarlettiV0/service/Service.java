@@ -13,6 +13,7 @@ import model.Palle;
 import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
+import dao.JpaDao;
 import dao.ListDao;
 
 /**
@@ -22,9 +23,9 @@ import dao.ListDao;
  */
 public class Service {
 	private static Service uniqueInstance;
-	private DAO dao = ListDao.getListDao();
+//	private DAO dao = ListDao.getListDao();
 
-	// private DAO dao = JpaDao.getJpaDao();
+	 private DAO dao = JpaDao.getDao();
 
 	private Service() {
 

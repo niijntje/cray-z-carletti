@@ -2,11 +2,13 @@
 <classpath>
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="forms-1.3.0.jar" sourcepath="forms-1.3.0-src.zip"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Documents/A - Studie - DMU/2. semester/SK2/2011-11-01/JPA User Library.zip"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/eclipselink.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/eclipselink.jar"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Libraries/sqljdbc4.jar"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Documents/DMU/2. semester/SK2/JPA/JPA User Library.zip"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Downloads/jtds-1.2.5-dist.zip"/>
+	<classpathentry kind="lib" path="/Users/cederdorff/Downloads/jtds-1.2.5-dist/jtds-1.2.5.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
