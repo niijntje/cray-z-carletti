@@ -1,6 +1,9 @@
 package service;
 
+import gui.MainFrame;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import model.Behandling;
@@ -14,17 +17,22 @@ import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
 import dao.JpaDao;
+import dao.ListDao;
 
 /**
  * 
  * @author Cederdorff
  * 
  */
+/**
+ * @author nijntje
+ *
+ */
 public class Service {
 	private static Service uniqueInstance;
-//	private DAO dao = ListDao.getListDao();
+	private DAO dao = ListDao.getListDao();
 
-	 private DAO dao = JpaDao.getDao();
+	//	 private DAO dao = JpaDao.getDao();
 
 	private Service() {
 
@@ -217,6 +225,54 @@ public class Service {
 
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
 		return dao.soegMellemlagerPlads(stregkode);
+	}
+
+	/** Genererer data til brug for MainFrame
+	 * 
+	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
+	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype}, {@link Delbehandling}, Antal, Resterende tid
+	 * 
+	 * Hvis der er flere "varetyper" på samme Palle, udskrives en linie pr. "varetype" (dvs. kombinationen Produkttype, Delbehandling)
+	 * 
+	 * Er der ikke tilknyttet en {@link Palle} til en givet {@link MellemlagerPlads}, repræsenteres denne med et Object[] pData, hvor pData[0]
+	 * er den pågældende {@link MellemlagerPlads}, og pData[1]-[5] er null. Det er så op til {@link MainFrame}-klassen at håndtere, om oversigten
+	 * skal vises med eller uden tomme pladser.
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
+	public Object[][] generateViewDataMellemlagerOversigt(){
+		//Data gemmes i første omgang i en ArrayList, da størrelsen af data afhænger af 
+		//hvor mange forskellige typer mellemvarer der findes på hver enkelt palle.
+		ArrayList<Object[]> listData = new ArrayList<Object[]>();
+		for (MellemlagerPlads mp : getPladser()){
+			Object[] pladsData = new Object[6];
+			pladsData[0] = mp;
+			if (mp.getPalle() == null){
+				listData.add(pladsData);
+			}
+			else {
+				Object[][] mData = generateViewDataProdukttypeDelbehandlingAntalTid(mp.getPalle());
+				for (int i = 0; i < mData.length; i++){
+					pladsData = new Object[6];
+					pladsData[0] = mp;
+					if(mData[i][0] != null){
+						pladsData[1] = mp.getPalle();
+						pladsData[2] = mData[i][0];
+						pladsData[3] = mData[i][1];
+						pladsData[4] = mData[i][2];
+						pladsData[5] = mData[i][3];
+						listData.add(pladsData);
+					}
+				}
+			}			
+		}
+		Object[][] data = new Object[listData.size()][6];
+		int i = 0;
+		for(Object[] oa : listData){
+			data[i] = oa;
+			i++;
+		}
+		return data;
 	}
 
 	/**

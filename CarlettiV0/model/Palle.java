@@ -17,8 +17,16 @@ import javax.persistence.OneToOne;
 /**
  * v.0.3
  * 
- * @author Mads Dahl Jensen
  * 
+ * 
+ */
+/**
+ * @author nijntje
+ *
+ */
+/**
+ * @author nijntje
+ *
  */
 @Entity
 public class Palle {
@@ -140,8 +148,18 @@ public class Palle {
 
 	}
 
-	public void startDelbehandling() {
-		if (alleVarerErEns()) {
+	/** Starter næste delbehandling af en eller flere mellemvarer.
+	 * @param mellemvare. Hvis forskellig fra null startes næste delbehandling for alle mellemvarer på pallen af samme type som mellemvare. Hvis null, og alle mellemvarer er af samme type startes næste delbehandling for alle mellemvarer på pallen. Ellers sker intet!
+	 */
+	public void startDelbehandling(Mellemvare mellemvare) {
+		if (mellemvare != null){
+			for (Mellemvare m: mellemvarer){
+				if (m.getProdukttype() == mellemvare.getProdukttype() && m.getIgangvaerendeDelbehandling() == mellemvare.getIgangvaerendeDelbehandling()){
+					m.goToNextDelbehandling();
+				}
+			}
+		}
+		else if (alleVarerErEns()) {
 			for (Mellemvare m : mellemvarer) {
 				m.goToNextDelbehandling();
 			}

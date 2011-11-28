@@ -50,17 +50,15 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		getContentPane().setBackground(Color.PINK);
 		this.mainFrame = mainFrame;
 		this.palle = palle;
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Oversigt over palle");
 		this.setLocation(400, 100);
 		this.setSize(420, 600);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 203, 187, 0, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 35, 103, 169, 14, 68, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0,
-				0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
-				0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
 		Box verticalBox_1 = Box.createVerticalBox();
