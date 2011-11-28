@@ -17,12 +17,18 @@ public interface DAO {
 	public List<Palle> paller();
 
 	public List<Mellemvare> mellemvarer();
+	
+	public List<Mellemvare> faerdigvarer();
+	
+	public List<Mellemvare> kasseredeVarer();
 
 	public List<Produkttype> produkttyper();
 
 	public List<MellemlagerPlads> mellemlagerPladser();
 
 	public List<Behandling> behandlinger();
+	
+	
 
 	public void gemPalle(Palle palle);
 
