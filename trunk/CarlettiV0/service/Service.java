@@ -137,14 +137,14 @@ public class Service {
 			long idealTid, long maxTid, int index) {
 		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
 		tilfoejDelbehandling(b, d, -1);
-		dao.gemDelbehandling(d);
+//		dao.gemDelbehandling(d);
 		return d;
 	}
 
 	public Delbehandling opretDragering(String navn, Behandling b, long varighed, int index){
 		Delbehandling d = new Dragering(navn, b, varighed);
 		tilfoejDelbehandling(b, d, -1);
-		dao.gemDelbehandling(d);
+//		dao.gemDelbehandling(d);
 		return d;
 	}
 
@@ -201,27 +201,15 @@ public class Service {
 		return new ArrayList<Produkttype>(dao.produkttyper());
 	}
 
-
-
+	public ArrayList<Mellemvare>getMellemvarer(){
+		return new ArrayList<Mellemvare>(dao.mellemvarer());
+	}
+	
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
 
-	public Palle findPalle(String stregkode){
-		ArrayList<Palle> paller = ListDao.getListDao().getPaller();
-		Palle p = null;
-		boolean found = false;
-		int i= 0;
-		while (!found){
-			Palle p1 = paller.get(i);
-			if (p1.getStregkode().equals(stregkode)){
-				p = p1;
-				found = true;
-			}
-			i++;
-		}
-		return p;
-	}
+
 
 	public String getStregkode(Mellemvare mellemvare) {
 		return mellemvare.getBakkestregkode();
@@ -233,6 +221,14 @@ public class Service {
 
 	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
 		return palle.getMellemvarer();
+	}
+	
+	public Palle soegPalle(String stregkode){
+		return dao.soegPalle(stregkode);
+	}
+	
+	public MellemlagerPlads soegMellemlagerPlads(String stregkode){
+		return dao.soegMellemlagerPlads(stregkode);
 	}
 
 	/**
