@@ -25,6 +25,7 @@ public abstract class Delbehandling {
 	@ManyToOne
 	private Behandling behandling;
 	private String navn;
+	@ManyToOne
 	private Delbehandling nextDelbehandling;
 	
 	public Delbehandling(String navn, Behandling behandling){
