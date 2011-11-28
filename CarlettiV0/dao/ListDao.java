@@ -18,6 +18,8 @@ public class ListDao implements DAO {
 	private static ListDao listDao;
 	private ArrayList<Palle> paller;
 	private ArrayList<Mellemvare> mellemvarer;
+	private ArrayList<Mellemvare> faerdigvarer;
+	private ArrayList<Mellemvare> kasseredeVarer;
 	private ArrayList<Produkttype> produkttyper;
 	private ArrayList<MellemlagerPlads> mellemlagerPladser;
 	private ArrayList<Behandling> behandlinger;
