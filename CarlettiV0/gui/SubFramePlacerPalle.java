@@ -1,29 +1,33 @@
 package gui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JButton;
-import java.awt.Font;
-import javax.swing.DropMode;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import model.MellemlagerPlads;
 import model.Palle;
-
+import service.ObjectCreater;
 import service.Service;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-import javax.swing.SwingConstants;
-
-
+/**
+ * 
+ * @author Design: Cederdorff, Funktionalitet: Mads
+ *
+ */
 public class SubFramePlacerPalle extends JFrame implements Observer {
 	private Subject mainframe;
 	private JTextField txtPladsstregkode;
 	private JTextField txtpallestregkode;
-	private JLabel lblFejlPallestrekodeFindes;
+	private Controller controller = new Controller();
+	private JButton btnOk, btnAnnuller;
 
 	public SubFramePlacerPalle(MainFrame mainframe) {
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,13 +47,11 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		getContentPane().add(panel);
 
 		JButton btnAnnuller = new JButton("Annuller");
+		btnAnnuller.addActionListener(controller);
 		panel.add(btnAnnuller);
 
-		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
+		btnOk = new JButton("OK");
+		btnOk.addActionListener(controller);
 		panel.add(btnOk);
 
 		JPanel panel_1 = new JPanel();
@@ -93,20 +95,40 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		txtPladsstregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
 		txtPladsstregkode.setColumns(10);
 		panel_4.add(txtPladsstregkode);
+	}
 
-		lblFejlPallestrekodeFindes = new JLabel("");
-		lblFejlPallestrekodeFindes.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblFejlPallestrekodeFindes.setForeground(Color.RED);
-		lblFejlPallestrekodeFindes.setFont(new Font("Lucida Grande",
-				Font.ITALIC, 11));
-		lblFejlPallestrekodeFindes.setBounds(6, 202, 308, 16);
-		getContentPane().add(lblFejlPallestrekodeFindes);
+	private class Controller implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (e.getSource() == btnOk) {
+				ObjectCreater.getInstance().createSomeObjects();
+				// Validering.validerStregkode(txtPladsstregkode.getText());
+				// Validering.validerStregkode(txtpallestregkode.getText());
+				Palle palle = Service.getInstance().soegPalle(
+						txtpallestregkode.getText());
+				MellemlagerPlads mellemlagerPlads = Service.getInstance()
+						.soegMellemlagerPlads(txtPladsstregkode.getText());
 
+				if (mellemlagerPlads == null || palle == null) {
+					throw new RuntimeException(
+							"Palle eller mellemlagerplads findes ikke");
+				} else {
+					Service.getInstance().getPaller().remove(palle);
+					Service.getInstance().placerPalleMellemvarelager(palle,
+							mellemlagerPlads);
+					SubFramePlacerPalle.this.setVisible(false);
+				}
+
+			} else if (e.getSource() == btnAnnuller) {
+				update();
+				SubFramePlacerPalle.this.setVisible(false);
+			}
+		}
 	}
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		txtPladsstregkode.setText("");
+		txtpallestregkode.setText("");
 	}
+
 }

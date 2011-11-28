@@ -29,7 +29,7 @@ public class App {
 		
 		ObjectCreater.getInstance().createSomeObjects();
 		
-		SubFramePalleOversigt subFramePalleOversigt = new SubFramePalleOversigt(mainFrame, Service.getInstance().findPalle("20000001"));
+		SubFramePalleOversigt subFramePalleOversigt = new SubFramePalleOversigt(mainFrame, Service.getInstance().soegPalle("20000001"));
 		subFramePalleOversigt.setVisible(true);		
 	
 //		Service.getInstance().generateViewDataProduktDelbehandlingAntal(pa1);

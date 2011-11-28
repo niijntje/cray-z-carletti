@@ -3,12 +3,15 @@ package dao;
 import java.util.List;
 
 import model.Behandling;
-import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
-
+/**
+ * 
+ * @author Cederdorff
+ *
+ */
 public interface DAO {
 	public List<Palle> paller();
 	public List<Mellemvare> mellemvarer();
@@ -31,8 +34,9 @@ public interface DAO {
 	public void gemBehandling(Behandling behandling);
 	public void removeBehandling(Behandling behandling);
 	
-	public void close();
-	public void gemDelbehandling(Delbehandling d);
+	public Palle soegPalle(String stregkode);
+	public MellemlagerPlads soegMellemlagerPlads(String stregkode);
 	
+	public void close();
 	
 }

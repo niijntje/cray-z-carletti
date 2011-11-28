@@ -2,18 +2,26 @@ package dao;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import model.Behandling;
-import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
-
+/**
+ * 
+ * @author Cederdorff
+ *
+ */
 public class JpaDao implements DAO{
 	private static JpaDao dao;
 	
 	public JpaDao(){
-		
+		//singleton
 	}
 	
 	public static JpaDao getDao(){
@@ -22,106 +30,133 @@ public class JpaDao implements DAO{
 		}
 		return dao;
 	}
+	
+	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("CarlettiLageringssytem");
+	private EntityManager em = emf.createEntityManager();
+	private EntityTransaction tx = em.getTransaction();
 
 	@Override
 	public List<Palle> paller() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT p FROM Palle p", Palle.class).getResultList();
 	}
 
 	@Override
 	public List<Mellemvare> mellemvarer() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT m FROM Mellemvare m", Mellemvare.class).getResultList();
 	}
 
 	@Override
 	public List<Produkttype> produkttyper() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT p FROM Produkttype p", Produkttype.class).getResultList();
 	}
 
 	@Override
 	public List<MellemlagerPlads> mellemlagerPladser() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT m FROM MellemlagerPlads m", MellemlagerPlads.class).getResultList();
 	}
 
 	@Override
 	public List<Behandling> behandlinger() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT b FROM Behandling b", Behandling.class).getResultList();
 	}
 
 	@Override
 	public void gemPalle(Palle palle) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.persist(palle);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void removePalle(Palle palle) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.remove(palle);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void gemMellemvare(Mellemvare mellemvare) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.persist(mellemvare);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void removeMellemvare(Mellemvare mellemvare) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.remove(mellemvare);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void gemProdukttype(Produkttype produkttype) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.persist(produkttype);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void removeProdukttype(Produkttype produkttype) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.remove(produkttype);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void gemMellemlagerPlads(MellemlagerPlads mellemlagerPlads) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.persist(mellemlagerPlads);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerplads) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.remove(mellemlagerplads);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void gemBehandling(Behandling behandling) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.persist(behandling);
+		tx.commit();
 		
 	}
 
 	@Override
 	public void removeBehandling(Behandling behandling) {
-		// TODO Auto-generated method stub
+		tx.begin();
+		em.remove(behandling);
+		tx.commit();
 		
+	}
+	
+	@Override
+	public Palle soegPalle(String stregkode) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void close() {
-		// TODO Auto-generated method stub
+		em.clear();
 		
 	}
 
-	@Override
-	public void gemDelbehandling(Delbehandling d) {
-		// TODO Auto-generated method stub
-		
-	}
+
 }
