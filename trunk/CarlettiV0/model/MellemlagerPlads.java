@@ -3,7 +3,10 @@
  */
 package model;
 
-import model.Palle;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
 
 /**
  * v.0.3
@@ -11,9 +14,11 @@ import model.Palle;
  * @author Mads Dahl Jensen
  * 
  */
+@Entity
 public class MellemlagerPlads {
-
+	@Id
 	private String stregkode;
+	@OneToOne
 	private Palle palle;
 
 	public MellemlagerPlads(String stregkode) {

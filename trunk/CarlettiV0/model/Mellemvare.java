@@ -147,7 +147,7 @@ public class Mellemvare {
 	}
 
 	/**
-	 * Benyttes af Service.createSomeObjects()
+	 * Benyttes af ObjectCreater.createSomeObjects()
 	 * 
 	 * @param nextDelbehandling
 	 */

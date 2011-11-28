@@ -5,15 +5,25 @@ package model;
 
 import java.util.ArrayList;
 
+import javax.annotation.Generated;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+
 /**
  * v.0.3
  * 
  * @author Mads Dahl Jensen
  * 
  */
+@Entity
 public class Drageringshal {
-
+	@Id
+	@GeneratedValue
 	private static Drageringshal drageringshal;
+	@OneToMany
 	private ArrayList<Palle> paller;
 
 	private Drageringshal() {

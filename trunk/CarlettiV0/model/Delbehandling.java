@@ -5,6 +5,8 @@ package model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.ManyToOne;
+
 /**
  * v.0.3
  * 
@@ -12,12 +14,12 @@ import java.util.GregorianCalendar;
  * 
  */
 public abstract class Delbehandling {
-
+	@ManyToOne
 	private Behandling behandling;
 	private String navn;
 	private Delbehandling nextDelbehandling;
-
-	public Delbehandling(String navn, Behandling behandling) {
+	
+	public Delbehandling(String navn, Behandling behandling){
 		this.setNavn(navn);
 		this.behandling = behandling;
 	}
@@ -47,13 +49,9 @@ public abstract class Delbehandling {
 	}
 
 	/**
-	 * @param startTid
-	 *            Krav: startTid < System.currentTimeMillis() (Ellers kastes
-	 *            exception)
-	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden
-	 *         passeret, returneres tiden 0, modsat i
-	 *         getResterendeTidTilNaeste(), hvor der returneres en negativ tid,
-	 *         hvis maxTid er overskredet.
+	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes exception)
+	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden passeret, returneres tiden 0, modsat i getResterendeTidTilNaeste(),
+	 * hvor der returneres en negativ tid, hvis maxTid er overskredet.
 	 */
 	public abstract long[] getResterendeTider(GregorianCalendar startTid)
 			throws RuntimeException;
