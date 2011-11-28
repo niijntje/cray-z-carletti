@@ -3,15 +3,21 @@
  */
 package model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 /**
  * v.0.3
  * @author nijntje
  *
  */
+@Entity
 public class Produkttype {
-	
+	@Id
 	private String navn;
 	private String beskrivelse;
+	@ManyToOne
 	private Behandling behandling;
 	
 	
