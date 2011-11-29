@@ -50,7 +50,7 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		this.setSize(800, 600);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 20, 29, 639, 0 };
+		gridBagLayout.columnWidths = new int[] { 20, 29, 711, 0 };
 		gridBagLayout.rowHeights = new int[] { 39, 321, 21, 68, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
