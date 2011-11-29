@@ -162,7 +162,6 @@ public class JpaDao implements DAO {
 	@Override
 	public void close() {
 		em.clear();
-
 	}
 
 	@Override
@@ -175,6 +174,12 @@ public class JpaDao implements DAO {
 	public List<Mellemvare> kasseredeVarer() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void opdaterDatabase() {
+		tx.begin();
+		tx.commit();
 	}
 
 }

@@ -184,4 +184,10 @@ public class ListDao implements DAO {
 		return null;
 	}
 
+	@Override
+	public void opdaterDatabase() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
