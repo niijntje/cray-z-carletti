@@ -6,6 +6,7 @@ import java.util.List;
 import model.Behandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
+import model.MellemvareStatus;
 import model.Palle;
 import model.Produkttype;
 
@@ -174,19 +175,29 @@ public class ListDao implements DAO {
 
 	@Override
 	public List<Mellemvare> faerdigvarer() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Mellemvare>faerdigvarer = new ArrayList<Mellemvare>();
+		for(int i = 0; i < mellemvarer.size(); i ++){
+			if(mellemvarer.get(i).getStatus() == MellemvareStatus.FAERDIG){
+				faerdigvarer.add(mellemvarer.get(i));
+			}
+		}
+		return faerdigvarer;
 	}
 
 	@Override
 	public List<Mellemvare> kasseredeVarer() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Mellemvare>kasseredeVarer = new ArrayList<Mellemvare>();
+		for(int i = 0; i < mellemvarer.size(); i ++){
+			if(mellemvarer.get(i).getStatus() == MellemvareStatus.KASSERET){
+				faerdigvarer.add(mellemvarer.get(i));
+			}
+		}
+		return kasseredeVarer;
 	}
 
 	@Override
 	public void opdaterDatabase() {
-		// TODO Auto-generated method stub
+		// DO NOTHING
 		
 	}
 
