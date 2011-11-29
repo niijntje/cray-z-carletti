@@ -27,6 +27,7 @@ public class Mellemvare {
 	private Delbehandling igangvaerendeDelbehandling;
 	@ManyToOne
 	private Palle palle;
+	private MellemvareStatus status;
 
 	public Mellemvare(){
 		
@@ -38,6 +39,7 @@ public class Mellemvare {
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
 				.getDelbehandling(0);
+		this.status = MellemvareStatus.UNDERBEHANDLING;
 		addNuvaerendeTidspunkt();
 		setPalle(palle);
 	}
@@ -173,6 +175,18 @@ public class Mellemvare {
 	public void setIgangvaerendeDelbehandling(Delbehandling nyDelbehandling) {
 		this.igangvaerendeDelbehandling = nyDelbehandling;
 
+	}
+	/**
+	 * @return the status
+	 */
+	public MellemvareStatus getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(MellemvareStatus status) {
+		this.status = status;
 	}
 
 }
