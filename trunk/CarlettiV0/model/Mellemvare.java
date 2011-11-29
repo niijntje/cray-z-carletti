@@ -7,6 +7,8 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  * v.0.3
@@ -26,6 +28,9 @@ public class Mellemvare {
 	@ManyToOne
 	private Palle palle;
 
+	public Mellemvare(){
+		
+	}
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {
 		this.bakkestregkode = bakkestregkode;
