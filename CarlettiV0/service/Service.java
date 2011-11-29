@@ -21,7 +21,7 @@ import dao.ListDao;
 
 /**
  * 
- * @author Cederdorff
+ * @author Cederdorff 
  * 
  */
 /**
@@ -163,7 +163,7 @@ public class Service {
 	public void placerPalleMellemvarelager(Palle palle,
 			MellemlagerPlads placering) {
 		palle.placerPalle(placering);
-		palle.setDrageringshal(Drageringshal.getInstance());
+
 	}
 
 	/**
@@ -174,7 +174,6 @@ public class Service {
 	public void sendPalleTilDragering(Palle palle) {
 		palle.placerPalle(null);
 		palle.setDrageringshal(Drageringshal.getInstance());
-
 	}
 
 	/**
@@ -331,6 +330,12 @@ public class Service {
 					+ delbehandlinger.get(i).toString() + "\n";
 		}
 		return infoString;
+	}
+	/**
+	 * Benyttes når databasen skal opdateres (kalder begin/commit)
+	 */
+	public void opdaterDatabase(){
+		dao.opdaterDatabase();
 	}
 
 }
