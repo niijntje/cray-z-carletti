@@ -13,6 +13,10 @@
 		<class>model.MellemlagerPlads</class>
 		<class>model.Behandling</class>
 		<class>model.Drageringshal</class>
+		<class>model.Delbehandling</class>
+		<class>model.Toerring</class>
+		<class>model.Dragering</class>
+	
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
