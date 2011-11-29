@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.Box;
 import javax.swing.DefaultRowSorter;
@@ -40,7 +42,12 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 	private JList list;
 	private Controller controller = new Controller();
 	private JTextArea txtrDetaljer;
-	private RowFilter<Object, Object> tomPladsFilter;
+	private RowFilter<Object, Object> tomPladsFilter, aktueltFilter;
+//	public boolean chckbxVisTommePladser;
+	private DefaultTableModel dm;
+	private Object[][] datas;
+	private String[] columnNames;
+	private JCheckBox chckbxVisTommePladser;
 
 	public MainFrameTabelVersion() {
 		getContentPane().setBackground(Color.PINK);
@@ -56,11 +63,6 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-
-		// --------------------Panel 1--------------------//
-		panel1 = new JPanel();
-		panel1.setOpaque(true);
-		panel1.setBounds(5, 5, 100, 50);
 
 
 		// --------------------Panel 2--------------------//
@@ -81,7 +83,7 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		gbl_panel2.rowWeights = new double[] { 0.0, 0.0 };
 		panel2.setLayout(gbl_panel2);
 		
-		JCheckBox chckbxVisTommePladser = new JCheckBox("Vis tomme pladser");
+		chckbxVisTommePladser = new JCheckBox("Vis tomme pladser");
 		chckbxVisTommePladser.setVerticalAlignment(SwingConstants.BOTTOM);
 		GridBagConstraints gbc_chckbxVisTommePladser = new GridBagConstraints();
 		gbc_chckbxVisTommePladser.fill = GridBagConstraints.BOTH;
@@ -90,6 +92,8 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		gbc_chckbxVisTommePladser.gridx = 0;
 		gbc_chckbxVisTommePladser.gridy = 0;
 		panel2.add(chckbxVisTommePladser, gbc_chckbxVisTommePladser);
+		chckbxVisTommePladser.addItemListener(controller);
+		
 
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -99,9 +103,9 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		gbc_scrollPane.gridy = 1;
 		panel2.add(scrollPane, gbc_scrollPane);
 
-		String[] columnNames = {"Plads#", "Palle#", "Produkttype", "Delbehandling", "Antal","Resterende tid" };
-		Object[][] data = Service.getInstance().generateViewDataMellemlagerOversigt();
-		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
+		columnNames = new String[] {"Plads#", "Palle#", "Produkttype", "Delbehandling", "Antal","Resterende tid" };
+		datas = Service.getInstance().generateViewDataMellemlagerOversigt();
+		dm = new DefaultTableModel(datas, columnNames);
 
 		tomPladsFilter = new RowFilter<Object, Object>() {
 			@Override
@@ -153,27 +157,19 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 	}
 	
 
-	private class Controller implements ListSelectionListener, ActionListener { // ,ItemListener
-
-
-		//
-		// @Override
-		// public void itemStateChanged(ItemEvent e) {
-		// // TODO Auto-generated method stub
-		//
-		// }
+	private class Controller implements ItemListener { // ,ListSelectionListener, ActionListener
 
 		@Override
-		public void valueChanged(ListSelectionEvent e) {
-
-			
-
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
-			
+		public void itemStateChanged(ItemEvent e) {
+			if (chckbxVisTommePladser.isSelected()){
+				((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter()).setRowFilter(null);
+				System.out.println("Vis tomme pladser");
+			}
+			else {
+				((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter()).setRowFilter(tomPladsFilter);
+				System.out.println("Vis ikke tomme pladser");
+			}
+//			((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter());
 		}
 
 
