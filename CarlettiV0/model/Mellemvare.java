@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
