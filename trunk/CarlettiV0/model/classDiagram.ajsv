@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--AgileJ Ltd. (http://www.agilej.com)-->
+<ajsv>
+    <diagram style="defaultDiagramStyle" version="1.7.6.v20111126-1531">
+        <switch switchID="howToShowDependenciesOptions" switchValue="manhattan"/>
+        <class className="model.Dragering" project="CarlettiV0" xLocation="3965" yLocation="1943"/>
+        <class className="model.Mellemvare" project="CarlettiV0" xLocation="1729" yLocation="1516"/>
+        <class className="model.Palle" project="CarlettiV0" xLocation="100" yLocation="1284"/>
+        <class className="model.Delbehandling" project="CarlettiV0" xLocation="2917" yLocation="1458"/>
+        <class className="model.Varighed" project="CarlettiV0" xLocation="2183" yLocation="2228"/>
+        <class className="model.Produkttype" project="CarlettiV0" xLocation="1858" yLocation="1078"/>
+        <class className="model.MellemlagerPlads" project="CarlettiV0" xLocation="704" yLocation="1976"/>
+        <class className="model.Behandling" project="CarlettiV0" xLocation="2583" yLocation="1079"/>
+        <class className="model.Toerring" project="CarlettiV0" xLocation="2936" yLocation="1966"/>
+        <class className="service.ObjectCreater" project="CarlettiV0" xLocation="2475" yLocation="719"/>
+        <class className="service.Validering" project="CarlettiV0" xLocation="1825" yLocation="784"/>
+        <class className="service.Service" project="CarlettiV0" xLocation="558" yLocation="365"/>
+        <class className="model.Drageringshal" project="CarlettiV0" xLocation="1248" yLocation="1971"/>
+        <class className="dao.DAO" project="CarlettiV0" xLocation="1837" yLocation="100"/>
+        <class className="dao.ListDao" project="CarlettiV0" xLocation="900" yLocation="1145"/>
+    </diagram>
+</ajsv>
