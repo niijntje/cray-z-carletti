@@ -6,6 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 import model.Behandling;
 import model.MellemlagerPlads;
@@ -149,14 +150,32 @@ public class JpaDao implements DAO {
 
 	@Override
 	public Palle soegPalle(String stregkode) {
-		// TODO Auto-generated method stub
-		return null;
+		Palle palle = null;
+		String jplQuery = "SELECT p FROM Palle p WHERE p.stregkode = :stregkode";
+		Query query = em.createQuery(jplQuery);
+		query.setParameter("stregkode", stregkode);
+		
+		List<Palle>list = query.getResultList();
+		if(list.size()>0){
+			palle = list.get(0);
+		}
+		
+		return palle;
 	}
 
 	@Override
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
-		// TODO Auto-generated method stub
-		return null;
+		MellemlagerPlads plads = null;
+		String jplQuery = "SELECT m FROM MellemlagerPlads m WHERE m.stregkode = :stregkode";
+		Query query = em.createQuery(jplQuery);
+		query.setParameter("stregkode", stregkode);
+		
+		List<MellemlagerPlads>list = query.getResultList();
+		if(list.size()>0){
+			plads = list.get(0);
+		}
+		
+		return plads;
 	}
 
 	@Override
@@ -166,14 +185,14 @@ public class JpaDao implements DAO {
 
 	@Override
 	public List<Mellemvare> faerdigvarer() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = UNDERBEHANDLING", Mellemvare.class)
+				.getResultList();
 	}
 
 	@Override
 	public List<Mellemvare> kasseredeVarer() {
-		// TODO Auto-generated method stub
-		return null;
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = KASSERET", Mellemvare.class)
+				.getResultList();
 	}
 
 	@Override
