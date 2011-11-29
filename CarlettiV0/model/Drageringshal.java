@@ -24,12 +24,11 @@ import javax.persistence.OneToMany;
 public class Drageringshal {
 	@Id
 	@GeneratedValue
-	private Long id;
+	private int id;
 	private static Drageringshal drageringshal;
-
-	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
-	@JoinColumn
+	@OneToMany
 	private List<Palle> paller;
+	
 	private Drageringshal() {
 		paller = new ArrayList<Palle>();
 	}

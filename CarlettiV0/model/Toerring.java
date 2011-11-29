@@ -18,6 +18,10 @@ public class Toerring extends Delbehandling {
 	private long minVarighed;
 	private long idealVarighed;
 	private long maxVarighed;
+	
+	public Toerring(){
+		
+	}
 
 	public Toerring(String navn, Behandling behandling, long minVarighed,
 			long idealVarighed, long maxVarighed) {

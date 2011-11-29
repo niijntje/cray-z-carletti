@@ -5,6 +5,10 @@ package model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 /**
@@ -13,20 +17,20 @@ import javax.persistence.ManyToOne;
  * @author nijntje
  * 
  */
-/**
- * @author nijntje
- *
- */
-/**
- * @author nijntje
- *
- */
+
+@Entity
 public abstract class Delbehandling {
-	@ManyToOne
+	@Id
+	@GeneratedValue
+	private int id;
 	private Behandling behandling;
 	private String navn;
 	@ManyToOne
 	private Delbehandling nextDelbehandling;
+	
+	public Delbehandling(){
+		
+	}
 	
 	public Delbehandling(String navn, Behandling behandling){
 		this.setNavn(navn);

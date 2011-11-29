@@ -39,6 +39,9 @@ public class Palle {
 	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Mellemvare> mellemvarer;
 
+	public Palle(){
+		
+	}
 	public Palle(String stregkode) {
 		this.stregkode = stregkode;
 		this.mellemvarer = new ArrayList<Mellemvare>();

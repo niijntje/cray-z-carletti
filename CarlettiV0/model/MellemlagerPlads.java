@@ -3,11 +3,9 @@
  */
 package model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-
 
 /**
  * v.0.3
@@ -17,10 +15,14 @@ import javax.persistence.OneToOne;
  */
 @Entity
 public class MellemlagerPlads {
-	@Id 
+	@Id
 	private String stregkode;
-	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne
 	private Palle palle;
+
+	public MellemlagerPlads() {
+
+	}
 
 	public MellemlagerPlads(String stregkode) {
 		this.stregkode = stregkode;
