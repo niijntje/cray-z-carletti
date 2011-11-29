@@ -25,6 +25,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
+
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Box;
@@ -202,9 +204,27 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
 		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
 
+		//		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
+//		dm.getColumnClass(WIDTH) = ;
+
 		JTable table1 = new JTable(dm);
 		scrollPane.setViewportView(table1);
 		table1.setAutoCreateRowSorter(true);
+		
+		TableColumn column = null;
+		for (int i = 0; i < 4; i++) {
+		    column = table1.getColumnModel().getColumn(i);
+		    if (i == 2) {
+		        column.setPreferredWidth(30); //Antal
+		    } 
+		    else if (i == 3){
+		    	column.setPreferredWidth(80);//Resterende tid
+		    }
+		    else {
+		        column.setPreferredWidth(100);
+		    }
+		}
+
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();

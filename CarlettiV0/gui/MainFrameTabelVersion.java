@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 
 import service.Service;
 import model.*;
@@ -181,6 +182,31 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		JTable table1 = new JTable(dm);
 		scrollPane.setViewportView(table1);
 		table1.setAutoCreateRowSorter(true);
+		
+		TableColumn column = null;
+		for (int i = 0; i < 6; i++) {
+		    column = table1.getColumnModel().getColumn(i);
+		    if (i == 0 || i == 1){
+		    	column.setPreferredWidth(75);//Placering og Palle
+		    	column.setMinWidth(70);
+		    	column.setMaxWidth(85);
+		    }
+		    if (i == 4) {
+		        column.setPreferredWidth(40); //Antal
+		        column.setMinWidth(35);
+		        column.setMaxWidth(50);
+		    } 
+		    else if (i == 5){
+		    	column.setPreferredWidth(85);//Resterende tid
+		    	column.setMinWidth(80);
+		    	column.setMaxWidth(90);
+		    }
+		    else {
+		        column.setPreferredWidth(100);
+
+		    }
+		}
+
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();
