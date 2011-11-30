@@ -9,6 +9,7 @@ import dao.DAO;
 import dao.ListDao;
 
 import model.Behandling;
+import model.Delbehandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
@@ -90,14 +91,10 @@ public class ObjectCreater {
 
 		Behandling b3 = Service.getInstance().opretBehandling(
 				"B3 - M똭egrus og lakridspinde. Kernest퓊relse 2.5-3.5");
-		Service.getInstance().opretToerring("T퓊ring 1a", b3, varighed1,
-				varighed2, varighed4, -1);
-		Service.getInstance()
-				.opretDragering("Dragering 2e", b3, varighed10, -1);
-		Service.getInstance().opretToerring("T퓊ring 1b", b3, varighed5,
-				varighed6, varighed8, -1);
-		Service.getInstance()
-				.opretDragering("Dragering 2e", b3, varighed11, -1);
+		Service.getInstance().opretToerring("T퓊ring 1a", b3, varighed1,varighed2, varighed4, -1);
+		Delbehandling d2 = Service.getInstance().opretDragering("Dragering 2e", b3, varighed10, -1);
+		Service.getInstance().opretToerring("T퓊ring 1b", b3, varighed5,varighed6, varighed8, -1);
+		Service.getInstance().opretDragering("Dragering 2e", b3, varighed11, -1);
 		Service.getInstance().opretToerring("T퓊ring 1c", b3, varighed9,
 				varighed10, varighed11, -1);
 
@@ -109,9 +106,7 @@ public class ObjectCreater {
 		Produkttype pt1 = Service.getInstance().opretProdukttype(
 				"Lakridspinde 1",
 				"Gr퓆ne lakridspinde med kernest퓊relse 3.\nOpskrift: B3", b3);
-		Produkttype pt2 = Service
-				.getInstance()
-				.opretProdukttype(
+		Produkttype pt2 = Service.getInstance().opretProdukttype(
 						"M똭egrus 2B",
 						"Rester fra lakridspinde med varierende kernest퓊relse.\nOpskrift: B3",
 						b3);
@@ -128,6 +123,8 @@ public class ObjectCreater {
 		opretMellemvare("300000005", pt1, pa2, dato6);
 		opretMellemvare("300000006", pt2, pa1, dato6);
 		opretMellemvare("300000007", pt1, pa1, dato6);
+		
+		Mellemvare m1 = pa1.getMellemvarer().get(0);
 
 		Service.getInstance().placerPalleMellemvarelager(pa1, pl1);
 		Service.getInstance().placerPalleMellemvarelager(pa2, pl2);
@@ -167,6 +164,7 @@ public class ObjectCreater {
 				m.addTidspunkt(dato9);
 			}
 		}
+		m1.setIgangvaerendeDelbehandling(d2);
 		// placerPalleMellemvarelager(pa1, mPlads1);
 	}
 
