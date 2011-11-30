@@ -136,85 +136,77 @@ public class Palle {
 	}
 
 	/**
-	 * Finder en
+	 * Finder en mellemvare med den angivne produkttype og delbehandling på pallen, og overlader til startDelbehandling(Mellemvare mellemvare, Class delbehandlingsType, boolean alleAfSammeType) at starte næste delbehandling for de korrekte varer.
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param delbehandlingsType
 	 * @param alleAfSammeType
+	 * @return 
 	 */
-	public void startDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Class delbehandlingsType, boolean alleAfSammeType){
-		Mellemvare mellemvareEksempel = getMellemvarerAfSammeType(produkttype, delbehandling).get(0);
-		startDelbehandling(mellemvareEksempel, delbehandlingsType, alleAfSammeType);
+	public ArrayList<Mellemvare> startDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Class delbehandlingsType){
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
+		for (Mellemvare m : mellemvarer) {
+			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteBehandlingGyldig(delbehandlingsType)){
+				m.goToNextDelbehandling();
+				behandledeMellemvarer.add(m);
+			}
+		}
+		return behandledeMellemvarer;
 	}
 
 	/** Starter næste delbehandling af en eller flere mellemvarer.
 	 * @param mellemvare. Hvis forskellig fra null og alleAfSammeType er true, startes næste delbehandling for alle mellemvarer på pallen af samme type som mellemvare. Hvis null, og alle mellemvarer er af samme type startes næste delbehandling for alle mellemvarer på pallen. Ellers startes næste delbehandling kun for den enkelte mellemvare.
 	 */
-	public void startDelbehandling(Mellemvare mellemvare, Class delbehandlingsType, boolean alleAfSammeType) {
+	public ArrayList<Mellemvare> startDelbehandling(Mellemvare mellemvare, Class delbehandlingsType) {
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens (og opfylde de andre betingelser)
 		if (mellemvare == null && this.alleVarerErEns()){
 			if (this.mellemvarer.get(0).naesteBehandlingGyldig(delbehandlingsType)){
 				for (Mellemvare m : mellemvarer) {
-					if (m.erAfSammeType(mellemvare)){
-						m.goToNextDelbehandling();
-					}
-				}
-			}
-			if (delbehandlingsType == Dragering.class){
-				this.placerPalle(null);
-				this.setDrageringshal(null);
-			}
-		}
-		//Hvis der er angivet en mellemvare, og alle af samme type skal medtages
-		else if (alleAfSammeType){
-			for (Mellemvare m: mellemvarer){
-				if (m.naesteBehandlingGyldig(delbehandlingsType)){
-					if (m.erAfSammeType(mellemvare)){
-						m.goToNextDelbehandling();
-					}
+					m.goToNextDelbehandling();
+					behandledeMellemvarer.add(m);
 				}
 			}
 		}
+
 		//Ellers startes næste delbehandling kun for den angivne mellemvare
 		else {
 			if (mellemvare.naesteBehandlingGyldig(delbehandlingsType)){
 				mellemvare.goToNextDelbehandling();
+				behandledeMellemvarer.add(mellemvare);
 			}
 		}
+		return behandledeMellemvarer;
 	}
 
-	/**
+	/**Sender en eller flere mellemvarer af angivne type til færdigvarelager.
 	 * @param produkttype
 	 * @param delbehandling
-	 * @param delbehandlingsType
-	 * @param alleAfSammeType
+	 * @return
 	 */
-	public void sendTilFaerdigvareLager(Produkttype produkttype, Delbehandling delbehandling, Class delbehandlingsType, boolean alleAfSammeType){
-		Mellemvare mellemvareEksempel = getMellemvarerAfSammeType(produkttype, delbehandling).get(0);
-		sendTilFaerdigvareLager(mellemvareEksempel, alleAfSammeType);
+	public ArrayList<Mellemvare> sendTilFaerdigvareLager(Produkttype produkttype, Delbehandling delbehandling){
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
+		for (Mellemvare m : mellemvarer) {
+			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteBehandlingGyldig(null)){
+				m.setIgangvaerendeDelbehandling(null);
+				m.setStatus(MellemvareStatus.FAERDIG);
+				behandledeMellemvarer.add(m);
+			}
+		}
+		return behandledeMellemvarer;
 	}
 
 
-	/** Sender en eller flere mellemvarer til færdigvarelageret og markerer deres status som færdig.
+	/** Sender en eller alle mellemvarer til færdigvarelageret og markerer deres status som færdig.
 	 * @param mellemvare
 	 * @param alleAfSammeType
 	 */
-	public void sendTilFaerdigvareLager(Mellemvare mellemvare, boolean alleAfSammeType){
-		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens (og opfylde de andre betingelser)
+	public ArrayList<Mellemvare> sendTilFaerdigvareLager(Mellemvare mellemvare){
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
+		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens
 		if (mellemvare == null && this.alleVarerErEns()){
 			for (Mellemvare m : mellemvarer){
 				if (m.naesteBehandlingGyldig(null)){
-					m.setIgangvaerendeDelbehandling(null);
-					m.setStatus(MellemvareStatus.FAERDIG);
-				}
-			}
-			this.placerPalle(null);
-		}
-
-		//Hvis der er angivet en mellemvare, og alle af samme type skal medtages
-		if (mellemvare != null && alleAfSammeType){
-			for (Mellemvare m : mellemvarer){
-				if (m.erAfSammeType(mellemvare) && m.naesteBehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
 					m.setStatus(MellemvareStatus.FAERDIG);
 				}
@@ -225,49 +217,49 @@ public class Palle {
 			mellemvare.setIgangvaerendeDelbehandling(null);
 			mellemvare.setStatus(MellemvareStatus.FAERDIG);
 		}
-
+		return behandledeMellemvarer;
 	}
 	/**
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param alleAfSammeType
 	 */
-	public void kasserMellemvare(Produkttype produkttype, Delbehandling delbehandling, boolean alleAfSammeType){
-		Mellemvare mellemvareEksempel = getMellemvarerAfSammeType(produkttype, delbehandling).get(0);
-		kasserMellemvarer(mellemvareEksempel, alleAfSammeType);
+	public ArrayList<Mellemvare> kasserMellemvare(Produkttype produkttype, Delbehandling delbehandling){
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
+			for (Mellemvare m : mellemvarer){
+				if(m.erAfSammeType(produkttype, delbehandling)){
+					m.setIgangvaerendeDelbehandling(null);
+					m.setStatus(MellemvareStatus.FAERDIG);
+					behandledeMellemvarer.add(m);
+				}
+
+			}
+		return behandledeMellemvarer;
 	}
-	
+
 	/**
 	 * @param mellemvare
 	 * @param alleAfSammeType
 	 */
-	public void kasserMellemvarer(Mellemvare mellemvare, boolean alleAfSammeType){
-		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens (og opfylde de andre betingelser)
+	public ArrayList<Mellemvare> kasserMellemvarer(Mellemvare mellemvare){
+		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
+		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens
 		if (mellemvare == null && this.alleVarerErEns()){
 			for (Mellemvare m : mellemvarer){
 				if (m.naesteBehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
 					m.setStatus(MellemvareStatus.FAERDIG);
+					behandledeMellemvarer.add(m);
 				}
 			}
-			this.placerPalle(null);
-		}
-
-		//Hvis der er angivet en mellemvare, og alle af samme type skal medtages
-		if (mellemvare != null && alleAfSammeType){
-			for (Mellemvare m : mellemvarer){
-				if (m.erAfSammeType(mellemvare) && m.naesteBehandlingGyldig(null)){
-					m.setIgangvaerendeDelbehandling(null);
-					m.setStatus(MellemvareStatus.FAERDIG);
-				}
-			}
-
 		}
 		//Ellers sendes kun den angivne mellemvare til færdigvarelager
 		else {
 			mellemvare.setIgangvaerendeDelbehandling(null);
 			mellemvare.setStatus(MellemvareStatus.FAERDIG);
+			behandledeMellemvarer.add(mellemvare);
 		}
+		return behandledeMellemvarer;
 
 	}
 
