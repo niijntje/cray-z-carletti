@@ -133,6 +133,9 @@ public class Mellemvare {
 	}
 
 	public void setPalleUD(Palle palle) {
+		if (this.palle != null){
+			this.palle.removeMellemvareUD(this);
+		}
 		this.palle = palle;
 	}
 

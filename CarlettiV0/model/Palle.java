@@ -15,17 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 /**
- * v.0.3
- * 
- * 
- * 
- */
 /**
- * @author nijntje
- *
- */
-/**
- * @author nijntje
  *
  */
 @Entity
@@ -40,7 +30,7 @@ public class Palle {
 	private List<Mellemvare> mellemvarer;
 
 	public Palle(){
-		
+
 	}
 	public Palle(String stregkode) {
 		this.stregkode = stregkode;
@@ -137,37 +127,50 @@ public class Palle {
 
 	public void addMellemvare(Mellemvare mellemvare) {
 		this.addMellemvareUD(mellemvare);
-		mellemvare.setPalleUD(this); // Så mangler det jo altså at blive
-										// tjekket, om mellemvare var knyttet
-										// til en anden palle i forvejen,
-										// der så skal have removet sit link til
-										// mellemvare, for det sørger
-										// mellemvare.setPalleUD ikke for...
+		mellemvare.setPalleUD(this);
 	}
 
 	public void removeMellemvare(Mellemvare mellemvare) {
 		mellemvare.setPalleUD(null);
 		this.removeMellemvareUD(mellemvare);
-
 	}
 
 	/** Starter næste delbehandling af en eller flere mellemvarer.
 	 * @param mellemvare. Hvis forskellig fra null startes næste delbehandling for alle mellemvarer på pallen af samme type som mellemvare. Hvis null, og alle mellemvarer er af samme type startes næste delbehandling for alle mellemvarer på pallen. Ellers sker intet!
 	 */
-	public void startDelbehandling(Mellemvare mellemvare) {
-		if (mellemvare != null){
+	public void startDelbehandling(Mellemvare mellemvare, Class delbehandlingsType, boolean alleAfSammeType) {
+		if (mellemvare != null && alleAfSammeType){
 			for (Mellemvare m: mellemvarer){
-				if (m.getProdukttype() == mellemvare.getProdukttype() && m.getIgangvaerendeDelbehandling() == mellemvare.getIgangvaerendeDelbehandling()){
+				if (m.getIgangvaerendeDelbehandling().getNextDelbehandling().getClass() == delbehandlingsType){
+					if (m.erAfSammeType(mellemvare)){
+						m.goToNextDelbehandling();
+					}
+				}
+			}
+		}
+		else if (alleAfSammeType){
+			for (Mellemvare m : mellemvarer) {
+				if (m.erAfSammeType(mellemvare)){
 					m.goToNextDelbehandling();
 				}
 			}
 		}
-		else if (alleVarerErEns()) {
-			for (Mellemvare m : mellemvarer) {
-				m.goToNextDelbehandling();
+		else {
+			if (mellemvare.getIgangvaerendeDelbehandling().getNextDelbehandling().getClass() == delbehandlingsType){
+				mellemvare.goToNextDelbehandling();
 			}
 		}
-
+	}
+	
+	public void sendTilFaerdigvareLager(Mellemvare mellemvare, boolean alleAfSammeType){
+		if (mellemvare != null && alleAfSammeType){
+			for (Mellemvare m : mellemvarer){
+				if (m.erAfSammeType(mellemvare)){
+//					m.setStatus(
+				}
+			}
+			
+		}
 	}
 
 	/**
@@ -200,16 +203,35 @@ public class Palle {
 	 * @return
 	 * @author Rita Holst Jacobsen
 	 */
-	public Integer getAntalAfSammeType(Mellemvare mellemvare) {
-		Integer antal = 0;
-		for (Mellemvare m : mellemvarer) {
-			if (m.getProdukttype() == mellemvare.getProdukttype()
-					&& m.getIgangvaerendeDelbehandling() == mellemvare
-							.getIgangvaerendeDelbehandling()) {
-				antal++;
+	public ArrayList<Mellemvare> getMellemvarerAfSammeType(Mellemvare mellemvare) {
+		return getMellemvarerAfSammeType(mellemvare.getProdukttype(), mellemvare.getIgangvaerendeDelbehandling());
+	}
+
+	/**
+	 * @param produkttype
+	 * @param delbehandling
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public ArrayList<Mellemvare> getMellemvarerAfSammeType(Produkttype produkttype, Delbehandling delbehandling) {
+		ArrayList<Mellemvare> ensMellemvarer = new ArrayList<Mellemvare>();
+		for (Mellemvare m : this.mellemvarer) {
+			if (m.getProdukttype() == produkttype
+					&& m.getIgangvaerendeDelbehandling() == delbehandling) {
+				ensMellemvarer.add(m);
 			}
 		}
-		return antal;
+		return ensMellemvarer;
+	}
+
+	/**
+	 * @param mellemvare
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public Integer getAntalAfSammeType(Mellemvare mellemvare) {
+		System.out.println(getMellemvarerAfSammeType(mellemvare));
+		return getMellemvarerAfSammeType(mellemvare).size();
 	}
 
 	/**
@@ -236,8 +258,8 @@ public class Palle {
 		return "#" + this.getStregkode();
 	}
 
-	public String toStringLong() {
-		return this.toString() + " - " + this.getMellemvarer().size() + " bk.";
-	}
+	//	public String toStringLong() {
+	//		return this.toString() + " - " + this.getMellemvarer().size() + " bk.";
+	//	}
 
 }
