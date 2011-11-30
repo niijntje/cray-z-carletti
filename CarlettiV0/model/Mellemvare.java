@@ -161,7 +161,11 @@ public class Mellemvare {
 	 * @return
 	 */
 	public boolean erAfSammeType(Mellemvare mellemvare){
-		if (mellemvare.getProdukttype()==this.getProdukttype() && mellemvare.getIgangvaerendeDelbehandling()==this.getIgangvaerendeDelbehandling()){
+		return this.erAfSammeType(mellemvare.getProdukttype(), mellemvare.getIgangvaerendeDelbehandling());
+	}
+	
+	public boolean erAfSammeType(Produkttype produkttype, Delbehandling delbehandling){
+		if (produkttype==this.getProdukttype() && delbehandling==this.getIgangvaerendeDelbehandling()){
 			return true;
 		}
 		else return false;
