@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.text.TableView.TableRow;
@@ -64,6 +66,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 	private JButton btnTilTrringEn;
 	private JButton btnTilFrdigvarelagerEn;
 	private JButton btnKasserEn;
+	private DefaultTableModel dm;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
 		getContentPane().setBackground(Color.PINK);
@@ -217,18 +220,22 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		"Resterende tid" };
 		Object[][] data = Service.getInstance()
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
-		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
+		dm = new DefaultTableModel(data, columnNames);
+		dm.addTableModelListener(controller);
 
 		//		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
 		//		dm.getColumnClass(WIDTH) = ;
 
-		JTable table1 = new JTable(dm);
-		scrollPane.setViewportView(table1);
-		table1.setAutoCreateRowSorter(true);
+		table = new JTable(dm);
+		scrollPane.setViewportView(table);
+		table.setAutoCreateRowSorter(true);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getSelectionModel().addListSelectionListener(controller);
+
 
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
-			column = table1.getColumnModel().getColumn(i);
+			column = table.getColumnModel().getColumn(i);
 			if (i == 2) {
 				column.setPreferredWidth(30); //Antal
 			} 
@@ -268,13 +275,24 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		panel_2.add(btnDrageringMange);
 
 		btnTilTrringMange = new JButton("Til t\u00F8rring");
+		btnTilTrringMange.addActionListener(controller);
 		panel_2.add(btnTilTrringMange);
 
 		btnTilFrdigvarelagerMange = new JButton("Til f\u00E6rdigvarelager");
+		btnTilFrdigvarelagerMange.addActionListener(controller);
 		panel_2.add(btnTilFrdigvarelagerMange);
 
 		btnKassrMange = new JButton("Kass\u00E9r");
+		btnKassrMange.addActionListener(controller);
 		panel_2.add(btnKassrMange);
+
+		//------------------------Skal kun kunne klikkes hvis alle varer pŒ pallen er ens (indtil Žn type v¾lges)-------------------------//
+		if (!Service.getInstance().alleVarerErEns(palle)){
+			btnDrageringMange.setEnabled(false);
+			btnTilTrringMange.setEnabled(false);
+			btnTilFrdigvarelagerMange.setEnabled(false);
+			btnKassrMange.setEnabled(false);
+		}
 
 		Component rigidArea_3 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_3 = new GridBagConstraints();
@@ -399,15 +417,23 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		getContentPane().add(panel_3, gbc_panel_3);
 
 		btnDrageringEn = new JButton("Til dragering");
+		btnDrageringEn.addActionListener(controller);
+		btnDrageringEn.setEnabled(false);
 		panel_3.add(btnDrageringEn);
 
 		btnTilTrringEn = new JButton("Til t\u00F8rring");
+		btnTilTrringEn.addActionListener(controller);
+		btnTilTrringEn.setEnabled(false);
 		panel_3.add(btnTilTrringEn);
 
 		btnTilFrdigvarelagerEn = new JButton("Til f\u00E6rdigvarelager");
+		btnTilFrdigvarelagerEn.addActionListener(controller);
+		btnTilFrdigvarelagerEn.setEnabled(false);
 		panel_3.add(btnTilFrdigvarelagerEn);
 
 		btnKasserEn = new JButton("Kass\u00E9r");
+		btnKasserEn.addActionListener(controller);
+		btnKasserEn.setEnabled(false);
 		panel_3.add(btnKasserEn);
 
 		Component rigidArea_12 = Box.createRigidArea(new Dimension(20, 20));
@@ -419,12 +445,10 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	}
 
-	private class Controller implements ListSelectionListener ,ActionListener{ // ,ItemListener
+	private class Controller implements ListSelectionListener ,ActionListener, TableModelListener{ // ,ItemListener
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-
-			// TODO Auto-generated method stub
 			if (e.getSource()==btnDrageringMange){
 				if (table.getSelectedRowCount()==0){
 					palle.startDelbehandling(null, Dragering.class);
@@ -477,7 +501,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
 				Service.getInstance().sendTilF¾rdigvareLager(mellemvare, palle);	
 			}
-			
+
 			else if (e.getSource()==btnKassrMange){
 				if (table.getSelectedRowCount()==0){
 					Service.getInstance().kasserMellemvarer(null, palle);
@@ -489,11 +513,14 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 					Service.getInstance().kasserMellemvarer(produkttype, delbehandling, palle);
 				}
 			}
-			
+
 			else if (e.getSource()==btnKasserEn){
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
 				Service.getInstance().kasserMellemvarer(mellemvare, palle);
 			}
+
+
+			//			update();
 
 		}
 		//
@@ -505,11 +532,60 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
-			if (e.getSource() == list) {
+
+			if (e.getSource()==table.getSelectionModel()){
+				btnDrageringMange.setEnabled(false);
+				btnTilTrringMange.setEnabled(false);
+				btnTilFrdigvarelagerMange.setEnabled(false);
+				btnKassrMange.setEnabled(false);
+				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
+					btnKassrMange.setEnabled(true);
+				}
+				int row = table.getSelectedRow();
+				Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
+				if (delbehandling != null){
+					if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){
+						btnDrageringMange.setEnabled(true);
+					}
+					else if (Service.getInstance().erNaesteDelbehandling(delbehandling, Toerring.class)){
+						btnTilTrringMange.setEnabled(true);
+					}
+					else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){
+						btnTilFrdigvarelagerMange.setEnabled(true);
+					}
+				}
+				
+			}
+			else if (e.getSource() == list) {
+				btnDrageringEn.setEnabled(false);
+				btnTilTrringEn.setEnabled(false);
+				btnTilFrdigvarelagerEn.setEnabled(false);
+				btnKasserEn.setEnabled(false);
 				Mellemvare m = (Mellemvare) list.getSelectedValue();
 				String mellemvareInfo = Service.getInstance()
 						.getMellemvareInfo(m);
 				txtrDetaljer.setText(mellemvareInfo);
+				if (list.getSelectedIndices().length!=0){
+					btnKasserEn.setEnabled(true);
+				}
+				if (Service.getInstance().naesteBehandlingGyldig(m, Dragering.class)){
+					btnDrageringEn.setEnabled(true);
+				}
+				else if (Service.getInstance().naesteBehandlingGyldig(m, Toerring.class)){
+					btnTilTrringEn.setEnabled(true);
+				}
+				else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
+					btnTilFrdigvarelagerEn.setEnabled(true);
+				}
+			}
+
+		}
+
+		@Override
+		public void tableChanged(TableModelEvent e) {
+			if (e.getSource()==table.getModel()){
+				System.out.println("Table model event happened");
+
 			}
 
 		}
@@ -518,7 +594,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
-
+		table.updateUI();
 	}
 }
