@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CollectionTable;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.SecondaryTable;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -22,6 +22,9 @@ import javax.persistence.TemporalType;
 public class Mellemvare {
 	@Id
 	private String bakkestregkode;
+	@ElementCollection
+	@CollectionTable(name = "tidspunkter")
+	@Temporal(TemporalType.TIMESTAMP)
 	private List<GregorianCalendar> tidspunkter;
 	@ManyToOne
 	private Produkttype produkttype;
@@ -29,6 +32,7 @@ public class Mellemvare {
 	private Delbehandling igangvaerendeDelbehandling;
 	@ManyToOne
 	private Palle palle;
+	
 	private MellemvareStatus status;
 
 	public Mellemvare(){
