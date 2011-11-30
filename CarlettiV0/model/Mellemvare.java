@@ -166,6 +166,24 @@ public class Mellemvare {
 		}
 		else return false;
 	}
+	
+	/**
+	 * @param delbehandling. Hvis null, skal den igangv¾rende delbehandling v¾re den sidste i behandlingens delbehandlingsliste. Ellers skal delbehandling v¾re af samme klasse som den n¾ste i behandlingens delbehandlingsliste.
+	 * @return
+	 */
+	public boolean naesteBehandlingGyldig(Class delbehandling){
+		boolean gyldig = false;
+		Delbehandling naeste = this.getIgangvaerendeDelbehandling().getNextDelbehandling();
+		if (naeste != null){
+			if (naeste.getClass() == delbehandling){
+				gyldig = true;
+			}
+		}
+		else if (delbehandling == null){
+			gyldig = true;
+		}
+		return gyldig;
+	}
 
 	@Override
 	public String toString() {
