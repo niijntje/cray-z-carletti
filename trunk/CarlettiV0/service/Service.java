@@ -31,7 +31,6 @@ import dao.ListDao;
 public class Service {
 	private static Service uniqueInstance;
 	private DAO dao = ListDao.getListDao();
-
 	//		 private DAO dao = JpaDao.getDao();
 
 	private Service() {
@@ -163,6 +162,7 @@ public class Service {
 	public void placerPalleMellemvarelager(Palle palle,
 			MellemlagerPlads placering) {
 		palle.placerPalle(placering);
+		opdaterDatabase();
 
 	}
 
@@ -235,7 +235,16 @@ public class Service {
 	public void sendPalleTilDragering(Palle palle) {
 		palle.placerPalle(null);
 		palle.setDrageringshal(Drageringshal.getInstance());
+		opdaterDatabase();
 	}
+	/**
+	 * Sletter en given palle fra databasen
+	 * @param palle
+	 */
+	public void removePalle(Palle palle){
+		dao.removePalle(palle);
+	}
+
 
 	/**
 	 * Returnerer en liste med alle mellemlagerpladserne
