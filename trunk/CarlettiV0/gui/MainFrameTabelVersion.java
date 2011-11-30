@@ -23,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.TableView.TableRow;
 
 import model.Mellemvare;
 import service.Service;
@@ -143,6 +144,13 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 
 		    }
 		}
+//		//table1.getColorModel()
+//		TableRow row = null;
+//		for (int i = 0; i < table1.getRowCount(); i++){
+//			if(table1.getValueAt(i, 5)){
+//				
+//			}
+//		}
 
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
@@ -163,13 +171,10 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		public void itemStateChanged(ItemEvent e) {
 			if (chckbxVisTommePladser.isSelected()){
 				((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter()).setRowFilter(null);
-				System.out.println("Vis tomme pladser");
 			}
 			else {
 				((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter()).setRowFilter(tomPladsFilter);
-				System.out.println("Vis ikke tomme pladser");
 			}
-//			((DefaultRowSorter<DefaultTableModel, Integer>) table1.getRowSorter());
 		}
 
 

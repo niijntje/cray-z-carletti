@@ -14,8 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListSelectionModel;
 
+import model.Delbehandling;
+import model.Dragering;
 import model.Mellemvare;
 import model.Palle;
+import model.Produkttype;
 
 import service.Service;
 import javax.swing.JTable;
@@ -422,8 +425,16 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 			 
 		 // TODO Auto-generated method stub
 		if (e.getSource()==btnDrageringMange){
-			int row = table.getSelectedRow();
-			table.getValueAt(row, 2);
+			if (palle.alleVarerErEns()){
+				palle.startDelbehandling(null, Dragering.class, true);
+			}
+			else {
+				int row = table.getSelectedRow();
+				Produkttype p = (Produkttype) table.getValueAt(row, 0);
+				Delbehandling d = (Delbehandling) table.getValueAt(row, 1);
+				
+			}
+			
 		}
 			 
 		 }
