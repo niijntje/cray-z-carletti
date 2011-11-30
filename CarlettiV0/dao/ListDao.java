@@ -189,7 +189,7 @@ public class ListDao implements DAO {
 		ArrayList<Mellemvare>kasseredeVarer = new ArrayList<Mellemvare>();
 		for(int i = 0; i < mellemvarer.size(); i ++){
 			if(mellemvarer.get(i).getStatus() == MellemvareStatus.KASSERET){
-				faerdigvarer.add(mellemvarer.get(i));
+				kasseredeVarer.add(mellemvarer.get(i));
 			}
 		}
 		return kasseredeVarer;
