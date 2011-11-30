@@ -26,11 +26,16 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.TableView.TableRow;
 
 import java.awt.Color;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JTextArea;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.awt.Dimension;
 
 /**
  * @author nijntje
@@ -47,6 +52,14 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 	private JList list;
 	private Controller controller = new Controller();
 	private JTextArea txtrDetaljer;
+	private JButton btnDrageringMange;
+	private JButton btnTilTrringMange;
+	private JButton btnTilFrdigvarelagerMange;
+	private JButton btnKassrMange;
+	private JButton btnDrageringEn;
+	private JButton btnTrringEn;
+	private JButton btnFrdigvarelagerEn;
+	private JButton btnKasserEn;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
 		getContentPane().setBackground(Color.PINK);
@@ -55,35 +68,35 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Oversigt over palle");
 		this.setLocation(400, 100);
-		this.setSize(420, 600);
+		this.setSize(550, 800);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 203, 187, 0, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 35, 103, 169, 14, 68, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 0, 504, 0, -7, 0, -23, 0 };
+		gridBagLayout.rowHeights = new int[] { 17, 0, 35, 103, 50, 195, 226, 52, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
+		
+		Component rigidArea_11 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_11 = new GridBagConstraints();
+		gbc_rigidArea_11.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_11.gridx = 1;
+		gbc_rigidArea_11.gridy = 0;
+		getContentPane().add(rigidArea_11, gbc_rigidArea_11);
 
 		Box verticalBox_1 = Box.createVerticalBox();
 		GridBagConstraints gbc_verticalBox_1 = new GridBagConstraints();
 		gbc_verticalBox_1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_verticalBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_verticalBox_1.gridx = 2;
-		gbc_verticalBox_1.gridy = 0;
+		gbc_verticalBox_1.gridx = 1;
+		gbc_verticalBox_1.gridy = 1;
 		getContentPane().add(verticalBox_1, gbc_verticalBox_1);
-
-		Box verticalBox = Box.createVerticalBox();
-		GridBagConstraints gbc_verticalBox = new GridBagConstraints();
-		gbc_verticalBox.insets = new Insets(0, 0, 5, 5);
-		gbc_verticalBox.gridx = 1;
-		gbc_verticalBox.gridy = 1;
-		getContentPane().add(verticalBox, gbc_verticalBox);
-
-		Box horizontalBox = Box.createHorizontalBox();
-		GridBagConstraints gbc_horizontalBox = new GridBagConstraints();
-		gbc_horizontalBox.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalBox.gridx = 0;
-		gbc_horizontalBox.gridy = 2;
-		getContentPane().add(horizontalBox, gbc_horizontalBox);
+		
+		Component rigidArea_10 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_10 = new GridBagConstraints();
+		gbc_rigidArea_10.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_10.gridx = 0;
+		gbc_rigidArea_10.gridy = 2;
+		getContentPane().add(rigidArea_10, gbc_rigidArea_10);
 
 		// --------------------Panel 1--------------------//
 		panel1 = new JPanel();
@@ -94,7 +107,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_panel1.fill = GridBagConstraints.HORIZONTAL;
 		gbc_panel1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel1.anchor = GridBagConstraints.NORTH;
-		gbc_panel1.gridwidth = 2;
 		gbc_panel1.gridx = 1;
 		gbc_panel1.gridy = 2;
 		getContentPane().add(panel1, gbc_panel1);
@@ -153,19 +165,18 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_2.gridx = 5;
 		gbc_horizontalBox_2.gridy = 2;
 		getContentPane().add(horizontalBox_2, gbc_horizontalBox_2);
-
-		Component horizontalStrut = Box.createHorizontalStrut(20);
-		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
-		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalStrut.gridx = 0;
-		gbc_horizontalStrut.gridy = 3;
-		getContentPane().add(horizontalStrut, gbc_horizontalStrut);
+		
+		Component rigidArea_9 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_9 = new GridBagConstraints();
+		gbc_rigidArea_9.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_9.gridx = 0;
+		gbc_rigidArea_9.gridy = 3;
+		getContentPane().add(rigidArea_9, gbc_rigidArea_9);
 		// -----------------------------------------------//
 
 		// --------------------Panel 2--------------------//
 		JPanel panel2 = new JPanel();
 		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.gridwidth = 2;
 		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
 		gbc_panel_2.fill = GridBagConstraints.BOTH;
 		gbc_panel_2.gridx = 1;
@@ -224,6 +235,13 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		        column.setPreferredWidth(100);
 		    }
 		}
+		
+		Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_1 = new GridBagConstraints();
+		gbc_rigidArea_1.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_1.gridx = 2;
+		gbc_rigidArea_1.gridy = 3;
+		getContentPane().add(rigidArea_1, gbc_rigidArea_1);
 
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
@@ -232,37 +250,64 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_3.gridx = 4;
 		gbc_horizontalBox_3.gridy = 3;
 		getContentPane().add(horizontalBox_3, gbc_horizontalBox_3);
-
-		Box horizontalBox_1 = Box.createHorizontalBox();
-		GridBagConstraints gbc_horizontalBox_1 = new GridBagConstraints();
-		gbc_horizontalBox_1.fill = GridBagConstraints.VERTICAL;
-		gbc_horizontalBox_1.insets = new Insets(0, 0, 5, 5);
-		gbc_horizontalBox_1.gridx = 0;
-		gbc_horizontalBox_1.gridy = 4;
-		getContentPane().add(horizontalBox_1, gbc_horizontalBox_1);
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_21 = new GridBagConstraints();
+		gbc_panel_21.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_21.fill = GridBagConstraints.BOTH;
+		gbc_panel_21.gridx = 1;
+		gbc_panel_21.gridy = 4;
+		getContentPane().add(panel_2, gbc_panel_21);
+		
+		btnDrageringMange = new JButton("Til dragering");
+		btnDrageringMange.addActionListener(controller);
+		panel_2.add(btnDrageringMange);
+		
+		btnTilTrringMange = new JButton("Til t\u00F8rring");
+		panel_2.add(btnTilTrringMange);
+		
+		btnTilFrdigvarelagerMange = new JButton("Til f\u00E6rdigvarelager");
+		panel_2.add(btnTilFrdigvarelagerMange);
+		
+		btnKassrMange = new JButton("Kass\u00E9r");
+		panel_2.add(btnKassrMange);
+		
+		Component rigidArea_3 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_3 = new GridBagConstraints();
+		gbc_rigidArea_3.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_3.gridx = 2;
+		gbc_rigidArea_3.gridy = 4;
+		getContentPane().add(rigidArea_3, gbc_rigidArea_3);
+		
+		Component rigidArea_6 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_6 = new GridBagConstraints();
+		gbc_rigidArea_6.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_6.gridx = 0;
+		gbc_rigidArea_6.gridy = 5;
+		getContentPane().add(rigidArea_6, gbc_rigidArea_6);
 
 		// -----------------------------------------------//
 
 		// --------------------Panel 3--------------------//
 		JPanel panel3_1 = new JPanel();
 		GridBagConstraints gbc_panel3_1 = new GridBagConstraints();
-		gbc_panel3_1.gridheight = 3;
+		gbc_panel3_1.gridheight = 2;
 		gbc_panel3_1.fill = GridBagConstraints.BOTH;
-		gbc_panel3_1.gridwidth = 2;
-		gbc_panel3_1.insets = new Insets(0, 0, 0, 5);
+		gbc_panel3_1.insets = new Insets(0, 0, 5, 5);
 		gbc_panel3_1.gridx = 1;
-		gbc_panel3_1.gridy = 4;
+		gbc_panel3_1.gridy = 5;
 		getContentPane().add(panel3_1, gbc_panel3_1);
 		GridBagLayout gbl_panel3_1 = new GridBagLayout();
-		gbl_panel3_1.columnWidths = new int[] { 375, 0 };
+		gbl_panel3_1.columnWidths = new int[] { 0, 375, 0 };
 		gbl_panel3_1.rowHeights = new int[] { 0, 147, 19, 0, 199, 0 };
-		gbl_panel3_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
+		gbl_panel3_1.columnWeights = new double[] { 0.0, 1.0, Double.MIN_VALUE };
 		gbl_panel3_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		panel3_1.setLayout(gbl_panel3_1);
 
 		JLabel lblDetaljer = new JLabel("Bakker:");
 		GridBagConstraints gbc_lblDetaljer = new GridBagConstraints();
+		gbc_lblDetaljer.gridwidth = 2;
 		gbc_lblDetaljer.fill = GridBagConstraints.VERTICAL;
 		gbc_lblDetaljer.anchor = GridBagConstraints.WEST;
 		gbc_lblDetaljer.insets = new Insets(0, 0, 5, 0);
@@ -285,6 +330,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		scrollPane_1
 				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.gridwidth = 2;
 		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
 		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane_1.gridx = 0;
@@ -292,27 +338,12 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		panel3_1.add(scrollPane_1, gbc_scrollPane_1);
 		scrollPane_1.setViewportView(list);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBackground(Color.PINK);
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_1.gridx = 0;
-		gbc_panel_1.gridy = 2;
-		panel3_1.add(panel_1, gbc_panel_1);
-		GridBagLayout gbl_panel_1 = new GridBagLayout();
-		gbl_panel_1.columnWidths = new int[] { 375, 0 };
-		gbl_panel_1.rowHeights = new int[] { 5, 0 };
-		gbl_panel_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-		panel_1.setLayout(gbl_panel_1);
-
 		JLabel lblDetaljer_1 = new JLabel("Detaljer:");
 		lblDetaljer_1.setToolTipText("V\u00E6lg en bakke for at se detaljer");
 		GridBagConstraints gbc_lblDetaljer_1 = new GridBagConstraints();
 		gbc_lblDetaljer_1.anchor = GridBagConstraints.WEST;
 		gbc_lblDetaljer_1.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDetaljer_1.gridx = 0;
+		gbc_lblDetaljer_1.gridx = 1;
 		gbc_lblDetaljer_1.gridy = 3;
 		panel3_1.add(lblDetaljer_1, gbc_lblDetaljer_1);
 
@@ -321,9 +352,16 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		txtrDetaljer.setText("");
 		GridBagConstraints gbc_txtrDetaljer = new GridBagConstraints();
 		gbc_txtrDetaljer.fill = GridBagConstraints.BOTH;
-		gbc_txtrDetaljer.gridx = 0;
+		gbc_txtrDetaljer.gridx = 1;
 		gbc_txtrDetaljer.gridy = 4;
 		panel3_1.add(txtrDetaljer, gbc_txtrDetaljer);
+		
+		Component rigidArea_2 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_2 = new GridBagConstraints();
+		gbc_rigidArea_2.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_2.gridx = 2;
+		gbc_rigidArea_2.gridy = 5;
+		getContentPane().add(rigidArea_2, gbc_rigidArea_2);
 		// -----------------------------------------------//
 
 		Box horizontalBox_4 = Box.createHorizontalBox();
@@ -331,18 +369,64 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_4.fill = GridBagConstraints.VERTICAL;
 		gbc_horizontalBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_horizontalBox_4.gridx = 3;
-		gbc_horizontalBox_4.gridy = 4;
+		gbc_horizontalBox_4.gridy = 5;
 		getContentPane().add(horizontalBox_4, gbc_horizontalBox_4);
+		
+		Component rigidArea_7 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_7 = new GridBagConstraints();
+		gbc_rigidArea_7.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_7.gridx = 0;
+		gbc_rigidArea_7.gridy = 6;
+		getContentPane().add(rigidArea_7, gbc_rigidArea_7);
+		
+		Component rigidArea_4 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_4 = new GridBagConstraints();
+		gbc_rigidArea_4.insets = new Insets(0, 0, 5, 5);
+		gbc_rigidArea_4.gridx = 2;
+		gbc_rigidArea_4.gridy = 6;
+		getContentPane().add(rigidArea_4, gbc_rigidArea_4);
+		
+		JPanel panel_3 = new JPanel();
+		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
+		gbc_panel_3.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_3.fill = GridBagConstraints.BOTH;
+		gbc_panel_3.gridx = 1;
+		gbc_panel_3.gridy = 7;
+		getContentPane().add(panel_3, gbc_panel_3);
+		
+		btnDrageringEn = new JButton("Til dragering");
+		panel_3.add(btnDrageringEn);
+		
+		btnTrringEn = new JButton("Til t\u00F8rring");
+		panel_3.add(btnTrringEn);
+		
+		btnFrdigvarelagerEn = new JButton("Til f\u00E6rdigvarelager");
+		panel_3.add(btnFrdigvarelagerEn);
+		
+		btnKasserEn = new JButton("Kass\u00E9r");
+		panel_3.add(btnKasserEn);
+		
+		Component rigidArea_12 = Box.createRigidArea(new Dimension(20, 20));
+		GridBagConstraints gbc_rigidArea_12 = new GridBagConstraints();
+		gbc_rigidArea_12.insets = new Insets(0, 0, 0, 5);
+		gbc_rigidArea_12.gridx = 1;
+		gbc_rigidArea_12.gridy = 8;
+		getContentPane().add(rigidArea_12, gbc_rigidArea_12);
 
 	}
 
-	private class Controller implements ListSelectionListener { // ,ActionListener,ItemListener
+	private class Controller implements ListSelectionListener ,ActionListener{ // ,ItemListener
 
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// // TODO Auto-generated method stub
-		//
-		// }
+		 @Override
+		 public void actionPerformed(ActionEvent e) {
+			 
+		 // TODO Auto-generated method stub
+		if (e.getSource()==btnDrageringMange){
+			int row = table.getSelectedRow();
+			table.getValueAt(row, 2);
+		}
+			 
+		 }
 		//
 		// @Override
 		// public void itemStateChanged(ItemEvent e) {
