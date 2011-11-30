@@ -19,6 +19,7 @@ import model.Dragering;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
+import model.Toerring;
 
 import service.Service;
 import javax.swing.JTable;
@@ -60,8 +61,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 	private JButton btnTilFrdigvarelagerMange;
 	private JButton btnKassrMange;
 	private JButton btnDrageringEn;
-	private JButton btnTrringEn;
-	private JButton btnFrdigvarelagerEn;
+	private JButton btnTilTrringEn;
+	private JButton btnTilFrdigvarelagerEn;
 	private JButton btnKasserEn;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
@@ -78,7 +79,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
-		
+
 		Component rigidArea_11 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_11 = new GridBagConstraints();
 		gbc_rigidArea_11.insets = new Insets(0, 0, 5, 5);
@@ -93,7 +94,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_verticalBox_1.gridx = 1;
 		gbc_verticalBox_1.gridy = 1;
 		getContentPane().add(verticalBox_1, gbc_verticalBox_1);
-		
+
 		Component rigidArea_10 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_10 = new GridBagConstraints();
 		gbc_rigidArea_10.insets = new Insets(0, 0, 5, 5);
@@ -168,7 +169,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_2.gridx = 5;
 		gbc_horizontalBox_2.gridy = 2;
 		getContentPane().add(horizontalBox_2, gbc_horizontalBox_2);
-		
+
 		Component rigidArea_9 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_9 = new GridBagConstraints();
 		gbc_rigidArea_9.insets = new Insets(0, 0, 5, 5);
@@ -213,32 +214,32 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		panel2.add(scrollPane, gbc_scrollPane);
 
 		String[] columnNames = { "Produkttype", "Delbehandling", "Antal",
-				"Resterende tid" };
+		"Resterende tid" };
 		Object[][] data = Service.getInstance()
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
 		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
 
 		//		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
-//		dm.getColumnClass(WIDTH) = ;
+		//		dm.getColumnClass(WIDTH) = ;
 
 		JTable table1 = new JTable(dm);
 		scrollPane.setViewportView(table1);
 		table1.setAutoCreateRowSorter(true);
-		
+
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
-		    column = table1.getColumnModel().getColumn(i);
-		    if (i == 2) {
-		        column.setPreferredWidth(30); //Antal
-		    } 
-		    else if (i == 3){
-		    	column.setPreferredWidth(80);//Resterende tid
-		    }
-		    else {
-		        column.setPreferredWidth(100);
-		    }
+			column = table1.getColumnModel().getColumn(i);
+			if (i == 2) {
+				column.setPreferredWidth(30); //Antal
+			} 
+			else if (i == 3){
+				column.setPreferredWidth(80);//Resterende tid
+			}
+			else {
+				column.setPreferredWidth(100);
+			}
 		}
-		
+
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_1 = new GridBagConstraints();
 		gbc_rigidArea_1.insets = new Insets(0, 0, 5, 5);
@@ -253,7 +254,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_3.gridx = 4;
 		gbc_horizontalBox_3.gridy = 3;
 		getContentPane().add(horizontalBox_3, gbc_horizontalBox_3);
-		
+
 		JPanel panel_2 = new JPanel();
 		GridBagConstraints gbc_panel_21 = new GridBagConstraints();
 		gbc_panel_21.insets = new Insets(0, 0, 5, 5);
@@ -261,27 +262,27 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_panel_21.gridx = 1;
 		gbc_panel_21.gridy = 4;
 		getContentPane().add(panel_2, gbc_panel_21);
-		
+
 		btnDrageringMange = new JButton("Til dragering");
 		btnDrageringMange.addActionListener(controller);
 		panel_2.add(btnDrageringMange);
-		
+
 		btnTilTrringMange = new JButton("Til t\u00F8rring");
 		panel_2.add(btnTilTrringMange);
-		
+
 		btnTilFrdigvarelagerMange = new JButton("Til f\u00E6rdigvarelager");
 		panel_2.add(btnTilFrdigvarelagerMange);
-		
+
 		btnKassrMange = new JButton("Kass\u00E9r");
 		panel_2.add(btnKassrMange);
-		
+
 		Component rigidArea_3 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_3 = new GridBagConstraints();
 		gbc_rigidArea_3.insets = new Insets(0, 0, 5, 5);
 		gbc_rigidArea_3.gridx = 2;
 		gbc_rigidArea_3.gridy = 4;
 		getContentPane().add(rigidArea_3, gbc_rigidArea_3);
-		
+
 		Component rigidArea_6 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_6 = new GridBagConstraints();
 		gbc_rigidArea_6.insets = new Insets(0, 0, 5, 5);
@@ -331,7 +332,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1
-				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
 		gbc_scrollPane_1.gridwidth = 2;
 		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
@@ -358,7 +359,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_txtrDetaljer.gridx = 1;
 		gbc_txtrDetaljer.gridy = 4;
 		panel3_1.add(txtrDetaljer, gbc_txtrDetaljer);
-		
+
 		Component rigidArea_2 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_2 = new GridBagConstraints();
 		gbc_rigidArea_2.insets = new Insets(0, 0, 5, 5);
@@ -374,21 +375,21 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_horizontalBox_4.gridx = 3;
 		gbc_horizontalBox_4.gridy = 5;
 		getContentPane().add(horizontalBox_4, gbc_horizontalBox_4);
-		
+
 		Component rigidArea_7 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_7 = new GridBagConstraints();
 		gbc_rigidArea_7.insets = new Insets(0, 0, 5, 5);
 		gbc_rigidArea_7.gridx = 0;
 		gbc_rigidArea_7.gridy = 6;
 		getContentPane().add(rigidArea_7, gbc_rigidArea_7);
-		
+
 		Component rigidArea_4 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_4 = new GridBagConstraints();
 		gbc_rigidArea_4.insets = new Insets(0, 0, 5, 5);
 		gbc_rigidArea_4.gridx = 2;
 		gbc_rigidArea_4.gridy = 6;
 		getContentPane().add(rigidArea_4, gbc_rigidArea_4);
-		
+
 		JPanel panel_3 = new JPanel();
 		GridBagConstraints gbc_panel_3 = new GridBagConstraints();
 		gbc_panel_3.insets = new Insets(0, 0, 5, 5);
@@ -396,19 +397,19 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_panel_3.gridx = 1;
 		gbc_panel_3.gridy = 7;
 		getContentPane().add(panel_3, gbc_panel_3);
-		
+
 		btnDrageringEn = new JButton("Til dragering");
 		panel_3.add(btnDrageringEn);
-		
-		btnTrringEn = new JButton("Til t\u00F8rring");
-		panel_3.add(btnTrringEn);
-		
-		btnFrdigvarelagerEn = new JButton("Til f\u00E6rdigvarelager");
-		panel_3.add(btnFrdigvarelagerEn);
-		
+
+		btnTilTrringEn = new JButton("Til t\u00F8rring");
+		panel_3.add(btnTilTrringEn);
+
+		btnTilFrdigvarelagerEn = new JButton("Til f\u00E6rdigvarelager");
+		panel_3.add(btnTilFrdigvarelagerEn);
+
 		btnKasserEn = new JButton("Kass\u00E9r");
 		panel_3.add(btnKasserEn);
-		
+
 		Component rigidArea_12 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_12 = new GridBagConstraints();
 		gbc_rigidArea_12.insets = new Insets(0, 0, 0, 5);
@@ -420,24 +421,81 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	private class Controller implements ListSelectionListener ,ActionListener{ // ,ItemListener
 
-		 @Override
-		 public void actionPerformed(ActionEvent e) {
-			 
-		 // TODO Auto-generated method stub
-		if (e.getSource()==btnDrageringMange){
-			if (palle.alleVarerErEns()){
-				palle.startDelbehandling(null, Dragering.class, true);
+		@Override
+		public void actionPerformed(ActionEvent e) {
+
+			// TODO Auto-generated method stub
+			if (e.getSource()==btnDrageringMange){
+				if (table.getSelectedRowCount()==0){
+					palle.startDelbehandling(null, Dragering.class);
+				}
+
+				else {
+					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Dragering.class, null);
+				}
 			}
-			else {
-				int row = table.getSelectedRow();
-				Produkttype p = (Produkttype) table.getValueAt(row, 0);
-				Delbehandling d = (Delbehandling) table.getValueAt(row, 1);
-				
+
+			else if (e.getSource()==btnDrageringEn){
+				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
+				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Dragering.class, null);
+			}
+
+			else if (e.getSource()==btnTilTrringMange){
+				if (table.getSelectedRowCount()==0){
+					Service.getInstance().sendTilNaesteDelbehandling(null, palle, Toerring.class, null);
+				}
+
+				else {
+					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Toerring.class, null);
+				}
+			}
+
+			else if (e.getSource()==btnTilTrringEn){
+				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
+				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Toerring.class, null);
+			}
+
+			else if (e.getSource()==btnTilFrdigvarelagerMange){
+				if (table.getSelectedRowCount()==0){
+					Service.getInstance().sendTilF¾rdigvareLager(null, palle);
+				}
+				else {
+					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, null);
+				}
+			}
+
+			else if (e.getSource()==btnTilFrdigvarelagerEn){
+				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
+				Service.getInstance().sendTilF¾rdigvareLager(mellemvare, palle);	
 			}
 			
+			else if (e.getSource()==btnKassrMange){
+				if (table.getSelectedRowCount()==0){
+					Service.getInstance().kasserMellemvarer(null, palle);
+				}
+				else {
+					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Service.getInstance().kasserMellemvarer(produkttype, delbehandling, palle);
+				}
+			}
+			
+			else if (e.getSource()==btnKasserEn){
+				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
+				Service.getInstance().kasserMellemvarer(mellemvare, palle);
+			}
+
 		}
-			 
-		 }
 		//
 		// @Override
 		// public void itemStateChanged(ItemEvent e) {

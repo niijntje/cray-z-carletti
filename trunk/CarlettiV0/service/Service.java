@@ -210,22 +210,82 @@ public class Service {
 			}
 		}
 	}
-	
+
+	/**
+	 * @param mellemvare
+	 * @param palle
+	 */
 	public void sendTilFærdigvareLager(Mellemvare mellemvare, Palle palle){
 		ArrayList<Mellemvare> behandledeVarer = palle.sendTilFaerdigvareLager(mellemvare);
 		if (mellemvare != null){
 			palle.removeMellemvare(mellemvare);
 			//OPDATER DAO???
-//			dao.removeMellemvare(mellemvare);
-//			dao.addFaerdigvare(mellemvare);
+			//			dao.removeMellemvare(mellemvare);
+			//			dao.addFaerdigvare(mellemvare);
 		}
-		else {
+		else if (behandledeVarer.size()==palle.getMellemvarer().size()){
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
 		}
 	}
-	
 
+
+	/**
+	 * @param produkttype
+	 * @param delbehandling
+	 * @param palle
+	 * @param delbehandlingsType
+	 * @param nyPalle
+	 */
+	public void sendTilFærdigvareLager(Produkttype produkttype, Delbehandling delbehandling, Palle palle, Palle nyPalle){
+		ArrayList<Mellemvare> behandledeVarer = palle.sendTilFaerdigvareLager(produkttype, delbehandling);
+		if (behandledeVarer.size() == palle.getMellemvarer().size()){
+			palle.placerPalle(null);
+			palle.setDrageringshal(null);
+		}
+		else {
+			for (Mellemvare m : behandledeVarer){
+				palle.removeMellemvare(m);
+				if (nyPalle!=null){
+					nyPalle.addMellemvare(m);
+					nyPalle.placerPalle(null);
+					nyPalle.setDrageringshal(null);
+				}
+			}
+		}
+	}
+
+	/**
+	 * @param mellemvare
+	 * @param palle
+	 */
+	public void kasserMellemvarer(Mellemvare mellemvare, Palle palle){
+		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvarer(mellemvare);
+		//Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
+		if (behandledeVarer.size()==palle.getMellemvarer().size()) {
+			palle.placerPalle(null);
+			palle.setDrageringshal(null);
+		}
+		for (Mellemvare m : behandledeVarer){
+			palle.removeMellemvare(m);
+		}
+	}
+	
+	/**
+	 * @param produkttype
+	 * @param delbehandling
+	 * @param palle
+	 */
+	public void kasserMellemvarer(Produkttype produkttype, Delbehandling delbehandling, Palle palle){
+		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvare(produkttype, delbehandling);
+		if (behandledeVarer.size()==palle.getMellemvarer().size()){
+			palle.placerPalle(null);
+			palle.setDrageringshal(null);
+		}
+		for (Mellemvare m : behandledeVarer){
+			palle.removeMellemvare(m);
+		}
+	}
 
 	/**
 	 * Sender en palle med mellemvarer til dragering
