@@ -166,6 +166,10 @@ public class Service {
 
 	}
 
+	public boolean alleVarerErEns(Palle palle){
+		return palle.alleVarerErEns();
+	}
+
 	/**
 	 * @param produkttype
 	 * @param delbehandling
@@ -270,7 +274,7 @@ public class Service {
 			palle.removeMellemvare(m);
 		}
 	}
-	
+
 	/**
 	 * @param produkttype
 	 * @param delbehandling
@@ -466,6 +470,26 @@ public class Service {
 	 */
 	public void opdaterDatabase(){
 		dao.opdaterDatabase();
+	}
+
+	public boolean naesteBehandlingGyldig(Mellemvare m, Class delbehandlingsType) {
+		return m.naesteBehandlingGyldig(delbehandlingsType);
+	}
+
+	public boolean erNaesteDelbehandling(Delbehandling delbehandling, Class delbehandlingsType) {
+		if (delbehandling.getNextDelbehandling() ==null){
+			if (delbehandlingsType==null){
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+
+		if (delbehandling.getNextDelbehandling().getClass()==delbehandlingsType){
+			return true;
+		}
+		else return false;
 	}
 
 }
