@@ -32,7 +32,7 @@ public class Service {
 	private static Service uniqueInstance;
 	private DAO dao = ListDao.getListDao();
 
-//		 private DAO dao = JpaDao.getDao();
+	//		 private DAO dao = JpaDao.getDao();
 
 	private Service() {
 
@@ -165,6 +165,67 @@ public class Service {
 		palle.placerPalle(placering);
 
 	}
+
+	/**
+	 * @param produkttype
+	 * @param delbehandling
+	 * @param palle
+	 * @param helePallen
+	 * @param alleAfSammeType
+	 */
+	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle, Class delbehandlingsType, Palle nyPalle){
+		ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(mellemvare, delbehandlingsType);
+		if (mellemvare == null && behandledeVarer.size()==palle.getMellemvarer().size()){
+			if (delbehandlingsType == Dragering.class){
+				sendPalleTilDragering(palle);
+			}
+			else if (delbehandlingsType == Toerring.class){
+				palle.setDrageringshal(null);
+			}
+		}
+		else if (mellemvare != null && nyPalle != null){
+			palle.removeMellemvare(mellemvare);
+			nyPalle.addMellemvare(mellemvare);
+			if (delbehandlingsType == Dragering.class){
+				sendPalleTilDragering(nyPalle);
+			}
+		}
+	}
+
+	/**
+	 * @param produkttype
+	 * @param delbehandling
+	 * @param palle
+	 * @param delbehandlingsType
+	 * @param nyPalle 
+	 */
+	public void sendTilNaesteDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Palle palle, Class delbehandlingsType, Palle nyPalle){
+		ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(produkttype, delbehandling, delbehandlingsType);
+		if (behandledeVarer.size() != palle.getMellemvarer().size()){
+			for (Mellemvare m : behandledeVarer){
+				if (nyPalle != null){
+					palle.removeMellemvare(m);
+					nyPalle.addMellemvare(m);
+				}
+			}
+		}
+	}
+	
+	public void sendTilF¾rdigvareLager(Mellemvare mellemvare, Palle palle){
+		ArrayList<Mellemvare> behandledeVarer = palle.sendTilFaerdigvareLager(mellemvare);
+		if (mellemvare != null){
+			palle.removeMellemvare(mellemvare);
+			//OPDATER DAO???
+//			dao.removeMellemvare(mellemvare);
+//			dao.addFaerdigvare(mellemvare);
+		}
+		else {
+			palle.placerPalle(null);
+			palle.setDrageringshal(null);
+		}
+	}
+	
+
 
 	/**
 	 * Sender en palle med mellemvarer til dragering
