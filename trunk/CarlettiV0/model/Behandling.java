@@ -110,5 +110,9 @@ public class Behandling {
 	public void setNavn(String navn) {
 		this.navn = navn;
 	}
+	
+	public String toString(){
+		return this.navn + " antal delbehandlinger: "+delbehandlinger.size();
+	}
 
 }
