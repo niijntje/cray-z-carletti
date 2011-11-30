@@ -492,4 +492,26 @@ public class Service {
 		else return false;
 	}
 
+	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerplads) {
+		dao.removeMellemlagerPlads(mellemlagerplads);
+		// TODO Auto-generated method stub
+		
+	}
+
+	public ArrayList<Behandling> getBehandlinger() {
+		// TODO Auto-generated method stub
+		return (ArrayList<Behandling>) dao.behandlinger();
+	}
+
+	public void redigerProdukttype(Produkttype produkttype, String text,
+			Behandling selectedItem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeProdukttype(Produkttype produkttype) {
+		// TODO Auto-generated method stub
+		dao.removeProdukttype(produkttype);
+	}
+
 }

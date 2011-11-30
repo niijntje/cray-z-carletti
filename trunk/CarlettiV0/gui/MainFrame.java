@@ -339,8 +339,8 @@ public class MainFrame extends JFrame implements Subject
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				SubFramePlacerPalle placerPalle = new SubFramePlacerPalle();
-				placerPalle.setVisible(true);
+//				SubFramePlacerPalle placerPalle = new SubFramePlacerPalle();
+//				placerPalle.setVisible(true);
 			}
 		});
 		btnPlacerPalle.setBounds(153, 0, 99, 25);
@@ -389,8 +389,8 @@ public class MainFrame extends JFrame implements Subject
 			@Override
 			public void actionPerformed(ActionEvent arg0)
 			{
-				SubFrameTilfoejMellemvarer tilfoejMellemvare = new SubFrameTilfoejMellemvarer();
-				tilfoejMellemvare.setVisible(true);
+//				SubFrameTilfoejMellemvarer tilfoejMellemvare = new SubFrameTilfoejMellemvarer();
+//				tilfoejMellemvare.setVisible(true);
 			}
 		});
 		btnNyPalle.setBounds(654, 0, 133, 25);
@@ -413,8 +413,8 @@ public class MainFrame extends JFrame implements Subject
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
-				SubFramePalleOversigt palleOversigt = new SubFramePalleOversigt((Palle)listPaller.getSelectedValue());
-				palleOversigt.setVisible(true);
+//				SubFramePalleOversigt palleOversigt = new SubFramePalleOversigt((Palle)listPaller.getSelectedValue());
+//				palleOversigt.setVisible(true);
 			}
 		});
 		btnPalleOversigt.setBounds(803, 0, 109, 25);
