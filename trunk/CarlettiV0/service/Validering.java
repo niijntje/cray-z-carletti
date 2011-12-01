@@ -23,7 +23,7 @@ public class Validering {
 	/**
 	 * @param varighed
 	 *            i formatet DD:HH:MM
-	 * @return
+	 * @return	varighed i millisekunder
 	 */
 	public static long varighedStringTilLong(String varighed) {
 		long varighedMillisekunder = 0;

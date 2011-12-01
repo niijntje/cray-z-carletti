@@ -213,6 +213,14 @@ public class Service {
 				}
 			}
 		}
+		else {
+			if (delbehandlingsType == Dragering.class){
+				sendPalleTilDragering(palle);
+			}
+			else if (delbehandlingsType == Toerring.class){
+				placerPalleMellemvarelager(palle, null);
+			}
+		}
 	}
 
 	/**
