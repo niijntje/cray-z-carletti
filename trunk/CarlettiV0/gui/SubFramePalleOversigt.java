@@ -47,7 +47,7 @@ import java.awt.Dimension;
  * @author nijntje
  * 
  */
-public class SubFramePalleOversigt extends JFrame implements Observer {
+public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 	private Palle palle;
 	private MainFrame mainFrame;
@@ -69,6 +69,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 	private DefaultTableModel dm;
 	private Object[][] data;
 	private String[] columnNames;
+	private DefaultListModel dlm;
+	private ArrayList<Observer> observers;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
 		getContentPane().setBackground(Color.PINK);
@@ -347,7 +349,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_lblDetaljer.gridy = 0;
 		panel3_1.add(lblDetaljer, gbc_lblDetaljer);
 
-		DefaultListModel dlm = new DefaultListModel();
+		dlm = new DefaultListModel();
 		ArrayList<Mellemvare> mellemvarer = Service.getInstance()
 				.getMellemvarer(palle);
 		for (Mellemvare m : mellemvarer) {
@@ -545,8 +547,9 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
 					btnKassrMange.setEnabled(true);
 				}
-				int row = table.getSelectedRow();
-				if (row >=0){
+				
+				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
+					int row = table.getSelectedRow();
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					if (delbehandling != null){
 						if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){
@@ -569,9 +572,11 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				btnTilFrdigvarelagerEn.setEnabled(false);
 				btnKasserEn.setEnabled(false);
 				Mellemvare m = (Mellemvare) list.getSelectedValue();
-				String mellemvareInfo = Service.getInstance()
-						.getMellemvareInfo(m);
-				txtrDetaljer.setText(mellemvareInfo);
+				if (m != null){
+					String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
+					txtrDetaljer.setText(mellemvareInfo);
+				
+						
 				if (list.getSelectedIndices().length!=0){
 					btnKasserEn.setEnabled(true);
 				}
@@ -583,6 +588,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				}
 				else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
 					btnTilFrdigvarelagerEn.setEnabled(true);
+				}
 				}
 			}
 			
@@ -597,7 +603,28 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	@Override
 	public void update() {
-		
+		txtrDetaljer.setText(Service.getInstance().getMellemvareInfo(null));
+		list.setListData(Service.getInstance().getMellemvarer(palle).toArray());
 		dm.setDataVector(Service.getInstance().generateViewDataProdukttypeDelbehandlingAntalTid(palle), columnNames);
+	}
+
+	@Override
+	public void registerObserver(Observer o) {
+		this.observers.add(o);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+		
+	}
+
+	@Override
+	public void notifyObserver() {
+		for (Observer o : observers){
+			o.update();
+		}
+		
 	}
 }
