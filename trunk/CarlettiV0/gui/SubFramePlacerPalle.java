@@ -12,6 +12,7 @@ import model.MellemlagerPlads;
 import model.Palle;
 import service.ObjectCreater;
 import service.Service;
+import java.awt.Color;
 
 /**
  * 
@@ -26,6 +27,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 	private JButton btnOk, btnAnnuller;
 
 	public SubFramePlacerPalle() {
+		getContentPane().setBackground(Color.PINK);
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Placer palle på mellemvarelager");
 		this.setLocation(200, 200);
@@ -63,10 +65,11 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		getContentPane().add(panel_2);
 
 		JLabel label = new JLabel("#");
+		label.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		panel_2.add(label);
 
 		txtpallestregkode = new JTextField();
-		txtpallestregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
+		txtpallestregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		txtpallestregkode.setText("pallestregkode");
 		panel_2.add(txtpallestregkode);
 		txtpallestregkode.setColumns(10);
@@ -84,11 +87,12 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		getContentPane().add(panel_4);
 
 		JLabel label_1 = new JLabel("#");
+		label_1.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		panel_4.add(label_1);
 
 		txtPladsstregkode = new JTextField();
 		txtPladsstregkode.setText("pladsstregkode");
-		txtPladsstregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 13));
+		txtPladsstregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		txtPladsstregkode.setColumns(10);
 		panel_4.add(txtPladsstregkode);
 	}
