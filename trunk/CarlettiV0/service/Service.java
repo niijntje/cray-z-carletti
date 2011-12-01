@@ -30,8 +30,8 @@ import dao.ListDao;
  */
 public class Service {
 	private static Service uniqueInstance;
-	private DAO dao = ListDao.getListDao();
-	//		 private DAO dao = JpaDao.getDao();
+//	private DAO dao = ListDao.getListDao();
+			 private DAO dao = JpaDao.getDao();
 
 	private Service() {
 
@@ -308,7 +308,20 @@ public class Service {
 	public void removePalle(Palle palle){
 		dao.removePalle(palle);
 	}
-
+	/**
+	 * Sletter en given produkttype fra databasen
+	 * @param produkttype
+	 */
+	public void removeProdukttype(Produkttype produkttype){
+		dao.removeProdukttype(produkttype);
+	}
+	/**
+	 * Sletter en given plads på mellemvarelageret
+	 * @param mellemlagerPlads
+	 */
+	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerPlads){
+		dao.removeMellemlagerPlads(mellemlagerPlads);
+	}
 
 	/**
 	 * Returnerer en liste med alle mellemlagerpladserne
@@ -335,6 +348,10 @@ public class Service {
 	public ArrayList<Mellemvare> getMellemvarer() {
 		return new ArrayList<Mellemvare>(dao.mellemvarer());
 	}
+	
+	public ArrayList<Behandling> getBehandlinger(){
+		return new ArrayList<Behandling>(dao.behandlinger());
+	}
 
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
@@ -358,6 +375,17 @@ public class Service {
 
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
 		return dao.soegMellemlagerPlads(stregkode);
+	}
+	
+	public void redigerPalle(Palle palle, String nyStregkode){
+		palle.setStregkode(nyStregkode);
+		opdaterDatabase();
+	}
+	
+	public void redigerProdukttype(Produkttype produkttype, String nyBeskrivelse, Behandling nyBehandling){
+		produkttype.setBeskrivelse(nyBeskrivelse);
+		produkttype.setBehandling(nyBehandling);
+		opdaterDatabase();
 	}
 
 	/** Genererer data til brug for MainFrame
@@ -490,28 +518,6 @@ public class Service {
 			return true;
 		}
 		else return false;
-	}
-
-	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerplads) {
-		dao.removeMellemlagerPlads(mellemlagerplads);
-		// TODO Auto-generated method stub
-		
-	}
-
-	public ArrayList<Behandling> getBehandlinger() {
-		// TODO Auto-generated method stub
-		return (ArrayList<Behandling>) dao.behandlinger();
-	}
-
-	public void redigerProdukttype(Produkttype produkttype, String text,
-			Behandling selectedItem) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void removeProdukttype(Produkttype produkttype) {
-		// TODO Auto-generated method stub
-		dao.removeProdukttype(produkttype);
 	}
 
 	public String getPallePlaceringsString(Palle palle) {
