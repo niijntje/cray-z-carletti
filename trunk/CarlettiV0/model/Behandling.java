@@ -112,7 +112,7 @@ public class Behandling {
 	}
 	
 	public String toString(){
-		return this.navn + " antal delbehandlinger: "+delbehandlinger.size();
+		return this.navn;
 	}
 
 }
