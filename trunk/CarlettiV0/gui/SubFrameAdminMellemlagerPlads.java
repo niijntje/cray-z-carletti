@@ -26,7 +26,7 @@ import javax.swing.event.ListSelectionEvent;
 import model.MellemlagerPlads;
 import java.awt.Color;
 
-public class SubFrameAdminMellemlagerPlads extends JFrame {
+public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTextField txtstregkode;
@@ -245,5 +245,10 @@ public class SubFrameAdminMellemlagerPlads extends JFrame {
 		});
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
+	}
+
+	@Override
+	public void update() {
+		
 	}
 }
