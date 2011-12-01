@@ -447,10 +447,13 @@ public class Service {
 	 */
 	public Object[][] generateViewDataProdukttypeDelbehandlingAntalTid(
 			Palle palle) {
+		Object[][] data = null;
+		if (palle.getMellemvarer().size()>0){
 		HashMap<Mellemvare, Integer> mellemvareAntal = palle
 				.getMellemvareAntalMapping();
-		Object[][] data = new Object[4][mellemvareAntal.size()];
+		data = new Object[4][mellemvareAntal.size()];
 		int i = 0;
+		
 		for (Mellemvare m : mellemvareAntal.keySet()) {
 			Object[] mData = new Object[4];
 			mData[0] = m.getProdukttype();
@@ -460,6 +463,7 @@ public class Service {
 					.getResterendeTidTilNaeste());
 			data[i] = mData;
 			i++;
+		}
 		}
 		return data;
 	}
@@ -472,8 +476,10 @@ public class Service {
 	 * @return
 	 */
 	public String getMellemvareInfo(Mellemvare m) {
+		String infoString = "";
+		if (m!=null){
 		long[] tider = m.getResterendeTider();
-		String infoString = "#" + m.toString() + "\t"
+		infoString = "#" + m.toString() + "\t"
 				+ m.getIgangvaerendeDelbehandling() + "\n"
 				+ "\nN¾ste delbehandling om:\n";
 		for (int i = 0; i < tider.length; i++) {
@@ -490,6 +496,7 @@ public class Service {
 			GregorianCalendar c = delbehandlingstider.get(i);
 			infoString += Validering.calendarTilCalendarString(c) + "\t"
 					+ delbehandlinger.get(i).toString() + "\n";
+		}
 		}
 		return infoString;
 	}
