@@ -32,11 +32,11 @@ public class Mellemvare {
 	private Delbehandling igangvaerendeDelbehandling;
 	@ManyToOne
 	private Palle palle;
-	
+
 	private MellemvareStatus status;
 
 	public Mellemvare(){
-		
+
 	}
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {
@@ -157,7 +157,7 @@ public class Mellemvare {
 		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
 				getTidspunkter().get(tidspunkter.size() - 1));
 	}
-	
+
 	/**
 	 * Sammenligner to mellemvarer. Disse betragtes som ens, hvis de er af samme produkttype og har samme igangv¾rende delbehandling.
 	 * Metoden tager _ikke_ h¿jde for hvor lang tid hver af mellemvarerne har v¾ret i gang med delbehandlingen.
@@ -167,14 +167,14 @@ public class Mellemvare {
 	public boolean erAfSammeType(Mellemvare mellemvare){
 		return this.erAfSammeType(mellemvare.getProdukttype(), mellemvare.getIgangvaerendeDelbehandling());
 	}
-	
+
 	public boolean erAfSammeType(Produkttype produkttype, Delbehandling delbehandling){
 		if (produkttype==this.getProdukttype() && delbehandling==this.getIgangvaerendeDelbehandling()){
 			return true;
 		}
 		else return false;
 	}
-	
+
 	/**
 	 * @param delbehandling. Hvis null, skal den igangv¾rende delbehandling v¾re den sidste i behandlingens delbehandlingsliste. Ellers skal delbehandling v¾re af samme klasse som den n¾ste i behandlingens delbehandlingsliste.
 	 * @return

@@ -51,44 +51,27 @@ public class Palle {
 		return mellemlagerPlads;
 	}
 
+
+
 	/**
-	 * Meningen med de første 6 linier er at slette den eventuelle hidtidige
-	 * dobbeltrettede association mellem Palle og MellemlagerPlads hhv.
-	 * Dragering.
+	 * @param placering
+	 *     
+	 */
+	public void placerPalle(MellemlagerPlads placering) {
+//		System.out.println(""+this.mellemlagerPlads+" "+placering);
+		if (this.getPlacering()!=null) {
+			this.getPlacering().placerPalleUD(null);
+		}
+		this.placerPalleUD(placering);
+		placering.placerPalleUD(this);
+	}
+	
+	/**
 	 * 
 	 * @param placering
 	 */
 	void placerPalleUD(MellemlagerPlads placering) {
-		if (this.mellemlagerPlads != null) {
-			mellemlagerPlads.placerPalleUD(null);
-		}
-		if (this.drageringshal != null) {
-			drageringshal.removePalleUD(this);
-		}
 		this.mellemlagerPlads = placering;
-	}
-
-	/**
-	 * @param placering
-	 *            Krav: Hvis parameteren placering er null, skal den globale
-	 *            attribut mellemlagerPlads være forskellig fra null. Omvendt må
-	 *            den globale attribut mellemlagerPlads ikke være sat til andet
-	 *            end null, hvis metoden kaldes med en parameter forskellig fra
-	 *            null. Med andre ord skal man kende status for Palle inden man
-	 *            kalder denne metode. OBS! Dette kan måske blive et problem i
-	 *            det øjeblik man ønsker at flytte en palle fra én placering til
-	 *            en anden, og ikke direkte fra mellemlager til drageringshal og
-	 *            omvendt. Se placerPalleUD, der lige nu håndterer dette - er
-	 *            dét den rigtige/bedste løsning??
-	 */
-	public void placerPalle(MellemlagerPlads placering) {
-		if (placering != null) {
-			this.placerPalleUD(placering);
-			placering.placerPalleUD(this);
-		} else {
-			this.getPlacering().placerPalleUD(null);
-			this.placerPalleUD(null);
-		}
 	}
 
 	// ------ Associeriong mellem Palle og Dragering ------
@@ -321,7 +304,6 @@ public class Palle {
 	 * @author Rita Holst Jacobsen
 	 */
 	public Integer getAntalAfSammeType(Mellemvare mellemvare) {
-		System.out.println(getMellemvarerAfSammeType(mellemvare));
 		return getMellemvarerAfSammeType(mellemvare).size();
 	}
 
