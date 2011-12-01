@@ -29,6 +29,10 @@ import model.Mellemvare;
 import service.Service;
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JButton;
 
 
 /**
@@ -49,6 +53,10 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 	private Object[][] datas;
 	private String[] columnNames;
 	private JCheckBox chckbxVisTommePladser;
+	private SubFrameAdminPalle subframeAdminPalle;
+	private SubFrameAdminProdukttype subFrameAdminProdukt;
+	private SubFrameAdminMellemlagerPlads subFrameAdminMellemlagerPlads;
+	private SubFramePlacerPalle subFramePlacerPalle;
 
 	public MainFrameTabelVersion() {
 		getContentPane().setBackground(Color.PINK);
@@ -58,23 +66,42 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		this.setSize(800, 600);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 20, 29, 711, 0 };
-		gridBagLayout.rowHeights = new int[] { 39, 321, 21, 68, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.columnWidths = new int[] { 20, 711, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 39, 0, 321, 21, 68, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 1;
+		gbc_panel_2.gridy = 1;
+		getContentPane().add(panel_2, gbc_panel_2);
+		
+		JButton btnPlacrPalle = new JButton("Plac\u00E9r palle");
+		btnPlacrPalle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				subFramePlacerPalle = new SubFramePlacerPalle();
+				subFramePlacerPalle.setVisible(true);
+			}
+		});
+		panel_2.add(btnPlacrPalle);
+		
+		JButton btnTilfoejNyMellemvare = new JButton("Tilfoej ny mellemvare");
+		panel_2.add(btnTilfoejNyMellemvare);
 
 
 
 		// --------------------Panel 2--------------------//
 		JPanel panel2 = new JPanel();
-		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-		gbc_panel_2.gridwidth = 2;
-		gbc_panel_2.insets = new Insets(0, 0, 5, 0);
-		gbc_panel_2.fill = GridBagConstraints.BOTH;
-		gbc_panel_2.gridx = 1;
-		gbc_panel_2.gridy = 1;
-		getContentPane().add(panel2, gbc_panel_2);
+		GridBagConstraints panel3 = new GridBagConstraints();
+		panel3.insets = new Insets(0, 0, 5, 5);
+		panel3.fill = GridBagConstraints.BOTH;
+		panel3.gridx = 1;
+		panel3.gridy = 2;
+		getContentPane().add(panel2, panel3);
 
 		GridBagLayout gbl_panel2 = new GridBagLayout();
 		gbl_panel2.columnWidths = new int[] { -168, 300, 0, 0 };
@@ -156,10 +183,64 @@ public class MainFrameTabelVersion extends JFrame implements Observer {
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();
 		gbc_horizontalBox_3.fill = GridBagConstraints.BOTH;
-		gbc_horizontalBox_3.insets = new Insets(0, 0, 5, 0);
-		gbc_horizontalBox_3.gridx = 2;
-		gbc_horizontalBox_3.gridy = 2;
+		gbc_horizontalBox_3.insets = new Insets(0, 0, 5, 5);
+		gbc_horizontalBox_3.gridx = 1;
+		gbc_horizontalBox_3.gridy = 3;
 		getContentPane().add(horizontalBox_3, gbc_horizontalBox_3);
+		
+		JPanel panel_1 = new JPanel();
+		horizontalBox_3.add(panel_1);
+		
+		JButton btnSendTilDragring = new JButton("Send til drag\u00E9ring");
+		panel_1.add(btnSendTilDragring);
+		
+		JButton btnSendTilFaerdigvarelager = new JButton("Send til faerdigvarelager");
+		panel_1.add(btnSendTilFaerdigvarelager);
+		
+		JButton btnKassr = new JButton("Kass\u00E9r");
+		panel_1.add(btnKassr);
+		
+		JPanel panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 4;
+		getContentPane().add(panel, gbc_panel);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnAdministrr = new JMenu("Administr\u00E9r");
+		menuBar.add(mnAdministrr);
+		
+		JMenuItem mntmPaller = new JMenuItem("Paller");
+		mntmPaller.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				subframeAdminPalle = new SubFrameAdminPalle();
+				subframeAdminPalle.setVisible(true);
+				
+			}
+		});
+		mnAdministrr.add(mntmPaller);
+		
+		JMenuItem mntmProdukttyper = new JMenuItem("Produkttyper");
+		mntmProdukttyper.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				subFrameAdminProdukt = new SubFrameAdminProdukttype();
+				subFrameAdminProdukt.setVisible(true);
+			}
+		});
+		mnAdministrr.add(mntmProdukttyper);
+		
+		JMenuItem mntmMellemlagerpladser = new JMenuItem("Mellemlagerpladser");
+		mntmMellemlagerpladser.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				subFrameAdminMellemlagerPlads = new SubFrameAdminMellemlagerPlads();
+				subFrameAdminMellemlagerPlads.setVisible(true);
+			}
+		});
+		mnAdministrr.add(mntmMellemlagerpladser);
 
 		// -----------------------------------------------//
 	}
