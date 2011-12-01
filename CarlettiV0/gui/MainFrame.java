@@ -79,6 +79,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private JButton btnKassrMange;
 	private ArrayList<Observer> observers;
 	public SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
+	public SubFrameAdminBehandling subFrameBehandlinger;
+	private JMenuItem mntmBehandlinger;
 
 	public MainFrame() {
 		this.observers = new ArrayList<Observer>();
@@ -90,10 +92,10 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		this.setSize(800, 600);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 20, 711, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 39, 0, 321, 21, 68, 0 };
+		gridBagLayout.columnWidths = new int[] { 20, 711, 20, 0 };
+		gridBagLayout.rowHeights = new int[] { 39, 50, 321, 21, 68, 20, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
 		panel_2 = new JPanel();
@@ -232,7 +234,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_panel.insets = new Insets(0, 0, 5, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
 		gbc_panel.gridy = 4;
@@ -251,6 +253,15 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				subframeAdminPalle.setVisible(true);
 			}
 		});
+		
+		mntmBehandlinger = new JMenuItem("Behandlinger");
+		mntmBehandlinger.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				subFrameBehandlinger = new SubFrameAdminBehandling();
+				subFrameBehandlinger.setVisible(true);
+			}
+		});
+		mnAdministrr.add(mntmBehandlinger);
 		mnAdministrr.add(mntmPaller);
 
 		mntmProdukttyper = new JMenuItem("Produkttyper");
