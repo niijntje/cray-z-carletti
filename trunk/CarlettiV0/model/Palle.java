@@ -348,9 +348,21 @@ public class Palle {
 	public String toString() {
 		return "#" + this.getStregkode();
 	}
-
-	//	public String toStringLong() {
-	//		return this.toString() + " - " + this.getMellemvarer().size() + " bk.";
-	//	}
+	public String getPlaceringsString() {
+		String placeringsString = "";
+		if (getPlacering() != null){
+			placeringsString+="Mellemlager\n#"+getPlacering();
+		}
+		else if (getDrageringshal() != null){
+			placeringsString+="Drageringshal\n";
+		}
+		else if (getMellemvarer().size()>0){
+			placeringsString+="F¾rdigvarelager\n";
+		}
+		else {
+			placeringsString += "Ikke i brug\n";
+		}
+		return  placeringsString;
+	}
 
 }

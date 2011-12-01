@@ -514,4 +514,8 @@ public class Service {
 		dao.removeProdukttype(produkttype);
 	}
 
+	public String getPallePlaceringsString(Palle palle) {
+		return palle.getPlaceringsString();
+	}
+
 }
