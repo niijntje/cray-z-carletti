@@ -40,6 +40,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
+import javax.swing.UIManager;
 
 
 /**
@@ -117,11 +118,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		panel_2.add(btnPlacrPalle);
 
-		btnVisPalle = new JButton("Vis palle");
-		btnVisPalle.setEnabled(false);
-		btnVisPalle.addActionListener(controller);
-		panel_2.add(btnVisPalle);
-
 		btnTilfoejNyMellemvare = new JButton("Tilfoej ny mellemvare");
 		btnTilfoejNyMellemvare.addActionListener(controller);
 		panel_2.add(btnTilfoejNyMellemvare);
@@ -196,6 +192,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		btnDrageringMange = new JButton("Til dragering");
 		btnDrageringMange.addActionListener(controller);
+		
+				btnVisPalle = new JButton("Vis palle");
+				panel_1.add(btnVisPalle);
+				btnVisPalle.setEnabled(false);
+				btnVisPalle.addActionListener(controller);
 		panel_1.add(btnDrageringMange);
 
 		btnTilFrdigvarelagerMange = new JButton("Til f\u00E6rdigvarelager");
@@ -220,9 +221,12 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		getContentPane().add(panel, gbc_panel);
 
 		menuBar = new JMenuBar();
+		menuBar.setBackground(UIManager.getColor("CheckBox.select"));
 		setJMenuBar(menuBar);
 
 		JMenu mnAdministrr = new JMenu("Administr\u00E9r");
+		mnAdministrr.setMnemonic('a');
+		mnAdministrr.setBackground(UIManager.getColor("CheckBox.select"));
 		menuBar.add(mnAdministrr);
 
 		mntmPaller = new JMenuItem("Paller");
