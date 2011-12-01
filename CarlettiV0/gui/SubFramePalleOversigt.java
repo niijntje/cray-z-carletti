@@ -532,9 +532,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				Service.getInstance().kasserMellemvarer(mellemvare, palle);
 			}
 
-
 			update();
-			notifyObserver();
+			notifyObservers();
 
 		}
 
@@ -619,7 +618,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 	}
 
 	@Override
-	public void notifyObserver() {
+	public void notifyObservers() {
 		for (Observer o : observers){
 			o.update();
 		}

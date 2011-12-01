@@ -122,7 +122,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 							Long.parseLong(txtmaxTid.getText()),
 							Integer.parseInt(txtIndex.getText()));
 				}
-				notifyObserver();
+				notifyObservers();
 				SubFrameTilfoejDelbehandling.this.setVisible(false);
 			}
 		});
@@ -360,7 +360,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 	}
 
 	@Override
-	public void notifyObserver() {
+	public void notifyObservers() {
 		for (Observer o : observers) {
 			o.update();
 		}
