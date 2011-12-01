@@ -42,18 +42,15 @@ public class MellemlagerPlads {
 	}
 
 	void placerPalleUD(Palle palle) throws RuntimeException {
-		if (this.palle == null) {
 			this.palle = palle;
-		} else if (palle != this.palle) {
-			throw new RuntimeException(
-					"Der står allerede en palle på denne plads!");
-		}
-
 	}
 
 	public void placerPalle(Palle palle) {
+		if (this.palle.getPlacering()!=null){
+			this.palle.getPlacering().placerPalleUD(null);
+		}
 		this.placerPalleUD(palle);
-		palle.placerPalleUD(this);
+		this.palle.placerPalleUD(this);
 	}
 
 	// ---------------------------------------------------------
