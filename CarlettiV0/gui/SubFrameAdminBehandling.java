@@ -41,7 +41,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 	 * Create the frame.
 	 */
 	public SubFrameAdminBehandling() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 390, 375);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
