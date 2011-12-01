@@ -298,18 +298,20 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				if (table.getSelectedRowCount()>0 &&table.getValueAt(table.getSelectedRow(), 0)!=null){
 					if (table.getValueAt(table.getSelectedRow(), 1)!=null){	//Der skal stå en palle for at en palle kan vises
 						btnVisPalle.setEnabled(true);
-					}
-					if (table.getValueAt(table.getSelectedRow(), 2)!=null){	//Der skal være en mellemvare, dvs. der skal stå en produkttype, før noget kan kasseres
-						btnKassrMange.setEnabled(true);
-					}
-					int row = table.getSelectedRow();
-					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-					if (delbehandling != null){								//Der skal være en igangværende delbehandling før man kan sætte det næste trin i gang.
-						if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){	//Den næste delbehandling skal være af typen dragering, for at denne må sættes i gang
-							btnDrageringMange.setEnabled(true);
-						}
-						else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){			//Mellemvaren må kun sendes til færdigvarelageret hvis der ikke er flere delbehandlinger i behandlingen
-							btnTilFrdigvarelagerMange.setEnabled(true);
+
+						if (table.getValueAt(table.getSelectedRow(), 2)!=null){	//Der skal være en mellemvare, dvs. der skal stå en produkttype, før noget kan kasseres
+							btnKassrMange.setEnabled(true);
+
+							int row = table.getSelectedRow();
+							Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+							if (delbehandling != null){								//Der skal være en igangværende delbehandling før man kan sætte det næste trin i gang.
+								if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){	//Den næste delbehandling skal være af typen dragering, for at denne må sættes i gang
+									btnDrageringMange.setEnabled(true);
+								}
+								else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){			//Mellemvaren må kun sendes til færdigvarelageret hvis der ikke er flere delbehandlinger i behandlingen
+									btnTilFrdigvarelagerMange.setEnabled(true);
+								}
+							}
 						}
 					}
 				}
@@ -378,6 +380,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			}
 
 			update();
+			notifyObserver();
 		}
 
 
@@ -387,6 +390,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	@Override
 	public void update() {
 		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt(), columnNames);
+		
 	}
 
 	@Override
@@ -402,7 +406,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	@Override
 	public void notifyObserver() {
 		for (Observer o : observers){
-			o.notify();
+			o.update();
 		}
 	}
 }

@@ -153,7 +153,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		gbc_lblStregkode.gridx = 2;
 		gbc_lblStregkode.gridy = 0;
 		panel1.add(lblStregkode, gbc_lblStregkode);
-		
+
 		JTextArea textArea = new JTextArea(Service.getInstance().getPallePlaceringsString(palle));
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.anchor = GridBagConstraints.EAST;
@@ -237,14 +237,14 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		data = Service.getInstance()
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
 		dm = new DefaultTableModel(data, columnNames);
-		
+
 
 		table = new JTable(dm);
 		scrollPane.setViewportView(table);
 		table.setAutoCreateRowSorter(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(controller);
-		
+
 
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
@@ -533,7 +533,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 			}
 
 
-						update();
+			update();
+			notifyObserver();
 
 		}
 
@@ -548,7 +549,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
 					btnKassrMange.setEnabled(true);
 				}
-				
+
 				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
 					int row = table.getSelectedRow();
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
@@ -563,9 +564,9 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 							btnTilFrdigvarelagerMange.setEnabled(true);
 						}
 					}
-				
+
 				}
-					
+
 			}
 			else if (e.getSource() == list) {
 				btnDrageringEn.setEnabled(false);
@@ -576,23 +577,23 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				if (m != null){
 					String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
 					txtrDetaljer.setText(mellemvareInfo);
-				
-						
-				if (list.getSelectedIndices().length!=0){
-					btnKasserEn.setEnabled(true);
-				}
-				if (Service.getInstance().naesteBehandlingGyldig(m, Dragering.class)){
-					btnDrageringEn.setEnabled(true);
-				}
-				else if (Service.getInstance().naesteBehandlingGyldig(m, Toerring.class)){
-					btnTilTrringEn.setEnabled(true);
-				}
-				else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
-					btnTilFrdigvarelagerEn.setEnabled(true);
-				}
+
+
+					if (list.getSelectedIndices().length!=0){
+						btnKasserEn.setEnabled(true);
+					}
+					if (Service.getInstance().naesteBehandlingGyldig(m, Dragering.class)){
+						btnDrageringEn.setEnabled(true);
+					}
+					else if (Service.getInstance().naesteBehandlingGyldig(m, Toerring.class)){
+						btnTilTrringEn.setEnabled(true);
+					}
+					else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
+						btnTilFrdigvarelagerEn.setEnabled(true);
+					}
 				}
 			}
-			
+
 		}
 
 	}
@@ -602,18 +603,19 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		txtrDetaljer.setText(Service.getInstance().getMellemvareInfo(null));
 		list.setListData(Service.getInstance().getMellemvarer(palle).toArray());
 		dm.setDataVector(Service.getInstance().generateViewDataProdukttypeDelbehandlingAntalTid(palle), columnNames);
+
 	}
 
 	@Override
 	public void registerObserver(Observer o) {
 		this.observers.add(o);
-		
+
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
-		
+
 	}
 
 	@Override
@@ -621,6 +623,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		for (Observer o : observers){
 			o.update();
 		}
-		
+
 	}
 }
