@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -24,15 +25,26 @@ import service.Service;
  * @author Cederdorff
  * 
  */
-public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
+public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subject {
 	private MainFrame mainFrame;
 	private JTextField txtPallestregkode;
 	private JTextField txtBakkestregkode;
 	private JComboBox cBox;
 	private JList list;
+	private ArrayList<Observer> observers;
+	private JButton btnFjern;
+	private JLabel lblMellemvarerPPalle;
+	private JButton btnTilfoej;
+	private JLabel label_1;
+	private JLabel lblBakkestregkode;
+	private JLabel lblProdukttype;
+	private JLabel label;
+	private JLabel lblPalle;
+	private Palle aktuelPalle;
 
 	public SubFrameTilfoejMellemvarer(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
+		this.observers = new ArrayList<Observer>();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Tilfoej mellemvarer til palle");
 		this.setLocation(400, 200);
@@ -46,7 +58,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 				0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
-		JLabel lblPalle = new JLabel("Palle");
+		lblPalle = new JLabel("Palle");
 		GridBagConstraints gbc_lblPalle = new GridBagConstraints();
 		gbc_lblPalle.anchor = GridBagConstraints.WEST;
 		gbc_lblPalle.insets = new Insets(0, 0, 5, 5);
@@ -54,7 +66,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		gbc_lblPalle.gridy = 1;
 		getContentPane().add(lblPalle, gbc_lblPalle);
 
-		JLabel label = new JLabel("#");
+		label = new JLabel("#");
 		GridBagConstraints gbc_label = new GridBagConstraints();
 		gbc_label.anchor = GridBagConstraints.EAST;
 		gbc_label.insets = new Insets(0, 0, 5, 5);
@@ -72,7 +84,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		getContentPane().add(txtPallestregkode, gbc_txtPallestregkode);
 		txtPallestregkode.setColumns(10);
 
-		JLabel lblProdukttype = new JLabel("Produkttype");
+		lblProdukttype = new JLabel("Produkttype");
 		GridBagConstraints gbc_lblProdukttype = new GridBagConstraints();
 		gbc_lblProdukttype.insets = new Insets(0, 0, 5, 5);
 		gbc_lblProdukttype.anchor = GridBagConstraints.WEST;
@@ -91,7 +103,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		gbc_cBox.gridy = 2;
 		getContentPane().add(cBox, gbc_cBox);
 
-		JLabel lblBakkestregkode = new JLabel("Bakkestregkode");
+		lblBakkestregkode = new JLabel("Bakkestregkode");
 		GridBagConstraints gbc_lblBakkestregkode = new GridBagConstraints();
 		gbc_lblBakkestregkode.anchor = GridBagConstraints.WEST;
 		gbc_lblBakkestregkode.insets = new Insets(0, 0, 5, 5);
@@ -99,7 +111,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		gbc_lblBakkestregkode.gridy = 3;
 		getContentPane().add(lblBakkestregkode, gbc_lblBakkestregkode);
 
-		JLabel label_1 = new JLabel("#");
+		label_1 = new JLabel("#");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
 		gbc_label_1.insets = new Insets(0, 0, 5, 5);
 		gbc_label_1.anchor = GridBagConstraints.EAST;
@@ -116,23 +128,20 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		getContentPane().add(txtBakkestregkode, gbc_txtBakkestregkode);
 		txtBakkestregkode.setColumns(10);
 
-		JButton btnTilfoej = new JButton("Tilfoej");
+		btnTilfoej = new JButton("Tilfoej");
 		btnTilfoej.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Palle palle = Service.getInstance().soegPalle(
 						txtPallestregkode.getText());
-
+				aktuelPalle = palle;
 				if (palle != null) {
 					Service.getInstance().opretMellemvare(
 							txtBakkestregkode.getText(),
 							(Produkttype) cBox.getSelectedItem(), palle);
-					list.setListData(palle.getMellemvarer().toArray());
-					System.out.println(palle.getMellemvarer());
 				}
-
-				System.out.println(Service.getInstance().getMellemvarer());
-
+				update();
+				notifyObservers();
 			}
 		});
 		GridBagConstraints gbc_btnTilfoej = new GridBagConstraints();
@@ -141,9 +150,9 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		gbc_btnTilfoej.gridy = 3;
 		getContentPane().add(btnTilfoej, gbc_btnTilfoej);
 
-		JLabel lblMellemvarerPPalle = new JLabel("Mellemvarer p\u00E5 palle");
+		lblMellemvarerPPalle = new JLabel("Mellemvarer p\u00E5 palle");
 		lblMellemvarerPPalle
-				.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
+		.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		GridBagConstraints gbc_lblMellemvarerPPalle = new GridBagConstraints();
 		gbc_lblMellemvarerPPalle.gridwidth = 4;
 		gbc_lblMellemvarerPPalle.insets = new Insets(0, 0, 5, 5);
@@ -160,18 +169,19 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 		gbc_list.gridy = 5;
 		getContentPane().add(list, gbc_list);
 
-		JButton btnFjern = new JButton("Fjern");
+		btnFjern = new JButton("Fjern");
 		btnFjern.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
 				Palle palle = Service.getInstance().soegPalle(
 						txtPallestregkode.getText());
+				aktuelPalle = palle;
 				if (mellemvare != null && palle != null) {
 					palle.removeMellemvare(mellemvare);
-					list.setListData(palle.getMellemvarer().toArray());
-					System.out.println(palle.getMellemvarer());
 				}
+				update();
+				notifyObservers();
 			}
 		});
 		GridBagConstraints gbc_btnFjern = new GridBagConstraints();
@@ -184,8 +194,24 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 
 	@Override
 	public void update() {
-		// TODO Auto-generated method stub
+		list.setListData(Service.getInstance().getMellemvarer(aktuelPalle).toArray());
+	}
 
+	@Override
+	public void registerObserver(Observer o) {
+		this.observers.add(o);		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		this.observers.remove(o);		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers){
+			o.update();
+		}
 	}
 
 }
