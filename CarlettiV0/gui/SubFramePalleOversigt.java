@@ -67,6 +67,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 	private JButton btnTilFrdigvarelagerEn;
 	private JButton btnKasserEn;
 	private DefaultTableModel dm;
+	private Object[][] data;
+	private String[] columnNames;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
 		getContentPane().setBackground(Color.PINK);
@@ -226,22 +228,20 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		gbc_scrollPane.gridy = 1;
 		panel2.add(scrollPane, gbc_scrollPane);
 
-		String[] columnNames = { "Produkttype", "Delbehandling", "Antal",
+		columnNames = new String[] { "Produkttype", "Delbehandling", "Antal",
 		"Resterende tid" };
-		Object[][] data = Service.getInstance()
+		data = Service.getInstance()
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
 		dm = new DefaultTableModel(data, columnNames);
 		dm.addTableModelListener(controller);
-
-		//		DefaultTableModel dm = new DefaultTableModel(data, columnNames);
-		//		dm.getColumnClass(WIDTH) = ;
+		
 
 		table = new JTable(dm);
 		scrollPane.setViewportView(table);
 		table.setAutoCreateRowSorter(true);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(controller);
-
+		
 
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
@@ -455,7 +455,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	}
 
-	private class Controller implements ListSelectionListener ,ActionListener, TableModelListener{ // ,ItemListener
+	private class Controller implements ListSelectionListener ,ActionListener, TableModelListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -533,12 +533,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 						update();
 
 		}
-		//
-		// @Override
-		// public void itemStateChanged(ItemEvent e) {
-		// // TODO Auto-generated method stub
-		//
-		// }
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
@@ -552,19 +546,22 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 					btnKassrMange.setEnabled(true);
 				}
 				int row = table.getSelectedRow();
-				Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
-				if (delbehandling != null){
-					if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){
-						btnDrageringMange.setEnabled(true);
+				if (row >=0){
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
+					if (delbehandling != null){
+						if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){
+							btnDrageringMange.setEnabled(true);
+						}
+						else if (Service.getInstance().erNaesteDelbehandling(delbehandling, Toerring.class)){
+							btnTilTrringMange.setEnabled(true);
+						}
+						else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){
+							btnTilFrdigvarelagerMange.setEnabled(true);
+						}
 					}
-					else if (Service.getInstance().erNaesteDelbehandling(delbehandling, Toerring.class)){
-						btnTilTrringMange.setEnabled(true);
-					}
-					else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){
-						btnTilFrdigvarelagerMange.setEnabled(true);
-					}
-				}
 				
+				}
+					
 			}
 			else if (e.getSource() == list) {
 				btnDrageringEn.setEnabled(false);
@@ -588,22 +585,19 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 					btnTilFrdigvarelagerEn.setEnabled(true);
 				}
 			}
-
+			
 		}
 
 		@Override
 		public void tableChanged(TableModelEvent e) {
-			if (e.getSource()==table.getModel()){
-				System.out.println("Table model event happened");
-
-			}
-
+//			System.out.println("Table changed");
 		}
 
 	}
 
 	@Override
 	public void update() {
-		table.getModel();
+		
+		dm.setDataVector(Service.getInstance().generateViewDataProdukttypeDelbehandlingAntalTid(palle), columnNames);
 	}
 }
