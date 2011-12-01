@@ -25,6 +25,7 @@ import model.Behandling;
 import model.Produkttype;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.Color;
 
 /**
  * 
@@ -43,8 +44,9 @@ public class SubFrameAdminProdukttype extends JFrame {
 
 	public SubFrameAdminProdukttype() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 390, 480);
+		setBounds(100, 100, 410, 485);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 

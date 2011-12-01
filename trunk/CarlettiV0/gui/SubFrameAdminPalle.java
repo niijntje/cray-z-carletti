@@ -27,6 +27,7 @@ import java.awt.event.ActionEvent;
 import java.util.Collections;
 
 import javax.swing.JTextField;
+import java.awt.Color;
 
 /**
  * 
@@ -43,6 +44,7 @@ public class SubFrameAdminPalle extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 390, 315);
 		contentPane = new JPanel();
+		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 
