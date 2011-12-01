@@ -90,7 +90,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		controller = new Controller();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Mellemvarelager - Oversigt");
-		this.setLocation(200, 100);
+		this.setLocation(0, 0);
 		this.setSize(800, 600);
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
