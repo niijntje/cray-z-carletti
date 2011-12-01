@@ -80,7 +80,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		this.palle = palle;
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Oversigt over palle");
-		this.setLocation(400, 100);
+		this.setLocation(1000, 0);
 		this.setSize(550, 800);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 504, 0, -7, 0, -23, 0 };
