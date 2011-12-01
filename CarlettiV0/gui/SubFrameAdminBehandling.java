@@ -69,7 +69,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtNavn.getText() != null) {
 					Service.getInstance().opretBehandling(txtNavn.getText());
-
+					listBehandlinger.setListData(Service.getInstance().getBehandlinger().toArray());
 				}
 			}
 		});
@@ -99,7 +99,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 		});
 		btnTilfoej.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 
-		JButton btnSlet_1 = new JButton("Slet");
+		JButton btnSletBehandling = new JButton("Slet");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane
 				.setHorizontalGroup(gl_contentPane
@@ -122,7 +122,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 																						.createParallelGroup(
 																								Alignment.TRAILING)
 																						.addComponent(
-																								btnSlet_1)
+																								btnSletBehandling)
 																						.addComponent(
 																								scrollPane,
 																								GroupLayout.PREFERRED_SIZE,
@@ -263,7 +263,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 																				GroupLayout.DEFAULT_SIZE,
 																				Short.MAX_VALUE)
 																		.addComponent(
-																				btnSlet_1)))
+																				btnSletBehandling)))
 										.addPreferredGap(
 												ComponentPlacement.RELATED)
 										.addGroup(
