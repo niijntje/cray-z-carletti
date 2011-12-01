@@ -43,7 +43,7 @@ public class SubFrameAdminProdukttype extends JFrame {
 	private JTextField txtBeskrivRediger;
 
 	public SubFrameAdminProdukttype() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 410, 485);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);

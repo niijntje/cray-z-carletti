@@ -41,7 +41,7 @@ public class SubFrameAdminPalle extends JFrame {
 	private JTextField txtstregkodeOpret;
 
 	public SubFrameAdminPalle() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 390, 315);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
