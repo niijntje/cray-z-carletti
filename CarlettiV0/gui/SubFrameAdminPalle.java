@@ -156,4 +156,7 @@ public class SubFrameAdminPalle extends JFrame {
 		list.setListData(Service.getInstance().getPaller().toArray());
 
 	}
+	public void setPalleStregkodeTekst(String stregkode){
+		this.txtstregkodeOpret.setText(stregkode);
+	}
 }

@@ -140,6 +140,11 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 							txtBakkestregkode.getText(),
 							(Produkttype) cBox.getSelectedItem(), palle);
 				}
+				else {
+					SubFrameAdminPalle opretPalleFrame = new SubFrameAdminPalle();
+					opretPalleFrame.setPalleStregkodeTekst(txtPallestregkode.getText());
+					opretPalleFrame.setVisible(true);
+				}
 				update();
 				notifyObservers();
 			}
@@ -194,7 +199,9 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 
 	@Override
 	public void update() {
-		list.setListData(Service.getInstance().getMellemvarer(aktuelPalle).toArray());
+		if (aktuelPalle!=null){
+			list.setListData(Service.getInstance().getMellemvarer(aktuelPalle).toArray());
+		}
 	}
 
 	@Override
