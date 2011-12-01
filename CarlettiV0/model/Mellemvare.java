@@ -154,8 +154,12 @@ public class Mellemvare {
 	}
 
 	public long getResterendeTidTilNaeste() {
-		return this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
-				getTidspunkter().get(tidspunkter.size() - 1));
+		long tid = 0;
+		if (this.getIgangvaerendeDelbehandling()!=null){
+			tid = this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
+					getTidspunkter().get(tidspunkter.size() - 1));
+		}
+		return tid;
 	}
 
 	/**

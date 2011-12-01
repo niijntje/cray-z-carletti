@@ -58,12 +58,13 @@ public class Palle {
 	 *     
 	 */
 	public void placerPalle(MellemlagerPlads placering) {
-//		System.out.println(""+this.mellemlagerPlads+" "+placering);
 		if (this.getPlacering()!=null) {
 			this.getPlacering().placerPalleUD(null);
 		}
+		if (placering != null){
+			placering.placerPalleUD(this);
+		}
 		this.placerPalleUD(placering);
-		placering.placerPalleUD(this);
 	}
 	
 	/**
@@ -89,7 +90,9 @@ public class Palle {
 			this.setDrageringshalUD(drageringshal);
 			drageringshal.addPalleUD(this);
 		} else {
-			this.getDrageringshal().removePalleUD(this);
+			if (this.getDrageringshal()!=null){
+				this.getDrageringshal().removePalleUD(this);
+			}
 			this.setDrageringshalUD(null);
 		}
 	}

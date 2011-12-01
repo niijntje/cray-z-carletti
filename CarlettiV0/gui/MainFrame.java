@@ -52,7 +52,7 @@ import dao.DAO;
 import dao.JpaDao;
 import dao.ListDao;
 
-public class MainFrame extends JFrame implements Subject
+public class MainFrame extends JFrame implements Subject, Observer
 {
 	private ArrayList<Observer> observers;
 	private JList listPaller;
@@ -67,7 +67,6 @@ public class MainFrame extends JFrame implements Subject
 
 	public MainFrame()
 	{
-
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("");
 		this.setLocation(20, 20);
@@ -241,98 +240,6 @@ public class MainFrame extends JFrame implements Subject
 		horizontalBox_1.setBounds(0, 0, 0, 0);
 		getContentPane().add(horizontalBox_1);
 
-		// -----------------------------------------------//
-//
-//		// --------------------Panel 3--------------------//
-//		JPanel panel3_1 = new JPanel();
-//		GridBagConstraints gbc_panel3_1 = new GridBagConstraints();
-//		gbc_panel3_1.gridheight = 3;
-//		gbc_panel3_1.fill = GridBagConstraints.BOTH;
-//		gbc_panel3_1.gridwidth = 2;
-//		gbc_panel3_1.insets = new Insets(0, 0, 0, 5);
-//		gbc_panel3_1.gridx = 1;
-//		gbc_panel3_1.gridy = 4;
-//		getContentPane().add(panel3_1, gbc_panel3_1);
-//		GridBagLayout gbl_panel3_1 = new GridBagLayout();
-//		gbl_panel3_1.columnWidths = new int[] { 375, 0 };
-//		gbl_panel3_1.rowHeights = new int[] { 0, 147, 19, 0, 199, 0 };
-//		gbl_panel3_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-//		gbl_panel3_1.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0,
-//				Double.MIN_VALUE };
-//		panel3_1.setLayout(gbl_panel3_1);
-//
-//		JLabel lblDetaljer = new JLabel("Bakker:");
-//		GridBagConstraints gbc_lblDetaljer = new GridBagConstraints();
-//		gbc_lblDetaljer.fill = GridBagConstraints.VERTICAL;
-//		gbc_lblDetaljer.anchor = GridBagConstraints.WEST;
-//		gbc_lblDetaljer.insets = new Insets(0, 0, 5, 0);
-//		gbc_lblDetaljer.gridx = 0;
-//		gbc_lblDetaljer.gridy = 0;
-//		panel3_1.add(lblDetaljer, gbc_lblDetaljer);
-//
-//		DefaultListModel dlm = new DefaultListModel();
-//		ArrayList<MellemlagerPlads> placeringer = Service.getInstance()
-//				.getPladser();
-//		for (MellemlagerPlads p : placeringer) {
-//			dlm.addElement(p);
-//		}
-//		list = new JList(dlm);
-//
-//		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-//		list.addListSelectionListener(controller);
-//
-//		JScrollPane scrollPane_1 = new JScrollPane();
-//		scrollPane_1
-//				.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-//		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
-//		gbc_scrollPane_1.insets = new Insets(0, 0, 5, 0);
-//		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
-//		gbc_scrollPane_1.gridx = 0;
-//		gbc_scrollPane_1.gridy = 1;
-//		panel3_1.add(scrollPane_1, gbc_scrollPane_1);
-//		scrollPane_1.setViewportView(list);
-//
-//		JPanel panel_1 = new JPanel();
-//		panel_1.setBackground(Color.PINK);
-//		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-//		gbc_panel_1.fill = GridBagConstraints.BOTH;
-//		gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-//		gbc_panel_1.gridx = 0;
-//		gbc_panel_1.gridy = 2;
-//		panel3_1.add(panel_1, gbc_panel_1);
-//		GridBagLayout gbl_panel_1 = new GridBagLayout();
-//		gbl_panel_1.columnWidths = new int[] { 375, 0 };
-//		gbl_panel_1.rowHeights = new int[] { 5, 0 };
-//		gbl_panel_1.columnWeights = new double[] { 1.0, Double.MIN_VALUE };
-//		gbl_panel_1.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-//		panel_1.setLayout(gbl_panel_1);
-//
-//		JLabel lblDetaljer_1 = new JLabel("Detaljer:");
-//		lblDetaljer_1.setToolTipText("V\u00E6lg en bakke for at se detaljer");
-//		GridBagConstraints gbc_lblDetaljer_1 = new GridBagConstraints();
-//		gbc_lblDetaljer_1.anchor = GridBagConstraints.WEST;
-//		gbc_lblDetaljer_1.insets = new Insets(0, 0, 5, 0);
-//		gbc_lblDetaljer_1.gridx = 0;
-//		gbc_lblDetaljer_1.gridy = 3;
-//		panel3_1.add(lblDetaljer_1, gbc_lblDetaljer_1);
-//
-//		txtrDetaljer = new JTextArea();
-//		txtrDetaljer.setToolTipText("V\u00E6lg en bakke for at se detaljer");
-//		txtrDetaljer.setText("");
-//		GridBagConstraints gbc_txtrDetaljer = new GridBagConstraints();
-//		gbc_txtrDetaljer.fill = GridBagConstraints.BOTH;
-//		gbc_txtrDetaljer.gridx = 0;
-//		gbc_txtrDetaljer.gridy = 4;
-//		panel3_1.add(txtrDetaljer, gbc_txtrDetaljer);
-//		// -----------------------------------------------//
-//
-//		Box horizontalBox_4 = Box.createHorizontalBox();
-//		GridBagConstraints gbc_horizontalBox_4 = new GridBagConstraints();
-//		gbc_horizontalBox_4.fill = GridBagConstraints.VERTICAL;
-//		gbc_horizontalBox_4.insets = new Insets(0, 0, 5, 5);
-//		gbc_horizontalBox_4.gridx = 3;
-//		gbc_horizontalBox_4.gridy = 4;
-//		getContentPane().add(horizontalBox_4, gbc_horizontalBox_4);
 
 		JButton btnPlacerPalle = new JButton("Plac\u00E9r palle");
 		btnPlacerPalle.addActionListener(new ActionListener()
@@ -482,6 +389,12 @@ public class MainFrame extends JFrame implements Subject
 
 
 
+	}
+
+	@Override
+	public void update() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
