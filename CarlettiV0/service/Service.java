@@ -322,6 +322,13 @@ public class Service {
 	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerPlads){
 		dao.removeMellemlagerPlads(mellemlagerPlads);
 	}
+	/**
+	 * Sletter en behandling fra databasen
+	 * @param behandling
+	 */
+	public void removeBehandling(Behandling behandling){
+		dao.removeBehandling(behandling);
+	}
 
 	/**
 	 * Returnerer en liste med alle mellemlagerpladserne
@@ -530,10 +537,6 @@ public class Service {
 
 	public String getPallePlaceringsString(Palle palle) {
 		return palle.getPlaceringsString();
-	}
-
-	public void removeBehandling(Behandling behandling) {
-		dao.removeBehandling(behandling);		
 	}
 
 }
