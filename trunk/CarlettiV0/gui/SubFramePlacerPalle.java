@@ -41,6 +41,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		getContentPane().add(lblScanStregkode);
 
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.PINK);
 		panel.setBounds(6, 240, 308, 32);
 		getContentPane().add(panel);
 
@@ -53,6 +54,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		panel.add(btnOk);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.setBackground(Color.PINK);
 		panel_1.setBounds(6, 34, 308, 32);
 		getContentPane().add(panel_1);
 
@@ -61,6 +63,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		panel_1.add(lblPalle);
 
 		JPanel panel_2 = new JPanel();
+		panel_2.setBackground(Color.PINK);
 		panel_2.setBounds(6, 65, 308, 37);
 		getContentPane().add(panel_2);
 
@@ -75,6 +78,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		txtpallestregkode.setColumns(10);
 
 		JPanel panel_3 = new JPanel();
+		panel_3.setBackground(Color.PINK);
 		panel_3.setBounds(6, 122, 308, 32);
 		getContentPane().add(panel_3);
 
@@ -83,6 +87,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		panel_3.add(lblPlads);
 
 		JPanel panel_4 = new JPanel();
+		panel_4.setBackground(Color.PINK);
 		panel_4.setBounds(6, 153, 308, 37);
 		getContentPane().add(panel_4);
 
