@@ -33,7 +33,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer {
 
 	public SubFrameTilfoejMellemvarer(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Tilfoej mellemvarer til palle");
 		this.setLocation(400, 200);
 		this.setSize(420, 420);

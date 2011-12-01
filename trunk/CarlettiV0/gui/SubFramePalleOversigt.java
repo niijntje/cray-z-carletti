@@ -73,6 +73,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 	private ArrayList<Observer> observers;
 
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
+		this.observers = new ArrayList<Observer>();
+		this.registerObserver(mainFrame);
 		getContentPane().setBackground(Color.PINK);
 		this.mainFrame = mainFrame;
 		this.palle = palle;
@@ -235,7 +237,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		data = Service.getInstance()
 				.generateViewDataProdukttypeDelbehandlingAntalTid(palle);
 		dm = new DefaultTableModel(data, columnNames);
-		dm.addTableModelListener(controller);
 		
 
 		table = new JTable(dm);
@@ -457,7 +458,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 	}
 
-	private class Controller implements ListSelectionListener ,ActionListener, TableModelListener{
+	private class Controller implements ListSelectionListener ,ActionListener{
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -592,11 +593,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				}
 			}
 			
-		}
-
-		@Override
-		public void tableChanged(TableModelEvent e) {
-//			System.out.println("Table changed");
 		}
 
 	}

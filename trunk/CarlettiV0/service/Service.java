@@ -416,7 +416,8 @@ public class Service {
 				for (int i = 0; i < mData.length; i++){
 					pladsData = new Object[6];
 					pladsData[0] = mp;
-					if(mData[i][0] != null){
+					
+					if(mData[i][0] != null && mData[i][1].getClass() == Toerring.class){
 						pladsData[1] = mp.getPalle();
 						pladsData[2] = mData[i][0];
 						pladsData[3] = mData[i][1];

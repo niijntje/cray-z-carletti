@@ -24,8 +24,8 @@ public class App {
 		Behandling behandling = Service.getInstance().opretBehandling("BehandlingRasmus");
 
 		
-//		MainFrame mainFrame = new MainFrame();
-//		mainFrame.setVisible(true);
+		MainFrame mainFrame = new MainFrame();
+		mainFrame.setVisible(true);
 //		// SubFrameTilfoejMellemvarer subframeMellemvarer = new
 		// SubFrameTilfoejMellemvarer(mainFrame);
 		// subframeMellemvarer.setVisible(true);
