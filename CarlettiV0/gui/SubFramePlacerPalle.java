@@ -25,8 +25,8 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 	private Controller controller = new Controller();
 	private JButton btnOk, btnAnnuller;
 
-	public SubFramePlacerPalle(MainFrame mainframe) {
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	public SubFramePlacerPalle() {
+		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Placer palle på mellemvarelager");
 		this.setLocation(200, 200);
 		this.setSize(320, 300);
