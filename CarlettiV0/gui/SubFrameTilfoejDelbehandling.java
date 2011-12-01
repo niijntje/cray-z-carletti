@@ -111,9 +111,13 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 		btnTilfoej.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (cboxmodel.getSelectedItem() == "Dragéring") {
+					Integer index = -1;
+					if (!txtIndex.getText().equals("")){
+						index = Integer.parseInt(txtIndex.getText());
+					}
 					Service.getInstance().opretDragering(txtNavn.getText(),
 							getBehandling(), Long.parseLong(txtMin.getText()),
-							Integer.parseInt(txtIndex.getText()));
+							index);
 				}
 				if (cboxmodel.getSelectedItem() == "Toerring") {
 					Service.getInstance().opretToerring(txtNavn.getText(),
