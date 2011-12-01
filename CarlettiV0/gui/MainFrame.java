@@ -52,17 +52,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private JTable table;
 	private Controller controller;
 	private RowFilter<Object, Object> tomPladsFilter;
-	//	public boolean chckbxVisTommePladser;
 	private DefaultTableModel dm;
 	private Object[][] datas;
 	private String[] columnNames;
 	private JCheckBox chckbxVisTommePladser;
-	private SubFrameAdminPalle subframeAdminPalle;
-	private SubFrameAdminProdukttype subFrameAdminProdukt;
-	private SubFrameAdminMellemlagerPlads subFrameAdminMellemlagerPlads;
-	private SubFramePlacerPalle subFramePlacerPalle;
 	private JButton btnVisPalle;
-	public SubFramePalleOversigt subFramePalleOversigt;
 	private JButton btnPlacrPalle;
 	private JPanel panel_2;
 	private JButton btnTilfoejNyMellemvare;
@@ -78,9 +72,16 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private JButton btnTilFrdigvarelagerMange;
 	private JButton btnKassrMange;
 	private ArrayList<Observer> observers;
-	public SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
 	public SubFrameAdminBehandling subFrameBehandlinger;
 	private JMenuItem mntmBehandlinger;
+
+	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
+	public SubFramePalleOversigt subFramePalleOversigt;
+	private SubFrameAdminPalle subframeAdminPalle;
+	private SubFrameAdminProdukttype subFrameAdminProdukt;
+	private SubFrameAdminMellemlagerPlads subFrameAdminMellemlagerPlads;
+	private SubFramePlacerPalle subFramePlacerPalle;
+	public Object subFrameAdminBehandling;
 
 	public MainFrame() {
 		this.observers = new ArrayList<Observer>();
@@ -180,29 +181,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		table.getSelectionModel().addListSelectionListener(controller);
 		((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter()).setRowFilter(tomPladsFilter);
 
-		TableColumn column = null;
-		for (int i = 0; i < 6; i++) {
-			column = table.getColumnModel().getColumn(i);
-			if (i == 0 || i == 1){
-				column.setPreferredWidth(75);//Placering og Palle
-				column.setMinWidth(70);
-				column.setMaxWidth(85);
-			}
-			if (i == 4) {
-				column.setPreferredWidth(40); //Antal
-				column.setMinWidth(35);
-				column.setMaxWidth(50);
-			} 
-			else if (i == 5){
-				column.setPreferredWidth(85);//Resterende tid
-				column.setMinWidth(80);
-				column.setMaxWidth(90);
-			}
-			else {
-				column.setPreferredWidth(100);
-
-			}
-		}
+		setColumnWidths();
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();
@@ -284,12 +263,36 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		// -----------------------------------------------//
 	}
+	
+	private void setColumnWidths(){
+		TableColumn column = null;
+		for (int i = 0; i < 6; i++) {
+			column = table.getColumnModel().getColumn(i);
+			if (i == 0 || i == 1){
+				column.setPreferredWidth(75);//Placering og Palle
+				column.setMinWidth(70);
+				column.setMaxWidth(85);
+			}
+			if (i == 4) {
+				column.setPreferredWidth(40); //Antal
+				column.setMinWidth(35);
+				column.setMaxWidth(50);
+			} 
+			else if (i == 5){
+				column.setPreferredWidth(85);//Resterende tid
+				column.setMinWidth(80);
+				column.setMaxWidth(90);
+			}
+			else {
+				column.setPreferredWidth(100);
+
+			}
+		}
+
+	}
 
 
 	private class Controller implements ItemListener, ActionListener, ListSelectionListener {
-
-		private SubFrameTilfoejMellemvarer ubFrameTilfoejMellemvarer;
-		private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
@@ -338,6 +341,10 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				subFrameTilfoejMellemvarer.setVisible(true);
 				subFrameTilfoejMellemvarer.registerObserver(MainFrame.this);
 				registerObserver(subFrameTilfoejMellemvarer);
+				if (subFramePalleOversigt!=null){
+					subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
+					subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
+				}
 			}
 			else {
 
@@ -349,6 +356,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					MainFrame.this.subFramePalleOversigt.setVisible(true);
 					subFramePalleOversigt.registerObserver(MainFrame.this);
 					MainFrame.this.registerObserver(subFramePalleOversigt);
+					if (subFrameTilfoejMellemvarer!=null){
+						subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
+						subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
+					}
+
 				}
 				else if (e.getSource()==btnDrageringMange){
 					if (table.getSelectedRowCount()==0){

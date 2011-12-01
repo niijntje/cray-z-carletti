@@ -532,4 +532,8 @@ public class Service {
 		return palle.getPlaceringsString();
 	}
 
+	public void removeBehandling(Behandling behandling) {
+		dao.removeBehandling(behandling);		
+	}
+
 }
