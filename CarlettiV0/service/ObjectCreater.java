@@ -159,9 +159,7 @@ public class ObjectCreater {
 				m.setIgangvaerendeDelbehandling(m
 						.getIgangvaerendeDelbehandling().getNextDelbehandling());
 				m.addTidspunkt(dato10);
-				m.setIgangvaerendeDelbehandling(m
-						.getIgangvaerendeDelbehandling().getNextDelbehandling());
-				m.addTidspunkt(dato9);
+
 			}
 		}
 		m1.setIgangvaerendeDelbehandling(d2);

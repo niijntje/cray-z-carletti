@@ -119,11 +119,11 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		getContentPane().add(panel1, gbc_panel1);
 
 		GridBagLayout gbl_panel1 = new GridBagLayout();
-		gbl_panel1.columnWidths = new int[] { 43, 71, 212, 0 };
+		gbl_panel1.columnWidths = new int[] { 43, 71, 212, 0, 0 };
 		gbl_panel1.rowHeights = new int[] { 29, 9, 0 };
-		gbl_panel1.columnWeights = new double[] { 0.0, 0.0, 0.0,
+		gbl_panel1.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
-		gbl_panel1.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+		gbl_panel1.rowWeights = new double[] { 1.0, 0.0, Double.MIN_VALUE };
 		panel1.setLayout(gbl_panel1);
 
 		JLabel lblPalle = new JLabel("Palle");
@@ -141,12 +141,21 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 		lblStregkode.setFont(new Font("Lucida Grande", Font.BOLD, 15));
 		lblStregkode.setToolTipText("Stregkode");
 		GridBagConstraints gbc_lblStregkode = new GridBagConstraints();
-		gbc_lblStregkode.insets = new Insets(0, 0, 5, 0);
+		gbc_lblStregkode.insets = new Insets(0, 0, 5, 5);
 		gbc_lblStregkode.anchor = GridBagConstraints.NORTH;
 		gbc_lblStregkode.fill = GridBagConstraints.HORIZONTAL;
 		gbc_lblStregkode.gridx = 2;
 		gbc_lblStregkode.gridy = 0;
 		panel1.add(lblStregkode, gbc_lblStregkode);
+		
+		JTextArea textArea = new JTextArea(Service.getInstance().getPallePlaceringsString(palle));
+		GridBagConstraints gbc_textArea = new GridBagConstraints();
+		gbc_textArea.anchor = GridBagConstraints.EAST;
+		gbc_textArea.gridheight = 2;
+		gbc_textArea.insets = new Insets(0, 0, 5, 0);
+		gbc_textArea.gridx = 3;
+		gbc_textArea.gridy = 0;
+		panel1.add(textArea, gbc_textArea);
 
 		JLabel lblAntalBakker = new JLabel("Antal bakker:");
 		GridBagConstraints gbc_lblAntalBakker = new GridBagConstraints();
@@ -161,6 +170,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 				.size()
 				+ " stk.");
 		GridBagConstraints gbc_label_1 = new GridBagConstraints();
+		gbc_label_1.insets = new Insets(0, 0, 0, 5);
 		gbc_label_1.anchor = GridBagConstraints.WEST;
 		gbc_label_1.gridx = 2;
 		gbc_label_1.gridy = 1;
@@ -520,7 +530,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 			}
 
 
-			//			update();
+						update();
 
 		}
 		//
@@ -594,6 +604,6 @@ public class SubFramePalleOversigt extends JFrame implements Observer {
 
 	@Override
 	public void update() {
-		table.updateUI();
+		table.getModel();
 	}
 }
