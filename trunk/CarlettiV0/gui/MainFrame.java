@@ -63,6 +63,7 @@ public class MainFrame extends JFrame implements Subject
 	private JList list;
 	private Controller controller = new Controller();
 	private JTextArea txtrDetaljer;
+	private SubFrameAdminPalle subFrameAdminPalle;
 
 	public MainFrame()
 	{
