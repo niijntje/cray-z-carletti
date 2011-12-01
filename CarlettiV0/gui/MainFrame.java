@@ -351,8 +351,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				}
 			}
 			else {
-
-
 				Palle palle = (Palle) table.getValueAt(table.getSelectedRow(), 1);
 				if (e.getSource()==btnVisPalle){
 
@@ -364,7 +362,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 						subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
 						subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
 					}
-
 				}
 				else if (e.getSource()==btnDrageringMange){
 					if (table.getSelectedRowCount()==0){
@@ -427,7 +424,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	@Override
 	public void update() {
 		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt(), columnNames);
-
+		setColumnWidths();
 	}
 
 	@Override

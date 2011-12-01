@@ -220,6 +220,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 		if (aktuelPalle!=null){
 			list.setListData(Service.getInstance().getMellemvarer(aktuelPalle).toArray());
 		}
+		txtBakkestregkode.setText("");
 	}
 
 	@Override
