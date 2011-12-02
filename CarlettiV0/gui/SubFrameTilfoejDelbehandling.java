@@ -130,13 +130,13 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 					if (!txtIndex.getText().equals("")){
 						index = Integer.parseInt(txtIndex.getText());
 					}
-					long varighed = Validering.varighedStringTilLong(txtMin.getText());
+					long varighed = Validering.varighedStringTilMillisekunder(txtMin.getText());
 					Service.getInstance().opretDragering(txtNavn.getText(), getBehandling(), varighed, index);
 				}
 				if (cboxmodel.getSelectedItem() == "Toerring") {
-					long minTid = Validering.varighedStringTilLong(txtMin.getText());
-					long idealTid = Validering.varighedStringTilLong(txtIdeal.getText());
-					long maxTid = Validering.varighedStringTilLong(txtmaxTid.getText());
+					long minTid = Validering.varighedStringTilMillisekunder(txtMin.getText());
+					long idealTid = Validering.varighedStringTilMillisekunder(txtIdeal.getText());
+					long maxTid = Validering.varighedStringTilMillisekunder(txtmaxTid.getText());
 					int index = Integer.parseInt(txtIndex.getText());
 					Service.getInstance().opretToerring(txtNavn.getText(), getBehandling(), minTid, idealTid, maxTid, index);
 				}
