@@ -70,20 +70,20 @@ public class ObjectCreater {
 		Service.getInstance().opretMellemlagerPlads("009");
 		Service.getInstance().opretMellemlagerPlads("010");
 
-		Long varighed1 = Validering.varighedStringTilLong("02:14:00");
-		Long varighed2 = Validering.varighedStringTilLong("02:16:30");
-		Long varighed3 = Validering.varighedStringTilLong("02:17:00");
-		Long varighed4 = Validering.varighedStringTilLong("02:18:00");
+		Long varighed1 = Validering.varighedStringTilMillisekunder("02:14:00");
+		Long varighed2 = Validering.varighedStringTilMillisekunder("02:16:30");
+		Long varighed3 = Validering.varighedStringTilMillisekunder("02:17:00");
+		Long varighed4 = Validering.varighedStringTilMillisekunder("02:18:00");
 
-		Long varighed5 = Validering.varighedStringTilLong("01:15:00");
-		Long varighed6 = Validering.varighedStringTilLong("01:15:15");
-		Long varighed7 = Validering.varighedStringTilLong("01:15:30");
-		Long varighed8 = Validering.varighedStringTilLong("01:15:45");
+		Long varighed5 = Validering.varighedStringTilMillisekunder("01:15:00");
+		Long varighed6 = Validering.varighedStringTilMillisekunder("01:15:15");
+		Long varighed7 = Validering.varighedStringTilMillisekunder("01:15:30");
+		Long varighed8 = Validering.varighedStringTilMillisekunder("01:15:45");
 
-		Long varighed9 = Validering.varighedStringTilLong("00:01:00");
-		Long varighed10 = Validering.varighedStringTilLong("00:14:00");
-		Long varighed11 = Validering.varighedStringTilLong("00:02:15");
-		Long varighed12 = Validering.varighedStringTilLong("00:00:45");
+		Long varighed9 = Validering.varighedStringTilMillisekunder("00:01:00");
+		Long varighed10 = Validering.varighedStringTilMillisekunder("00:14:00");
+		Long varighed11 = Validering.varighedStringTilMillisekunder("00:02:15");
+		Long varighed12 = Validering.varighedStringTilMillisekunder("00:00:45");
 
 		Behandling b = Service.getInstance().opretBehandling("Behandling1");
 		Service.getInstance().opretToerring("T¿rring1", b, 12 * 60 * 60 * 1000,

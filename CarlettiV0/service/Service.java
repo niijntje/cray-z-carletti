@@ -480,11 +480,11 @@ public class Service {
 						mData[4] = mellemvareAntal.get(m);
 						long[] tider = m.getResterendeTider();
 						if (m.getIgangvaerendeDelbehandling().getClass()==Toerring.class){
-							mData[5] = Validering.millisekunderTildato(tider[0]);
-							mData[6] = Validering.millisekunderTildato(tider[1]);
-							mData[7] = Validering.millisekunderTildato(tider[2]);
+							mData[5] = Validering.millisekunderTilVarighedString(tider[0]);
+							mData[6] = Validering.millisekunderTilVarighedString(tider[1]);
+							mData[7] = Validering.millisekunderTilVarighedString(tider[2]);
 						}
-						else mData[6] =Validering.millisekunderTildato(tider[0]);
+						else mData[6] =Validering.millisekunderTilVarighedString(tider[0]);
 						palleData[i] = mData;
 						i++;
 					}
@@ -524,7 +524,7 @@ public class Service {
 				mData[0] = m.getProdukttype();
 				mData[1] = m.getIgangvaerendeDelbehandling();
 				mData[2] = mellemvareAntal.get(m);
-				mData[3] = Validering.millisekunderTildato(m
+				mData[3] = Validering.millisekunderTilVarighedString(m
 						.getResterendeTidTilNaeste());
 				data[i] = mData;
 				i++;
@@ -548,7 +548,7 @@ public class Service {
 					+ m.getIgangvaerendeDelbehandling() + "\n"
 					+ "\nN¾ste delbehandling om:\n";
 			for (int i = 0; i < tider.length; i++) {
-				infoString += Validering.millisekunderTildato(tider[i]);
+				infoString += Validering.millisekunderTilVarighedString(tider[i]);
 				if (i < tider.length - 1) {
 					infoString += " /\t";
 				}
