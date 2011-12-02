@@ -21,6 +21,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JList;
 
 import model.Palle;
+import java.awt.Font;
 
 public class FrameOversigter extends JFrame {
 
@@ -54,8 +55,11 @@ public class FrameOversigter extends JFrame {
 	private JScrollPane scrollPane_3;
 	private JList listPaller;
 	private JLabel lblKasseredeVarer;
-	private JList listKasseredeVarer;
 	private JButton btnVisPalle;
+	private JLabel lblVisPalleoversigt;
+	private JLabel lblMarkrEnPalle;
+	private JTable tableKasseredeVarer;
+	private DefaultTableModel tabelKasseredeModel;
 
 	public FrameOversigter(MainFrame mainFrame) {
 		setBackground(Color.PINK);
@@ -156,8 +160,8 @@ public class FrameOversigter extends JFrame {
 				.addGroup(gl_panelKasserede.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelKasserede.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
-						.addComponent(lblKasseredeVarer))
+						.addComponent(lblKasseredeVarer)
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_panelKasserede.setVerticalGroup(
@@ -169,11 +173,13 @@ public class FrameOversigter extends JFrame {
 					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(46, Short.MAX_VALUE))
 		);
+		data = Service.getInstance().generateViewDataKasseredeVarer();
+		columnNames = new String[]{"Bakkestregkode", "Produkttype", "Sidste delbehandling"};
+		tabelKasseredeModel = new DefaultTableModel(data, columnNames);
 		
-		listKasseredeVarer = new JList();
-		scrollPane_1.setViewportView(listKasseredeVarer);
+		tableKasseredeVarer = new JTable(tabelKasseredeModel);
+		scrollPane_1.setViewportView(tableKasseredeVarer);
 		panelKasserede.setLayout(gl_panelKasserede);
-		listKasseredeVarer.setListData(Service.getInstance().getKasserede().toArray());
 		panelPaller = new JPanel();
 		tabbedPane.addTab("Paller", null, panelPaller, null);
 		
@@ -190,6 +196,11 @@ public class FrameOversigter extends JFrame {
 			FrameOversigter.this.mainFrame.registerObserver(FrameOversigter.this.mainFrame.subFramePalleOversigt);
 			}
 		});
+		
+		lblVisPalleoversigt = new JLabel("Vis palleoversigt");
+		
+		lblMarkrEnPalle = new JLabel("Mark\u00E9r en palle og tryk \"Vis palle\" for at se detaljer");
+		lblMarkrEnPalle.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		GroupLayout gl_panelPaller = new GroupLayout(panelPaller);
 		gl_panelPaller.setHorizontalGroup(
 			gl_panelPaller.createParallelGroup(Alignment.LEADING)
@@ -197,21 +208,31 @@ public class FrameOversigter extends JFrame {
 					.addGap(41)
 					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblOversigtOverPaller)
-						.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnVisPalle)
-							.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 443, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(45, Short.MAX_VALUE))
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblVisPalleoversigt)
+								.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING)
+									.addComponent(btnVisPalle)
+									.addComponent(lblMarkrEnPalle)))))
+					.addContainerGap(119, Short.MAX_VALUE))
 		);
 		gl_panelPaller.setVerticalGroup(
 			gl_panelPaller.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelPaller.createSequentialGroup()
 					.addGap(31)
 					.addComponent(lblOversigtOverPaller)
-					.addGap(18)
-					.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 292, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(btnVisPalle)
-					.addContainerGap(52, Short.MAX_VALUE))
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.BASELINE)
+						.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addComponent(lblVisPalleoversigt)
+							.addGap(7)
+							.addComponent(lblMarkrEnPalle)
+							.addGap(9)
+							.addComponent(btnVisPalle)))
+					.addContainerGap(34, Short.MAX_VALUE))
 		);
 		
 		listPaller = new JList();
