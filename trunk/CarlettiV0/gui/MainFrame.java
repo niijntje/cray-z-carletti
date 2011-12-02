@@ -162,9 +162,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		panel2.add(scrollPane, gbc_scrollPane);
 
 		columnNames = new String[] { "Plads#", "Palle#", "Produkttype",
-				"Delbehandling", "Antal", "min", "Resterende tid", "max" };
+				"Delbehandling", "Antal","Resterende tid" };
 		data = Service.getInstance()
-				.generateViewDataMellemlagerOversigt3Tider();
+				.generateViewDataMellemlagerOversigt();
 		dm = new DefaultTableModel(data, columnNames);
 
 		tomPladsFilter = new RowFilter<Object, Object>() {
@@ -319,7 +319,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 	private void setColumnWidths() {
 		TableColumn column = null;
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < 6; i++) {
 			column = table.getColumnModel().getColumn(i);
 			if (i == 0 || i == 1) {
 				column.setPreferredWidth(75);// Placering og Palle
@@ -330,7 +330,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				column.setPreferredWidth(40); // Antal
 				column.setMinWidth(35);
 				column.setMaxWidth(50);
-			} else if (i == 5 || i == 6 || i == 7) {
+			} else if (i == 5) {	//|| i == 6 || i == 7
 				column.setPreferredWidth(85);// Resterende tid
 				column.setMinWidth(80);
 				column.setMaxWidth(90);
@@ -364,8 +364,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				btnKassrMange.setEnabled(false);
 				btnTilFrdigvarelagerMange.setEnabled(false);
 				if (table.getSelectedRowCount() > 0
-						&& table.getValueAt(table.getSelectedRow(), 0) != null) {
-					if (table.getValueAt(table.getSelectedRow(), 1) != null) { // Der
+						&& table.getModel().getValueAt(table.getSelectedRow(), 0) != null) {
+					if (table.getModel().getValueAt(table.getSelectedRow(), 1) != null) { // Der
 																				// skal
 																				// stå
 																				// en
@@ -378,7 +378,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 																				// vises
 						btnVisPalle.setEnabled(true);
 
-						if (table.getValueAt(table.getSelectedRow(), 2) != null) { // Der
+						if (table.getModel().getValueAt(table.getSelectedRow(), 2) != null) { // Der
 																					// skal
 																					// være
 																					// en
@@ -449,7 +449,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 							.registerObserver(subFramePalleOversigt);
 				}
 			} else {
-				Palle palle = (Palle) table.getValueAt(table.getSelectedRow(),
+				Palle palle = (Palle) table.getModel().getValueAt(table.getSelectedRow(),
 						1);
 				if (e.getSource() == btnVisPalle) {
 
@@ -537,7 +537,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 	@Override
 	public void update() {
-		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames);
+		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt(), columnNames);
 		setColumnWidths();
 	}
 

@@ -115,4 +115,10 @@ public class Toerring extends Delbehandling {
 				+ Varighed.getVarighedDagTimeSekundFormateret(maxVarighed);
 	}
 
+	@Override
+	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
+		long[] restTider = this.getResterendeTider(startTid);
+		return (restTider[0]==0 && restTider[2]!=0);
+	}
+
 }

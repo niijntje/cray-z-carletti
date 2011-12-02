@@ -504,8 +504,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 				else {
 					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
-					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Dragering.class, askForPalle(false));
 				}
 			}
@@ -522,8 +522,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 				else {
 					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
-					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Toerring.class, askForPalle(true));
 				}
 			}
@@ -539,8 +539,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				}
 				else {
 					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
-					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, askForPalle(false));
 				}
 			}
@@ -556,8 +556,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				}
 				else {
 					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
-					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().kasserMellemvarer(produkttype, delbehandling, palle);
 				}
 			}
@@ -580,21 +580,22 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				btnTilTrringMange.setEnabled(false);
 				btnTilFrdigvarelagerMange.setEnabled(false);
 				btnKassrMange.setEnabled(false);
-				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
+				if (table.getSelectedRowCount()>0 && table.getModel().getValueAt(table.getSelectedRow(), 0)!=null){
 					btnKassrMange.setEnabled(true);
 				}
 
-				if (table.getSelectedRowCount()>0 && table.getValueAt(table.getSelectedRow(), 0)!=null){
+				if (table.getSelectedRowCount()>0 && table.getModel().getValueAt(table.getSelectedRow(), 0)!=null){	//Hvis der er en produkttype er der en mellemvare
 					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
-					if (delbehandling != null){
-						if (Service.getInstance().erNaesteDelbehandling(delbehandling, Dragering.class)){
+					if (delbehandling != null){																//Men der er ikke n¿dvendigvis en delbehandling i gang
+						if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)){
 							btnDrageringMange.setEnabled(true);
 						}
-						else if (Service.getInstance().erNaesteDelbehandling(delbehandling, Toerring.class)){
+						else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Toerring.class)){
 							btnTilTrringMange.setEnabled(true);
 						}
-						else if (Service.getInstance().erNaesteDelbehandling(delbehandling, null)){
+						else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null)){
 							btnTilFrdigvarelagerMange.setEnabled(true);
 						}
 					}

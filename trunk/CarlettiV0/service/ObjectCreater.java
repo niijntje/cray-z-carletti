@@ -33,7 +33,6 @@ public class ObjectCreater {
 			objectCreater = new ObjectCreater();
 		}
 		return objectCreater;
-
 	}
 
 	/**
@@ -48,6 +47,7 @@ public class ObjectCreater {
 	 * Opretter objekter og tilf¿jer dem til Dao.
 	 */
 	public void createSomeObjects() {
+		
 		Palle pa1 = Service.getInstance().opretPalle("00001");
 		Palle pa2= Service.getInstance().opretPalle("00002");
 		Palle palle1 = Service.getInstance().opretPalle("00003");
@@ -168,6 +168,8 @@ public class ObjectCreater {
 		m1.setIgangvaerendeDelbehandling(d2);
 //		 placerPalleMellemvarelager(pa1, mPlads1);
 	}
+	
+
 
 	/**
 	 * Benyttes af createSomeObjects()
