@@ -75,6 +75,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private ArrayList<Observer> observers;
 	public SubFrameAdminBehandling subFrameBehandlinger;
 	private JMenuItem mntmBehandlinger;
+	private static MainFrame mainFrame;
 
 	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
 	public SubFramePalleOversigt subFramePalleOversigt;
@@ -84,7 +85,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private SubFramePlacerPalle subFramePlacerPalle;
 	public Object subFrameAdminBehandling;
 
-	public MainFrame() {
+	private MainFrame() {
 		this.observers = new ArrayList<Observer>();
 		getContentPane().setBackground(Color.PINK);
 		controller = new Controller();
@@ -266,6 +267,13 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mnAdministrr.add(mntmMellemlagerpladser);
 
 		// -----------------------------------------------//
+	}
+	
+	public static MainFrame getInstance(){
+		if(mainFrame == null){
+			mainFrame = new MainFrame();
+		}
+		return mainFrame;
 	}
 
 	private void setColumnWidths(){
