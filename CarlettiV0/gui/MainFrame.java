@@ -275,6 +275,12 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmOversigtOverDragringshal = new JMenuItem(
 				"Drag\u00E9ringshal");
+		mntmOversigtOverDragringshal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				FrameOversigter frameOversigter = new FrameOversigter(mainFrame);
+				frameOversigter.setVisible(true);
+			}
+		});
 		mnOversigter.add(mntmOversigtOverDragringshal);
 
 		mntmOversigtOverFrdigvarer = new JMenuItem(
