@@ -39,8 +39,9 @@ public class SubFrameAdminPalle extends JFrame {
 	private JPanel contentPane;
 	private JList list;
 	private JTextField txtstregkodeOpret;
+	private static SubFrameAdminPalle adminPalle;
 
-	public SubFrameAdminPalle() {
+	private SubFrameAdminPalle() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 390, 315);
 		contentPane = new JPanel();
@@ -154,7 +155,13 @@ public class SubFrameAdminPalle extends JFrame {
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
 		list.setListData(Service.getInstance().getPaller().toArray());
-
+	}
+	
+	public static SubFrameAdminPalle getInstance(){
+		if(adminPalle == null){
+			adminPalle = new SubFrameAdminPalle();
+		}
+		return adminPalle;
 	}
 	public void setPalleStregkodeTekst(String stregkode){
 		this.txtstregkodeOpret.setText(stregkode);

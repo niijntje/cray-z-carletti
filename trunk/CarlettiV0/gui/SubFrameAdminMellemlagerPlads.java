@@ -32,11 +32,9 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 	private JTextField txtstregkode;
 	private JList list;
 	private JCheckBox chckbxPallePlaceretP;
-
-	/**
-	 * Create the frame.
-	 */
-	public SubFrameAdminMellemlagerPlads() {
+	private static SubFrameAdminMellemlagerPlads adminMellemlagerPlads;
+	
+	private SubFrameAdminMellemlagerPlads() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
@@ -245,6 +243,13 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 		});
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
+	}
+	
+	public static SubFrameAdminMellemlagerPlads getInstance(){
+		if(adminMellemlagerPlads == null){
+			adminMellemlagerPlads = new SubFrameAdminMellemlagerPlads();
+		}
+		return adminMellemlagerPlads;
 	}
 
 	@Override

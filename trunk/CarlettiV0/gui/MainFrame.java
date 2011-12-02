@@ -233,8 +233,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmPaller = new JMenuItem("Paller");
 		mntmPaller.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				subframeAdminPalle = new SubFrameAdminPalle();
-				subframeAdminPalle.setVisible(true);
+				SubFrameAdminPalle.getInstance().setVisible(true);
 			}
 		});
 
@@ -250,8 +249,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmProdukttyper = new JMenuItem("Produkttyper");
 		mntmProdukttyper.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				subFrameAdminProdukt = new SubFrameAdminProdukttype();
-				subFrameAdminProdukt.setVisible(true);
+				SubFrameAdminProdukttype.getInstance().setVisible(true);
 			}
 		});
 		mnAdministrr.add(mntmProdukttyper);
@@ -259,8 +257,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmMellemlagerpladser = new JMenuItem("Mellemlagerpladser");
 		mntmMellemlagerpladser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				subFrameAdminMellemlagerPlads = new SubFrameAdminMellemlagerPlads();
-				subFrameAdminMellemlagerPlads.setVisible(true);
+				SubFrameAdminMellemlagerPlads.getInstance().setVisible(true);
 			}
 		});
 		mnAdministrr.add(mntmMellemlagerpladser);

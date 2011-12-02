@@ -41,8 +41,9 @@ public class SubFrameAdminProdukttype extends JFrame {
 	private JComboBox comboBox, comboBoxRediger;
 	private JTextField txtNavnRediger;
 	private JTextField txtBeskrivRediger;
+	private static SubFrameAdminProdukttype adminProdukttype;
 
-	public SubFrameAdminProdukttype() {
+	private SubFrameAdminProdukttype() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 410, 485);
 		contentPane = new JPanel();
@@ -478,5 +479,11 @@ public class SubFrameAdminProdukttype extends JFrame {
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
 
+	}
+	public static SubFrameAdminProdukttype getInstance(){
+		if(adminProdukttype == null){
+			adminProdukttype = new SubFrameAdminProdukttype();
+		}
+		return adminProdukttype;
 	}
 }
