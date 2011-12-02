@@ -13,21 +13,25 @@ import model.Palle;
 import service.ObjectCreater;
 import service.Service;
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * 
  * @author Design: Cederdorff, Funktionalitet: Mads
  * 
  */
-public class SubFramePlacerPalle extends JFrame implements Observer {
+public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 	private Subject mainframe;
 	private JTextField txtPladsstregkode;
 	private JTextField txtpallestregkode;
 	private Controller controller = new Controller();
 	private JButton btnOk, btnAnnuller;
 
+	private ArrayList<Observer> observers;
+
 	public SubFramePlacerPalle() {
 		getContentPane().setBackground(Color.PINK);
+		this.observers = new ArrayList<Observer>();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		this.setTitle("Placer palle på mellemvarelager");
 		this.setLocation(200, 200);
@@ -102,6 +106,10 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 		panel_4.add(txtPladsstregkode);
 	}
 
+	public void setPalleStregkodeTekst(String stregkode){
+		txtpallestregkode.setText(stregkode);
+	}
+
 	private class Controller implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -135,6 +143,23 @@ public class SubFramePlacerPalle extends JFrame implements Observer {
 	public void update() {
 		txtPladsstregkode.setText("");
 		txtpallestregkode.setText("");
+	}
+
+	@Override
+	public void registerObserver(Observer o) {
+		observers.add(o);		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers){
+			o.update();
+		}
 	}
 
 }

@@ -16,6 +16,9 @@ import service.Service;
 import model.Palle;
 
 import com.sun.codemodel.internal.JLabel;
+import javax.swing.JTextArea;
+import javax.swing.UIManager;
+import java.awt.Font;
 
 /**
  * @author nijntje
@@ -31,14 +34,17 @@ public class PalleDialog extends JDialog {
 	private Palle palle;
 	private boolean closedByOk = false;
 	private String stregkode = "";
+	private JTextArea txtrForklaring;
+	private JButton btnOpretNy;
 
-	public PalleDialog(JFrame owner, String title){
+	public PalleDialog(JFrame owner, String title, String forklaring){
 		super(owner);
+		setAlwaysOnTop(true);
 		controller = new Controller();
 		this.setTitle(title);
 		this.setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.setLocation(200, 200);
-		this.setSize(200, 220);
+		this.setSize(200, 250);
 		getContentPane().setLayout(null);
 		this.setModal(true);
 
@@ -47,19 +53,35 @@ public class PalleDialog extends JDialog {
 		txfStregkode = new JTextField();
 		getContentPane().add(txfStregkode);
 		txfStregkode.setToolTipText("Indtast eller scan pallens stregkode");
-		txfStregkode.setLocation(15, 83);
+		txfStregkode.setLocation(15, 88);
 		txfStregkode.setSize(150, 25);
 
 		btnOk = new JButton("Ok");
 		getContentPane().add(btnOk);
-		btnOk.setLocation(15, 145);
+		btnOk.setLocation(15, 181);
 		btnOk.setSize(70, 25);
 		btnOk.addActionListener(controller);
 
 		btnCancel = new JButton("Cancel");
 		getContentPane().add(btnCancel);
-		btnCancel.setLocation(95, 145);
+		btnCancel.setLocation(95, 181);
 		btnCancel.setSize(70, 25);
+		
+		txtrForklaring = new JTextArea();
+		txtrForklaring.setLineWrap(true);
+		txtrForklaring.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
+		txtrForklaring.setBackground(UIManager.getColor("CheckBox.background"));
+		txtrForklaring.setEditable(false);
+		txtrForklaring.setText(forklaring);
+		txtrForklaring.setBounds(15, 13, 150, 63);
+		getContentPane().add(txtrForklaring);
+		
+		btnOpretNy = new JButton("Opret ny");
+		btnOpretNy.setEnabled(false);
+		btnOpretNy.addActionListener(controller);
+		btnOpretNy.setBounds(35, 125, 117, 29);
+		getContentPane().add(btnOpretNy);
+		
 		btnCancel.addActionListener(controller);
 	}
 
@@ -80,9 +102,8 @@ public class PalleDialog extends JDialog {
 				palle = Service.getInstance().soegPalle(stregkode);
 
 				if (palle == null) {
-					SubFrameAdminPalle opretPalleFrame = new SubFrameAdminPalle();
-					opretPalleFrame.setPalleStregkodeTekst(txfStregkode.getText());
-					opretPalleFrame.setVisible(true);
+					txtrForklaring.setText("Der findes ikke en palle med den angivne stregkode.\nOpret en ny?");
+					btnOpretNy.setEnabled(true);
 				}
 				else {
 					closedByOk = true;
@@ -94,10 +115,17 @@ public class PalleDialog extends JDialog {
 				closedByOk = false;
 				PalleDialog.this.setVisible(false);
 			}
+			
+			else if (e.getSource()==btnOpretNy){
+				stregkode = txfStregkode.getText();
+				Service.getInstance().opretPalle(stregkode);
+				palle = Service.getInstance().soegPalle(stregkode);
+				closedByOk = true;
+				PalleDialog.this.setVisible(false);
+			}
 
 
 		}
 
 	}
-
 }
