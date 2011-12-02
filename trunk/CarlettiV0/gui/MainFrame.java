@@ -41,6 +41,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JButton;
 import javax.swing.UIManager;
+import javax.swing.JTabbedPane;
 
 
 /**
@@ -84,6 +85,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private SubFrameAdminMellemlagerPlads subFrameAdminMellemlagerPlads;
 	private SubFramePlacerPalle subFramePlacerPalle;
 	public Object subFrameAdminBehandling;
+	private JMenu mnGaaTil;
+	private JMenuItem mntmOversigtOverDragringshal;
+	private JMenuItem mntmOversigtOverFrdigvarer;
+	private JMenuItem mntmOversigtOverMellemvarelager;
+	private JMenuItem mntmOversigtOverKasseredevarer;
 
 	private MainFrame() {
 		this.observers = new ArrayList<Observer>();
@@ -261,6 +267,22 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			}
 		});
 		mnAdministrr.add(mntmMellemlagerpladser);
+		
+		mnGaaTil = new JMenu("Gaa til\u2026");
+		mnGaaTil.setBackground(UIManager.getColor("Button.select"));
+		menuBar.add(mnGaaTil);
+		
+		mntmOversigtOverDragringshal = new JMenuItem("Oversigt over drag\u00E9ringshal");
+		mnGaaTil.add(mntmOversigtOverDragringshal);
+		
+		mntmOversigtOverFrdigvarer = new JMenuItem("Oversigt over f\u00E6rdigvarelager");
+		mnGaaTil.add(mntmOversigtOverFrdigvarer);
+		
+		mntmOversigtOverKasseredevarer = new JMenuItem("Oversigt over kasseredevarer");
+		mnGaaTil.add(mntmOversigtOverKasseredevarer);
+		
+		mntmOversigtOverMellemvarelager = new JMenuItem("Oversigt over mellemvarelager");
+		mnGaaTil.add(mntmOversigtOverMellemvarelager);
 
 		// -----------------------------------------------//
 	}
