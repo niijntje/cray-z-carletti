@@ -11,9 +11,12 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		ObjectCreater.getInstance().createSomeObjects();
+		
 		MainFrame mainFrame = new MainFrame();
+		mainFrame.update();
 		mainFrame.setVisible(true);
 		
+
 //		SubFrameAdminPalle sub1 = new SubFrameAdminPalle();
 //		sub1.setVisible(true);
 //		SubFrameAdminProdukttype sub2 = new SubFrameAdminProdukttype();
@@ -46,7 +49,7 @@ public class App {
 //						mainFrame, Service.getInstance().soegPalle("20000001"));
 //				subFramePalleOversigt.setVisible(true);
 
-		//		ObjectCreater.getInstance().createSomeObjects();
+		//		
 
 		//		SubFramePalleOversigt subFramePalleOversigt = new SubFramePalleOversigt(
 		//				mainFrame, Service.getInstance().soegPalle("20000001"));

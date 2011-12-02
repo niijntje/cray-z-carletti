@@ -183,15 +183,20 @@ public class Mellemvare {
 	 * @param delbehandling. Hvis null, skal den igangv¾rende delbehandling v¾re den sidste i behandlingens delbehandlingsliste. Ellers skal delbehandling v¾re af samme klasse som den n¾ste i behandlingens delbehandlingsliste.
 	 * @return
 	 */
-	public boolean naesteBehandlingGyldig(Class delbehandling){
+	public boolean naesteBehandlingGyldig(Class delbehandlingsType){
 		boolean gyldig = false;
 		Delbehandling naeste = this.getIgangvaerendeDelbehandling().getNextDelbehandling();
 		if (naeste != null){
-			if (naeste.getClass() == delbehandling){
+			boolean minTidErGaaet = this.getResterendeTider()[0]<=0;	//Tjekker ogsŒ for om varen er klar til at gŒ videre, altsŒ om minTid hhv. varighed
+			boolean maxTidErIkkeGaaet = true;
+			if (delbehandlingsType==Toerring.class){
+				maxTidErIkkeGaaet = this.getResterendeTider()[2]>=0;
+			}
+			if (naeste.getClass() == delbehandlingsType && minTidErGaaet && maxTidErIkkeGaaet){
 				gyldig = true;
 			}
 		}
-		else if (delbehandling == null){
+		else if (delbehandlingsType == null){
 			gyldig = true;
 		}
 		return gyldig;

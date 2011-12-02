@@ -31,7 +31,7 @@ import dao.ListDao;
 public class Service {
 	private static Service uniqueInstance;
 	private DAO dao = ListDao.getListDao();
-//			 private DAO dao = JpaDao.getDao();
+	//			 private DAO dao = JpaDao.getDao();
 
 	private Service() {
 
@@ -363,7 +363,7 @@ public class Service {
 	public ArrayList<Mellemvare> getMellemvarer() {
 		return new ArrayList<Mellemvare>(dao.mellemvarer());
 	}
-	
+
 	public ArrayList<Behandling> getBehandlinger(){
 		return new ArrayList<Behandling>(dao.behandlinger());
 	}
@@ -391,12 +391,12 @@ public class Service {
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
 		return dao.soegMellemlagerPlads(stregkode);
 	}
-	
+
 	public void redigerPalle(Palle palle, String nyStregkode){
 		palle.setStregkode(nyStregkode);
 		opdaterDatabase();
 	}
-	
+
 	public void redigerProdukttype(Produkttype produkttype, String nyBeskrivelse, Behandling nyBehandling){
 		produkttype.setBeskrivelse(nyBeskrivelse);
 		produkttype.setBehandling(nyBehandling);
@@ -431,7 +431,7 @@ public class Service {
 				for (int i = 0; i < mData.length; i++){
 					pladsData = new Object[6];
 					pladsData[0] = mp;
-					
+
 					if(mData[i][0] != null && mData[i][1].getClass() == Toerring.class){
 						pladsData[1] = mp.getPalle();
 						pladsData[2] = mData[i][0];
@@ -452,6 +452,55 @@ public class Service {
 		return data;
 	}
 
+	public Object[][] generateViewDataMellemlagerOversigt3Tider(){
+		//Data gemmes i f¿rste omgang i en ArrayList, da st¿rrelsen af data afh¾nger af 
+		//hvor mange forskellige typer mellemvarer der findes pŒ hver enkelt palle.
+		ArrayList<Object[]> listData = new ArrayList<Object[]>();
+		for (MellemlagerPlads mp : getPladser()){
+			Object[] pladsData = new Object[8];
+			pladsData[0] = mp;
+			if (mp.getPalle() == null){
+				listData.add(pladsData);
+			}
+			else {
+				Palle palle = mp.getPalle();
+				Object[][] palleData = null;
+				if (palle.getMellemvarer().size()>0){
+					HashMap<Mellemvare, Integer> mellemvareAntal = palle
+							.getMellemvareAntalMapping();
+					palleData = new Object[8][mellemvareAntal.size()];
+					int i = 0;
+
+					for (Mellemvare m : mellemvareAntal.keySet()) {
+						Object[] mData = new Object[8];
+						mData[0] = mp;
+						mData[1] = palle;
+						mData[2] = m.getProdukttype();
+						mData[3] = m.getIgangvaerendeDelbehandling();
+						mData[4] = mellemvareAntal.get(m);
+						long[] tider = m.getResterendeTider();
+						if (m.getIgangvaerendeDelbehandling().getClass()==Toerring.class){
+							mData[5] = Validering.millisekunderTildato(tider[0]);
+							mData[6] = Validering.millisekunderTildato(tider[1]);
+							mData[7] = Validering.millisekunderTildato(tider[2]);
+						}
+						else mData[6] =Validering.millisekunderTildato(tider[0]);
+						palleData[i] = mData;
+						i++;
+					}
+				}
+			}
+
+		}
+		Object[][] data = new Object[listData.size()][8];
+		int i = 0;
+		for(Object[] pladsDataArray : listData){
+			data[i] = pladsDataArray;
+			i++;
+		}
+		return data;
+	}
+
 	/**
 	 * Genererer data til brug for SubFramePalleOversigt
 	 * 
@@ -465,21 +514,21 @@ public class Service {
 			Palle palle) {
 		Object[][] data = null;
 		if (palle.getMellemvarer().size()>0){
-		HashMap<Mellemvare, Integer> mellemvareAntal = palle
-				.getMellemvareAntalMapping();
-		data = new Object[4][mellemvareAntal.size()];
-		int i = 0;
-		
-		for (Mellemvare m : mellemvareAntal.keySet()) {
-			Object[] mData = new Object[4];
-			mData[0] = m.getProdukttype();
-			mData[1] = m.getIgangvaerendeDelbehandling();
-			mData[2] = mellemvareAntal.get(m);
-			mData[3] = Validering.millisekunderTildato(m
-					.getResterendeTidTilNaeste());
-			data[i] = mData;
-			i++;
-		}
+			HashMap<Mellemvare, Integer> mellemvareAntal = palle
+					.getMellemvareAntalMapping();
+			data = new Object[4][mellemvareAntal.size()];
+			int i = 0;
+
+			for (Mellemvare m : mellemvareAntal.keySet()) {
+				Object[] mData = new Object[4];
+				mData[0] = m.getProdukttype();
+				mData[1] = m.getIgangvaerendeDelbehandling();
+				mData[2] = mellemvareAntal.get(m);
+				mData[3] = Validering.millisekunderTildato(m
+						.getResterendeTidTilNaeste());
+				data[i] = mData;
+				i++;
+			}
 		}
 		return data;
 	}
@@ -494,25 +543,25 @@ public class Service {
 	public String getMellemvareInfo(Mellemvare m) {
 		String infoString = "";
 		if (m!=null){
-		long[] tider = m.getResterendeTider();
-		infoString = "#" + m.toString() + "\t"
-				+ m.getIgangvaerendeDelbehandling() + "\n"
-				+ "\nN¾ste delbehandling om:\n";
-		for (int i = 0; i < tider.length; i++) {
-			infoString += Validering.millisekunderTildato(tider[i]);
-			if (i < tider.length - 1) {
-				infoString += " /\t";
+			long[] tider = m.getResterendeTider();
+			infoString = "#" + m.toString() + "\t"
+					+ m.getIgangvaerendeDelbehandling() + "\n"
+					+ "\nN¾ste delbehandling om:\n";
+			for (int i = 0; i < tider.length; i++) {
+				infoString += Validering.millisekunderTildato(tider[i]);
+				if (i < tider.length - 1) {
+					infoString += " /\t";
+				}
 			}
-		}
-		infoString += "\n\nBehandlings-log:\n";
-		ArrayList<GregorianCalendar> delbehandlingstider = m.getTidspunkter();
-		ArrayList<Delbehandling> delbehandlinger = m.getProdukttype()
-				.getBehandling().getDelbehandlinger();
-		for (int i = 0; i < delbehandlingstider.size(); i++) {
-			GregorianCalendar c = delbehandlingstider.get(i);
-			infoString += Validering.calendarTilCalendarString(c) + "\t"
-					+ delbehandlinger.get(i).toString() + "\n";
-		}
+			infoString += "\n\nBehandlings-log:\n";
+			ArrayList<GregorianCalendar> delbehandlingstider = m.getTidspunkter();
+			ArrayList<Delbehandling> delbehandlinger = m.getProdukttype()
+					.getBehandling().getDelbehandlinger();
+			for (int i = 0; i < delbehandlingstider.size(); i++) {
+				GregorianCalendar c = delbehandlingstider.get(i);
+				infoString += Validering.calendarTilCalendarString(c) + "\t"
+						+ delbehandlinger.get(i).toString() + "\n";
+			}
 		}
 		return infoString;
 	}
