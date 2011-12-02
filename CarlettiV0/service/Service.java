@@ -547,4 +547,8 @@ public class Service {
 		return palle.getPlaceringsString();
 	}
 
+	public boolean getPalleIkkeIBrug(Palle palle) {
+		return (palle.getPlacering()==null && palle.getDrageringshal()==null&&palle.getMellemvarer().size()==0);
+	}
+
 }

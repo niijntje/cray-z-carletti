@@ -16,6 +16,7 @@ import javax.swing.ListSelectionModel;
 
 import model.Delbehandling;
 import model.Dragering;
+import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
@@ -465,18 +466,31 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		}
 	}
 	
-	private Palle askForPalle(){
+	private Palle askForPalle(boolean askForPlacering){
 		Palle nyPalle = null;
 		if (!Service.getInstance().alleVarerErEns(palle)){
-			PalleDialog palleDialog = new PalleDialog(this, "V¾lg ny palle");
+			PalleDialog palleDialog = new PalleDialog(this, "V¾lg ny palle", "Kun nogle mellemvarer\nplukkes fra pallen.\n\nAngiv ny palle til disse:");
 			palleDialog.setVisible(true);
 			if (palleDialog.isOKed()){
 				nyPalle = palleDialog.getPalle();
 			}
 			palleDialog.dispose();
+			if (askForPlacering){
+				askForPlacering(nyPalle);
+			}
 		}
 		
 		return nyPalle;
+	}
+	
+	private void askForPlacering(Palle nyPalle){
+		if (Service.getInstance().getPalleIkkeIBrug(nyPalle)){
+			SubFramePlacerPalle placeringsFrame = new SubFramePlacerPalle();
+			placeringsFrame.setPalleStregkodeTekst(Service.getInstance().getStregkode(nyPalle));
+			placeringsFrame.setVisible(true);
+			placeringsFrame.registerObserver(mainFrame);
+		}
+		
 	}
 
 	private class Controller implements ListSelectionListener ,ActionListener{
@@ -492,31 +506,31 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 					int row = table.getSelectedRow();
 					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
-					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Dragering.class, askForPalle());
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Dragering.class, askForPalle(false));
 				}
 			}
 
 			else if (e.getSource()==btnDrageringEn){
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
-				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Dragering.class, askForPalle());
+				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Dragering.class, askForPalle(false));
 			}
 
 			else if (e.getSource()==btnTilTrringMange){
 				if (table.getSelectedRowCount()==0){
-					Service.getInstance().sendTilNaesteDelbehandling(null, palle, Toerring.class, askForPalle());
+					Service.getInstance().sendTilNaesteDelbehandling(null, palle, Toerring.class, askForPalle(true));
 				}
 
 				else {
 					int row = table.getSelectedRow();
 					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
-					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Toerring.class, askForPalle());
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Toerring.class, askForPalle(true));
 				}
 			}
 
 			else if (e.getSource()==btnTilTrringEn){
 				Mellemvare mellemvare = (Mellemvare) list.getSelectedValue();
-				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Toerring.class, askForPalle());
+				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, Toerring.class, askForPalle(true));
 			}
 
 			else if (e.getSource()==btnTilFrdigvarelagerMange){
@@ -527,7 +541,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 					int row = table.getSelectedRow();
 					Produkttype produkttype = (Produkttype) table.getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getValueAt(row, 1);
-					Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, askForPalle());
+					Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, askForPalle(false));
 				}
 			}
 
