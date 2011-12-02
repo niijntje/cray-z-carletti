@@ -12,9 +12,9 @@ public class App {
 	public static void main(String[] args) {
 		ObjectCreater.getInstance().createSomeObjects();
 		
-		MainFrame mainFrame = new MainFrame();
-		mainFrame.update();
-		mainFrame.setVisible(true);
+		
+		MainFrame.getInstance().update();
+		MainFrame.getInstance().setVisible(true);
 		
 
 //		SubFrameAdminPalle sub1 = new SubFrameAdminPalle();

@@ -26,6 +26,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 	private JTextField txtpallestregkode;
 	private Controller controller = new Controller();
 	private JButton btnOk, btnAnnuller;
+	
 
 	private ArrayList<Observer> observers;
 
@@ -36,8 +37,6 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 		this.setTitle("Placer palle på mellemvarelager");
 		this.setLocation(200, 200);
 		this.setSize(320, 300);
-
-		this.mainframe = mainframe;
 		getContentPane().setLayout(null);
 
 		JLabel lblScanStregkode = new JLabel("Scan eller indtast stregkode");
@@ -136,6 +135,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 				update();
 				SubFramePlacerPalle.this.setVisible(false);
 			}
+			notifyObservers();
 		}
 	}
 
