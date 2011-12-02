@@ -364,13 +364,21 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				btnKassrMange.setEnabled(false);
 				btnTilFrdigvarelagerMange.setEnabled(false);
 				if (table.getSelectedRowCount() > 0 && table.getModel().getValueAt(table.getSelectedRow(), 0) != null) {
-					int row = table.getSelectedRow();
+					int row = table.convertRowIndexToModel(table.getSelectedRow());	//<---VIGTIGT! - Da vi sorterer/filtrerer, er tabellens og modellens r¾kke-indicer ofte ikke de samme!
 					MellemlagerPlads mellemlagerPlads = (MellemlagerPlads) table.getModel().getValueAt(row, 0) ;
 					Palle palle = null;
 					Produkttype produkttype = null;
 					Delbehandling delbehandling = null;
+					System.out.println(""+table.getModel().getValueAt(0, 0)+table.getModel().getValueAt(0, 0)+table.getModel().getValueAt(0, 1)+table.getModel().getValueAt(0, 2)+table.getModel().getValueAt(0, 3));
+					System.out.println(""+table.getModel().getValueAt(1, 0)+table.getModel().getValueAt(1, 0)+table.getModel().getValueAt(1, 1)+table.getModel().getValueAt(1, 2)+table.getModel().getValueAt(1, 3));
+					System.out.println(""+table.getModel().getValueAt(2, 0)+table.getModel().getValueAt(2, 0)+table.getModel().getValueAt(2, 1)+table.getModel().getValueAt(2, 2)+table.getModel().getValueAt(2, 3));
+					System.out.println(""+table.getValueAt(0, 0)+table.getValueAt(0, 0)+table.getValueAt(0, 1)+table.getValueAt(0, 2)+table.getValueAt(0, 3));
+					System.out.println(""+table.getValueAt(1, 0)+table.getValueAt(1, 0)+table.getValueAt(1, 1)+table.getValueAt(1, 2)+table.getValueAt(1, 3));
+					System.out.println(""+table.getValueAt(2, 0)+table.getValueAt(2, 0)+table.getValueAt(2, 1)+table.getValueAt(2, 2)+table.getValueAt(2, 3));
+
 					if (table.getModel().getValueAt(row, 1) != null) { // Der skal stŒ en palle for at en palle kan vises
 						palle = (Palle) table.getModel().getValueAt(row, 1);
+						System.out.println(palle);
 						btnVisPalle.setEnabled(true);
 						if (table.getModel().getValueAt(row, 2) != null) { // Der skal v¾re en mellemvare, dvs. der skal stŒ en produkttype f¿r noget kan kasseres
 							produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
@@ -404,7 +412,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				}
 			} 
 			else {
-				Palle palle = (Palle) table.getModel().getValueAt(table.getSelectedRow(), 1);
+				int row = table.convertRowIndexToModel(table.getSelectedRow()); //<---VIGTIGT! - Da vi sorterer/filtrerer, er tabellens og modellens r¾kke-indicer ofte ikke de samme!
+				Palle palle = (Palle) table.getModel().getValueAt(row, 1);
 				if (e.getSource() == btnVisPalle) {
 					MainFrame.this.subFramePalleOversigt = new SubFramePalleOversigt(MainFrame.this, palle);
 					MainFrame.this.subFramePalleOversigt.setVisible(true);
@@ -414,36 +423,34 @@ public class MainFrame extends JFrame implements Observer, Subject {
 						subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
 						subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
 					}
-				} else if (e.getSource() == btnDrageringMange) {
-					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
-					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Dragering.class, null);
+				} 
+				else {
 
-				}
+					if (e.getSource() == btnDrageringMange) {
+						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
+						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Dragering.class, null);
+					}
 
-				else if (e.getSource() == btnTilTrringMange) {
-						int row = table.getSelectedRow();
+					else if (e.getSource() == btnTilTrringMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
 						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Toerring.class, null);
-				}
+					}
 
-				else if (e.getSource() == btnTilFrdigvarelagerMange) {
-						int row = table.getSelectedRow();
+					else if (e.getSource() == btnTilFrdigvarelagerMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
 						Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, null);
-				
-				}
 
-				else if (e.getSource() == btnKassrMange) {
-						int row = table.getSelectedRow();
+					}
+
+					else if (e.getSource() == btnKassrMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
 						Service.getInstance().kasserMellemvarer(produkttype,delbehandling, palle);
+					}
 				}
-
 				update();
 				notifyObservers();
 			}
