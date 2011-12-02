@@ -485,7 +485,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 	
 	private void askForPlacering(Palle nyPalle){
 		if (Service.getInstance().getPalleIkkeIBrug(nyPalle)){
-			SubFramePlacerPalle placeringsFrame = new SubFramePlacerPalle();
+			SubFramePlacerPalle placeringsFrame = new SubFramePlacerPalle(mainFrame);
 			placeringsFrame.setPalleStregkodeTekst(Service.getInstance().getStregkode(nyPalle));
 			placeringsFrame.setVisible(true);
 			placeringsFrame.registerObserver(mainFrame);
