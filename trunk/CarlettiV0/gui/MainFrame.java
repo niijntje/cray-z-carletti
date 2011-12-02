@@ -78,16 +78,13 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
 	public SubFramePalleOversigt subFramePalleOversigt;
-	private SubFrameAdminPalle subframeAdminPalle;
-	private SubFrameAdminProdukttype subFrameAdminProdukt;
-	private SubFrameAdminMellemlagerPlads subFrameAdminMellemlagerPlads;
 	private SubFramePlacerPalle subFramePlacerPalle;
 	public Object subFrameAdminBehandling;
-	private JMenu mnGaaTil;
+	private JMenu mnOversigter;
 	private JMenuItem mntmOversigtOverDragringshal;
 	private JMenuItem mntmOversigtOverFrdigvarer;
-	private JMenuItem mntmOversigtOverMellemvarelager;
 	private JMenuItem mntmOversigtOverKasseredevarer;
+	private JMenuItem mntmPaller_1;
 
 	private MainFrame() {
 		this.observers = new ArrayList<Observer>();
@@ -266,30 +263,30 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmMellemlagerpladser = new JMenuItem("Mellemlagerpladser");
 		mntmMellemlagerpladser.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				SubFrameAdminMellemlagerPlads.getInstance().setVisible(true);
+				SubFrameAdminMellemlagerPlads.getInstance(MainFrame.this).setVisible(true);
 			}
 		});
 		mnAdministrr.add(mntmMellemlagerpladser);
 
-		mnGaaTil = new JMenu("Gaa til\u2026");
-		mnGaaTil.setBackground(UIManager.getColor("Button.select"));
-		menuBar.add(mnGaaTil);
+		mnOversigter = new JMenu("Oversigter");
+		mnOversigter.setMnemonic('o');
+		mnOversigter.setBackground(UIManager.getColor("Button.select"));
+		menuBar.add(mnOversigter);
 
 		mntmOversigtOverDragringshal = new JMenuItem(
-				"Oversigt over drag\u00E9ringshal");
-		mnGaaTil.add(mntmOversigtOverDragringshal);
+				"Drag\u00E9ringshal");
+		mnOversigter.add(mntmOversigtOverDragringshal);
 
 		mntmOversigtOverFrdigvarer = new JMenuItem(
-				"Oversigt over f\u00E6rdigvarelager");
-		mnGaaTil.add(mntmOversigtOverFrdigvarer);
+				"F\u00E6rdigvarelager");
+		mnOversigter.add(mntmOversigtOverFrdigvarer);
 
 		mntmOversigtOverKasseredevarer = new JMenuItem(
-				"Oversigt over kasseredevarer");
-		mnGaaTil.add(mntmOversigtOverKasseredevarer);
-
-		mntmOversigtOverMellemvarelager = new JMenuItem(
-				"Oversigt over mellemvarelager");
-		mnGaaTil.add(mntmOversigtOverMellemvarelager);
+				"Kasserede varer");
+		mnOversigter.add(mntmOversigtOverKasseredevarer);
+		
+		mntmPaller_1 = new JMenuItem("Paller");
+		mnOversigter.add(mntmPaller_1);
 
 		// -----------------------------------------------//
 	}

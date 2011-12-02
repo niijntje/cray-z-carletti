@@ -1,46 +1,48 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JList;
-import java.awt.Font;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-
-import service.Service;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import model.MellemlagerPlads;
-import java.awt.Color;
+import service.Service;
 
-public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
+public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 
 	private JPanel contentPane;
 	private JTextField txtstregkode;
 	private JList list;
 	private JCheckBox chckbxPallePlaceretP;
 	private static SubFrameAdminMellemlagerPlads adminMellemlagerPlads;
+	private ArrayList<Observer> observers;
+	private MainFrame mainFrame;
 	
-	private SubFrameAdminMellemlagerPlads() {
+	private SubFrameAdminMellemlagerPlads(MainFrame mainFrame) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		this.observers = new ArrayList<Observer>();
+		registerObserver(mainFrame);
 
 		JLabel lblMellemlagerpladser = new JLabel("Mellemlagerpladser");
 
@@ -69,6 +71,7 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 							txtstregkode.getText());
 					list.setListData(Service.getInstance().getPladser()
 							.toArray());
+					notifyObservers();
 				}
 			}
 		});
@@ -89,6 +92,7 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 							(MellemlagerPlads) list.getSelectedValue());
 					list.setListData(Service.getInstance().getPladser()
 							.toArray());
+					notifyObservers();
 				}
 			}
 		});
@@ -245,15 +249,30 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Observer{
 		contentPane.setLayout(gl_contentPane);
 	}
 	
-	public static SubFrameAdminMellemlagerPlads getInstance(){
+	public static SubFrameAdminMellemlagerPlads getInstance(MainFrame mainFrame){
 		if(adminMellemlagerPlads == null){
-			adminMellemlagerPlads = new SubFrameAdminMellemlagerPlads();
+			adminMellemlagerPlads = new SubFrameAdminMellemlagerPlads(mainFrame);
 		}
 		return adminMellemlagerPlads;
 	}
 
 	@Override
-	public void update() {
+	public void registerObserver(Observer o) {
+		observers.add(o);
+		
+	}
+
+	@Override
+	public void removeObserver(Observer o) {
+		observers.remove(o);
+		
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer o : observers){
+			o.update();
+		}
 		
 	}
 }

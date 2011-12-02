@@ -25,9 +25,9 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 	private JTextField txtpallestregkode;
 	private Controller controller = new Controller();
 	private JButton btnOk, btnAnnuller;
-	
 
 	private ArrayList<Observer> observers;
+	private JLabel lblPalleEllerPlads;
 
 	public SubFramePlacerPalle(MainFrame mainFrame) {
 		getContentPane().setBackground(Color.PINK);
@@ -103,9 +103,16 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 		txtPladsstregkode.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		txtPladsstregkode.setColumns(10);
 		panel_4.add(txtPladsstregkode);
+
+		lblPalleEllerPlads = new JLabel("palle eller plads eksisterer ikke");
+		lblPalleEllerPlads.setForeground(Color.RED);
+		lblPalleEllerPlads.setFont(new Font("Lucida Grande", Font.ITALIC, 10));
+		lblPalleEllerPlads.setBounds(154, 212, 160, 16);
+		getContentPane().add(lblPalleEllerPlads);
+		lblPalleEllerPlads.setVisible(false);
 	}
 
-	public void setPalleStregkodeTekst(String stregkode){
+	public void setPalleStregkodeTekst(String stregkode) {
 		txtpallestregkode.setText(stregkode);
 	}
 
@@ -120,8 +127,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 				System.out.println(palle);
 				System.out.println(mellemlagerPlads);
 				if (mellemlagerPlads == null || palle == null) {
-					throw new RuntimeException(
-							"Palle eller mellemlagerplads findes ikke");
+					lblPalleEllerPlads.setVisible(true);
 				} else {
 					Service.getInstance().placerPalleMellemvarelager(palle,
 							mellemlagerPlads);
@@ -145,19 +151,18 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 
 	@Override
 	public void registerObserver(Observer o) {
-		observers.add(o);		
+		observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
-		observers.remove(o);		
+		observers.remove(o);
 	}
 
 	@Override
 	public void notifyObservers() {
-		for (Observer o : observers){
+		for (Observer o : observers) {
 			o.update();
 		}
 	}
-
 }

@@ -48,27 +48,29 @@ public class ObjectCreater {
 	 * Opretter objekter og tilf¿jer dem til Dao.
 	 */
 	public void createSomeObjects() {
-
-		Palle pa1 = Service.getInstance().opretPalle("20000001");
-		Service.getInstance().opretPalle("20000002");
-		Palle palle1 = Service.getInstance().opretPalle("00001");
-		Palle pa2 = Service.getInstance().opretPalle("00002");
-		Service.getInstance().opretPalle("00003");
-
-		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads(
-				"100100101");
-
-		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads("100100102");
-		MellemlagerPlads pl3 = Service.getInstance().opretMellemlagerPlads("001");
+		Palle pa1 = Service.getInstance().opretPalle("00001");
+		Palle pa2= Service.getInstance().opretPalle("00002");
+		Palle palle1 = Service.getInstance().opretPalle("00003");
+		Service.getInstance().opretPalle("00004");
+		Service.getInstance().opretPalle("00005");
+		Service.getInstance().opretPalle("00006");
+		Service.getInstance().opretPalle("00007");
+		Service.getInstance().opretPalle("00008");
+		Service.getInstance().opretPalle("00009");
+		Service.getInstance().opretPalle("00010");
+		Service.getInstance().opretPalle("00011");
+		
+		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads("001");
 		Service.getInstance().opretMellemlagerPlads("002");
 		Service.getInstance().opretMellemlagerPlads("003");
 		Service.getInstance().opretMellemlagerPlads("004");
 		Service.getInstance().opretMellemlagerPlads("005");
 		Service.getInstance().opretMellemlagerPlads("006");
-		Service.getInstance().opretMellemlagerPlads("007");
+		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads("007");
 		Service.getInstance().opretMellemlagerPlads("008");
 		Service.getInstance().opretMellemlagerPlads("009");
 		Service.getInstance().opretMellemlagerPlads("010");
+		Service.getInstance().opretMellemlagerPlads("011");
 
 		Long varighed1 = Validering.varighedStringTilMillisekunder("02:14:00");
 		Long varighed2 = Validering.varighedStringTilMillisekunder("02:16:30");
@@ -114,15 +116,16 @@ public class ObjectCreater {
 		GregorianCalendar dato6 = new GregorianCalendar();
 		dato6.setTimeInMillis(System.currentTimeMillis() - (varighed9));
 
-		opretMellemvare("01", p, pa1, dato6);
-		opretMellemvare("02", p2, palle1, dato6);
-		opretMellemvare("300000001", pt1, pa1, dato6);
-		opretMellemvare("300000002", pt1, pa1, dato6);
+		opretMellemvare("300000001", p, pa1, dato6);
+		opretMellemvare("300000002", p2, palle1, dato6);
 		opretMellemvare("300000003", pt2, pa1, dato6);
 		opretMellemvare("300000004", pt1, pa2, dato6);
 		opretMellemvare("300000005", pt1, pa2, dato6);
 		opretMellemvare("300000006", pt2, pa1, dato6);
 		opretMellemvare("300000007", pt1, pa1, dato6);
+		opretMellemvare("300000008", pt1, pa1, dato6);
+		opretMellemvare("300000009", pt1, pa1, dato6);
+
 		
 		Mellemvare m1 = pa1.getMellemvarer().get(0);
 
@@ -163,7 +166,7 @@ public class ObjectCreater {
 			}
 		}
 		m1.setIgangvaerendeDelbehandling(d2);
-		// placerPalleMellemvarelager(pa1, mPlads1);
+//		 placerPalleMellemvarelager(pa1, mPlads1);
 	}
 
 	/**
