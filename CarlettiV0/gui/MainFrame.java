@@ -29,6 +29,7 @@ import javax.swing.text.TableView.TableRow;
 
 import model.Delbehandling;
 import model.Dragering;
+import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
@@ -365,66 +366,24 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				btnTilFrdigvarelagerMange.setEnabled(false);
 				if (table.getSelectedRowCount() > 0
 						&& table.getModel().getValueAt(table.getSelectedRow(), 0) != null) {
-					if (table.getModel().getValueAt(table.getSelectedRow(), 1) != null) { // Der
-																				// skal
-																				// stå
-																				// en
-																				// palle
-																				// for
-																				// at
-																				// en
-																				// palle
-																				// kan
-																				// vises
+					int row = table.getSelectedRow();
+					MellemlagerPlads mellemlagerPlads = (MellemlagerPlads) table.getModel().getValueAt(row, 0) ;
+					Palle palle = null;
+					Produkttype produkttype = null;
+					Delbehandling delbehandling = null;
+					if (table.getModel().getValueAt(table.getSelectedRow(), 1) != null) { // Der skal stå en palle for at en palle kan vises
+						palle = (Palle) table.getModel().getValueAt(row, 1);
 						btnVisPalle.setEnabled(true);
-
-						if (table.getModel().getValueAt(table.getSelectedRow(), 2) != null) { // Der
-																					// skal
-																					// være
-																					// en
-																					// mellemvare,
-																					// dvs.
-																					// der
-																					// skal
-																					// stå
-																					// en
-																					// produkttype,
-																					// før
-																					// noget
-																					// kan
-																					// kasseres
+						if (table.getModel().getValueAt(row, 2) != null) { // Der skal være en mellemvare, dvs. der skal stå en produkttype før noget kan kasseres
+							produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 							btnKassrMange.setEnabled(true);
-
-							int row = table.getSelectedRow();
-							Delbehandling delbehandling = (Delbehandling) table
-									.getModel().getValueAt(row, 3);
-							if (delbehandling != null) { // Der skal være en
-															// igangværende
-															// delbehandling før
-															// man kan sætte det
-															// næste trin i
-															// gang.
-								if (Service.getInstance()
-										.erNaesteDelbehandling(delbehandling,
-												Dragering.class)) { // Den næste
-																	// delbehandling
-																	// skal være
-																	// af typen
-																	// dragering,
-																	// for at
-																	// denne må
-																	// sættes i
-																	// gang
+							if (table.getModel().getValueAt(row, 3) != null) { 	// Der skal være en igangværende delbehandling før man kan sætte det næste trin i gang. (Men delbehandling er null for færdigvarer og kasserede varer)
+								delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+//---------->Her tjekkes endelig hvad den næste handling må være - på mellemvarelageret må man sende til dragering eller færdigvarelager----------//
+//---------->Det er altså hér, der skal ændres, hvis man vil lave tilsvarende oversigt for drageringshal og færdigvarer.
+								if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)) { // Den næste delbehandling skal være af typen dragering for at en dragering må sættes i gang
 									btnDrageringMange.setEnabled(true);
-								} else if (Service.getInstance()
-										.erNaesteDelbehandling(delbehandling,
-												null)) { // Mellemvaren må kun
-															// sendes til
-															// færdigvarelageret
-															// hvis der ikke er
-															// flere
-															// delbehandlinger i
-															// behandlingen
+								} else if ((Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null))) { // Mellemvaren må kun sendes til færdigvarelageret hvis der ikke er flere delbehandlinger i behandlingen
 									btnTilFrdigvarelagerMange.setEnabled(true);
 								}
 							}
