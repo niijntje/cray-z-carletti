@@ -13,6 +13,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JList;
+import javax.swing.WindowConstants;
+
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JButton;
@@ -65,6 +67,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 
 		JButton btnOpret = new JButton("Opret");
 		btnOpret.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtNavn.getText() != null) {
 					Service.getInstance().opretBehandling(txtNavn.getText());
@@ -84,6 +87,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 
 		JButton btnSletDelbehandling = new JButton("Slet");
 		btnSletDelbehandling.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				Delbehandling delbehandling = (Delbehandling) listDelbehandlinger.getSelectedValue();
 				if(delbehandling != null){
@@ -96,6 +100,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 
 		JButton btnTilfoej = new JButton("Tilfoej");
 		btnTilfoej.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				behandling = (Behandling) listBehandlinger.getSelectedValue();
 				if (behandling != null) {
@@ -109,6 +114,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 
 		JButton btnSletBehandling = new JButton("Slet behandling");
 		btnSletBehandling.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				if(listBehandlinger.getSelectedValue() != null){
 					Service.getInstance().removeBehandling((Behandling) listBehandlinger.getSelectedValue());
@@ -189,6 +195,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 
 		listBehandlinger = new JList();
 		listBehandlinger.addListSelectionListener(new ListSelectionListener() {
+			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
 				Behandling behandling = (Behandling) listBehandlinger
 						.getSelectedValue();
