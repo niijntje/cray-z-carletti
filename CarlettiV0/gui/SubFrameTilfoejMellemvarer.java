@@ -158,10 +158,9 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 							txtBakkestregkode.getText(),
 							(Produkttype) cBox.getSelectedItem(), palle);
 				}
-				else {
-					SubFrameAdminPalle opretPalleFrame = new SubFrameAdminPalle();
-					opretPalleFrame.setPalleStregkodeTekst(txtPallestregkode.getText());
-					opretPalleFrame.setVisible(true);
+				else {					
+					SubFrameAdminPalle.getInstance().setPalleStregkodeTekst(txtPallestregkode.getText());
+					SubFrameAdminPalle.getInstance().setVisible(true);
 				}
 				update();
 				notifyObservers();
