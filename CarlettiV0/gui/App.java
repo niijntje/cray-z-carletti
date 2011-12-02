@@ -1,6 +1,7 @@
 package gui;
 
-import model.Behandling;
+import model.MellemlagerPlads;
+import model.Palle;
 import service.ObjectCreater;
 import service.Service;
 
@@ -12,10 +13,9 @@ public class App {
 	public static void main(String[] args) {
 		ObjectCreater.getInstance().createSomeObjects();
 		
-		
 		MainFrame.getInstance().update();
 		MainFrame.getInstance().setVisible(true);
-		
+
 
 //		SubFrameAdminPalle sub1 = new SubFrameAdminPalle();
 //		sub1.setVisible(true);

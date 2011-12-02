@@ -521,8 +521,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 	@Override
 	public void update() {
-		dm.setDataVector(Service.getInstance()
-				.generateViewDataMellemlagerOversigt3Tider(), columnNames);
+		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames);
 		setColumnWidths();
 	}
 
