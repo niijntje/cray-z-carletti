@@ -54,7 +54,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private Controller controller;
 	private RowFilter<Object, Object> tomPladsFilter;
 	private DefaultTableModel dm;
-	private Object[][] datas;
+	private Object[][] data;
 	private String[] columnNames;
 	private JCheckBox chckbxVisTommePladser;
 	private JButton btnVisPalle;
@@ -158,9 +158,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		gbc_scrollPane.gridy = 1;
 		panel2.add(scrollPane, gbc_scrollPane);
 
-		columnNames = new String[] {"Plads#", "Palle#", "Produkttype", "Delbehandling", "Antal","Resterende tid" };
-		datas = Service.getInstance().generateViewDataMellemlagerOversigt();
-		dm = new DefaultTableModel(datas, columnNames);
+		columnNames = new String[] {"Plads#", "Palle#", "Produkttype", "Delbehandling", "Antal","min", "Resterende tid", "max" };
+		data = Service.getInstance().generateViewDataMellemlagerOversigt3Tider();
+		dm = new DefaultTableModel(data, columnNames);
 
 		tomPladsFilter = new RowFilter<Object, Object>() {
 			@Override
@@ -192,11 +192,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		btnDrageringMange = new JButton("Til dragering");
 		btnDrageringMange.addActionListener(controller);
-		
-				btnVisPalle = new JButton("Vis palle");
-				panel_1.add(btnVisPalle);
-				btnVisPalle.setEnabled(false);
-				btnVisPalle.addActionListener(controller);
+
+		btnVisPalle = new JButton("Vis palle");
+		panel_1.add(btnVisPalle);
+		btnVisPalle.setEnabled(false);
+		btnVisPalle.addActionListener(controller);
 		panel_1.add(btnDrageringMange);
 
 		btnTilFrdigvarelagerMange = new JButton("Til f\u00E6rdigvarelager");
@@ -236,7 +236,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				subframeAdminPalle.setVisible(true);
 			}
 		});
-		
+
 		mntmBehandlinger = new JMenuItem("Behandlinger");
 		mntmBehandlinger.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -267,10 +267,10 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		// -----------------------------------------------//
 	}
-	
+
 	private void setColumnWidths(){
 		TableColumn column = null;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 8; i++) {
 			column = table.getColumnModel().getColumn(i);
 			if (i == 0 || i == 1){
 				column.setPreferredWidth(75);//Placering og Palle
@@ -282,7 +282,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				column.setMinWidth(35);
 				column.setMaxWidth(50);
 			} 
-			else if (i == 5){
+			else if (i == 5 || i == 6 || i == 7){
 				column.setPreferredWidth(85);//Resterende tid
 				column.setMinWidth(80);
 				column.setMaxWidth(90);
