@@ -3,10 +3,5 @@
 	<classpathentry kind="src" path=""/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JPA"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/eclipselink.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/javax.persistence_2.0.3.v201010191057.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/mysql-connector-java-5.1.15-bin.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/JPA User Libraries/sqljdbc4.jar"/>
-	<classpathentry kind="lib" path="/Users/nijntje/Kode/jtds-1.2.5-dist/jtds-1.2.5.jar"/>
 	<classpathentry kind="output" path=""/>
 </classpath>
