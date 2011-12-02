@@ -3,7 +3,6 @@ package service;
 import gui.MainFrame;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import model.Behandling;
@@ -16,7 +15,6 @@ import model.Palle;
 import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
-import dao.JpaDao;
 import dao.ListDao;
 
 /**
