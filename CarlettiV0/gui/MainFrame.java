@@ -114,6 +114,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		btnPlacrPalle = new JButton("Plac\u00E9r palle");
 		btnPlacrPalle.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				subFramePlacerPalle = new SubFramePlacerPalle(MainFrame.this);
 				subFramePlacerPalle.setVisible(true);
@@ -238,6 +239,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmPaller = new JMenuItem("Paller");
 		mntmPaller.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminPalle.getInstance().setVisible(true);
 			}
@@ -245,6 +247,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmBehandlinger = new JMenuItem("Behandlinger");
 		mntmBehandlinger.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminBehandling.getInstance().setVisible(true);
 			}
@@ -254,6 +257,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmProdukttyper = new JMenuItem("Produkttyper");
 		mntmProdukttyper.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminProdukttype.getInstance().setVisible(true);
 			}
@@ -262,6 +266,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmMellemlagerpladser = new JMenuItem("Mellemlagerpladser");
 		mntmMellemlagerpladser.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminMellemlagerPlads.getInstance(MainFrame.this).setVisible(true);
 			}
