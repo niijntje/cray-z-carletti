@@ -71,5 +71,10 @@ public class Dragering extends Delbehandling {
 		return super.toString() + "\t Varighed: "
 				+ Varighed.getVarighedDagTimeSekundFormateret(varighed);
 	}
+	@Override
+	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
+		long tidGaaet = System.currentTimeMillis()-startTid.getTimeInMillis();
+		return tidGaaet>this.varighed;
+	}
 
 }

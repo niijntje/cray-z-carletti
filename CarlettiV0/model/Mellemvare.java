@@ -156,8 +156,7 @@ public class Mellemvare {
 	public long getResterendeTidTilNaeste() {
 		long tid = 0;
 		if (this.getIgangvaerendeDelbehandling()!=null){
-			tid = this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(
-					getTidspunkter().get(tidspunkter.size() - 1));
+			tid = this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(getSidsteStarttid());
 		}
 		return tid;
 	}
@@ -187,21 +186,23 @@ public class Mellemvare {
 		boolean gyldig = false;
 		Delbehandling naeste = this.getIgangvaerendeDelbehandling().getNextDelbehandling();
 		if (naeste != null){
-			boolean minTidErGaaet = this.getResterendeTider()[0]<=0;	//Tjekker ogsŒ for om varen er klar til at gŒ videre, altsŒ om minTid hhv. varighed
-			boolean maxTidErIkkeGaaet = true;
-			if (delbehandlingsType==Toerring.class){
-				maxTidErIkkeGaaet = this.getResterendeTider()[2]>=0;
-			}
-			if (naeste.getClass() == delbehandlingsType && minTidErGaaet && maxTidErIkkeGaaet){
+			if (naeste.getClass() == delbehandlingsType){
 				gyldig = true;
 			}
 		}
 		else if (delbehandlingsType == null){
 			gyldig = true;
 		}
-		return gyldig;
+		return gyldig && indenforTilladtBehandlingstid();
 	}
 
+	private boolean indenforTilladtBehandlingstid() {
+		return igangvaerendeDelbehandling.indenforTilladtBehandlingstid(getSidsteStarttid());
+	}
+	private GregorianCalendar getSidsteStarttid() {
+		return getTidspunkter().get(tidspunkter.size() - 1);
+	}
+	
 	@Override
 	public String toString() {
 		return this.getBakkestregkode() + "\t" + this.getProdukttype();

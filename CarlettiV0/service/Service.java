@@ -490,7 +490,7 @@ public class Service {
 						mData[3] = m.getIgangvaerendeDelbehandling();
 						mData[4] = mellemvareAntal.get(m);
 						long[] tider = m.getResterendeTider();
-						if (m.getIgangvaerendeDelbehandling().getClass()==Toerring.class){
+						if (tider.length==3){
 							mData[5] = Validering.millisekunderTilVarighedString(tider[0]);
 							mData[6] = Validering.millisekunderTilVarighedString(tider[1]);
 							mData[7] = Validering.millisekunderTilVarighedString(tider[2]);
@@ -607,6 +607,16 @@ public class Service {
 
 	public boolean naesteBehandlingGyldig(Mellemvare m, Class delbehandlingsType) {
 		return m.naesteBehandlingGyldig(delbehandlingsType);
+	}
+	
+	public boolean naesteBehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling, Class delbehandlingsType){
+		boolean gyldig = true;
+		for (Mellemvare m : palle.getMellemvarerAfSammeType(produkttype, delbehandling)){
+			if (!m.naesteBehandlingGyldig(delbehandlingsType)){
+				gyldig = false;
+			}
+		}
+		return gyldig;
 	}
 
 	public boolean erNaesteDelbehandling(Delbehandling delbehandling, Class delbehandlingsType) {

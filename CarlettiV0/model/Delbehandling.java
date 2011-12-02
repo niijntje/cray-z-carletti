@@ -79,6 +79,8 @@ public abstract class Delbehandling {
 	 */
 	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException;
+	
+	public abstract boolean indenforTilladtBehandlingstid(GregorianCalendar startTid);
 
 	@Override
 	public String toString() {
