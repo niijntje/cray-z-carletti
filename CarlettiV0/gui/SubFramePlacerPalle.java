@@ -123,9 +123,9 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 					throw new RuntimeException(
 							"Palle eller mellemlagerplads findes ikke");
 				} else {
-					Service.getInstance().getPaller().remove(palle);
-					Service.getInstance().placerPalleMellemvarelager(palle,
-							mellemlagerPlads);
+//					Service.getInstance().getPaller().remove(palle);
+//					Service.getInstance().placerPalleMellemvarelager(palle,
+//							mellemlagerPlads);
 					SubFramePlacerPalle.this.setVisible(false);
 				}
 
@@ -133,6 +133,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 				update();
 				SubFramePlacerPalle.this.setVisible(false);
 			}
+			System.out.println("hej");
 			notifyObservers();
 		}
 	}
