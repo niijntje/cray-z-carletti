@@ -11,6 +11,7 @@ import model.Dragering;
 import model.Drageringshal;
 import model.MellemlagerPlads;
 import model.Mellemvare;
+import model.MellemvareStatus;
 import model.Palle;
 import model.Produkttype;
 import model.Toerring;
@@ -228,6 +229,7 @@ public class Service {
 	public void sendTilF¾rdigvareLager(Mellemvare mellemvare, Palle palle){
 		ArrayList<Mellemvare> behandledeVarer = palle.sendTilFaerdigvareLager(mellemvare);
 		if (mellemvare != null){
+			mellemvare.setStatus(MellemvareStatus.FAERDIG);
 			palle.removeMellemvare(mellemvare);
 			//OPDATER DAO???
 			//			dao.removeMellemvare(mellemvare);
@@ -255,6 +257,7 @@ public class Service {
 		}
 		else {
 			for (Mellemvare m : behandledeVarer){
+				m.setStatus(MellemvareStatus.FAERDIG);
 				palle.removeMellemvare(m);
 				if (nyPalle!=null){
 					nyPalle.addMellemvare(m);
@@ -277,6 +280,7 @@ public class Service {
 			palle.setDrageringshal(null);
 		}
 		for (Mellemvare m : behandledeVarer){
+			m.setStatus(MellemvareStatus.KASSERET);
 			palle.removeMellemvare(m);
 		}
 	}
@@ -293,6 +297,7 @@ public class Service {
 			palle.setDrageringshal(null);
 		}
 		for (Mellemvare m : behandledeVarer){
+			m.setStatus(MellemvareStatus.KASSERET);
 			palle.removeMellemvare(m);
 		}
 	}
@@ -364,6 +369,14 @@ public class Service {
 
 	public ArrayList<Behandling> getBehandlinger(){
 		return new ArrayList<Behandling>(dao.behandlinger());
+	}
+	
+	public ArrayList<Mellemvare>getFaerdigvarer(){
+		return new ArrayList<Mellemvare>(dao.faerdigvarer());
+	}
+	
+	public ArrayList<Mellemvare>getKasserede(){
+		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
 	}
 
 	public String getStregkode(Palle palle) {
@@ -497,6 +510,28 @@ public class Service {
 			i++;
 		}
 		return data;
+	}
+	
+	/**
+	 * genererer et array til visning i SubFrameDrageringshalOversigt
+	 */
+	
+	public Object[][] generateViewDataDrageringshal()
+	{
+			ArrayList<Palle> paller = Drageringshal.getInstance().getPaller();
+			Object[][] data = new Object[paller.size()][2];
+			for (int i = 0; i < paller.size(); i++)
+			{
+				Palle palle = paller.get(i);
+				for(int j = 0; j < palle.getMellemvarer().size(); j++){
+					data[i][0] = palle;
+					data[i][1] = palle.getMellemvarer().get(j).getProdukttype();
+					data[i][2] = Validering.millisekunderTilVarighedString(palle.getMellemvarer().get(j).getResterendeTidTilNaeste());
+				}
+				
+			
+			}
+			return data;
 	}
 
 	/**

@@ -174,9 +174,9 @@ public class ListDao implements DAO {
 
 	@Override
 	public List<Mellemvare> faerdigvarer() {
-		ArrayList<Mellemvare>faerdigvarer = new ArrayList<Mellemvare>();
-		for(int i = 0; i < mellemvarer.size(); i ++){
-			if(mellemvarer.get(i).getStatus() == MellemvareStatus.FAERDIG){
+		ArrayList<Mellemvare> faerdigvarer = new ArrayList<Mellemvare>();
+		for (int i = 0; i < mellemvarer.size(); i++) {
+			if (mellemvarer.get(i).getStatus() == MellemvareStatus.FAERDIG) {
 				faerdigvarer.add(mellemvarer.get(i));
 			}
 		}
@@ -185,9 +185,9 @@ public class ListDao implements DAO {
 
 	@Override
 	public List<Mellemvare> kasseredeVarer() {
-		ArrayList<Mellemvare>kasseredeVarer = new ArrayList<Mellemvare>();
-		for(int i = 0; i < mellemvarer.size(); i ++){
-			if(mellemvarer.get(i).getStatus() == MellemvareStatus.KASSERET){
+		ArrayList<Mellemvare> kasseredeVarer = new ArrayList<Mellemvare>();
+		for (int i = 0; i < mellemvarer.size(); i++) {
+			if (mellemvarer.get(i).getStatus() == MellemvareStatus.KASSERET) {
 				kasseredeVarer.add(mellemvarer.get(i));
 			}
 		}
@@ -197,7 +197,7 @@ public class ListDao implements DAO {
 	@Override
 	public void opdaterDatabase() {
 		// DO NOTHING
-		
+
 	}
 
 }

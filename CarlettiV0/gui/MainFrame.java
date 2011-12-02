@@ -62,7 +62,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private JButton btnTilfoejNyMellemvare;
 	private JPanel panel2;
 	private JScrollPane scrollPane;
-	private JPanel panel;
 	private JMenuBar menuBar;
 	private JMenuItem mntmPaller;
 	private JMenuItem mntmProdukttyper;
@@ -74,6 +73,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private ArrayList<Observer> observers;
 	public SubFrameAdminBehandling subFrameBehandlinger;
 	private JMenuItem mntmBehandlinger;
+	private FrameOversigter frameOversigter;
 	private static MainFrame mainFrame;
 
 	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
@@ -97,10 +97,10 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 20, 711, 20, 0 };
-		gridBagLayout.rowHeights = new int[] { 39, 50, 321, 21, 68, 20, 0 };
+		gridBagLayout.rowHeights = new int[] { 39, 50, 321, 21, 35, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0,
 				Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0,
+		gridBagLayout.rowWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0,
 				Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
 
@@ -114,7 +114,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		btnPlacrPalle = new JButton("Plac\u00E9r palle");
 		btnPlacrPalle.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				subFramePlacerPalle = new SubFramePlacerPalle(MainFrame.this);
 				subFramePlacerPalle.setVisible(true);
@@ -220,14 +219,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		btnTilFrdigvarelagerMange.setEnabled(false);
 		btnKassrMange.setEnabled(false);
 
-		panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 4;
-		getContentPane().add(panel, gbc_panel);
-
 		menuBar = new JMenuBar();
 		menuBar.setBackground(UIManager.getColor("CheckBox.select"));
 		setJMenuBar(menuBar);
@@ -239,7 +230,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmPaller = new JMenuItem("Paller");
 		mntmPaller.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminPalle.getInstance().setVisible(true);
 			}
@@ -247,7 +237,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmBehandlinger = new JMenuItem("Behandlinger");
 		mntmBehandlinger.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminBehandling.getInstance().setVisible(true);
 			}
@@ -257,7 +246,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmProdukttyper = new JMenuItem("Produkttyper");
 		mntmProdukttyper.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminProdukttype.getInstance().setVisible(true);
 			}
@@ -266,7 +254,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmMellemlagerpladser = new JMenuItem("Mellemlagerpladser");
 		mntmMellemlagerpladser.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				SubFrameAdminMellemlagerPlads.getInstance(MainFrame.this).setVisible(true);
 			}
@@ -282,7 +269,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				"Drag\u00E9ringshal");
 		mntmOversigtOverDragringshal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				FrameOversigter frameOversigter = new FrameOversigter(mainFrame);
+				frameOversigter = new FrameOversigter(mainFrame);
 				frameOversigter.setVisible(true);
 			}
 		});
@@ -290,13 +277,34 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		mntmOversigtOverFrdigvarer = new JMenuItem(
 				"F\u00E6rdigvarelager");
+		mntmOversigtOverFrdigvarer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				frameOversigter = new FrameOversigter(mainFrame);
+				frameOversigter.setVisible(true);
+				frameOversigter.getTabbedPane().setSelectedIndex(1);
+			}
+		});
 		mnOversigter.add(mntmOversigtOverFrdigvarer);
 
 		mntmOversigtOverKasseredevarer = new JMenuItem(
 				"Kasserede varer");
+		mntmOversigtOverKasseredevarer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameOversigter = new FrameOversigter(mainFrame);
+				frameOversigter.setVisible(true);
+				frameOversigter.getTabbedPane().setSelectedIndex(2);
+			}
+		});
 		mnOversigter.add(mntmOversigtOverKasseredevarer);
 		
 		mntmPaller_1 = new JMenuItem("Paller");
+		mntmPaller_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frameOversigter = new FrameOversigter(mainFrame);
+				frameOversigter.setVisible(true);
+				frameOversigter.getTabbedPane().setSelectedIndex(3);
+			}
+		});
 		mnOversigter.add(mntmPaller_1);
 
 		// -----------------------------------------------//
