@@ -47,7 +47,7 @@ public class FrameOversigter extends JFrame {
 
 	public FrameOversigter(MainFrame mainFrame) {
 		setBackground(Color.PINK);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 550, 512);
 		contentPane = new JPanel();
 		contentPane.setForeground(Color.PINK);
