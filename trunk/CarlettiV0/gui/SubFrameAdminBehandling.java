@@ -36,11 +36,9 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 	private JList listBehandlinger, listDelbehandlinger;
 	private SubFrameTilfoejDelbehandling subFrameTilfoejDelb;
 	private Behandling behandling;
+	private static SubFrameAdminBehandling adminBehandling;
 
-	/**
-	 * Create the frame.
-	 */
-	public SubFrameAdminBehandling() {
+	private SubFrameAdminBehandling() {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 390, 375);
 		contentPane = new JPanel();
@@ -205,6 +203,13 @@ public class SubFrameAdminBehandling extends JFrame implements Observer{
 		contentPane.setLayout(gl_contentPane);
 		listBehandlinger.setListData(Service.getInstance().getBehandlinger()
 				.toArray());
+	}
+	
+	public static SubFrameAdminBehandling getInstance(){
+		if(adminBehandling == null){
+			adminBehandling = new SubFrameAdminBehandling();
+		}
+		return adminBehandling;
 	}
 
 	@Override

@@ -241,8 +241,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmBehandlinger = new JMenuItem("Behandlinger");
 		mntmBehandlinger.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				subFrameBehandlinger = new SubFrameAdminBehandling();
-				subFrameBehandlinger.setVisible(true);
+				SubFrameAdminBehandling.getInstance().setVisible(true);
 			}
 		});
 		mnAdministrr.add(mntmBehandlinger);
