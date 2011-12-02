@@ -12,7 +12,8 @@ public class App {
 	 */
 	public static void main(String[] args) {
 		ObjectCreater.getInstance().createSomeObjects();
-		
+		FrameOversigter frame = new FrameOversigter(MainFrame.getInstance());
+		frame.setVisible(true);
 		MainFrame.getInstance().update();
 		MainFrame.getInstance().setVisible(true);
 
