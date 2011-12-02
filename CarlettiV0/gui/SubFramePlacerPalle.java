@@ -21,7 +21,6 @@ import java.util.ArrayList;
  * 
  */
 public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
-	private Subject mainframe;
 	private JTextField txtPladsstregkode;
 	private JTextField txtpallestregkode;
 	private Controller controller = new Controller();
@@ -30,7 +29,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 
 	private ArrayList<Observer> observers;
 
-	public SubFramePlacerPalle() {
+	public SubFramePlacerPalle(MainFrame mainFrame) {
 		getContentPane().setBackground(Color.PINK);
 		this.observers = new ArrayList<Observer>();
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
@@ -38,6 +37,7 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 		this.setLocation(200, 200);
 		this.setSize(320, 300);
 		getContentPane().setLayout(null);
+		registerObserver(mainFrame);
 
 		JLabel lblScanStregkode = new JLabel("Scan eller indtast stregkode");
 		lblScanStregkode.setBounds(6, 6, 308, 16);
@@ -117,7 +117,8 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 						txtpallestregkode.getText());
 				MellemlagerPlads mellemlagerPlads = Service.getInstance()
 						.soegMellemlagerPlads(txtPladsstregkode.getText());
-
+				System.out.println(palle);
+				System.out.println(mellemlagerPlads);
 				if (mellemlagerPlads == null || palle == null) {
 					throw new RuntimeException(
 							"Palle eller mellemlagerplads findes ikke");

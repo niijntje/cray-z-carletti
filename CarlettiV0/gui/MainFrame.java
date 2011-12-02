@@ -118,7 +118,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		btnPlacrPalle = new JButton("Plac\u00E9r palle");
 		btnPlacrPalle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				subFramePlacerPalle = new SubFramePlacerPalle();
+				subFramePlacerPalle = new SubFramePlacerPalle(MainFrame.this);
 				subFramePlacerPalle.setVisible(true);
 			}
 		});
