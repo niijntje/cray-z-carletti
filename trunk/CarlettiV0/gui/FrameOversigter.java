@@ -34,8 +34,16 @@ public class FrameOversigter extends JFrame {
 	private JTable paller;
 	private JPanel panelDragering;
 	private MainFrame mainFrame;
-	private JTabbedPane tabbedPane;
 	private JTable table;
+	private JTabbedPane tabbedPane;
+	private JLabel lblOversigtOverDrageringshallen;
+	private JPanel panelDrageringshal;
+	private JScrollPane scrollPane;
+	private JButton btnAnnuller;
+	private JButton btnSePalleoversigt;
+	private JPanel panelFaerdigvarer;
+	private JPanel panelKasserede;
+	private JPanel panelPaller;
 
 	public FrameOversigter(MainFrame mainFrame) {
 		setBackground(Color.PINK);
@@ -46,41 +54,57 @@ public class FrameOversigter extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
 		
-		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		contentPane.add(tabbedPane_1, BorderLayout.CENTER);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		contentPane.add(tabbedPane, BorderLayout.CENTER);
 		
-		JPanel panel = new JPanel();
-		tabbedPane_1.addTab("Drag\u00E9ringshal", null, panel, null);
+		panelDrageringshal = new JPanel();
+		tabbedPane.addTab("Drag\u00E9ringshal", null, panelDrageringshal, null);
 		
-		JLabel lblOversigtOverDrageringshallen = new JLabel("Oversigt over drageringshallen");
+		lblOversigtOverDrageringshallen = new JLabel("Oversigt over drageringshallen");
 		
-		JScrollPane scrollPane = new JScrollPane();
-		GroupLayout gl_panel = new GroupLayout(panel);
-		gl_panel.setHorizontalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		scrollPane = new JScrollPane();
+		
+		JPanel panelDrageringshalKnapper = new JPanel();
+		GroupLayout gl_panelDrageringshal = new GroupLayout(panelDrageringshal);
+		gl_panelDrageringshal.setHorizontalGroup(
+			gl_panelDrageringshal.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDrageringshal.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_panelDrageringshal.createParallelGroup(Alignment.LEADING)
 						.addComponent(lblOversigtOverDrageringshallen)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(7, Short.MAX_VALUE))
+						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
+						.addComponent(panelDrageringshalKnapper, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+					.addContainerGap())
 		);
-		gl_panel.setVerticalGroup(
-			gl_panel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_panel.createSequentialGroup()
+		gl_panelDrageringshal.setVerticalGroup(
+			gl_panelDrageringshal.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelDrageringshal.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblOversigtOverDrageringshallen)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(71, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panelDrageringshalKnapper, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
+		
+		btnAnnuller = new JButton("Annuller");
+		panelDrageringshalKnapper.add(btnAnnuller);
+		
+		btnSePalleoversigt = new JButton("Se palleoversigt");
+		panelDrageringshalKnapper.add(btnSePalleoversigt);
 		
 		table = new JTable();
 		scrollPane.setViewportView(table);
-		panel.setLayout(gl_panel);
+		panelDrageringshal.setLayout(gl_panelDrageringshal);
 		
-		JPanel panel_1 = new JPanel();
-		tabbedPane_1.addTab("F\u00E6rdigvarelager", null, panel_1, null);
+		panelFaerdigvarer = new JPanel();
+		tabbedPane.addTab("F\u00E6rdigvarelager", null, panelFaerdigvarer, null);
+		
+		panelKasserede = new JPanel();
+		tabbedPane.addTab("Kasserede varer", null, panelKasserede, null);
+		
+		panelPaller = new JPanel();
+		tabbedPane.addTab("Paller", null, panelPaller, null);
 		this.mainFrame = mainFrame;
 
 
