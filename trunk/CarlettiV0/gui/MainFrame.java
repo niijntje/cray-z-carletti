@@ -183,7 +183,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(controller);
 		((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter())
-				.setRowFilter(tomPladsFilter);
+		.setRowFilter(tomPladsFilter);
 
 		setColumnWidths();
 
@@ -297,7 +297,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			}
 		});
 		mnOversigter.add(mntmOversigtOverKasseredevarer);
-		
+
 		mntmPaller_1 = new JMenuItem("Paller");
 		mntmPaller_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -344,34 +344,32 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	}
 
 	private class Controller implements ItemListener, ActionListener,
-			ListSelectionListener {
+	ListSelectionListener {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			if (chckbxVisTommePladser.isSelected()) {
-				((DefaultRowSorter<DefaultTableModel, Integer>) table
-						.getRowSorter()).setRowFilter(null);
+				((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter()).setRowFilter(null);
 			} else {
-				((DefaultRowSorter<DefaultTableModel, Integer>) table
-						.getRowSorter()).setRowFilter(tomPladsFilter);
+				((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter()).setRowFilter(tomPladsFilter);
 			}
 		}
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
+			//Her afgøres hvilke knapper der må være klikbare hver gang en ny række vælges. Disse tjek er derfor ikke nødvendige i actionPerformed-metoden!
 			if (e.getSource() == table.getSelectionModel()) {
 				btnVisPalle.setEnabled(false);
 				btnDrageringMange.setEnabled(false);
 				btnKassrMange.setEnabled(false);
 				btnTilFrdigvarelagerMange.setEnabled(false);
-				if (table.getSelectedRowCount() > 0
-						&& table.getModel().getValueAt(table.getSelectedRow(), 0) != null) {
+				if (table.getSelectedRowCount() > 0 && table.getModel().getValueAt(table.getSelectedRow(), 0) != null) {
 					int row = table.getSelectedRow();
 					MellemlagerPlads mellemlagerPlads = (MellemlagerPlads) table.getModel().getValueAt(row, 0) ;
 					Palle palle = null;
 					Produkttype produkttype = null;
 					Delbehandling delbehandling = null;
-					if (table.getModel().getValueAt(table.getSelectedRow(), 1) != null) { // Der skal stå en palle for at en palle kan vises
+					if (table.getModel().getValueAt(row, 1) != null) { // Der skal stå en palle for at en palle kan vises
 						palle = (Palle) table.getModel().getValueAt(row, 1);
 						btnVisPalle.setEnabled(true);
 						if (table.getModel().getValueAt(row, 2) != null) { // Der skal være en mellemvare, dvs. der skal stå en produkttype før noget kan kasseres
@@ -379,8 +377,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 							btnKassrMange.setEnabled(true);
 							if (table.getModel().getValueAt(row, 3) != null) { 	// Der skal være en igangværende delbehandling før man kan sætte det næste trin i gang. (Men delbehandling er null for færdigvarer og kasserede varer)
 								delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-//---------->Her tjekkes endelig hvad den næste handling må være - på mellemvarelageret må man sende til dragering eller færdigvarelager----------//
-//---------->Det er altså hér, der skal ændres, hvis man vil lave tilsvarende oversigt for drageringshal og færdigvarer.
+								//---------->Her tjekkes endelig hvad den næste handling må være - på mellemvarelageret må man sende til dragering eller færdigvarelager----------//
+								//---------->Det er altså hér, der skal ændres, hvis man vil lave tilsvarende oversigt for drageringshal og færdigvarer.
 								if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)) { // Den næste delbehandling skal være af typen dragering for at en dragering må sættes i gang
 									btnDrageringMange.setEnabled(true);
 								} else if ((Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null))) { // Mellemvaren må kun sendes til færdigvarelageret hvis der ikke er flere delbehandlinger i behandlingen
@@ -396,95 +394,54 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnTilfoejNyMellemvare) {
-				subFrameTilfoejMellemvarer = new SubFrameTilfoejMellemvarer(
-						MainFrame.this);
+				subFrameTilfoejMellemvarer = new SubFrameTilfoejMellemvarer(MainFrame.this);
 				subFrameTilfoejMellemvarer.setVisible(true);
 				subFrameTilfoejMellemvarer.registerObserver(MainFrame.this);
 				registerObserver(subFrameTilfoejMellemvarer);
 				if (subFramePalleOversigt != null) {
-					subFramePalleOversigt
-							.registerObserver(subFrameTilfoejMellemvarer);
-					subFrameTilfoejMellemvarer
-							.registerObserver(subFramePalleOversigt);
+					subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
+					subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
 				}
-			} else {
-				Palle palle = (Palle) table.getModel().getValueAt(table.getSelectedRow(),
-						1);
+			} 
+			else {
+				Palle palle = (Palle) table.getModel().getValueAt(table.getSelectedRow(), 1);
 				if (e.getSource() == btnVisPalle) {
-
-					MainFrame.this.subFramePalleOversigt = new SubFramePalleOversigt(
-							MainFrame.this, palle);
+					MainFrame.this.subFramePalleOversigt = new SubFramePalleOversigt(MainFrame.this, palle);
 					MainFrame.this.subFramePalleOversigt.setVisible(true);
 					subFramePalleOversigt.registerObserver(MainFrame.this);
 					MainFrame.this.registerObserver(subFramePalleOversigt);
 					if (subFrameTilfoejMellemvarer != null) {
-						subFramePalleOversigt
-								.registerObserver(subFrameTilfoejMellemvarer);
-						subFrameTilfoejMellemvarer
-								.registerObserver(subFramePalleOversigt);
+						subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
+						subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
 					}
 				} else if (e.getSource() == btnDrageringMange) {
-					if (table.getSelectedRowCount() == 0) {
-						palle.startDelbehandling(null, Dragering.class);
-					}
+					int row = table.getSelectedRow();
+					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
+					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Dragering.class, null);
 
-					else {
-						int row = table.getSelectedRow();
-						Produkttype produkttype = (Produkttype) table
-								.getValueAt(row, 2);
-						Delbehandling delbehandling = (Delbehandling) table
-								.getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(
-								produkttype, delbehandling, palle,
-								Dragering.class, null);
-					}
 				}
 
 				else if (e.getSource() == btnTilTrringMange) {
-					if (table.getSelectedRowCount() == 0) {
-						Service.getInstance().sendTilNaesteDelbehandling(null,
-								palle, Toerring.class, null);
-					}
-
-					else {
 						int row = table.getSelectedRow();
-						Produkttype produkttype = (Produkttype) table
-								.getValueAt(row, 2);
-						Delbehandling delbehandling = (Delbehandling) table
-								.getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(
-								produkttype, delbehandling, palle,
-								Toerring.class, null);
-					}
+						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
+						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Toerring.class, null);
 				}
 
 				else if (e.getSource() == btnTilFrdigvarelagerMange) {
-					if (table.getSelectedRowCount() == 0) {
-						Service.getInstance().sendTilFærdigvareLager(null,
-								palle);
-					} else {
 						int row = table.getSelectedRow();
-						Produkttype produkttype = (Produkttype) table
-								.getValueAt(row, 2);
-						Delbehandling delbehandling = (Delbehandling) table
-								.getValueAt(row, 3);
-						Service.getInstance().sendTilFærdigvareLager(
-								produkttype, delbehandling, palle, null);
-					}
+						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
+						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+						Service.getInstance().sendTilFærdigvareLager(produkttype, delbehandling, palle, null);
+				
 				}
 
 				else if (e.getSource() == btnKassrMange) {
-					if (table.getSelectedRowCount() == 0) {
-						Service.getInstance().kasserMellemvarer(null, palle);
-					} else {
 						int row = table.getSelectedRow();
-						Produkttype produkttype = (Produkttype) table
-								.getValueAt(row, 2);
-						Delbehandling delbehandling = (Delbehandling) table
-								.getValueAt(row, 3);
-						Service.getInstance().kasserMellemvarer(produkttype,
-								delbehandling, palle);
-					}
+						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
+						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
+						Service.getInstance().kasserMellemvarer(produkttype,delbehandling, palle);
 				}
 
 				update();
