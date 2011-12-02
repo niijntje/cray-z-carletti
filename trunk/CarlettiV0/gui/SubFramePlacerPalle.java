@@ -113,9 +113,6 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnOk) {
-				ObjectCreater.getInstance().createSomeObjects();
-				// Validering.validerStregkode(txtPladsstregkode.getText());
-				// Validering.validerStregkode(txtpallestregkode.getText());
 				Palle palle = Service.getInstance().soegPalle(
 						txtpallestregkode.getText());
 				MellemlagerPlads mellemlagerPlads = Service.getInstance()
