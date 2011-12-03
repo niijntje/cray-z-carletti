@@ -28,6 +28,7 @@ import javax.swing.table.TableColumn;
 import javax.swing.text.TableView.TableRow;
 
 import model.Delbehandling;
+import model.Delbehandling.DelbehandlingsType;
 import model.Dragering;
 import model.MellemlagerPlads;
 import model.Mellemvare;
@@ -380,7 +381,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 								delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
 								//---------->Her tjekkes endelig hvad den næste handling må være - på mellemvarelageret må man sende til dragering eller færdigvarelager----------//
 								//---------->Det er altså hér, der skal ændres, hvis man vil lave tilsvarende oversigt for drageringshal og færdigvarer.
-								if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)) { // Den næste delbehandling skal være af typen dragering for at en dragering må sættes i gang
+								if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, DelbehandlingsType.DRAGERING)) { // Den næste delbehandling skal være af typen dragering for at en dragering må sættes i gang
 									btnDrageringMange.setEnabled(true);
 								} else if ((Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null))) { // Mellemvaren må kun sendes til færdigvarelageret hvis der ikke er flere delbehandlinger i behandlingen
 									btnTilFrdigvarelagerMange.setEnabled(true);
@@ -423,13 +424,13 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					if (e.getSource() == btnDrageringMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Dragering.class, null);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.DRAGERING, null);
 					}
 
 					else if (e.getSource() == btnTilTrringMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,Toerring.class, null);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.TOERRING, null);
 					}
 
 					else if (e.getSource() == btnTilFrdigvarelagerMange) {

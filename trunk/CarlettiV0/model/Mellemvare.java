@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import model.Delbehandling.DelbehandlingsType;
+
 /**
  * v.0.3
  * 
@@ -182,11 +184,11 @@ public class Mellemvare {
 	 * @param delbehandling. Hvis null, skal den igangv¾rende delbehandling v¾re den sidste i behandlingens delbehandlingsliste. Ellers skal delbehandling v¾re af samme klasse som den n¾ste i behandlingens delbehandlingsliste.
 	 * @return
 	 */
-	public boolean naesteBehandlingGyldig(Class delbehandlingsType){
+	public boolean naesteBehandlingGyldig(DelbehandlingsType delbehandlingsType){
 		boolean gyldig = false;
 		Delbehandling naeste = this.getIgangvaerendeDelbehandling().getNextDelbehandling();
 		if (naeste != null){
-			if (naeste.getClass() == delbehandlingsType){
+			if (naeste.getDelbehandlingstype() == delbehandlingsType){
 				gyldig = true;
 			}
 		}
@@ -229,5 +231,6 @@ public class Mellemvare {
 	public void setStatus(MellemvareStatus status) {
 		this.status = status;
 	}
+
 
 }
