@@ -372,7 +372,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 					if (table.getModel().getValueAt(row, 1) != null) { // Der skal stå en palle for at en palle kan vises
 						palle = (Palle) table.getModel().getValueAt(row, 1);
-						System.out.println(palle);
 						btnVisPalle.setEnabled(true);
 						if (table.getModel().getValueAt(row, 2) != null) { // Der skal være en mellemvare, dvs. der skal stå en produkttype før noget kan kasseres
 							produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
