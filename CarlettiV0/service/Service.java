@@ -370,11 +370,11 @@ public class Service {
 	public ArrayList<Behandling> getBehandlinger(){
 		return new ArrayList<Behandling>(dao.behandlinger());
 	}
-	
+
 	public ArrayList<Mellemvare>getFaerdigvarer(){
 		return new ArrayList<Mellemvare>(dao.faerdigvarer());
 	}
-	
+
 	public ArrayList<Mellemvare>getKasserede(){
 		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
 	}
@@ -511,27 +511,27 @@ public class Service {
 		}
 		return data;
 	}
-	
+
 	/**
 	 * genererer et array til visning i SubFrameDrageringshalOversigt
 	 */
-	
+
 	public Object[][] generateViewDataDrageringshal()
 	{
-			ArrayList<Palle> paller = Drageringshal.getInstance().getPaller();
-			Object[][] data = new Object[paller.size()][2];
-			for (int i = 0; i < paller.size(); i++)
-			{
-				Palle palle = paller.get(i);
-				for(int j = 0; j < palle.getMellemvarer().size(); j++){
-					data[i][0] = palle;
-					data[i][1] = palle.getMellemvarer().get(j).getProdukttype();
-					data[i][2] = Validering.millisekunderTilVarighedString(palle.getMellemvarer().get(j).getResterendeTidTilNaeste());
-				}
-				
-			
+		ArrayList<Palle> paller = Drageringshal.getInstance().getPaller();
+		Object[][] data = new Object[paller.size()][2];
+		for (int i = 0; i < paller.size(); i++)
+		{
+			Palle palle = paller.get(i);
+			for(int j = 0; j < palle.getMellemvarer().size(); j++){
+				data[i][0] = palle;
+				data[i][1] = palle.getMellemvarer().get(j).getProdukttype();
+				data[i][2] = Validering.millisekunderTilVarighedString(palle.getMellemvarer().get(j).getResterendeTidTilNaeste());
 			}
-			return data;
+
+
+		}
+		return data;
 	}
 
 	/**
@@ -608,32 +608,54 @@ public class Service {
 	public boolean naesteBehandlingGyldig(Mellemvare m, Class delbehandlingsType) {
 		return m.naesteBehandlingGyldig(delbehandlingsType);
 	}
-	
+
+	/**
+	 * Returnerer om alle eller en delm¾ngde af mellemvarerne pŒ @palle er klar til en given handling (n¾ste delbehandling eller f¾rdigvarelageret)
+	 * Hvis bŒde @produkttype og @delbehandling er forskellige fra null, returneres om delm¾ngde er klar. Ellers om alle er klar.
+	 * @param palle	Krav: Forskellig fra null
+	 * @param produkttype	Hvis null returneres om alle pŒ pallen er klar
+	 * @param delbehandling	Hvis null returneres om alle pŒ pallen er klar. 
+	 * @param delbehandlingsType	Den handling, der sp¿rges til. Kan v¾re hhv. Dragering, T¿rring og F¾rdigvarelager (null)
+	 * @return om alle/en delm¾ngde er klar til n¾ste (be)handling
+	 */
 	public boolean naesteBehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling, Class delbehandlingsType){
 		boolean gyldig = true;
-		for (Mellemvare m : palle.getMellemvarerAfSammeType(produkttype, delbehandling)){
-			if (!m.naesteBehandlingGyldig(delbehandlingsType)){
-				gyldig = false;
+		if (produkttype==null || delbehandling==null){	//Hvis produkttype og delbehandling er ukendt
+			if (palle.alleVarerErEns()){				//skal alle mellemvarer pŒ pallen v¾re ens OG klar til n¾ste delbehandling/f¾rdigvarelager
+				for (Mellemvare m : palle.getMellemvarer()){
+					if (!m.naesteBehandlingGyldig(delbehandlingsType)){
+						gyldig = false;
+					}
+				}
+			}
+		}
+		else {		//Hvis produkttype og delbehandling derimod er kendt, 
+					//returneres kun om produkter med _disse_ egenskaber er klar til n¾ste delbehandling/f¾rdigvarelager
+			for (Mellemvare m : palle.getMellemvarerAfSammeType(produkttype, delbehandling)){
+				if (!m.naesteBehandlingGyldig(delbehandlingsType)){
+					gyldig = false;
+				}
+
 			}
 		}
 		return gyldig;
 	}
 
-	public boolean erNaesteDelbehandling(Delbehandling delbehandling, Class delbehandlingsType) {
-		if (delbehandling.getNextDelbehandling() ==null){
-			if (delbehandlingsType==null){
-				return true;
-			}
-			else {
-				return false;
-			}
-		}
-
-		if (delbehandling.getNextDelbehandling().getClass()==delbehandlingsType){
-			return true;
-		}
-		else return false;
-	}
+	//	public boolean erNaesteDelbehandling(Delbehandling delbehandling, Class delbehandlingsType) {
+	//		if (delbehandling.getNextDelbehandling() ==null){
+	//			if (delbehandlingsType==null){
+	//				return true;
+	//			}
+	//			else {
+	//				return false;
+	//			}
+	//		}
+	//
+	//		if (delbehandling.getNextDelbehandling().getClass()==delbehandlingsType){
+	//			return true;
+	//		}
+	//		else return false;
+	//	}
 
 	public String getPallePlaceringsString(Palle palle) {
 		return palle.getPlaceringsString();
@@ -641,6 +663,11 @@ public class Service {
 
 	public boolean getPalleIkkeIBrug(Palle palle) {
 		return (palle.getPlacering()==null && palle.getDrageringshal()==null&&palle.getMellemvarer().size()==0);
+	}
+
+	public Object[][] generateViewDataKasseredeVarer() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

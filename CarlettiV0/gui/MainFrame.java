@@ -369,12 +369,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					Palle palle = null;
 					Produkttype produkttype = null;
 					Delbehandling delbehandling = null;
-					System.out.println(""+table.getModel().getValueAt(0, 0)+table.getModel().getValueAt(0, 0)+table.getModel().getValueAt(0, 1)+table.getModel().getValueAt(0, 2)+table.getModel().getValueAt(0, 3));
-					System.out.println(""+table.getModel().getValueAt(1, 0)+table.getModel().getValueAt(1, 0)+table.getModel().getValueAt(1, 1)+table.getModel().getValueAt(1, 2)+table.getModel().getValueAt(1, 3));
-					System.out.println(""+table.getModel().getValueAt(2, 0)+table.getModel().getValueAt(2, 0)+table.getModel().getValueAt(2, 1)+table.getModel().getValueAt(2, 2)+table.getModel().getValueAt(2, 3));
-					System.out.println(""+table.getValueAt(0, 0)+table.getValueAt(0, 0)+table.getValueAt(0, 1)+table.getValueAt(0, 2)+table.getValueAt(0, 3));
-					System.out.println(""+table.getValueAt(1, 0)+table.getValueAt(1, 0)+table.getValueAt(1, 1)+table.getValueAt(1, 2)+table.getValueAt(1, 3));
-					System.out.println(""+table.getValueAt(2, 0)+table.getValueAt(2, 0)+table.getValueAt(2, 1)+table.getValueAt(2, 2)+table.getValueAt(2, 3));
 
 					if (table.getModel().getValueAt(row, 1) != null) { // Der skal stå en palle for at en palle kan vises
 						palle = (Palle) table.getModel().getValueAt(row, 1);
@@ -416,6 +410,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				Palle palle = (Palle) table.getModel().getValueAt(row, 1);
 				if (e.getSource() == btnVisPalle) {
 					MainFrame.this.subFramePalleOversigt = new SubFramePalleOversigt(MainFrame.this, palle);
+					MainFrame.this.subFramePalleOversigt.update();
 					MainFrame.this.subFramePalleOversigt.setVisible(true);
 					subFramePalleOversigt.registerObserver(MainFrame.this);
 					MainFrame.this.registerObserver(subFramePalleOversigt);
