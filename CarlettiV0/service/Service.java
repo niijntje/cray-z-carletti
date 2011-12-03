@@ -347,16 +347,26 @@ public class Service {
 	public ArrayList<MellemlagerPlads> visOversigtOverMellemvarelager() {
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
 	}
-
-
+	
+	/**
+	 * Returnerer en liste med alle paller
+	 * @return
+	 */
 	public ArrayList<Palle> getPaller() {
 		return new ArrayList<Palle>(dao.paller());
 	}
-
+	
+	/**
+	 * Returnerer en liste med alle mellemlagerpladser
+	 * @return
+	 */
 	public ArrayList<MellemlagerPlads> getPladser() {
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
 	}
-
+	/**
+	 * Returnerer en liste med alle produkttyper
+	 * @return
+	 */
 	public ArrayList<Produkttype> getProdukttyper() {
 		return new ArrayList<Produkttype>(dao.produkttyper());
 	}
@@ -563,6 +573,11 @@ public class Service {
 		}
 		return data;
 	}
+	
+	public Object[][] generateViewDataKasseredeVarer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	/**
 	 * Benyttes af gui.SubFramePalleOversigt til at vise detaljerede
@@ -645,11 +660,6 @@ public class Service {
 
 	public boolean getPalleIkkeIBrug(Palle palle) {
 		return (palle.getPlacering()==null && palle.getDrageringshal()==null&&palle.getMellemvarer().size()==0);
-	}
-
-	public Object[][] generateViewDataKasseredeVarer() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 }
