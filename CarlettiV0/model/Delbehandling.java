@@ -19,18 +19,41 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public abstract class Delbehandling {
+	/**
+	 * @author nijntje
+	 *
+	 */
+	public enum DelbehandlingsType {
+		DRAGERING, TOERRING
+	}
+
 	@Id
 	@GeneratedValue
 	private int id;
+	private DelbehandlingsType delbehandlingstype;
 	private Behandling behandling;
 	private String navn;
 	@ManyToOne
 	private Delbehandling nextDelbehandling;
 	
-	public Delbehandling(){
-		
+	public Delbehandling(DelbehandlingsType delbehandlingsType){
+		this.delbehandlingstype = delbehandlingsType;
 	}
 	
+	/**
+	 * @return the delbehandlingstype
+	 */
+	public DelbehandlingsType getDelbehandlingstype() {
+		return delbehandlingstype;
+	}
+
+	/**
+	 * @param delbehandlingstype the delbehandlingstype to set
+	 */
+	public void setDelbehandlingstype(DelbehandlingsType delbehandlingstype) {
+		this.delbehandlingstype = delbehandlingstype;
+	}
+
 	public Delbehandling(String navn, Behandling behandling){
 		this.setNavn(navn);
 		this.behandling = behandling;

@@ -18,7 +18,7 @@ public class Dragering extends Delbehandling {
 	private long varighed;
 
 	public Dragering(){
-		
+		super(DelbehandlingsType.DRAGERING);
 	}
 	/**
 	 * @param navn
