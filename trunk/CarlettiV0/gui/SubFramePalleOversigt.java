@@ -250,7 +250,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 
 		setColumnWidth();
-		
+
 		Component rigidArea_1 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_1 = new GridBagConstraints();
 		gbc_rigidArea_1.insets = new Insets(0, 0, 5, 5);
@@ -290,13 +290,12 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		btnKassrMange.addActionListener(controller);
 		panel_2.add(btnKassrMange);
 
-		//------------------------Skal kun kunne klikkes hvis alle varer på pallen er ens (indtil én type vælges)-------------------------//
-		if (!Service.getInstance().alleVarerErEns(palle)){
-			btnDrageringMange.setEnabled(false);
-			btnTilTrringMange.setEnabled(false);
-			btnTilFrdigvarelagerMange.setEnabled(false);
-			btnKassrMange.setEnabled(false);
-		}
+		btnDrageringMange.setEnabled(false);
+		btnTilTrringMange.setEnabled(false);
+		btnTilFrdigvarelagerMange.setEnabled(false);
+		btnKassrMange.setEnabled(false);
+
+
 
 		Component rigidArea_3 = Box.createRigidArea(new Dimension(20, 20));
 		GridBagConstraints gbc_rigidArea_3 = new GridBagConstraints();
@@ -449,7 +448,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		getContentPane().add(rigidArea_12, gbc_rigidArea_12);
 
 	}
-	
+
 	public void setColumnWidth(){
 		TableColumn column = null;
 		for (int i = 0; i < 4; i++) {
@@ -465,7 +464,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 			}
 		}
 	}
-	
+
+
 	private Palle askForPalle(boolean askForPlacering){
 		Palle nyPalle = null;
 		if (!Service.getInstance().alleVarerErEns(palle)){
@@ -479,10 +479,10 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				askForPlacering(nyPalle);
 			}
 		}
-		
+
 		return nyPalle;
 	}
-	
+
 	private void askForPlacering(Palle nyPalle){
 		if (Service.getInstance().getPalleIkkeIBrug(nyPalle)){
 			SubFramePlacerPalle placeringsFrame = new SubFramePlacerPalle(mainFrame);
@@ -490,7 +490,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 			placeringsFrame.setVisible(true);
 			placeringsFrame.registerObserver(mainFrame);
 		}
-		
+
 	}
 
 	private class Controller implements ListSelectionListener ,ActionListener{
@@ -503,7 +503,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				}
 
 				else {
-					int row = table.getSelectedRow();
+					int row = table.convertRowIndexToModel(table.getSelectedRow());
 					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Dragering.class, askForPalle(false));
@@ -521,7 +521,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				}
 
 				else {
-					int row = table.getSelectedRow();
+					int row = table.convertRowIndexToModel(table.getSelectedRow());
 					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, Toerring.class, askForPalle(true));
@@ -538,7 +538,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 					Service.getInstance().sendTilFærdigvareLager(null, palle);
 				}
 				else {
-					int row = table.getSelectedRow();
+					int row = table.convertRowIndexToModel(table.getSelectedRow());
 					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().sendTilFærdigvareLager(produkttype, delbehandling, palle, askForPalle(false));
@@ -555,7 +555,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 					Service.getInstance().kasserMellemvarer(null, palle);
 				}
 				else {
-					int row = table.getSelectedRow();
+					int row = table.convertRowIndexToModel(table.getSelectedRow());
 					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
 					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
 					Service.getInstance().kasserMellemvarer(produkttype, delbehandling, palle);
@@ -580,57 +580,55 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				btnTilTrringMange.setEnabled(false);
 				btnTilFrdigvarelagerMange.setEnabled(false);
 				btnKassrMange.setEnabled(false);
-				if (table.getSelectedRowCount()>0 && table.getModel().getValueAt(table.getSelectedRow(), 0)!=null){
-					btnKassrMange.setEnabled(true);
+				if (table.getSelectedRowCount()>0 ){
+					int row = table.convertRowIndexToModel(table.getSelectedRow());	//<--VIGTIGT!!!
+					if(table.getModel().getValueAt(row, 0)!=null){	//Hvis der er en produkttype er der en mellemvare, som kan kasseres
+						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
+						btnKassrMange.setEnabled(true);
+						if (delbehandling != null){					//Men der er ikke nødvendigvis en delbehandling i gang på den mellemvare
+							if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)){
+								btnDrageringMange.setEnabled(true);
+							}
+							else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Toerring.class)){
+								btnTilTrringMange.setEnabled(true);
+							}
+							else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null)){
+								btnTilFrdigvarelagerMange.setEnabled(true);
+							}
+						}
+
+					}
+
+				}
+				else if (e.getSource() == list) {
+					btnDrageringEn.setEnabled(false);
+					btnTilTrringEn.setEnabled(false);
+					btnTilFrdigvarelagerEn.setEnabled(false);
+					btnKasserEn.setEnabled(false);
+					Mellemvare m = (Mellemvare) list.getSelectedValue();
+					if (m != null){
+						String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
+						txtrDetaljer.setText(mellemvareInfo);
+
+						if (list.getSelectedIndices().length!=0){
+							btnKasserEn.setEnabled(true);
+						}
+						if (Service.getInstance().naesteBehandlingGyldig(m, Dragering.class)){
+							btnDrageringEn.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(m, Toerring.class)){
+							btnTilTrringEn.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
+							btnTilFrdigvarelagerEn.setEnabled(true);
+						}
+					}
 				}
 
-				if (table.getSelectedRowCount()>0 && table.getModel().getValueAt(table.getSelectedRow(), 0)!=null){	//Hvis der er en produkttype er der en mellemvare
-					int row = table.getSelectedRow();
-					Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
-					Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
-					if (delbehandling != null){																//Men der er ikke nødvendigvis en delbehandling i gang
-						if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Dragering.class)){
-							btnDrageringMange.setEnabled(true);
-						}
-						else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, Toerring.class)){
-							btnTilTrringMange.setEnabled(true);
-						}
-						else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null)){
-							btnTilFrdigvarelagerMange.setEnabled(true);
-						}
-					}
-
-				}
-
-			}
-			else if (e.getSource() == list) {
-				btnDrageringEn.setEnabled(false);
-				btnTilTrringEn.setEnabled(false);
-				btnTilFrdigvarelagerEn.setEnabled(false);
-				btnKasserEn.setEnabled(false);
-				Mellemvare m = (Mellemvare) list.getSelectedValue();
-				if (m != null){
-					String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
-					txtrDetaljer.setText(mellemvareInfo);
-
-
-					if (list.getSelectedIndices().length!=0){
-						btnKasserEn.setEnabled(true);
-					}
-					if (Service.getInstance().naesteBehandlingGyldig(m, Dragering.class)){
-						btnDrageringEn.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(m, Toerring.class)){
-						btnTilTrringEn.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
-						btnTilFrdigvarelagerEn.setEnabled(true);
-					}
-				}
 			}
 
 		}
-
 	}
 
 	@Override
@@ -640,6 +638,22 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		setColumnWidth();
 		textrPlacering.setText(Service.getInstance().getPallePlaceringsString(palle));
 		txtrDetaljer.setText(Service.getInstance().getMellemvareInfo(null));
+		
+		//--Når der ikke er valgt en tabelrække, skal man stadig kunne udføre en gyldig handling på hele pallen, hvis alle varer er ens - hvilket Service afgør--//
+		if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, Dragering.class)){
+			btnDrageringMange.setEnabled(true);
+		}
+		else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, Toerring.class)){
+			btnTilTrringMange.setEnabled(true);
+		}
+		else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, null)){
+			btnTilFrdigvarelagerMange.setEnabled(true);
+		}
+		else if (Service.getInstance().getMellemvarer(palle).size()>0){
+			btnKassrMange.setEnabled(true);
+		}
+
+		
 	}
 
 	@Override
