@@ -21,6 +21,8 @@ public interface DAO {
 	public List<Mellemvare> faerdigvarer();
 
 	public List<Mellemvare> kasseredeVarer();
+	
+	public List<Mellemvare> varerUnderBehandling();
 
 	public List<Produkttype> produkttyper();
 
