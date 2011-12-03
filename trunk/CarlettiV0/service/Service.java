@@ -371,22 +371,45 @@ public class Service {
 		return new ArrayList<Produkttype>(dao.produkttyper());
 	}
 
+	/**
+	 * Returnerer en liste med alle mellemvarer
+	 * @return
+	 */
 	public ArrayList<Mellemvare> getMellemvarer() {
 		return new ArrayList<Mellemvare>(dao.mellemvarer());
 	}
 
+	/**
+	 * Returnerer en liste med alle behandlinger
+	 * @return
+	 */
 	public ArrayList<Behandling> getBehandlinger(){
 		return new ArrayList<Behandling>(dao.behandlinger());
 	}
 
+	/**
+	 * Returnerer en liste med alle f¾rdigvarer
+	 * @return
+	 */
 	public ArrayList<Mellemvare>getFaerdigvarer(){
 		return new ArrayList<Mellemvare>(dao.faerdigvarer());
 	}
 
+	/**
+	 * Returnerer en liste med alle kasserede varer
+	 * @return
+	 */
 	public ArrayList<Mellemvare>getKasserede(){
 		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
 	}
 
+	/**
+	 * Returnerer en liste med alle mellemvarer som er under behandling 
+	 * @return
+	 */
+	public ArrayList<Mellemvare>getVarerUnderBehandling(){
+		return new ArrayList<Mellemvare>(dao.varerUnderBehandling());
+	}
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
