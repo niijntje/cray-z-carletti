@@ -193,11 +193,24 @@ public class ListDao implements DAO {
 		}
 		return kasseredeVarer;
 	}
+	
+	@Override
+	public List<Mellemvare> varerUnderBehandling() {
+		ArrayList<Mellemvare> varerUnderBehandling = new ArrayList<Mellemvare>();
+		for (int i = 0; i < mellemvarer.size(); i++) {
+			if (mellemvarer.get(i).getStatus() == MellemvareStatus.UNDERBEHANDLING) {
+				varerUnderBehandling.add(mellemvarer.get(i));
+			}
+		}
+		return varerUnderBehandling;
+	}
 
 	@Override
 	public void opdaterDatabase() {
 		// DO NOTHING
 
 	}
+
+
 
 }

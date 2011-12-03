@@ -201,4 +201,10 @@ public class JpaDao implements DAO {
 		tx.commit();
 	}
 
+	@Override
+	public List<Mellemvare> varerUnderBehandling() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
