@@ -1,7 +1,12 @@
 package gui;
 
+import java.util.Arrays;
+
+import dao.ListDao;
+import model.Delbehandling.DelbehandlingsType;
 import model.Drageringshal;
 import model.MellemlagerPlads;
+import model.Mellemvare;
 import model.Palle;
 import service.ObjectCreater;
 import service.Service;
@@ -15,6 +20,23 @@ public class App {
 		ObjectCreater.getInstance().createSomeObjects();
 		MainFrame.getInstance().update();
 		MainFrame.getInstance().setVisible(true);
+		
+		
+		System.out.println("MELLEMVARER:");
+		for (Mellemvare m : ListDao.getListDao().mellemvarer()){
+			System.out.println("Dragering: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.DRAGERING));
+			System.out.println("T¿rring: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.TOERRING));
+			System.out.println("F¾rdigvarelager: "+m.naesteDelbehandlingGyldig(null));
+		}
+		System.out.println();
+		System.out.println("PALLER:");
+		for (Palle p : ListDao.getListDao().paller()){
+			System.out.println("Palle: "+p+" "+p.getMellemvarer().size()+" stk.");
+			System.out.println("Dragering: " +p.naesteDelbehandlingGyldig(null, null ,DelbehandlingsType.DRAGERING));
+			System.out.println("T¿rring: " +p.naesteDelbehandlingGyldig(null, null, DelbehandlingsType.TOERRING));
+			System.out.println("F¾rdigvarelager: "+p.naesteDelbehandlingGyldig(null, null, null));
+		}
+//		ObjectCreater.getInstance().udskrivMellemlagerPladser();
 
 
 //		SubFrameAdminPalle sub1 = new SubFrameAdminPalle();
@@ -57,16 +79,20 @@ public class App {
 
 		// Service.getInstance().generateViewDataProduktDelbehandlingAntal(pa1);
 
-		// String[][] testArray = {
-		// {"a", "b", "c", "d"},
-		// {"e", "f", "g", "h"},
-		// {"i", "j", "k", "l"},
-		// {"m", "n", "o", "p"}
-		// };
-		//
-		// System.out.println(testArray[0][3]);
-		// System.out.println(testArray[3][0]);
-		// System.out.println(Arrays.toString(testArray[2]));
+//		 String[][] testArray = new String[5][4];
+//		 System.out.println(Arrays.toString(testArray[4]));
+//		 String[][] testArray2 = {
+//		 {"a", "b", "c", "d"},
+//		 {"e", "f", "g", "h"},
+//		 {"i", "j", "k", "l"},
+//		 {"m", "n", "o", "p"},
+//		 {"q", "r", "s", "t"}
+//		 };
+//		 testArray = testArray2;
+//		
+//		 System.out.println(testArray[0][3]);
+//		 System.out.println(testArray[4][0]);
+//		 System.out.println(Arrays.toString(testArray[2]));
 
 	}
 

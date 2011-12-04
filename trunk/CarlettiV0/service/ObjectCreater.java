@@ -192,7 +192,7 @@ public class ObjectCreater {
 	public void udskrivMellemlagerPladser() {
 
 		for (int i = 0; i < dao.mellemlagerPladser().size(); i++) {
-//			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
+			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
 		}
 	}
 

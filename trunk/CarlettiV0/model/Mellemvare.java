@@ -37,9 +37,10 @@ public class Mellemvare {
 
 	private MellemvareStatus status;
 
-	public Mellemvare(){
+	public Mellemvare() {
 
 	}
+
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {
 		this.bakkestregkode = bakkestregkode;
@@ -139,7 +140,7 @@ public class Mellemvare {
 	}
 
 	public void setPalleUD(Palle palle) {
-		if (this.palle != null){
+		if (this.palle != null) {
 			this.palle.removeMellemvareUD(this);
 		}
 		this.palle = palle;
@@ -157,54 +158,63 @@ public class Mellemvare {
 
 	public long getResterendeTidTilNaeste() {
 		long tid = 0;
-		if (this.getIgangvaerendeDelbehandling()!=null){
-			tid = this.getIgangvaerendeDelbehandling().getResterendeTidTilNaeste(getSidsteStarttid());
+		if (this.getIgangvaerendeDelbehandling() != null) {
+			tid = this.getIgangvaerendeDelbehandling()
+					.getResterendeTidTilNaeste(getSidsteStarttid());
 		}
 		return tid;
 	}
 
 	/**
-	 * Sammenligner to mellemvarer. Disse betragtes som ens, hvis de er af samme produkttype og har samme igangv¾rende delbehandling.
-	 * Metoden tager _ikke_ h¿jde for hvor lang tid hver af mellemvarerne har v¾ret i gang med delbehandlingen.
+	 * Sammenligner to mellemvarer. Disse betragtes som ens, hvis de er af samme
+	 * produkttype og har samme igangv¾rende delbehandling. Metoden tager _ikke_
+	 * h¿jde for hvor lang tid hver af mellemvarerne har v¾ret i gang med
+	 * delbehandlingen.
+	 * 
 	 * @param mellemvare
 	 * @return
 	 */
-	public boolean erAfSammeType(Mellemvare mellemvare){
-		return this.erAfSammeType(mellemvare.getProdukttype(), mellemvare.getIgangvaerendeDelbehandling());
+	public boolean erAfSammeType(Mellemvare mellemvare) {
+		return this.erAfSammeType(mellemvare.getProdukttype(),
+				mellemvare.getIgangvaerendeDelbehandling());
 	}
 
-	public boolean erAfSammeType(Produkttype produkttype, Delbehandling delbehandling){
-		if (produkttype==this.getProdukttype() && delbehandling==this.getIgangvaerendeDelbehandling()){
+	public boolean erAfSammeType(Produkttype produkttype,
+			Delbehandling delbehandling) {
+		if (produkttype == this.getProdukttype()
+				&& delbehandling == this.getIgangvaerendeDelbehandling()) {
 			return true;
-		}
-		else return false;
+		} else
+			return false;
 	}
 
 	/**
-	 * @param delbehandling. Hvis null, skal den igangv¾rende delbehandling v¾re den sidste i behandlingens delbehandlingsliste. Ellers skal delbehandling v¾re af samme klasse som den n¾ste i behandlingens delbehandlingsliste.
+	 * @param delbehandling
+	 *            . Hvis null, skal den igangv¾rende delbehandling v¾re den
+	 *            sidste i behandlingens delbehandlingsliste. Ellers skal
+	 *            delbehandling v¾re af samme klasse som den n¾ste i
+	 *            behandlingens delbehandlingsliste.
 	 * @return
 	 */
-	public boolean naesteBehandlingGyldig(DelbehandlingsType delbehandlingsType){
+	public boolean naesteDelbehandlingGyldig(
+			DelbehandlingsType potentielNaesteDelbehandlingsType) {
 		boolean gyldig = false;
-		Delbehandling naeste = this.getIgangvaerendeDelbehandling().getNextDelbehandling();
-		if (naeste != null){
-			if (naeste.getDelbehandlingstype() == delbehandlingsType){
-				gyldig = true;
-			}
+		if (igangvaerendeDelbehandling != null) {
+			gyldig = this.igangvaerendeDelbehandling
+					.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
 		}
-		else if (delbehandlingsType == null){
-			gyldig = true;
-		}
-		return gyldig && indenforTilladtBehandlingstid();
+		return gyldig; // && indenforTilladtBehandlingstid();
 	}
 
 	private boolean indenforTilladtBehandlingstid() {
-		return igangvaerendeDelbehandling.indenforTilladtBehandlingstid(getSidsteStarttid());
+		return igangvaerendeDelbehandling
+				.indenforTilladtBehandlingstid(getSidsteStarttid());
 	}
+
 	private GregorianCalendar getSidsteStarttid() {
 		return getTidspunkter().get(tidspunkter.size() - 1);
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getBakkestregkode() + "\t" + this.getProdukttype();
@@ -219,18 +229,20 @@ public class Mellemvare {
 		this.igangvaerendeDelbehandling = nyDelbehandling;
 
 	}
+
 	/**
 	 * @return the status
 	 */
 	public MellemvareStatus getStatus() {
 		return status;
 	}
+
 	/**
-	 * @param status the status to set
+	 * @param status
+	 *            the status to set
 	 */
 	public void setStatus(MellemvareStatus status) {
 		this.status = status;
 	}
-
 
 }
