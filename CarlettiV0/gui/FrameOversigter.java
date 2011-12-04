@@ -1,6 +1,8 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -9,19 +11,16 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import service.Service;
-import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
 
 import model.Palle;
-import java.awt.Font;
+import service.Service;
 
 public class FrameOversigter extends JFrame implements Observer{
 
@@ -67,6 +66,7 @@ public class FrameOversigter extends JFrame implements Observer{
 	private Object[][] dataKasserede;
 	private String[] columnNamesKasserede;
 	private static FrameOversigter frameOversigter;
+	private JPanel panel_2;
 
 	private FrameOversigter(MainFrame mainFrame){
 		mainFrame.registerObserver(this);
@@ -95,9 +95,9 @@ public class FrameOversigter extends JFrame implements Observer{
 				.addGroup(gl_panelDrageringshal.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panelDrageringshal.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblOversigtOverDrageringshallen)
 						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 516, GroupLayout.PREFERRED_SIZE)
-						.addComponent(panelDrageringshalKnapper, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+						.addComponent(panelDrageringshalKnapper, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+						.addComponent(lblOversigtOverDrageringshallen))
 					.addContainerGap())
 		);
 		gl_panelDrageringshal.setVerticalGroup(
@@ -105,8 +105,8 @@ public class FrameOversigter extends JFrame implements Observer{
 				.addGroup(gl_panelDrageringshal.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblOversigtOverDrageringshallen)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 345, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 333, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addComponent(panelDrageringshalKnapper, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
@@ -148,6 +148,8 @@ public class FrameOversigter extends JFrame implements Observer{
 		scrollPane_2 = new JScrollPane();
 		
 		lblOversigtOverFrdigvarelager = new JLabel("Oversigt over f\u00E6rdigvarelager");
+		
+		JPanel panel = new JPanel();
 		GroupLayout gl_panelFaerdigvarer = new GroupLayout(panelFaerdigvarer);
 		gl_panelFaerdigvarer.setHorizontalGroup(
 			gl_panelFaerdigvarer.createParallelGroup(Alignment.LEADING)
@@ -155,17 +157,19 @@ public class FrameOversigter extends JFrame implements Observer{
 					.addContainerGap()
 					.addGroup(gl_panelFaerdigvarer.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 517, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblOversigtOverFrdigvarelager))
 					.addContainerGap())
 		);
 		gl_panelFaerdigvarer.setVerticalGroup(
 			gl_panelFaerdigvarer.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelFaerdigvarer.createSequentialGroup()
-					.addGap(40)
+					.addContainerGap()
 					.addComponent(lblOversigtOverFrdigvarelager)
+					.addGap(18)
+					.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 324, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(58, Short.MAX_VALUE))
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
 		
 		columnNamesFaerdig = new String[]{"Bakkestregkode", "Produkttype", "Mellemvarestatus"};
@@ -182,24 +186,29 @@ public class FrameOversigter extends JFrame implements Observer{
 		scrollPane_1 = new JScrollPane();
 		
 		lblKasseredeVarer = new JLabel("Oversigt over kasserede varer");
+		
+		JPanel panel_1 = new JPanel();
 		GroupLayout gl_panelKasserede = new GroupLayout(panelKasserede);
 		gl_panelKasserede.setHorizontalGroup(
 			gl_panelKasserede.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelKasserede.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panelKasserede.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblKasseredeVarer)
-						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE))
+					.addGroup(gl_panelKasserede.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane_1, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 517, Short.MAX_VALUE)
+						.addGroup(gl_panelKasserede.createParallelGroup(Alignment.LEADING)
+							.addComponent(lblKasseredeVarer)
+							.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 517, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_panelKasserede.setVerticalGroup(
 			gl_panelKasserede.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelKasserede.createSequentialGroup()
-					.addGap(41)
+					.addContainerGap()
 					.addComponent(lblKasseredeVarer)
+					.addGap(18)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(46, Short.MAX_VALUE))
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
 		dataKasserede = Service.getInstance().generateViewDataKasseredeVarer();
 		columnNamesKasserede = new String[]{"Bakkestregkode", "Produkttype", "Mellemvarestatus"};
@@ -229,45 +238,61 @@ public class FrameOversigter extends JFrame implements Observer{
 		
 		lblMarkrEnPalle = new JLabel("Mark\u00E9r en palle og tryk \"Vis palle\" for at se detaljer");
 		lblMarkrEnPalle.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
+		
+		panel_2 = new JPanel();
+		
+		listPaller = new JList();
+		listPaller.setListData(Service.getInstance().getPaller().toArray());
 		GroupLayout gl_panelPaller = new GroupLayout(panelPaller);
 		gl_panelPaller.setHorizontalGroup(
 			gl_panelPaller.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelPaller.createSequentialGroup()
-					.addGap(41)
-					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblOversigtOverPaller)
+					.addContainerGap()
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(gl_panelPaller.createSequentialGroup()
-							.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblVisPalleoversigt)
-								.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING)
-									.addComponent(btnVisPalle)
-									.addComponent(lblMarkrEnPalle)))))
-					.addContainerGap(119, Short.MAX_VALUE))
+							.addComponent(listPaller, GroupLayout.PREFERRED_SIZE, 149, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(scrollPane_3, 0, 0, Short.MAX_VALUE))
+						.addComponent(lblOversigtOverPaller, Alignment.LEADING))
+					.addGap(18)
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblVisPalleoversigt)
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addGap(1)
+							.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnVisPalle)
+								.addComponent(lblMarkrEnPalle))))
+					.addContainerGap(82, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, gl_panelPaller.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 517, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
 		);
 		gl_panelPaller.setVerticalGroup(
 			gl_panelPaller.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelPaller.createSequentialGroup()
-					.addGap(31)
+					.addContainerGap()
 					.addComponent(lblOversigtOverPaller)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_panelPaller.createParallelGroup(Alignment.BASELINE)
-						.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 357, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelPaller.createSequentialGroup()
-							.addComponent(lblVisPalleoversigt)
-							.addGap(7)
-							.addComponent(lblMarkrEnPalle)
-							.addGap(9)
-							.addComponent(btnVisPalle)))
-					.addContainerGap(34, Short.MAX_VALUE))
+							.addGap(40)
+							.addComponent(scrollPane_3, GroupLayout.PREFERRED_SIZE, 190, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addGap(27)
+							.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_panelPaller.createSequentialGroup()
+									.addComponent(lblVisPalleoversigt)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_panelPaller.createSequentialGroup()
+										.addComponent(lblMarkrEnPalle)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(btnVisPalle)))
+								.addComponent(listPaller, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE))))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
-		
-		listPaller = new JList();
-		scrollPane_3.setViewportView(listPaller);
 		panelPaller.setLayout(gl_panelPaller);
 		this.mainFrame = mainFrame;
-		listPaller.setListData(Service.getInstance().getPaller().toArray());
 
 
 	}
