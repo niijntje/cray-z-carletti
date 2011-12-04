@@ -152,8 +152,12 @@ public class Mellemvare {
 	}
 
 	public long[] getResterendeTider() {
-		return this.getIgangvaerendeDelbehandling().getResterendeTider(
-				getTidspunkter().get(tidspunkter.size() - 1));
+		long [] tider = new long[0];
+		if (this.getStatus() == MellemvareStatus.UNDERBEHANDLING){
+			tider = this.getIgangvaerendeDelbehandling().getResterendeTider(
+					getTidspunkter().get(tidspunkter.size() - 1));
+		}
+		return tider;
 	}
 
 	public long getResterendeTidTilNaeste() {
@@ -196,12 +200,10 @@ public class Mellemvare {
 	 *            behandlingens delbehandlingsliste.
 	 * @return
 	 */
-	public boolean naesteDelbehandlingGyldig(
-			DelbehandlingsType potentielNaesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(DelbehandlingsType potentielNaesteDelbehandlingsType) {
 		boolean gyldig = false;
 		if (igangvaerendeDelbehandling != null) {
-			gyldig = this.igangvaerendeDelbehandling
-					.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
+			gyldig = igangvaerendeDelbehandling.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
 		}
 		return gyldig; // && indenforTilladtBehandlingstid();
 	}

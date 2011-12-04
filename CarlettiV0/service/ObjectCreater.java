@@ -10,10 +10,12 @@ import dao.ListDao;
 
 import model.Behandling;
 import model.Delbehandling;
+import model.Dragering;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
+import model.Toerring;
 
 /**
  * @author nijntje
@@ -58,12 +60,11 @@ public class ObjectCreater {
 		Service.getInstance().opretPalle("00008");
 		Service.getInstance().opretPalle("00009");
 		Service.getInstance().opretPalle("00010");
-		Service.getInstance().opretPalle("00011");
 		
 		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads("001");
 		Service.getInstance().opretMellemlagerPlads("002");
 		Service.getInstance().opretMellemlagerPlads("003");
-		Service.getInstance().opretMellemlagerPlads("004");
+		MellemlagerPlads pl4 = Service.getInstance().opretMellemlagerPlads("004");
 		Service.getInstance().opretMellemlagerPlads("005");
 		Service.getInstance().opretMellemlagerPlads("006");
 		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads("007");
@@ -166,6 +167,19 @@ public class ObjectCreater {
 			}
 		}
 		m1.setIgangvaerendeDelbehandling(d2);
+		
+		Palle pa3 = Service.getInstance().opretPalle("00011");
+		Service.getInstance().placerPalleMellemvarelager(pa3, pl4);
+		Behandling kortBehandling = Service.getInstance().opretBehandling("Ritas ultrakorte behandling");
+		Delbehandling kortDelbehandling = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"), -1);
+		Delbehandling kortDelbehandling2 = Service.getInstance().opretDragering("Ultrakort dragering", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"),-1);
+		Delbehandling kortDelbehandling3 = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"),-1);
+		Produkttype hurtigProdukttype = new Produkttype("Hurtige bolsjer", "De her bolsjer er BARE hurtige at lave!", kortBehandling);
+		GregorianCalendar cal = new GregorianCalendar();
+		cal.setTimeInMillis(System.currentTimeMillis() - 60000);
+		Mellemvare m3 = new Mellemvare("21312", hurtigProdukttype, pa3, cal);
+		pa3.addMellemvare(m3);
+		dao.gemMellemvare(m3);
 //		 placerPalleMellemvarelager(pa1, mPlads1);
 	}
 	

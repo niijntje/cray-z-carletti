@@ -1,5 +1,6 @@
 package gui;
 
+import model.Delbehandling;
 import model.Delbehandling.DelbehandlingsType;
 import model.Mellemvare;
 import model.Palle;
@@ -17,20 +18,24 @@ public class App {
 		MainFrame.getInstance().setVisible(true);
 		
 		
-		System.out.println("MELLEMVARER:");
-		for (Mellemvare m : ListDao.getListDao().mellemvarer()){
-			System.out.println("Dragering: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.DRAGERING));
-			System.out.println("T¿rring: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.TOERRING));
-			System.out.println("F¾rdigvarelager: "+m.naesteDelbehandlingGyldig(null));
-		}
-		System.out.println();
-		System.out.println("PALLER:");
-		for (Palle p : ListDao.getListDao().paller()){
-			System.out.println("Palle: "+p+" "+p.getMellemvarer().size()+" stk.");
-			System.out.println("Dragering: " +p.naesteDelbehandlingGyldig(null, null ,DelbehandlingsType.DRAGERING));
-			System.out.println("T¿rring: " +p.naesteDelbehandlingGyldig(null, null, DelbehandlingsType.TOERRING));
-			System.out.println("F¾rdigvarelager: "+p.naesteDelbehandlingGyldig(null, null, null));
-		}
+//		System.out.println("MELLEMVARER:");
+//		for (Mellemvare m : ListDao.getListDao().mellemvarer()){
+//			System.out.println(m);
+//			Delbehandling d = m.getIgangvaerendeDelbehandling();
+//			System.out.println("Dragering: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.DRAGERING)+" "+d+" "+d.getDelbehandlingstype()+" "+d.getNextDelbehandling());
+//			System.out.println("T¿rring: " +m.naesteDelbehandlingGyldig(DelbehandlingsType.TOERRING));
+//			System.out.println("F¾rdigvarelager: "+m.naesteDelbehandlingGyldig(null));
+//			System.out.println();
+//		}
+//		System.out.println();
+//		System.out.println("PALLER:");
+//		for (Palle p : ListDao.getListDao().paller()){
+//			System.out.println("Palle: "+p+" "+p.getMellemvarer().size()+" stk.");
+//			System.out.println("Dragering: " +p.naesteDelbehandlingGyldig(null, null ,DelbehandlingsType.DRAGERING));
+//			System.out.println("T¿rring: " +p.naesteDelbehandlingGyldig(null, null, DelbehandlingsType.TOERRING));
+//			System.out.println("F¾rdigvarelager: "+p.naesteDelbehandlingGyldig(null, null, null));
+//			System.out.println();
+//		}
 //		ObjectCreater.getInstance().udskrivMellemlagerPladser();
 
 

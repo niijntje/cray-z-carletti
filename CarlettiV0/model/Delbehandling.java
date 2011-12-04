@@ -36,8 +36,10 @@ public abstract class Delbehandling {
 	@ManyToOne
 	private Delbehandling nextDelbehandling;
 
-	public Delbehandling(DelbehandlingsType delbehandlingsType){
+	public Delbehandling(String navn, Behandling behandling, DelbehandlingsType delbehandlingsType){
 		this.delbehandlingstype = delbehandlingsType;
+		this.setNavn(navn);
+		this.behandling = behandling;
 	}
 
 	/**
@@ -54,10 +56,7 @@ public abstract class Delbehandling {
 		this.delbehandlingstype = delbehandlingstype;
 	}
 
-	public Delbehandling(String navn, Behandling behandling){
-		this.setNavn(navn);
-		this.behandling = behandling;
-	}
+
 
 	public Delbehandling getNextDelbehandling() {
 		return nextDelbehandling;
