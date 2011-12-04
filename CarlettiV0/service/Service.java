@@ -629,8 +629,38 @@ public class Service {
 	}
 
 	public Object[][] generateViewDataKasseredeVarer() {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Mellemvare> kasseredeVarer = getKasserede();
+		Object[][] data = new Object[kasseredeVarer.size()][3];
+		if (kasseredeVarer.size() > 0) {
+			for (int i = 0; i < kasseredeVarer.size(); i++) {
+				data[i][0] = kasseredeVarer.get(i).getBakkestregkode();
+				data[i][1] = kasseredeVarer.get(i).getProdukttype();
+				data[i][2] = kasseredeVarer.get(i).getStatus();
+
+			}
+		}
+
+		return data;
+	}
+
+	/**
+	 * Genererer data til oversigten over faerdigvarer
+	 * 
+	 * @return
+	 * @author Cederdorff
+	 */
+	public Object[][] generateViewFaerdigvarer() {
+		ArrayList<Mellemvare> faerdigvarer = getFaerdigvarer();
+		Object[][] data = new Object[faerdigvarer.size()][3];
+		if (faerdigvarer.size() > 0) {
+			for (int i = 0; i < faerdigvarer.size(); i++) {
+				data[i][0] = faerdigvarer.get(i).getBakkestregkode();
+				data[i][1] = faerdigvarer.get(i).getProdukttype();
+				data[i][2] = faerdigvarer.get(i).getStatus();
+			}
+		}
+
+		return data;
 	}
 
 	/**
