@@ -473,8 +473,9 @@ public class Service {
 				for (int i = 0; i < mData.length; i++){
 					pladsData = new Object[6];
 					pladsData[0] = mp;
-					System.out.println(mData[i][1]);
+
 					if(mData[i][0] != null && mData[i][1] == DelbehandlingsType.TOERRING){
+						System.out.println(mData[i][1]);
 						pladsData[1] = mp.getPalle();
 						pladsData[2] = mData[i][0];
 						pladsData[3] = mData[i][1];
