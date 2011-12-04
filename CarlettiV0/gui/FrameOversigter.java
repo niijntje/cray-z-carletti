@@ -174,7 +174,7 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 				Palle palle = (Palle) tableDrageringshalModel.getValueAt(row, 0);
 				Produkttype produkttype = (Produkttype) tableDrageringshalModel.getValueAt(row, 1);
 				Delbehandling delbehandling = (Delbehandling) tableDrageringshalModel.getValueAt(row, 2);
-				Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.TOERRING, null);
+				Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.TOERRING, null, null);
 				update();
 				notifyObservers();
 			}
