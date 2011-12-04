@@ -32,7 +32,7 @@ import java.awt.Color;
  * @author cederdorff
  * 
  */
-public class SubFrameAdminProdukttype extends JFrame {
+public class SubFrameAdminProdukttype extends JFrame{
 
 	private JPanel contentPane;
 	private JTextField txtIndtastnavn;
@@ -41,6 +41,9 @@ public class SubFrameAdminProdukttype extends JFrame {
 	private JComboBox comboBox, comboBoxRediger;
 	private JTextField txtNavnRediger;
 	private JTextField txtBeskrivRediger;
+	private JLabel lblSletProdukttype;
+	private JLabel lblMarkrProdukttypeOg;
+	private JButton btnGem;
 	private static SubFrameAdminProdukttype adminProdukttype;
 
 	private SubFrameAdminProdukttype() {
@@ -127,7 +130,7 @@ public class SubFrameAdminProdukttype extends JFrame {
 		comboBoxRediger = new JComboBox(Service.getInstance().getBehandlinger().toArray());
 		comboBoxRediger.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 
-		JButton btnGem = new JButton("Gem");
+		btnGem = new JButton("Gem");
 		btnGem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Produkttype produkttype = (Produkttype) list.getSelectedValue();
@@ -135,9 +138,9 @@ public class SubFrameAdminProdukttype extends JFrame {
 			}
 		});
 
-		JLabel lblSletProdukttype = new JLabel("Slet Produkttype");
+		lblSletProdukttype = new JLabel("Slet Produkttype");
 
-		JLabel lblMarkrProdukttypeOg = new JLabel(
+		lblMarkrProdukttypeOg = new JLabel(
 				"Mark\u00E9r og v\u00E6lg slet");
 		lblMarkrProdukttypeOg
 				.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
