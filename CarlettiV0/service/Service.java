@@ -543,10 +543,12 @@ public class Service {
 		return data;
 	}
 
-	/**
-	 * genererer et array til visning i SubFrameDrageringshalOversigt
-	 */
-
+	
+/**
+ * Genererer et array til visning i SubFrameDrageringshalOversigt
+ * @return
+ * @author Mads Dahl Jensen
+ */
 	public Object[][] generateViewDataDrageringshal()
 	{
 		ArrayList<Palle> paller = Drageringshal.getInstance().getPaller();
@@ -593,7 +595,12 @@ public class Service {
 		}
 		return oversigtsData;
 	}
-
+	/**
+	 * Genererer data til oversigten over kasserede varer
+	 * 
+	 * @return
+	 * @author Cederdorff
+	 */
 	public Object[][] generateViewDataKasseredeVarer() {
 		// TODO Auto-generated method stub
 		return null;
