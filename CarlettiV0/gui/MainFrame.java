@@ -75,7 +75,6 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private ArrayList<Observer> observers;
 	public SubFrameAdminBehandling subFrameBehandlinger;
 	private JMenuItem mntmBehandlinger;
-	private FrameOversigter frameOversigter;
 	private static MainFrame mainFrame;
 
 	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
@@ -271,8 +270,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				"Drag\u00E9ringshal");
 		mntmOversigtOverDragringshal.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frameOversigter = new FrameOversigter(mainFrame);
-				frameOversigter.setVisible(true);
+				FrameOversigter.getInstance(mainFrame).setVisible(true);
+				FrameOversigter.getInstance(mainFrame).getTabbedPane().setSelectedIndex(0);
 			}
 		});
 		mnOversigter.add(mntmOversigtOverDragringshal);
@@ -281,9 +280,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				"F\u00E6rdigvarelager");
 		mntmOversigtOverFrdigvarer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				frameOversigter = new FrameOversigter(mainFrame);
-				frameOversigter.setVisible(true);
-				frameOversigter.getTabbedPane().setSelectedIndex(1);
+				FrameOversigter.getInstance(mainFrame).setVisible(true);
+				FrameOversigter.getInstance(mainFrame).getTabbedPane().setSelectedIndex(1);
 			}
 		});
 		mnOversigter.add(mntmOversigtOverFrdigvarer);
@@ -292,9 +290,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				"Kasserede varer");
 		mntmOversigtOverKasseredevarer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameOversigter = new FrameOversigter(mainFrame);
-				frameOversigter.setVisible(true);
-				frameOversigter.getTabbedPane().setSelectedIndex(2);
+				FrameOversigter.getInstance(mainFrame).setVisible(true);
+				FrameOversigter.getInstance(mainFrame).getTabbedPane().setSelectedIndex(2);
 			}
 		});
 		mnOversigter.add(mntmOversigtOverKasseredevarer);
@@ -302,9 +299,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mntmPaller_1 = new JMenuItem("Paller");
 		mntmPaller_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frameOversigter = new FrameOversigter(mainFrame);
-				frameOversigter.setVisible(true);
-				frameOversigter.getTabbedPane().setSelectedIndex(3);
+				FrameOversigter.getInstance(mainFrame).setVisible(true);
+				FrameOversigter.getInstance(mainFrame).getTabbedPane().setSelectedIndex(3);
 			}
 		});
 		mnOversigter.add(mntmPaller_1);

@@ -23,7 +23,7 @@ import javax.swing.JList;
 import model.Palle;
 import java.awt.Font;
 
-public class FrameOversigter extends JFrame {
+public class FrameOversigter extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTable faerdigvarer;
@@ -41,7 +41,6 @@ public class FrameOversigter extends JFrame {
 	private JLabel lblOversigtOverDrageringshallen;
 	private JPanel panelDrageringshal;
 	private JScrollPane scrollPane;
-	private JButton btnAnnuller;
 	private JButton btnSePalleoversigt;
 	private JPanel panelFaerdigvarer;
 	private JPanel panelKasserede;
@@ -49,7 +48,6 @@ public class FrameOversigter extends JFrame {
 	private DefaultTableModel tableDrageringshalModel;
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane_2;
-	private JList listFaerdigvarer;
 	private JLabel lblOversigtOverFrdigvarelager;
 	private JLabel lblOversigtOverPaller;
 	private JScrollPane scrollPane_3;
@@ -60,8 +58,18 @@ public class FrameOversigter extends JFrame {
 	private JLabel lblMarkrEnPalle;
 	private JTable tableKasseredeVarer;
 	private DefaultTableModel tabelKasseredeModel;
+	private JTable tableFaerdigvarelager;
+	private DefaultTableModel tableFaerdigModel;
+	private String[] columnNamesDrageringsTable;
+	private Object[][] dataDrageringshal;
+	private String[] columnNamesFaerdig;
+	private Object[][] dataFaerdigvarer;
+	private Object[][] dataKasserede;
+	private String[] columnNamesKasserede;
+	private static FrameOversigter frameOversigter;
 
-	public FrameOversigter(MainFrame mainFrame) {
+	private FrameOversigter(MainFrame mainFrame){
+		mainFrame.registerObserver(this);
 		setBackground(Color.PINK);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 550, 512);
@@ -103,16 +111,32 @@ public class FrameOversigter extends JFrame {
 					.addComponent(panelDrageringshalKnapper, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
 		);
 		
-		btnAnnuller = new JButton("Annuller");
-		panelDrageringshalKnapper.add(btnAnnuller);
-		
 		btnSePalleoversigt = new JButton("Se palleoversigt");
+		btnSePalleoversigt.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row = tableDrageringshal.convertRowIndexToModel(tableDrageringshal.getSelectedRow());
+				Palle palle = (Palle) tableDrageringshalModel.getValueAt(row, 0);
+				FrameOversigter.this.mainFrame.subFramePalleOversigt = new SubFramePalleOversigt( FrameOversigter.this.mainFrame, palle);
+				FrameOversigter.this.mainFrame.subFramePalleOversigt.update();
+				FrameOversigter.this.mainFrame.subFramePalleOversigt.setVisible(true);
+				FrameOversigter.this.mainFrame.subFramePalleOversigt.registerObserver(FrameOversigter.this.mainFrame);
+				FrameOversigter.this.mainFrame.registerObserver(FrameOversigter.this.mainFrame.subFramePalleOversigt);
+			}
+		});
 		panelDrageringshalKnapper.add(btnSePalleoversigt);
 		
-		columnNames = new String[] { "Palle#", "Produkttype", "Resterende tid"};
-		data = Service.getInstance()
+		JButton btnSendTilTrring = new JButton("Send til t\u00F8rring");
+		btnSendTilTrring.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+			}
+		});
+		panelDrageringshalKnapper.add(btnSendTilTrring);
+		
+		columnNamesDrageringsTable = new String[] { "Palle#", "Produkttype", "Delbehandling", "Antal", "Resterende tid"};
+		dataDrageringshal = Service.getInstance()
 				.generateViewDataDrageringshal();
-		tableDrageringshalModel = new DefaultTableModel(data, columnNames);
+		tableDrageringshalModel = new DefaultTableModel(dataDrageringshal, columnNamesDrageringsTable);
 		tableDrageringshal = new JTable(tableDrageringshalModel);
 		scrollPane.setViewportView(tableDrageringshal);
 		panelDrageringshal.setLayout(gl_panelDrageringshal);
@@ -144,10 +168,14 @@ public class FrameOversigter extends JFrame {
 					.addContainerGap(58, Short.MAX_VALUE))
 		);
 		
-		listFaerdigvarer = new JList();
-		scrollPane_2.setColumnHeaderView(listFaerdigvarer);
+		columnNamesFaerdig = new String[]{"Bakkestregkode", "Produkttype", "Mellemvarestatus"};
+		dataFaerdigvarer = Service.getInstance().generateViewFaerdigvarer();
+		
+		tableFaerdigModel = new DefaultTableModel(dataFaerdigvarer, columnNamesFaerdig);
+		
+		tableFaerdigvarelager = new JTable(tableFaerdigModel);
+		scrollPane_2.setViewportView(tableFaerdigvarelager);
 		panelFaerdigvarer.setLayout(gl_panelFaerdigvarer);
-		listFaerdigvarer.setListData(Service.getInstance().getFaerdigvarer().toArray());
 		panelKasserede = new JPanel();
 		tabbedPane.addTab("Kasserede varer", null, panelKasserede, null);
 		
@@ -173,9 +201,9 @@ public class FrameOversigter extends JFrame {
 					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 335, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(46, Short.MAX_VALUE))
 		);
-		data = Service.getInstance().generateViewDataKasseredeVarer();
-		columnNames = new String[]{"Bakkestregkode", "Produkttype", "Sidste delbehandling"};
-		tabelKasseredeModel = new DefaultTableModel(data, columnNames);
+		dataKasserede = Service.getInstance().generateViewDataKasseredeVarer();
+		columnNamesKasserede = new String[]{"Bakkestregkode", "Produkttype", "Mellemvarestatus"};
+		tabelKasseredeModel = new DefaultTableModel(dataKasserede, columnNamesKasserede);
 		
 		tableKasseredeVarer = new JTable(tabelKasseredeModel);
 		scrollPane_1.setViewportView(tableKasseredeVarer);
@@ -243,6 +271,13 @@ public class FrameOversigter extends JFrame {
 
 
 	}
+	
+	public static FrameOversigter getInstance(MainFrame mainFrame){
+		if(frameOversigter == null){
+			frameOversigter = new FrameOversigter(mainFrame);
+		}
+		return frameOversigter;
+	}
 
 	/**
 	 * @return the mainFrame
@@ -256,5 +291,14 @@ public class FrameOversigter extends JFrame {
 	 */
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
+	}
+
+	@Override
+	public void update() {
+		tableDrageringshalModel.setDataVector(Service.getInstance().generateViewDataDrageringshal(), columnNamesDrageringsTable);
+		tableFaerdigModel.setDataVector(Service.getInstance().generateViewFaerdigvarer(), columnNamesFaerdig);
+		tabelKasseredeModel.setDataVector(Service.getInstance().generateViewDataKasseredeVarer(), columnNamesKasserede);
+		listPaller.setListData(Service.getInstance().getPaller().toArray());
+		
 	}
 }
