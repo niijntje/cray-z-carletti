@@ -347,7 +347,7 @@ public class Service {
 	public ArrayList<MellemlagerPlads> visOversigtOverMellemvarelager() {
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
 	}
-	
+
 	/**
 	 * Returnerer en liste med alle paller
 	 * @return
@@ -355,7 +355,7 @@ public class Service {
 	public ArrayList<Palle> getPaller() {
 		return new ArrayList<Palle>(dao.paller());
 	}
-	
+
 	/**
 	 * Returnerer en liste med alle mellemlagerpladser
 	 * @return
@@ -461,35 +461,39 @@ public class Service {
 	public Object[][] generateViewDataMellemlagerOversigt(){
 		//Data gemmes i første omgang i en ArrayList, da størrelsen af data afhænger af 
 		//hvor mange forskellige typer mellemvarer der findes på hver enkelt palle.
+
 		ArrayList<Object[]> listData = new ArrayList<Object[]>();
 		for (MellemlagerPlads mp : getPladser()){
 			Object[] pladsData = new Object[6];
 			pladsData[0] = mp;
-			if (mp.getPalle() == null){
+			if (mp.getPalle() == null){					//Tom plads
 				listData.add(pladsData);
 			}
-			else {
-				Object[][] mData = generateViewDataProdukttypeDelbehandlingAntalTid(mp.getPalle());
-				for (int i = 0; i < mData.length; i++){
-					pladsData = new Object[6];
-					pladsData[0] = mp;
-
-					if(mData[i][0] != null && mData[i][1] == DelbehandlingsType.TOERRING){
-						System.out.println(mData[i][1]);
-						pladsData[1] = mp.getPalle();
-						pladsData[2] = mData[i][0];
-						pladsData[3] = mData[i][1];
-						pladsData[4] = mData[i][2];
-						pladsData[5] = mData[i][3];
-						listData.add(pladsData);
+			else {										//Plads med palle
+				Palle palle = mp.getPalle();
+				if (palle.getMellemvarer().size()==0){	//Tom palle - men skal stadig vises!
+					pladsData[1] = palle;
+					listData.add(pladsData);
+				}
+				else{									//Pallen indeholder mellemvarer, og der skal vises en række pr. 'type'
+					Object[][] fullPalleData = generateViewDataPalle(palle, false); //<--- false: Kun én resterende tid vises
+					for (int i = 0; i < fullPalleData.length; i++) {
+						Object[] mellemvareData = new Object[6];
+						mellemvareData[0] = mp;						//Mellemlagerplads
+						mellemvareData[1] = fullPalleData[i][0];	//Palle
+						mellemvareData[2] = fullPalleData[i][1];	//Produkttype
+						mellemvareData[3] = fullPalleData[i][2];	//Delbehandling
+						mellemvareData[4] = fullPalleData[i][3];	//Antal
+						mellemvareData[5] = fullPalleData[i][5];	//Resterende tid til næste tidsfrist
+						listData.add(mellemvareData);
 					}
 				}
-			}			
+			}
 		}
 		Object[][] data = new Object[listData.size()][6];
 		int i = 0;
-		for(Object[] oa : listData){
-			data[i] = oa;
+		for(Object[] pladsDataArray : listData){
+			data[i] = pladsDataArray;
 			i++;
 		}
 		return data;
@@ -509,31 +513,26 @@ public class Service {
 				Palle palle = mp.getPalle();
 				Object[][] palleData = null;
 				if (palle.getMellemvarer().size()>0){
-					HashMap<Mellemvare, Integer> mellemvareAntal = palle
-							.getMellemvareAntalMapping();
-					palleData = new Object[8][mellemvareAntal.size()];
-					int i = 0;
+					Object[][] fullPalleData = generateViewDataPalle(palle, false);
+					palleData = new Object[fullPalleData.length][8];
 
-					for (Mellemvare m : mellemvareAntal.keySet()) {
+					for (int i = 0; i < fullPalleData.length; i++) {
 						Object[] mData = new Object[8];
-						mData[0] = mp;
-						mData[1] = palle;
-						mData[2] = m.getProdukttype();
-						mData[3] = m.getIgangvaerendeDelbehandling();
-						mData[4] = mellemvareAntal.get(m);
-						long[] tider = m.getResterendeTider();
-						if (tider.length==3){
-							mData[5] = Validering.millisekunderTilVarighedString(tider[0]);
-							mData[6] = Validering.millisekunderTilVarighedString(tider[1]);
-							mData[7] = Validering.millisekunderTilVarighedString(tider[2]);
-						}
-						else mData[6] =Validering.millisekunderTilVarighedString(tider[0]);
+						mData[0] = mp;				//Mellemlagerplads
+						mData[1] = palleData[i][0];	//Palle
+						mData[2] = palleData[i][1];	//Produkttype
+						mData[3] = palleData[i][2];	//Delbehandling
+						mData[4] = palleData[i][3];	//Antal
+						mData[5] = palleData[i][4];	//Resterende tid til minTid
+						mData[6] = palleData[i][5];	//Resterende tid til idealTid
+						mData[7] = palleData[i][6];	//Resterende tid til maxTid
 						palleData[i] = mData;
-						i++;
 					}
 				}
+				else {	//Pallen er tom, men skal stadig vises!
+					palleData = new Object[0][8];
+				}
 			}
-
 		}
 		Object[][] data = new Object[listData.size()][8];
 		int i = 0;
@@ -567,40 +566,78 @@ public class Service {
 	}
 
 	/**
-	 * Genererer data til brug for SubFramePalleOversigt
+	 * Genererer/strukturerer data til brug for SubFramePalleOversigt (via generateViewDataPalle())
 	 * 
 	 * @param palle
 	 * @return Object[][] - Opsummering af pallens indhold i form af:
-	 *         Produkttype, Delbehandling (igangværende), antal af denne
-	 *         kombination på pallen og resterende tid for samme.
+	 *         Palle, Produkttype, Delbehandling (igangværende), antal af denne
+	 *         kombination på pallen og resterende tid til _næste_ tidsfrist for samme.
 	 * @author Rita Holst Jacobsen
 	 */
-	public Object[][] generateViewDataProdukttypeDelbehandlingAntalTid(
-			Palle palle) {
-		Object[][] data = null;
-		if (palle.getMellemvarer().size()>0){
-			HashMap<Mellemvare, Integer> mellemvareAntal = palle
-					.getMellemvareAntalMapping();
-			data = new Object[4][mellemvareAntal.size()];
-			int i = 0;
-
-			for (Mellemvare m : mellemvareAntal.keySet()) {
+	public Object[][] generateViewDataProdukttypeDelbehandlingAntalTid(Palle palle) {
+		Object[][] fullData = generateViewDataPalle(palle, true);
+		Object[][] oversigtsData;
+		if (fullData.length>0){
+			oversigtsData = new Object[fullData.length][4];
+			for (int i = 0; i<fullData.length; i++){
 				Object[] mData = new Object[4];
-				mData[0] = m.getProdukttype();
-				mData[1] = m.getIgangvaerendeDelbehandling();
-				mData[2] = mellemvareAntal.get(m);
-				mData[3] = Validering.millisekunderTilVarighedString(m
-						.getResterendeTidTilNaeste());
-				data[i] = mData;
-				i++;
+				mData[0] = fullData[i][1];	//Produkttype
+				mData[1] = fullData[i][2];	//Delbehandling
+				mData[2] = fullData[i][3];	//Antal
+				mData[3] = fullData[i][4];	//Tid (resterende tid til næste tidsfrist)
+				oversigtsData[i] = mData;
 			}
 		}
-		return data;
+		else {
+			oversigtsData = new Object[0][4];
+		}
+		return oversigtsData;
 	}
-	
+
 	public Object[][] generateViewDataKasseredeVarer() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+	 * @param palle
+	 * For hver kombination af produkttype og delbehandling på en palle returneres et array med al information om mellemvarerne.
+	 * @param kunNaesteTidsfrist Hvis true vil søjle 5 vise resterende tid til næste tidsfrist, uanset om der er tale om min-, max-, ideal-tid eller simpelthen varighed (hvis dragering) mens søjle 4 og 6 vil være tomme. 
+	 * 							 Hvis false vil søjle 4-5-6 vise hhv. [min-, ideal- og max-tid] for tørring, vise [null, varighed og null] for dragering, og [null, null og null] for færdige og kasserede varer.
+	 * @return [Palle, Produkttype, Igangværende Delbehandling, Antal, Resterende tid, Resterende tid, Resterende tid (se @kunNaesteTidsfrist)]
+	 */
+	public Object[][] generateViewDataPalle(
+			Palle palle, boolean kunNaesteTidsfrist) {
+		Object[][] data;
+		if (palle != null && palle.getMellemvarer().size()>0){	//Tror måske ikke dette tjek er nødvendigt, men bevarer det lige for en sikkerheds skyld
+			HashMap<Mellemvare, Integer> mellemvareAntal = palle.getMellemvareAntalMapping();
+			data = new Object[mellemvareAntal.size()][7];
+
+			int i = 0;
+			for (Mellemvare m : mellemvareAntal.keySet()) {
+				Object[] mData = new Object[7];
+				mData[0] = palle; 
+				mData[1] = m.getProdukttype();
+				mData[2] = m.getIgangvaerendeDelbehandling();
+				mData[3] = mellemvareAntal.get(m);
+				long[] tider = m.getResterendeTider();
+				if (tider.length == 1){
+					mData[5] = Validering.millisekunderTilVarighedString(tider[0]);
+				}
+				else if (tider.length == 3){
+					mData[4] = Validering.millisekunderTilVarighedString(tider[0]);
+					mData[5] = Validering.millisekunderTilVarighedString(tider[1]);
+					mData[6] = Validering.millisekunderTilVarighedString(tider[2]);
+				}
+				data[i] = mData;
+				i++;
+			}
+
+		}
+		else {
+			data = new Object[0][7];
+		}
+		return data;
 	}
 
 	/**
@@ -642,40 +679,13 @@ public class Service {
 		dao.opdaterDatabase();
 	}
 
-	public boolean naesteBehandlingGyldig(Mellemvare m, DelbehandlingsType delbehandlingsType) {
-		return m.naesteBehandlingGyldig(delbehandlingsType);
+	public boolean naesteBehandlingGyldig(Mellemvare m, DelbehandlingsType naesteDelbehandlingsType) {
+		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
-	/**
-	 * Returnerer om alle eller en delmængde af mellemvarerne på @palle er klar til en given handling (næste delbehandling eller færdigvarelageret)
-	 * Hvis både @produkttype og @delbehandling er forskellige fra null, returneres om delmængde er klar. Ellers om alle er klar.
-	 * @param palle	Krav: Forskellig fra null
-	 * @param produkttype	Hvis null returneres om alle på pallen er klar
-	 * @param delbehandling	Hvis null returneres om alle på pallen er klar. 
-	 * @param delbehandlingsType	Den handling, der spørges til. Kan være hhv. Dragering, Tørring og Færdigvarelager (null)
-	 * @return om alle/en delmængde er klar til næste (be)handling
-	 */
-	public boolean naesteBehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType delbehandlingsType){
-		boolean gyldig = true;
-		if (produkttype==null || delbehandling==null){	//Hvis produkttype og delbehandling er ukendt
-			if (palle.alleVarerErEns()){				//skal alle mellemvarer på pallen være ens OG klar til næste delbehandling/færdigvarelager
-				for (Mellemvare m : palle.getMellemvarer()){
-					if (!m.naesteBehandlingGyldig(delbehandlingsType)){
-						gyldig = false;
-					}
-				}
-			}
-		}
-		else {		//Hvis produkttype og delbehandling derimod er kendt, 
-					//returneres kun om produkter med _disse_ egenskaber er klar til næste delbehandling/færdigvarelager
-			for (Mellemvare m : palle.getMellemvarerAfSammeType(produkttype, delbehandling)){
-				if (!m.naesteBehandlingGyldig(delbehandlingsType)){
-					gyldig = false;
-				}
 
-			}
-		}
-		return gyldig;
+	public boolean naesteBehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType naesteDelbehandlingsType){
+		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling, naesteDelbehandlingsType);
 	}
 
 	public String getPallePlaceringsString(Palle palle) {

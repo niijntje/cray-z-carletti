@@ -134,7 +134,7 @@ public class Palle {
 	public ArrayList<Mellemvare> startDelbehandling(Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType delbehandlingsType){
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		for (Mellemvare m : mellemvarer) {
-			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteBehandlingGyldig(delbehandlingsType)){
+			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteDelbehandlingGyldig(delbehandlingsType)){
 				m.goToNextDelbehandling();
 				behandledeMellemvarer.add(m);
 			}
@@ -150,7 +150,7 @@ public class Palle {
 		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens (og opfylde de andre betingelser)
 		if (mellemvare == null){
 			if (this.alleVarerErEns()){
-				if (this.mellemvarer.get(0).naesteBehandlingGyldig(delbehandlingsType)){
+				if (this.mellemvarer.get(0).naesteDelbehandlingGyldig(delbehandlingsType)){
 					for (Mellemvare m : mellemvarer) {
 						m.goToNextDelbehandling();
 						behandledeMellemvarer.add(m);
@@ -161,7 +161,7 @@ public class Palle {
 
 		//Ellers startes næste delbehandling kun for den angivne mellemvare
 		else {
-			if (mellemvare.naesteBehandlingGyldig(delbehandlingsType)){
+			if (mellemvare.naesteDelbehandlingGyldig(delbehandlingsType)){
 				mellemvare.goToNextDelbehandling();
 				behandledeMellemvarer.add(mellemvare);
 			}
@@ -177,7 +177,7 @@ public class Palle {
 	public ArrayList<Mellemvare> sendTilFaerdigvareLager(Produkttype produkttype, Delbehandling delbehandling){
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		for (Mellemvare m : mellemvarer) {
-			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteBehandlingGyldig(null)){
+			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteDelbehandlingGyldig(null)){
 				m.setIgangvaerendeDelbehandling(null);
 				m.setStatus(MellemvareStatus.FAERDIG);
 				behandledeMellemvarer.add(m);
@@ -196,7 +196,7 @@ public class Palle {
 		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens
 		if (mellemvare == null && this.alleVarerErEns()){
 			for (Mellemvare m : mellemvarer){
-				if (m.naesteBehandlingGyldig(null)){
+				if (m.naesteDelbehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
 					m.setStatus(MellemvareStatus.FAERDIG);
 				}
@@ -236,7 +236,7 @@ public class Palle {
 		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens
 		if (mellemvare == null && this.alleVarerErEns()){
 			for (Mellemvare m : mellemvarer){
-				if (m.naesteBehandlingGyldig(null)){
+				if (m.naesteDelbehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
 					m.setStatus(MellemvareStatus.FAERDIG);
 					behandledeMellemvarer.add(m);
@@ -330,6 +330,38 @@ public class Palle {
 			}
 		}
 		return ensMellemvareAntalMapping;
+	}
+
+	/**
+	 * Returnerer om alle eller en delmængde af mellemvarerne på pallen er klar til en given handling (næste delbehandling eller færdigvarelageret)
+	 * Hvis både @produkttype og @delbehandling er forskellige fra null, returneres om delmængde er klar. Ellers om alle er klar.
+	 * @param palle	Krav: Forskellig fra null
+	 * @param produkttype	Hvis null returneres om alle på pallen er klar
+	 * @param delbehandling	Hvis null returneres om alle på pallen er klar. 
+	 * @param naesteDelbehandlingsType	Den handling, der spørges til. Kan være hhv. Dragering, Tørring og Færdigvarelager (null)
+	 * @return om alle/en delmængde er klar til næste (be)handling
+	 */
+	public boolean naesteDelbehandlingGyldig(Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType naesteDelbehandlingsType){
+		boolean gyldig;
+		if (getMellemvarer().size()==0){
+			gyldig = false;
+		}
+		else {
+			ArrayList<Mellemvare> aktuelleMellemvarer = new ArrayList<Mellemvare>();
+			if (produkttype!=null && delbehandling!=null){	//Hvis produkttype og delbehandling er kendt, returneres kun om produkter med _disse_ egenskaber er klar til næste delbehandling/færdigvarelager
+				aktuelleMellemvarer = getMellemvarerAfSammeType(produkttype, delbehandling);
+			}
+			else if (alleVarerErEns()){						//Hvis produkttype og/eller delbehandling derimod er ukendt skal alle mellemvarer på pallen være ens
+				aktuelleMellemvarer = getMellemvarer();
+			}
+			gyldig = true;
+			for (Mellemvare m : aktuelleMellemvarer){
+				if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)){		//OG klar til næste delbehandling/færdigvarelager
+					gyldig = false;
+				}
+			}
+		}
+		return gyldig;
 	}
 
 	@Override

@@ -35,11 +35,11 @@ public abstract class Delbehandling {
 	private String navn;
 	@ManyToOne
 	private Delbehandling nextDelbehandling;
-	
+
 	public Delbehandling(DelbehandlingsType delbehandlingsType){
 		this.delbehandlingstype = delbehandlingsType;
 	}
-	
+
 	/**
 	 * @return the delbehandlingstype
 	 */
@@ -102,7 +102,21 @@ public abstract class Delbehandling {
 	 */
 	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException;
-	
+
+	public boolean naesteDelbehandlingGyldig(DelbehandlingsType potentielNaesteDelbehandlingsType){
+		if (potentielNaesteDelbehandlingsType==null){
+			return this.getNextDelbehandling()==null;
+		}
+		else {
+			if (getNextDelbehandling() != null){
+				return this.getNextDelbehandling().getDelbehandlingstype()==potentielNaesteDelbehandlingsType;
+			}
+			else {
+				return false;
+			}
+		}
+	}
+
 	public abstract boolean indenforTilladtBehandlingstid(GregorianCalendar startTid);
 
 	@Override
@@ -112,5 +126,5 @@ public abstract class Delbehandling {
 
 	public abstract String toStringLong();
 
-	
+
 }
