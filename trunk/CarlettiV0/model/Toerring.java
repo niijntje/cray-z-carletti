@@ -18,14 +18,10 @@ public class Toerring extends Delbehandling {
 	private long minVarighed;
 	private long idealVarighed;
 	private long maxVarighed;
-	
-	public Toerring(){
-		super(DelbehandlingsType.TOERRING);
-	}
 
-	public Toerring(String navn, Behandling behandling, long minVarighed,
-			long idealVarighed, long maxVarighed) {
-		super(navn, behandling);
+
+	public Toerring(String navn, Behandling behandling, long minVarighed,long idealVarighed, long maxVarighed) {
+		super(navn, behandling,DelbehandlingsType.TOERRING);
 		this.setMinVarighed(minVarighed);
 		this.setIdealVarighed(idealVarighed);
 		this.setMaxVarighed(maxVarighed);

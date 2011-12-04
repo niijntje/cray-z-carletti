@@ -17,15 +17,12 @@ import javax.persistence.Entity;
 public class Dragering extends Delbehandling {
 	private long varighed;
 
-	public Dragering(){
-		super(DelbehandlingsType.DRAGERING);
-	}
 	/**
 	 * @param navn
 	 * @param behandling
 	 */
 	public Dragering(String navn, Behandling behandling, long varighed) {
-		super(navn, behandling);
+		super(navn, behandling, DelbehandlingsType.DRAGERING);
 		this.varighed = varighed;
 	}
 

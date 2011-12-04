@@ -420,13 +420,13 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					if (e.getSource() == btnDrageringMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.DRAGERING, null);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.DRAGERING, null, null);
 					}
 
 					else if (e.getSource() == btnTilTrringMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.TOERRING, null);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.TOERRING, null, null);
 					}
 
 					else if (e.getSource() == btnTilFrdigvarelagerMange) {

@@ -214,12 +214,12 @@ public class Palle {
 	 * @param delbehandling
 	 * @param alleAfSammeType
 	 */
-	public ArrayList<Mellemvare> kasserMellemvare(Produkttype produkttype, Delbehandling delbehandling){
+	public ArrayList<Mellemvare> kasserMellemvarer(Produkttype produkttype, Delbehandling delbehandling){
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		for (Mellemvare m : mellemvarer){
 			if(m.erAfSammeType(produkttype, delbehandling)){
 				m.setIgangvaerendeDelbehandling(null);
-				m.setStatus(MellemvareStatus.FAERDIG);
+				m.setStatus(MellemvareStatus.KASSERET);
 				behandledeMellemvarer.add(m);
 			}
 
@@ -236,17 +236,16 @@ public class Palle {
 		//Hvis der ikke er angivet en mellemvare, skal alle på pallen være ens
 		if (mellemvare == null && this.alleVarerErEns()){
 			for (Mellemvare m : mellemvarer){
-				if (m.naesteDelbehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
-					m.setStatus(MellemvareStatus.FAERDIG);
+					m.setStatus(MellemvareStatus.KASSERET);
 					behandledeMellemvarer.add(m);
-				}
+				
 			}
 		}
 		//Ellers sendes kun den angivne mellemvare til færdigvarelager
 		else {
 			mellemvare.setIgangvaerendeDelbehandling(null);
-			mellemvare.setStatus(MellemvareStatus.FAERDIG);
+			mellemvare.setStatus(MellemvareStatus.KASSERET);
 			behandledeMellemvarer.add(mellemvare);
 		}
 		return behandledeMellemvarer;
@@ -343,12 +342,12 @@ public class Palle {
 	 */
 	public boolean naesteDelbehandlingGyldig(Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType naesteDelbehandlingsType){
 		boolean gyldig;
-		if (getMellemvarer().size()==0){
+		if (getMellemvarer().size()==0 || produkttype==null || delbehandling==null){
 			gyldig = false;
 		}
 		else {
 			ArrayList<Mellemvare> aktuelleMellemvarer = new ArrayList<Mellemvare>();
-			if (produkttype!=null && delbehandling!=null){	//Hvis produkttype og delbehandling er kendt, returneres kun om produkter med _disse_ egenskaber er klar til næste delbehandling/færdigvarelager
+			if (produkttype!=null && delbehandling!=null){	//Hvis både produkttype og delbehandling er kendt, returneres kun om produkter med _disse_ egenskaber er klar til næste delbehandling/færdigvarelager
 				aktuelleMellemvarer = getMellemvarerAfSammeType(produkttype, delbehandling);
 			}
 			else if (alleVarerErEns()){						//Hvis produkttype og/eller delbehandling derimod er ukendt skal alle mellemvarer på pallen være ens
