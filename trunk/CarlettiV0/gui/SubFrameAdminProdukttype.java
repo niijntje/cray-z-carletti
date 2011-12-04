@@ -6,6 +6,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -32,7 +33,7 @@ import java.awt.Color;
  * @author cederdorff
  * 
  */
-public class SubFrameAdminProdukttype extends JFrame{
+public class SubFrameAdminProdukttype extends JFrame implements Observer{
 
 	private JPanel contentPane;
 	private JTextField txtIndtastnavn;
@@ -44,6 +45,7 @@ public class SubFrameAdminProdukttype extends JFrame{
 	private JLabel lblSletProdukttype;
 	private JLabel lblMarkrProdukttypeOg;
 	private JButton btnGem;
+	private DefaultComboBoxModel combbModel;
 	private static SubFrameAdminProdukttype adminProdukttype;
 
 	private SubFrameAdminProdukttype() {
@@ -81,9 +83,9 @@ public class SubFrameAdminProdukttype extends JFrame{
 
 		JLabel lblBehandling = new JLabel("Behandling:");
 		lblBehandling.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-
-		comboBox = new JComboBox(Service.getInstance().getBehandlinger()
-				.toArray());
+		combbModel = new DefaultComboBoxModel();
+		opdaterComboxModel();
+		comboBox = new JComboBox(combbModel);
 		comboBox.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 
 		JButton btnOpret = new JButton("Opret");
@@ -127,8 +129,9 @@ public class SubFrameAdminProdukttype extends JFrame{
 		txtBeskrivRediger.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		txtBeskrivRediger.setColumns(10);
 
-		comboBoxRediger = new JComboBox(Service.getInstance().getBehandlinger().toArray());
+		comboBoxRediger = new JComboBox(combbModel);
 		comboBoxRediger.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
+		
 
 		btnGem = new JButton("Gem");
 		btnGem.addActionListener(new ActionListener() {
@@ -488,5 +491,20 @@ public class SubFrameAdminProdukttype extends JFrame{
 			adminProdukttype = new SubFrameAdminProdukttype();
 		}
 		return adminProdukttype;
+	}
+	@Override
+	public void update() {
+		list.setListData(Service.getInstance().getProdukttyper().toArray());
+		opdaterComboxModel();
+	}
+	
+	/**
+	 * Opdaterer elementerne i comboboxmodel
+	 */
+	public void opdaterComboxModel(){
+		combbModel.removeAllElements();
+		for(int i = 0; i<Service.getInstance().getBehandlinger().size(); i++){
+			combbModel.addElement(Service.getInstance().getBehandlinger().get(i));
+		}
 	}
 }
