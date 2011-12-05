@@ -20,6 +20,7 @@ import com.sun.codemodel.internal.JLabel;
 
 import model.MellemlagerPlads;
 import service.Service;
+import java.awt.Color;
 
 /**
  * @author nijntje
@@ -40,6 +41,7 @@ public class PlaceringsDialog extends JDialog {
 	
 	public PlaceringsDialog(JFrame owner, String title, String forklaring){
 		super(owner);
+		getContentPane().setBackground(Color.PINK);
 		setAlwaysOnTop(true);
 		controller = new Controller();
 		this.setTitle(title);
