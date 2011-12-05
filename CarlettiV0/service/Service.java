@@ -343,7 +343,7 @@ public class Service {
 	 */
 	public void sendTilFaerdigvareLager(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
-		if (naesteBehandlingGyldig(palle, produkttype, delbehandling, null)) {
+		if (naesteDelbehandlingGyldig(palle, produkttype, delbehandling, null)) {
 
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(produkttype, delbehandling);
@@ -925,7 +925,7 @@ public class Service {
 		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
-	public boolean naesteBehandlingGyldig(Palle palle, Produkttype produkttype,
+	public boolean naesteDelbehandlingGyldig(Palle palle, Produkttype produkttype,
 			Delbehandling delbehandling,
 			DelbehandlingsType naesteDelbehandlingsType) {
 		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling,
