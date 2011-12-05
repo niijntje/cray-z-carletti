@@ -146,16 +146,14 @@ public class Service {
 	public Delbehandling opretToerring(String navn, Behandling b, long minTid,
 			long idealTid, long maxTid, int index) {
 		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
-		tilfoejDelbehandling(b, d, -1);
-		// dao.gemDelbehandling(d);
+		tilfoejDelbehandling(b, d, index);
 		return d;
 	}
 
 	public Delbehandling opretDragering(String navn, Behandling b,
 			long varighed, int index) {
 		Delbehandling d = new Dragering(navn, b, varighed);
-		tilfoejDelbehandling(b, d, -1);
-		// dao.gemDelbehandling(d);
+		tilfoejDelbehandling(b, d, index);
 		return d;
 	}
 
