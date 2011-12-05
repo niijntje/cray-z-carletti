@@ -54,7 +54,8 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		this.observers = new ArrayList<Observer>();
-		observers.add(SubFrameAdminProdukttype.getInstance());
+		registerObserver(SubFrameAdminProdukttype.getInstance());
+		
 		lblBehandlinger = new JLabel("Behandlinger");
 
 		scrollPane = new JScrollPane();

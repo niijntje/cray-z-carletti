@@ -33,9 +33,11 @@ public class Service {
 	private static Service uniqueInstance;
 	private DAO dao = ListDao.getListDao();
 	//			 private DAO dao = JpaDao.getDao();
+	
+	private boolean testMode;
 
 	private Service() {
-
+		this.setTestMode(false);
 	}
 
 	public static Service getInstance() {
@@ -764,6 +766,17 @@ public class Service {
 
 	public MellemlagerPlads getMellemlagerPlads(Palle palle) {
 		return palle.getPlacering();
+	}
+
+	public boolean isTestMode() {
+		return testMode;
+	}
+
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode;
+		for (Mellemvare m : dao.mellemvarer()){
+			m.setTestMode(testMode);
+		}
 	}
 
 }
