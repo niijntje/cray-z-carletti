@@ -306,7 +306,7 @@ public class Service {
 	 * @param mellemvare
 	 * @param palle
 	 */
-	public void sendTilF¾rdigvareLager(Mellemvare mellemvare, Palle palle,
+	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
 			Palle nyPalle) {
 		if (naesteBehandlingGyldig(mellemvare, null)) {
 			ArrayList<Mellemvare> behandledeVarer = palle
@@ -343,7 +343,7 @@ public class Service {
 	 * @param delbehandlingsType
 	 * @param nyPalle
 	 */
-	public void sendTilF¾rdigvareLager(Produkttype produkttype,
+	public void sendTilFaerdigvareLager(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
 		if (naesteBehandlingGyldig(palle, produkttype, delbehandling, null)) {
 
