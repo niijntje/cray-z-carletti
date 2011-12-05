@@ -3,6 +3,7 @@ package service;
 import gui.MainFrame;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import model.Behandling;
@@ -231,20 +232,20 @@ public class Service {
 			}
 
 			else {	//Kun en delmængde af varerne er blevet behandlet, så disse flyttes til en ny palle
-				//			if (nyPalle != null){
-				for (Mellemvare m : behandledeVarer){
-					palle.removeMellemvare(m);
-					nyPalle.addMellemvare(m);
-				}
-				if (nyMellemlagerPlads!=null && delbehandlingsType==DelbehandlingsType.TOERRING){	//Hvis nyMellemlagerplads er null, antages at den nye palle allerede er placeret på mellemvarelageret
-					placerPalleMellemvarelager(nyPalle, nyMellemlagerPlads);
-					nyPalle.setDrageringshal(null);
-				}
+				if (nyPalle != null){
+					for (Mellemvare m : behandledeVarer){
+						palle.removeMellemvare(m);
+						nyPalle.addMellemvare(m);
+					}
+					if (nyMellemlagerPlads!=null && delbehandlingsType==DelbehandlingsType.TOERRING){	//Hvis nyMellemlagerplads er null, antages at den nye palle allerede er placeret på mellemvarelageret
+						placerPalleMellemvarelager(nyPalle, nyMellemlagerPlads);
+						nyPalle.setDrageringshal(null);
+					}
 
-				else if (delbehandlingsType == DelbehandlingsType.DRAGERING){
-					sendPalleTilDragering(nyPalle);
+					else if (delbehandlingsType == DelbehandlingsType.DRAGERING){
+						sendPalleTilDragering(nyPalle);
+					}
 				}
-				//			}
 			}
 		}
 	}
@@ -500,7 +501,7 @@ public class Service {
 		for (MellemlagerPlads mp : getPladser()){
 			Object[] pladsData = new Object[6];
 			pladsData[0] = mp;
-			if (mp.getPalle() == null){					//Tom plads
+			if (mp.getPalle() == null){					//Tom mellemlagerplads
 				listData.add(pladsData);
 			}
 			else {										//Plads med palle
@@ -538,33 +539,31 @@ public class Service {
 		//hvor mange forskellige typer mellemvarer der findes på hver enkelt palle.
 		ArrayList<Object[]> listData = new ArrayList<Object[]>();
 		for (MellemlagerPlads mp : getPladser()){
-			Object[] pladsData = new Object[8];
+			Object[] pladsData = new Object[6];
 			pladsData[0] = mp;
-			if (mp.getPalle() == null){
+			if (mp.getPalle() == null){					//Tom mellemlagerplads
 				listData.add(pladsData);
 			}
-			else {
+			else {										//Plads med palle
 				Palle palle = mp.getPalle();
-				Object[][] palleData = null;
-				if (palle.getMellemvarer().size()>0){
-					Object[][] fullPalleData = generateViewDataPalle(palle, false);
-					palleData = new Object[fullPalleData.length][8];
-
-					for (int i = 0; i < fullPalleData.length; i++) {
-						Object[] mData = new Object[8];
-						mData[0] = mp;				//Mellemlagerplads
-						mData[1] = palleData[i][0];	//Palle
-						mData[2] = palleData[i][1];	//Produkttype
-						mData[3] = palleData[i][2];	//Delbehandling
-						mData[4] = palleData[i][3];	//Antal
-						mData[5] = palleData[i][4];	//Resterende tid til minTid
-						mData[6] = palleData[i][5];	//Resterende tid til idealTid
-						mData[7] = palleData[i][6];	//Resterende tid til maxTid
-						palleData[i] = mData;
-					}
+				if (palle.getMellemvarer().size()==0){	//Tom palle - men skal stadig vises!
+					pladsData[1] = palle;
+					listData.add(pladsData);
 				}
-				else {	//Pallen er tom, men skal stadig vises!
-					palleData = new Object[0][8];
+				else{									//Pallen indeholder mellemvarer, og der skal vises en række pr. 'type'
+					Object[][] fullPalleData = generateViewDataPalle(palle, false); //<--- false: Kun én resterende tid vises
+					for (int i = 0; i < fullPalleData.length; i++) {
+						Object[] mellemvareData = new Object[8];
+						mellemvareData[0] = mp;						//Mellemlagerplads
+						mellemvareData[1] = fullPalleData[i][0];	//Palle
+						mellemvareData[2] = fullPalleData[i][1];	//Produkttype
+						mellemvareData[3] = fullPalleData[i][2];	//Delbehandling
+						mellemvareData[4] = fullPalleData[i][3];	//Antal
+						mellemvareData[5] = fullPalleData[i][4];	//Resterende tid til minTid
+						mellemvareData[6] = fullPalleData[i][5];	//Resterende tid til idealTid
+						mellemvareData[7] = fullPalleData[i][6];	//Resterende tid til maxTid
+						listData.add(mellemvareData);
+					}
 				}
 			}
 		}

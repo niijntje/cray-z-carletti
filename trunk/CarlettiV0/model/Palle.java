@@ -228,21 +228,18 @@ public class Palle {
 	}
 
 	/**
-	 * @param mellemvare
-	 * @param alleAfSammeType
+	 * @param mellemvare Hvis null: Alle mellemvarer kasseres! Ellers sendes kun den angivne mellemvare til f¾rdigvarelager
+
 	 */
 	public ArrayList<Mellemvare> kasserMellemvarer(Mellemvare mellemvare){
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
-		//Hvis der ikke er angivet en mellemvare, skal alle pŒ pallen v¾re ens
-		if (mellemvare == null && this.alleVarerErEns()){
+		if (mellemvare == null){
 			for (Mellemvare m : mellemvarer){
-					m.setIgangvaerendeDelbehandling(null);
-					m.setStatus(MellemvareStatus.KASSERET);
-					behandledeMellemvarer.add(m);
-				
+				m.setIgangvaerendeDelbehandling(null);
+				m.setStatus(MellemvareStatus.KASSERET);
+				behandledeMellemvarer.add(m);
 			}
 		}
-		//Ellers sendes kun den angivne mellemvare til f¾rdigvarelager
 		else {
 			mellemvare.setIgangvaerendeDelbehandling(null);
 			mellemvare.setStatus(MellemvareStatus.KASSERET);
@@ -341,8 +338,8 @@ public class Palle {
 	 * @return om alle/en delm¾ngde er klar til n¾ste (be)handling
 	 */
 	public boolean naesteDelbehandlingGyldig(Produkttype produkttype, Delbehandling delbehandling, DelbehandlingsType naesteDelbehandlingsType){
-		boolean gyldig;
-		if (getMellemvarer().size()==0 || produkttype==null || delbehandling==null){
+		boolean gyldig = false;
+		if (getMellemvarer().size()==0){
 			gyldig = false;
 		}
 		else {
@@ -353,12 +350,15 @@ public class Palle {
 			else if (alleVarerErEns()){						//Hvis produkttype og/eller delbehandling derimod er ukendt skal alle mellemvarer pŒ pallen v¾re ens
 				aktuelleMellemvarer = getMellemvarer();
 			}
-			gyldig = true;
-			for (Mellemvare m : aktuelleMellemvarer){
-				if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)){		//OG klar til n¾ste delbehandling/f¾rdigvarelager
-					gyldig = false;
+			if (aktuelleMellemvarer.size()>0){
+				gyldig = true;
+				for (Mellemvare m : aktuelleMellemvarer){
+					if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)){		//OG klar til n¾ste delbehandling/f¾rdigvarelager
+						gyldig = false;
+					}
 				}
 			}
+
 		}
 		return gyldig;
 	}

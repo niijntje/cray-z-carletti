@@ -448,6 +448,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		gbc_rigidArea_12.gridy = 8;
 		getContentPane().add(rigidArea_12, gbc_rigidArea_12);
 
+		update();
+
 	}
 
 	public void setColumnWidth(){
@@ -464,6 +466,8 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				column.setPreferredWidth(100);
 			}
 		}
+
+
 	}
 
 
@@ -476,13 +480,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				nyPalle = palleDialog.getPalle();
 			}
 			palleDialog.dispose();
-			//			if (askForPlacering){
-			//				askForPlacering(nyPalle);
-			//			}
 		}
-		//		if (nyPalle!=null && Service.getInstance().getMellemlagerPlads(nyPalle)==null){
-		//		Service.getInstance().placerPalleMellemvarelager(nyPalle, askForPlacering(nyPalle));
-		//		}
 		return nyPalle;
 	}
 
@@ -609,73 +607,75 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 		@Override
 		public void valueChanged(ListSelectionEvent e) {
+			if(!e.getValueIsAdjusting()){
 
-			if (e.getSource()==table.getSelectionModel()){
-				btnDrageringMange.setEnabled(false);
-				btnTilTrringMange.setEnabled(false);
-				btnTilFrdigvarelagerMange.setEnabled(false);
-				btnKassrMange.setEnabled(false);
-				if (table.getSelectedRowCount()>0 ){
-					int row = table.convertRowIndexToModel(table.getSelectedRow());	//<--VIGTIGT!!!
-					if(table.getModel().getValueAt(row, 0)!=null){	
-						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
-						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
-						btnKassrMange.setEnabled(true);						//Efter en r¾kke er valgt i tabellen
-						if (delbehandling != null){					//Men der er ikke n¿dvendigvis en delbehandling i gang pŒ den mellemvare
-							if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, DelbehandlingsType.DRAGERING)){
-								btnDrageringMange.setEnabled(true);
+				if (e.getSource()==table.getSelectionModel()){
+					btnDrageringMange.setEnabled(false);
+					btnTilTrringMange.setEnabled(false);
+					btnTilFrdigvarelagerMange.setEnabled(false);
+					btnKassrMange.setEnabled(false);
+					if (table.getSelectedRowCount()>0 ){
+						int row = table.convertRowIndexToModel(table.getSelectedRow());	//<--VIGTIGT!!!
+						if(table.getModel().getValueAt(row, 0)!=null){	
+							Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 0);
+							btnKassrMange.setEnabled(true);	
+							if (table.getModel().getValueAt(row, 1) != null){					//Der er ikke n¿dvendigvis en delbehandling i gang pŒ en mellemvare
+								Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 1);
+								if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, DelbehandlingsType.DRAGERING)){
+									btnDrageringMange.setEnabled(true);
+								}
+								else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, DelbehandlingsType.TOERRING)){
+									btnTilTrringMange.setEnabled(true);
+								}
+								else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null)){
+									btnTilFrdigvarelagerMange.setEnabled(true);
+								}
 							}
-							else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, DelbehandlingsType.TOERRING)){
-								btnTilTrringMange.setEnabled(true);
-							}
-							else if (Service.getInstance().naesteBehandlingGyldig(palle, produkttype, delbehandling, null)){
-								btnTilFrdigvarelagerMange.setEnabled(true);
-							}
+
 						}
 
 					}
+					else {	//Ingen r¾kker er valgt - klikbarhed afh¾nger af pallen
+						if (Service.getInstance().getMellemvarer(palle).size()>0){
+							btnKassrMange.setEnabled(true);
+						}
+						if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.DRAGERING)){
+							btnDrageringMange.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.TOERRING)){
+							btnTilTrringMange.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, null)){
+							btnTilFrdigvarelagerMange.setEnabled(true);
+						}
+					}
 
 				}
-				else {	//Ingen r¾kker er valgt - klikbarhed afh¾nger af pallen
-					if (Service.getInstance().getMellemvarer(palle).size()>0){
-						btnKassrMange.setEnabled(true);
-					}
-					if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.DRAGERING)){
-						btnDrageringMange.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.TOERRING)){
-						btnTilTrringMange.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, null)){
-						btnTilFrdigvarelagerMange.setEnabled(true);
+				else if (e.getSource() == list) {
+					btnDrageringEn.setEnabled(false);
+					btnTilTrringEn.setEnabled(false);
+					btnTilFrdigvarelagerEn.setEnabled(false);
+					btnKasserEn.setEnabled(false);
+					Mellemvare m = (Mellemvare) list.getSelectedValue();
+					if (m != null){
+						String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
+						txtrDetaljer.setText(mellemvareInfo);
+
+						if (list.getSelectedIndex()>=0){
+							btnKasserEn.setEnabled(true);
+						}
+						if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.DRAGERING)){
+							btnDrageringEn.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.TOERRING)){
+							btnTilTrringEn.setEnabled(true);
+						}
+						else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
+							btnTilFrdigvarelagerEn.setEnabled(true);
+						}
 					}
 				}
 			}
-			else if (e.getSource() == list) {
-				btnDrageringEn.setEnabled(false);
-				btnTilTrringEn.setEnabled(false);
-				btnTilFrdigvarelagerEn.setEnabled(false);
-				btnKasserEn.setEnabled(false);
-				Mellemvare m = (Mellemvare) list.getSelectedValue();
-				if (m != null){
-					String mellemvareInfo = Service.getInstance().getMellemvareInfo(m);
-					txtrDetaljer.setText(mellemvareInfo);
-
-					if (list.getSelectedIndices().length!=0){
-						btnKasserEn.setEnabled(true);
-					}
-					if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.DRAGERING)){
-						btnDrageringEn.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.TOERRING)){
-						btnTilTrringEn.setEnabled(true);
-					}
-					else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
-						btnTilFrdigvarelagerEn.setEnabled(true);
-					}
-				}
-			}
-
 		}
 
 	}
@@ -690,19 +690,20 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 		txtrDetaljer.setText(Service.getInstance().getMellemvareInfo(null));
 
 		//--NŒr der ikke er valgt en tabelr¾kke, skal man stadig kunne udf¿re en gyldig handling pŒ hele pallen, hvis alle varer er ens - hvilket Service afg¿r--//
-		if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.DRAGERING)){
-			btnDrageringMange.setEnabled(true);
+		if (table.getSelectedRowCount()==0){
+			if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.DRAGERING)){
+				btnDrageringMange.setEnabled(true);
+			}
+			if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.TOERRING)){
+				btnTilTrringMange.setEnabled(true);
+			}
+			if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, null)){
+				btnTilFrdigvarelagerMange.setEnabled(true);
+			}
+			if (Service.getInstance().getMellemvarer(palle).size()>0){
+				btnKassrMange.setEnabled(true);
+			}
 		}
-		else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, DelbehandlingsType.TOERRING)){
-			btnTilTrringMange.setEnabled(true);
-		}
-		else if (Service.getInstance().naesteBehandlingGyldig(palle, null, null, null)){
-			btnTilFrdigvarelagerMange.setEnabled(true);
-		}
-		else if (Service.getInstance().getMellemvarer(palle).size()>0){
-			btnKassrMange.setEnabled(true);
-		}
-
 
 	}
 

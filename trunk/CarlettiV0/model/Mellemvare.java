@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public class Mellemvare {
 			Palle palle, GregorianCalendar starttid) {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
+		this.status = MellemvareStatus.UNDERBEHANDLING;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
 				.getDelbehandling(0);

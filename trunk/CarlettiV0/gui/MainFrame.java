@@ -86,6 +86,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private JMenuItem mntmOversigtOverFrdigvarer;
 	private JMenuItem mntmOversigtOverKasseredevarer;
 	private JMenuItem mntmPaller_1;
+	private String[] columnNames3;
+	private Object[][] data3;
+	private DefaultTableModel dm3;
 
 	private MainFrame() {
 		this.observers = new ArrayList<Observer>();
@@ -164,9 +167,14 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		columnNames = new String[] { "Plads#", "Palle#", "Produkttype",
 				"Delbehandling", "Antal","Resterende tid" };
+		columnNames3 = new String [] {"Plads#", "Palle#", "Produkttype",
+				"Delbehandling", "Antal","Tid til min-tid", "Tid til ideal-tid", "Tid til max-tid" };
 		data = Service.getInstance()
 				.generateViewDataMellemlagerOversigt();
+		data3 = Service.getInstance()
+				.generateViewDataMellemlagerOversigt3Tider();
 		dm = new DefaultTableModel(data, columnNames);
+		dm3 = new DefaultTableModel(data3, columnNames3);
 
 		tomPladsFilter = new RowFilter<Object, Object>() {
 			@Override
@@ -176,7 +184,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			}
 		};
 
-		table = new JTable(dm);
+		table = new JTable(dm3);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
 		table.setAutoCreateRowSorter(true);
@@ -185,7 +193,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter())
 		.setRowFilter(tomPladsFilter);
 
-		setColumnWidths();
+		setColumnWidths(3);
 
 		Box horizontalBox_3 = Box.createHorizontalBox();
 		GridBagConstraints gbc_horizontalBox_3 = new GridBagConstraints();
@@ -315,9 +323,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		return mainFrame;
 	}
 
-	private void setColumnWidths() {
+	private void setColumnWidths(int antalTider) {
 		TableColumn column = null;
-		for (int i = 0; i < 6; i++) {
+		for (int i = 0; i < 5+antalTider; i++) {
 			column = table.getColumnModel().getColumn(i);
 			if (i == 0 || i == 1) {
 				column.setPreferredWidth(75);// Placering og Palle
@@ -328,11 +336,13 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				column.setPreferredWidth(40); // Antal
 				column.setMinWidth(35);
 				column.setMaxWidth(50);
-			} else if (i == 5) {	//|| i == 6 || i == 7
+			} else if (i == 5 || i == 6 || i == 7){
 				column.setPreferredWidth(85);// Resterende tid
 				column.setMinWidth(80);
 				column.setMaxWidth(90);
-			} else {
+			}
+		
+			else {
 				column.setPreferredWidth(100);
 
 			}
@@ -452,7 +462,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	@Override
 	public void update() {
 		dm.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt(), columnNames);
-		setColumnWidths();
+		setColumnWidths(1);
+		dm3.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames3);
+		setColumnWidths(3);
 	}
 
 	@Override
