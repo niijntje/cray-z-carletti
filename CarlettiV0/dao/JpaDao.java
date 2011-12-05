@@ -194,6 +194,12 @@ public class JpaDao implements DAO {
 		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = KASSERET", Mellemvare.class)
 				.getResultList();
 	}
+	
+	
+	@Override
+	public List<Mellemvare> varerUnderBehandling() {
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = UNDERBEHANDLING", Mellemvare.class).getResultList();
+	}
 
 	@Override
 	public void opdaterDatabase() {
@@ -201,10 +207,6 @@ public class JpaDao implements DAO {
 		tx.commit();
 	}
 
-	@Override
-	public List<Mellemvare> varerUnderBehandling() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 }
