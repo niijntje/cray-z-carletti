@@ -568,14 +568,14 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 
 			else if (e.getSource()==btnTilFrdigvarelagerMange){
 				if (table.getSelectedRowCount()==0){ //Ingen er valgt, sŒ alle varer pŒ pallen skal sendes afsted
-					Service.getInstance().sendTilF¾rdigvareLager(null, palle, null);
+					Service.getInstance().sendTilFaerdigvareLager(null, palle, null);
 				}
 				else {
 					Palle nyPalle = null;
 					if (!Service.getInstance().alleVarerErEns(palle)){
 						nyPalle = askForPalle(false);
 					}
-					Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, nyPalle);
+					Service.getInstance().sendTilFaerdigvareLager(produkttype, delbehandling, palle, nyPalle);
 				}
 			}
 
@@ -584,7 +584,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				if (Service.getInstance().getMellemvarer(palle).size()>1){
 					nyPalle = askForPalle(false);
 				}
-				Service.getInstance().sendTilF¾rdigvareLager(mellemvare, palle, nyPalle);	
+				Service.getInstance().sendTilFaerdigvareLager(mellemvare, palle, nyPalle);	
 			}
 
 			else if (e.getSource()==btnKassrMange){

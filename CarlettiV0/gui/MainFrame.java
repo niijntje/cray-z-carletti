@@ -442,7 +442,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					else if (e.getSource() == btnTilFrdigvarelagerMange) {
 						Produkttype produkttype = (Produkttype) table.getModel().getValueAt(row, 2);
 						Delbehandling delbehandling = (Delbehandling) table.getModel().getValueAt(row, 3);
-						Service.getInstance().sendTilF¾rdigvareLager(produkttype, delbehandling, palle, null);
+						Service.getInstance().sendTilFaerdigvareLager(produkttype, delbehandling, palle, null);
 
 					}
 
