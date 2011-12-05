@@ -37,6 +37,21 @@ public class Mellemvare {
 	private Palle palle;
 
 	private MellemvareStatus status;
+	private boolean testMode;
+
+	/**
+	 * @return the testMode
+	 */
+	public boolean isTestMode() {
+		return testMode;
+	}
+
+	/**
+	 * @param testMode the testMode to set
+	 */
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode;
+	}
 
 	public Mellemvare() {
 
@@ -207,7 +222,10 @@ public class Mellemvare {
 		if (igangvaerendeDelbehandling != null) {
 			gyldig = igangvaerendeDelbehandling.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
 		}
-		return gyldig; // && indenforTilladtBehandlingstid();
+		if (!isTestMode()){
+			gyldig = gyldig && indenforTilladtBehandlingstid();
+		}
+		return gyldig;
 	}
 
 	private boolean indenforTilladtBehandlingstid() {

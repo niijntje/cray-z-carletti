@@ -5,6 +5,7 @@ import model.Delbehandling.DelbehandlingsType;
 import model.Mellemvare;
 import model.Palle;
 import service.ObjectCreater;
+import service.Service;
 import dao.ListDao;
 
 public class App {
@@ -16,6 +17,7 @@ public class App {
 		ObjectCreater.getInstance().createSomeObjects();
 		MainFrame.getInstance().update();
 		MainFrame.getInstance().setVisible(true);
+		Service.getInstance().setTestMode(true);
 		
 		
 //		System.out.println("MELLEMVARER:");
