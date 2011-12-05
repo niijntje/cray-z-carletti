@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Delbehandling;
 import model.Delbehandling.DelbehandlingsType;
+import model.MellemlagerPlads;
 import model.Palle;
 import model.Produkttype;
 import service.Service;
@@ -174,7 +175,16 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 				Palle palle = (Palle) tableDrageringshalModel.getValueAt(row, 0);
 				Produkttype produkttype = (Produkttype) tableDrageringshalModel.getValueAt(row, 1);
 				Delbehandling delbehandling = (Delbehandling) tableDrageringshalModel.getValueAt(row, 2);
-				Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.TOERRING, null, null);
+
+				Palle nyPalle = askForPalle(palle);
+				MellemlagerPlads nyMellemlagerPlads  = null;
+				if(nyPalle != null){
+					 nyMellemlagerPlads = askForPlacering(nyPalle);
+				} else{
+					nyMellemlagerPlads = askForPlacering(palle);
+				}
+
+				Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.TOERRING, nyPalle, nyMellemlagerPlads);
 				update();
 				notifyObservers();
 			}
@@ -485,7 +495,34 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
+	
+	private Palle askForPalle(Palle oprindeligPalle){
+		Palle nyPalle = null;
+		if (!Service.getInstance().alleVarerErEns(oprindeligPalle)){
+			PalleDialog palleDialog = new PalleDialog(this, "Vælg ny palle", "Kun nogle mellemvarer\nplukkes fra pallen.\n\nAngiv ny palle til disse:");
+			palleDialog.setVisible(true);
+			if (palleDialog.isOKed()){
+				nyPalle = palleDialog.getPalle();
+			}
+			palleDialog.dispose();
+		}
+		return nyPalle;
+	}
 
+	private MellemlagerPlads askForPlacering(Palle palle){
+		MellemlagerPlads nyMellemlagerPlads = Service.getInstance().getMellemlagerPlads(palle);
+		if (nyMellemlagerPlads==null){
+			PlaceringsDialog placeringsDialog = new PlaceringsDialog(this, "Vælg ny placering", "Den valgte palle \ner endnu ikke placeret på mellemlageret.\n\nAngiv en ny placering:");
+			placeringsDialog.setVisible(true);
+			if (placeringsDialog.isOKed()){
+				nyMellemlagerPlads = placeringsDialog.getMellemlagerPlads();
+			}
+			placeringsDialog.dispose();
+		}
+		return nyMellemlagerPlads;
+
+	}
+	
 	@Override
 	public void update() {
 		tableDrageringshalModel.setDataVector(Service.getInstance()
