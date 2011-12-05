@@ -3,22 +3,21 @@
  */
 package gui;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-
-import service.Service;
+import javax.swing.UIManager;
 
 import model.Palle;
+import service.Service;
 
-import com.sun.codemodel.internal.JLabel;
-import javax.swing.JTextArea;
-import javax.swing.UIManager;
-import java.awt.Font;
 
 /**
  * @author nijntje
