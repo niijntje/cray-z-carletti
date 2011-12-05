@@ -17,6 +17,7 @@ import javax.swing.UIManager;
 
 import model.Palle;
 import service.Service;
+import java.awt.Color;
 
 
 /**
@@ -38,6 +39,7 @@ public class PalleDialog extends JDialog {
 
 	public PalleDialog(JFrame owner, String title, String forklaring){
 		super(owner);
+		getContentPane().setBackground(Color.PINK);
 		setAlwaysOnTop(true);
 		controller = new Controller();
 		this.setTitle(title);

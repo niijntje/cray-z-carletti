@@ -78,6 +78,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 	public SubFramePalleOversigt(MainFrame mainFrame, Palle palle) {
 		this.observers = new ArrayList<Observer>();
 		this.registerObserver(mainFrame);
+		mainFrame.registerObserver(this);
 		getContentPane().setBackground(Color.PINK);
 		this.mainFrame = mainFrame;
 		this.palle = palle;
@@ -471,7 +472,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 	}
 
 
-	private Palle askForPalle(boolean askForPlacering){
+	private Palle askForPalle(){
 		Palle nyPalle = null;
 		if (!Service.getInstance().alleVarerErEns(palle)){
 			PalleDialog palleDialog = new PalleDialog(this, "V¾lg ny palle", "Kun nogle mellemvarer\nplukkes fra pallen.\n\nAngiv ny palle til disse:");
@@ -520,14 +521,14 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 					Service.getInstance().sendTilNaesteDelbehandling(null, palle, DelbehandlingsType.DRAGERING, null, null);
 				}
 				else {
-					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.DRAGERING, askForPalle(false), null);
+					Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.DRAGERING, askForPalle(), null);
 				}
 			}
 
 			else if (e.getSource()==btnDrageringEn){			
 				Palle nyPalle = null;
 				if (Service.getInstance().getMellemvarer(palle).size()>1){
-					nyPalle = askForPalle(false);
+					nyPalle = askForPalle();
 				}
 				Service.getInstance().sendTilNaesteDelbehandling(mellemvare, palle, DelbehandlingsType.DRAGERING, nyPalle, null);
 			}
@@ -543,7 +544,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				else {													//En gruppe er valgt
 					Palle nyPalle = null;
 					if (!Service.getInstance().alleVarerErEns(palle)){	//.. og den er mŒske den eneste
-						nyPalle = askForPalle(false);
+						nyPalle = askForPalle();
 					}
 					MellemlagerPlads nyMellemlagerPlads = null;
 					if (nyPalle != null && Service.getInstance().getMellemlagerPlads(nyPalle)==null){
@@ -556,7 +557,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 			else if (e.getSource()==btnTilTrringEn){
 				Palle nyPalle = null;
 				if (Service.getInstance().getMellemvarer(palle).size()>1){
-					nyPalle = askForPalle(false);
+					nyPalle = askForPalle();
 				}
 				MellemlagerPlads nyMellemlagerPlads = null;
 				if (nyPalle != null && Service.getInstance().getMellemlagerPlads(nyPalle)==null){
@@ -573,7 +574,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 				else {
 					Palle nyPalle = null;
 					if (!Service.getInstance().alleVarerErEns(palle)){
-						nyPalle = askForPalle(false);
+						nyPalle = askForPalle();
 					}
 					Service.getInstance().sendTilFaerdigvareLager(produkttype, delbehandling, palle, nyPalle);
 				}
@@ -582,7 +583,7 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 			else if (e.getSource()==btnTilFrdigvarelagerEn){
 				Palle nyPalle = null;
 				if (Service.getInstance().getMellemvarer(palle).size()>1){
-					nyPalle = askForPalle(false);
+					nyPalle = askForPalle();
 				}
 				Service.getInstance().sendTilFaerdigvareLager(mellemvare, palle, nyPalle);	
 			}
