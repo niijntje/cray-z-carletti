@@ -137,7 +137,19 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 					long minTid = Validering.varighedStringTilMillisekunder(txtMin.getText());
 					long idealTid = Validering.varighedStringTilMillisekunder(txtIdeal.getText());
 					long maxTid = Validering.varighedStringTilMillisekunder(txtmaxTid.getText());
-					int index = Integer.parseInt(txtIndex.getText());
+					int index = -1;
+					try{
+						index = Integer.parseInt(txtIndex.getText());
+					}
+					catch (NumberFormatException e) {
+						if (txtIndex.getText().equals("")){
+							//Do nothing -1 is used as the index.
+						}
+						else {
+							System.out.println("Advarsel: "+txtIndex.getText()+" er ikke et gyldigt heltal.\nIndex "+index+" benyttes");
+						}
+						
+					}
 					Service.getInstance().opretToerring(txtNavn.getText(), getBehandling(), minTid, idealTid, maxTid, index);
 				}
 				notifyObservers();
