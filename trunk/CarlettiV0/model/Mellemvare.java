@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -35,7 +37,7 @@ public class Mellemvare {
 	private Delbehandling igangvaerendeDelbehandling;
 	@ManyToOne
 	private Palle palle;
-
+	@Enumerated(EnumType.STRING)
 	private MellemvareStatus status;
 	private boolean testMode;
 

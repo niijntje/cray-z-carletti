@@ -6,6 +6,8 @@ package model;
 import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -30,6 +32,7 @@ public abstract class Delbehandling {
 	@Id
 	@GeneratedValue
 	private int id;
+	@Enumerated(EnumType.STRING)
 	private DelbehandlingsType delbehandlingstype;
 	private Behandling behandling;
 	private String navn;
