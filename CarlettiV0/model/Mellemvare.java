@@ -53,10 +53,6 @@ public class Mellemvare {
 		this.testMode = testMode;
 	}
 
-	public Mellemvare() {
-
-	}
-
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {
 		this.bakkestregkode = bakkestregkode;
@@ -70,7 +66,7 @@ public class Mellemvare {
 	}
 
 	/**
-	 * Benyttes af Service.createSomeObjects()
+	 * Benyttes KUN af ObjectCreater.createSomeObjects()
 	 * 
 	 * @param bakkestregkode
 	 * @param produkttype
@@ -83,9 +79,9 @@ public class Mellemvare {
 		this.produkttype = produkttype;
 		this.status = MellemvareStatus.UNDERBEHANDLING;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
-				.getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
 		addTidspunkt(starttid);
+		this.setTestMode(true);
 	}
 
 	public String getBakkestregkode() {
@@ -229,8 +225,7 @@ public class Mellemvare {
 	}
 
 	private boolean indenforTilladtBehandlingstid() {
-		return igangvaerendeDelbehandling
-				.indenforTilladtBehandlingstid(getSidsteStarttid());
+		return igangvaerendeDelbehandling.indenforTilladtBehandlingstid(getSidsteStarttid());
 	}
 
 	private GregorianCalendar getSidsteStarttid() {

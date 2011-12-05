@@ -174,10 +174,11 @@ public class ObjectCreater {
 		Delbehandling kortDelbehandling = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"), -1);
 		Delbehandling kortDelbehandling2 = Service.getInstance().opretDragering("Ultrakort dragering", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"),-1);
 		Delbehandling kortDelbehandling3 = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"),-1);
-		Produkttype hurtigProdukttype = new Produkttype("Hurtige bolsjer", "De her bolsjer er BARE hurtige at lave!", kortBehandling);
+		Produkttype hurtigProdukttype = Service.getInstance().opretProdukttype("Hurtige bolsjer", "De her bolsjer er BARE hurtige at lave!", kortBehandling);
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTimeInMillis(System.currentTimeMillis() - 60000);
-		Mellemvare m3 = new Mellemvare("21312", hurtigProdukttype, pa3, cal);
+		
+		Mellemvare m3 = new Mellemvare("21312", hurtigProdukttype, pa3, cal); //<---Kan ikke kaldes gennem Service, da varianter hvor tidspunkt kan s¾ttes i konstruktoren.
 		pa3.addMellemvare(m3);
 		dao.gemMellemvare(m3);
 //		 placerPalleMellemvarelager(pa1, mPlads1);

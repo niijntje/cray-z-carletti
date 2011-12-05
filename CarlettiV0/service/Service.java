@@ -71,6 +71,9 @@ public class Service {
 		Mellemvare m = new Mellemvare(bakkestregkode, produkttype, palle);
 		palle.addMellemvare(m);
 		dao.gemMellemvare(m);
+		if (this.isTestMode()){
+			m.setTestMode(true);
+		}
 		return m;
 	}
 
@@ -772,6 +775,9 @@ public class Service {
 		return testMode;
 	}
 
+	/**Testmode vil sige, at handlinger på mellemvarer betragtes som gyldige/ugyldige uafhængigt af om evt. tidsfrister er overholdt
+	 * @param testMode
+	 */
 	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
 		for (Mellemvare m : dao.mellemvarer()){
