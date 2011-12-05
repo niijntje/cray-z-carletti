@@ -637,6 +637,10 @@ public class Service {
 		return data;
 	}
 
+
+	/**
+	 * @return
+	 */
 	public Object[][] generateViewDataMellemlagerOversigt3Tider() {
 		// Data gemmes i f¿rste omgang i en ArrayList, da st¿rrelsen af data
 		// afh¾nger af
@@ -690,7 +694,8 @@ public class Service {
 	}
 
 	/**
-	 * genererer et array til visning i SubFrameDrageringshalOversigt
+	 * Genererer et array til visning i SubFrameDrageringshalOversigt
+	 * @author Cederdorff
 	 */
 
 	public Object[][] generateViewDataDrageringshal() {
