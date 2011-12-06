@@ -147,6 +147,7 @@ public class JpaDao implements DAO {
 		tx.commit();
 
 	}
+	
 
 	@Override
 	public Palle soegPalle(String stregkode) {

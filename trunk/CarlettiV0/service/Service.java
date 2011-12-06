@@ -18,6 +18,7 @@ import model.Palle;
 import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
+import dao.JpaDao;
 import dao.ListDao;
 
 /**
@@ -31,8 +32,8 @@ import dao.ListDao;
  */
 public class Service {
 	private static Service uniqueInstance;
-	private DAO dao = ListDao.getListDao();
-	// private DAO dao = JpaDao.getDao();
+//	private DAO dao = ListDao.getListDao();
+	 private DAO dao = JpaDao.getDao();
 
 	private boolean testMode;
 
@@ -115,6 +116,7 @@ public class Service {
 	public void tilfoejDelbehandling(Behandling b,
 			Delbehandling nyDelbehandling, int delbehandlingIndex) {
 		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
+		opdaterDatabase();
 	}
 
 	/**
@@ -902,7 +904,7 @@ public class Service {
 			infoString += "\n\nBehandlings-log:\n";
 			ArrayList<GregorianCalendar> delbehandlingstider = m
 					.getTidspunkter();
-			ArrayList<Delbehandling> delbehandlinger = m.getProdukttype()
+			ArrayList<Delbehandling> delbehandlinger = (ArrayList<Delbehandling>) m.getProdukttype()
 					.getBehandling().getDelbehandlinger();
 			for (int i = 0; i < delbehandlingstider.size(); i++) {
 				GregorianCalendar c = delbehandlingstider.get(i);

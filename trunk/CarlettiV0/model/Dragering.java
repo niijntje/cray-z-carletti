@@ -17,6 +17,11 @@ import javax.persistence.Entity;
 public class Dragering extends Delbehandling {
 	private long varighed;
 
+	
+	public Dragering(){
+		// Constructor - JPA 
+	}
+	
 	/**
 	 * @param navn
 	 * @param behandling

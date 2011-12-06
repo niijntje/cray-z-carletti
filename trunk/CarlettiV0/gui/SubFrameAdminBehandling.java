@@ -232,7 +232,6 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 	@Override
 	public void update() {
 		listDelbehandlinger.setListData(behandling.getDelbehandlinger().toArray());
-		
 	}
 
 	@Override
