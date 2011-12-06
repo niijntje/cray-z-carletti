@@ -6,6 +6,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -24,7 +25,7 @@ public class Drageringshal {
 	@GeneratedValue
 	private int id;
 	private static Drageringshal drageringshal;
-	@OneToMany
+	@OneToMany(cascade=CascadeType.PERSIST)
 	private List<Palle> paller;
 	
 	private Drageringshal() {
@@ -59,6 +60,11 @@ public class Drageringshal {
 	public void addPalle(Palle palle) {
 		this.addPalleUD(palle);
 		palle.setDrageringshalUD(this);
+	}
+
+	@Override
+	public String toString() {
+		return "Drageringshal [id=" + id + "]";
 	}
 
 }
