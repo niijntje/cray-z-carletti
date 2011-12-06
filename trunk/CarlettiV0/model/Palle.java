@@ -341,7 +341,6 @@ public class Palle {
 	/**
 	 * Returnerer om alle eller en delm¾ngde af mellemvarerne pŒ pallen er klar til en given handling (n¾ste delbehandling eller f¾rdigvarelageret)
 	 * Hvis bŒde @produkttype og @delbehandling er forskellige fra null, returneres om delm¾ngde er klar. Ellers om alle er klar.
-	 * @param palle	Krav: Forskellig fra null
 	 * @param produkttype	Hvis null returneres om alle pŒ pallen er klar
 	 * @param delbehandling	Hvis null returneres om alle pŒ pallen er klar. 
 	 * @param naesteDelbehandlingsType	Den handling, der sp¿rges til. Kan v¾re hhv. Dragering, T¿rring og F¾rdigvarelager (null)
@@ -357,13 +356,13 @@ public class Palle {
 			if (produkttype!=null && delbehandling!=null){	//Hvis bŒde produkttype og delbehandling er kendt, returneres kun om produkter med _disse_ egenskaber er klar til n¾ste delbehandling/f¾rdigvarelager
 				aktuelleMellemvarer = getMellemvarerAfSammeType(produkttype, delbehandling);
 			}
-			else if (alleVarerErEns()){						//Hvis produkttype og/eller delbehandling derimod er ukendt skal alle mellemvarer pŒ pallen v¾re ens
+			else if (alleVarerErEns()){		//Hvis produkttype og/eller delbehandling derimod er ukendt skal alle mellemvarer pŒ pallen v¾re ens
 				aktuelleMellemvarer = getMellemvarer();
 			}
 			if (aktuelleMellemvarer.size()>0){
 				gyldig = true;
 				for (Mellemvare m : aktuelleMellemvarer){
-					if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)){		//OG klar til n¾ste delbehandling/f¾rdigvarelager
+					if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)){ //OG klar til n¾ste delbehandling/f¾rdigvarelager
 						gyldig = false;
 					}
 				}

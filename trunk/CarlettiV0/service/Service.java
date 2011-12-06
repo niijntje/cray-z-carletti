@@ -114,7 +114,7 @@ public class Service {
 	 * @param delbandlingIndex
 	 */
 	public void tilfoejDelbehandling(Behandling b,
-			Delbehandling nyDelbehandling, int delbehandlingIndex) {
+			Delbehandling nyDelbehandling, int delbehandlingIndex) throws IndexOutOfBoundsException{
 		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
 		opdaterDatabase();
 	}
@@ -183,9 +183,7 @@ public class Service {
 	 * @param helePallen
 	 * @param alleAfSammeType
 	 */
-	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,
-			DelbehandlingsType delbehandlingsType, Palle nyPalle,
-			MellemlagerPlads nyMellemlagerPlads) {
+	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,DelbehandlingsType delbehandlingsType, Palle nyPalle, MellemlagerPlads nyMellemlagerPlads) {
 		boolean gyldig = false;
 		if (mellemvare == null) {
 			gyldig = palle.naesteDelbehandlingGyldig(null, null,
@@ -195,30 +193,15 @@ public class Service {
 		}
 
 		if (gyldig) {
-			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(
-					mellemvare, delbehandlingsType);
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-																			// pallen
-																			// er
-																			// behandlet,
-																			// så
-																			// pallen
-																			// følger
-																			// med
+			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(mellemvare, delbehandlingsType);
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er behandlet, så pallen følger med
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 					sendPalleTilDragering(palle);
 				} else if (delbehandlingsType == DelbehandlingsType.TOERRING) {
 					palle.setDrageringshal(null);
 					placerPalleMellemvarelager(palle, nyMellemlagerPlads);
 				}
-			} else if (mellemvare != null && nyPalle != null) { // Kun en
-																// delmængde af
-																// varerne er
-																// blevet
-																// behandlet, så
-																// disse flyttes
-																// til en ny
-																// palle
+			} else if (mellemvare != null && nyPalle != null) { // Kun en delmængde af varerne er blevet behandlet, så disse flyttes til en ny palle
 				palle.removeMellemvare(mellemvare);
 				nyPalle.addMellemvare(mellemvare);
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
@@ -242,10 +225,7 @@ public class Service {
 	 *            Krav: Skal være forskellig fra null hvis delbehandlingstypen
 	 *            er Tørring og nyPalle
 	 */
-	public void sendTilNaesteDelbehandling(Produkttype produkttype,
-			Delbehandling delbehandling, Palle palle,
-			DelbehandlingsType delbehandlingsType, Palle nyPalle,
-			MellemlagerPlads nyMellemlagerPlads) {
+	public void sendTilNaesteDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Palle palle, DelbehandlingsType delbehandlingsType, Palle nyPalle, MellemlagerPlads nyMellemlagerPlads) {
 		boolean gyldig = palle.naesteDelbehandlingGyldig(produkttype,
 				delbehandling, delbehandlingsType);
 		if (gyldig) {
@@ -306,8 +286,7 @@ public class Service {
 	 * @param mellemvare
 	 * @param palle
 	 */
-	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
-			Palle nyPalle) {
+	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle, Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(mellemvare, null)) {
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(mellemvare);
@@ -343,8 +322,7 @@ public class Service {
 	 * @param delbehandlingsType
 	 * @param nyPalle
 	 */
-	public void sendTilFaerdigvareLager(Produkttype produkttype,
-			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
+	public void sendTilFaerdigvareLager(Produkttype produkttype, Delbehandling delbehandling, Palle palle, Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(palle, produkttype, delbehandling, null)) {
 
 			ArrayList<Mellemvare> behandledeVarer = palle
@@ -374,14 +352,12 @@ public class Service {
 	}
 
 	/**
-	 * @param mellemvare
+	 * @param mellemvare Hvis null kasseres alle varer på pallen
 	 * @param palle
 	 */
 	public void kasserMellemvarer(Mellemvare mellemvare, Palle palle) {
-		ArrayList<Mellemvare> behandledeVarer = palle
-				.kasserMellemvarer(mellemvare);
-		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin
-		// hidtidige placering
+		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvarer(mellemvare);
+		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
 		if (behandledeVarer.size() == palle.getMellemvarer().size()) {
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
@@ -400,6 +376,7 @@ public class Service {
 			Delbehandling delbehandling, Palle palle) {
 		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvarer(
 				produkttype, delbehandling);
+		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
 		if (behandledeVarer.size() == palle.getMellemvarer().size()) {
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
@@ -574,7 +551,8 @@ public class Service {
 	}
 
 	/**
-	 * Genererer data til brug for MainFrame
+	 * Genererer data til brug for MainFrame - Dog ikke anvendt i den endelige version af systemet,
+	 * da vi traf beslutning om at alle tre resterende tider skulle vises
 	 * 
 	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
 	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
@@ -641,7 +619,23 @@ public class Service {
 
 
 	/**
-	 * @return
+	 * Genererer data til brug for MainFrame
+	 * 
+	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
+	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
+	 * {@link Delbehandling}, Antal, Resterende tid til minTid, resterende
+	 * tid til idealTid, resterende tid til maxTid
+	 * 
+	 * Hvis der er flere "varetyper" på samme Palle, udskrives en linie pr.
+	 * "varetype" (dvs. kombinationen Produkttype, Delbehandling)
+	 * 
+	 * Er der ikke tilknyttet en {@link Palle} til en givet
+	 * {@link MellemlagerPlads}, repræsenteres denne med et Object[] pData, hvor
+	 * pData[0] er den pågældende {@link MellemlagerPlads}, og pData[1]-[7] er
+	 * null. Det er så op til {@link MainFrame}-klassen at håndtere, om
+	 * oversigten skal vises med eller uden tomme pladser.
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
 	public Object[][] generateViewDataMellemlagerOversigt3Tider() {
 		// Data gemmes i første omgang i en ArrayList, da størrelsen af data
@@ -930,14 +924,11 @@ public class Service {
 				return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
 			}
 
-	public boolean naesteDelbehandlingGyldig(Mellemvare m,
-			DelbehandlingsType naesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(Mellemvare m, DelbehandlingsType naesteDelbehandlingsType) {
 		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
-	public boolean naesteDelbehandlingGyldig(Palle palle, Produkttype produkttype,
-			Delbehandling delbehandling,
-			DelbehandlingsType naesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling,DelbehandlingsType naesteDelbehandlingsType) {
 		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling,
 				naesteDelbehandlingsType);
 	}
