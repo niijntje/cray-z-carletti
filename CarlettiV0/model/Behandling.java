@@ -23,7 +23,6 @@ public class Behandling {
 	@Id
 	private String navn;
 	@OneToMany(cascade = { CascadeType.PERSIST, CascadeType.REMOVE })
-	@JoinColumn
 	private List<Delbehandling> delbehandlinger;
 
 	public Behandling() {
@@ -97,8 +96,8 @@ public class Behandling {
 		return this.delbehandlinger.get(index);
 	}
 
-	public ArrayList<Delbehandling> getDelbehandlinger() {
-		return (ArrayList<Delbehandling>) delbehandlinger;
+	public List<Delbehandling> getDelbehandlinger() {
+		return delbehandlinger;
 
 	}
 

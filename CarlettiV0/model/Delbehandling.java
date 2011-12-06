@@ -39,6 +39,10 @@ public abstract class Delbehandling {
 	@ManyToOne
 	private Delbehandling nextDelbehandling;
 
+	public Delbehandling(){
+		// Constructor uden parameter - JPA
+	}
+	
 	public Delbehandling(String navn, Behandling behandling, DelbehandlingsType delbehandlingsType){
 		this.delbehandlingstype = delbehandlingsType;
 		this.setNavn(navn);

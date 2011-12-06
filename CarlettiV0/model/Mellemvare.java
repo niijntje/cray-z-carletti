@@ -54,6 +54,10 @@ public class Mellemvare {
 	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
 	}
+	
+	public Mellemvare(){
+		
+	}
 
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {

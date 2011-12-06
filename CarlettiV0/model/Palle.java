@@ -34,6 +34,10 @@ public class Palle {
 	public Palle(){
 
 	}
+	/**
+	 * 
+	 * @param stregkode
+	 */
 	public Palle(String stregkode) {
 		this.stregkode = stregkode;
 		this.mellemvarer = new ArrayList<Mellemvare>();

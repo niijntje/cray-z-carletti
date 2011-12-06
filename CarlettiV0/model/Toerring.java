@@ -19,7 +19,10 @@ public class Toerring extends Delbehandling {
 	private long idealVarighed;
 	private long maxVarighed;
 
-
+	public Toerring(){
+		// Constructor - JPA 
+	}
+	
 	public Toerring(String navn, Behandling behandling, long minVarighed,long idealVarighed, long maxVarighed) {
 		super(navn, behandling,DelbehandlingsType.TOERRING);
 		this.setMinVarighed(minVarighed);
