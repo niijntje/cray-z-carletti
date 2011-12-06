@@ -85,7 +85,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 					lblMaxTid.setEnabled(false);
 					lblIdealTid.setEnabled(false);
 				} else if (cboxmodel.getSelectedItem() == "Toerring") {
-					
+
 					txtIdeal.setEditable(true);
 					txtIdeal.setEnabled(true);
 					txtmaxTid.setEditable(true);
@@ -140,7 +140,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 					long maxTid = Validering.varighedStringTilMillisekunder(txtmaxTid.getText());
 					int index = -1;
 					try{
-						index = Integer.parseInt(txtIndex.getText());
+						index = Integer.parseInt(txtIndex.getText().trim());
 					}
 					catch (NumberFormatException e) {
 						if (txtIndex.getText().equals("")){
@@ -148,8 +148,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 						}
 						else {
 							System.out.println("Advarsel: "+txtIndex.getText()+" er ikke et gyldigt heltal.\nIndex "+index+" benyttes");
-						}
-						
+						}			
 					}
 					Service.getInstance().opretToerring(txtNavn.getText(), getBehandling(), minTid, idealTid, maxTid, index);
 				}
@@ -171,87 +170,87 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 		txtIndex = new JTextField();
 		txtIndex.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		txtIndex.setColumns(10);
-		
+
 		lblMinTid = new JLabel("Min. tid:");
 		lblMinTid.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		
+
 		lblIdealTid = new JLabel("Idealtid:");
 		lblIdealTid.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		
+
 		lblMaxTid = new JLabel("Max. tid:");
 		lblMaxTid.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblTilfoejDelbehandling)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblBehandling)
-								.addComponent(lblType)
-								.addComponent(lblIndex)
-								.addComponent(lblNavn)
+						.addContainerGap()
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblTilfoejDelbehandling)
 								.addGroup(gl_contentPane.createSequentialGroup()
-									.addGap(6)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-										.addComponent(lblMaxTid)
-										.addComponent(lblIdealTid, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
-										.addComponent(lblMinTid))))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
-									.addComponent(txtNavn, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-									.addComponent(txtBehandling, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-									.addComponent(comboBox, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-									.addComponent(txtIndex, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
-									.addComponent(btnTilfoej)
-									.addComponent(txtIdeal, 0, 0, Short.MAX_VALUE)
-									.addComponent(txtMin, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
-								.addComponent(txtmaxTid, 0, 0, Short.MAX_VALUE)))
-						.addComponent(lblVarighed))
-					.addContainerGap(27, Short.MAX_VALUE))
-		);
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblBehandling)
+												.addComponent(lblType)
+												.addComponent(lblIndex)
+												.addComponent(lblNavn)
+												.addGroup(gl_contentPane.createSequentialGroup()
+														.addGap(6)
+														.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+																.addComponent(lblMaxTid)
+																.addComponent(lblIdealTid, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+																.addComponent(lblMinTid))))
+																.addGap(18)
+																.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+																		.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING, false)
+																				.addComponent(txtNavn, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
+																				.addComponent(txtBehandling, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
+																				.addComponent(comboBox, Alignment.LEADING, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+																				.addComponent(txtIndex, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
+																				.addComponent(btnTilfoej)
+																				.addComponent(txtIdeal, 0, 0, Short.MAX_VALUE)
+																				.addComponent(txtMin, GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE))
+																				.addComponent(txtmaxTid, 0, 0, Short.MAX_VALUE)))
+																				.addComponent(lblVarighed))
+																				.addContainerGap(27, Short.MAX_VALUE))
+				);
 		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblTilfoejDelbehandling)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBehandling)
-						.addComponent(txtBehandling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtNavn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNavn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblType))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblIndex))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(lblVarighed)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtMin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblMinTid))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(txtIdeal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblIdealTid, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblMaxTid, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtmaxTid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(30)
-					.addComponent(btnTilfoej)
-					.addContainerGap(16, Short.MAX_VALUE))
-		);
+						.addContainerGap()
+						.addComponent(lblTilfoejDelbehandling)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBehandling)
+								.addComponent(txtBehandling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+										.addComponent(txtNavn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addComponent(lblNavn, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE))
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+												.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+												.addComponent(lblType))
+												.addPreferredGap(ComponentPlacement.RELATED)
+												.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+														.addComponent(txtIndex, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+														.addComponent(lblIndex))
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addComponent(lblVarighed)
+														.addPreferredGap(ComponentPlacement.RELATED)
+														.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+																.addComponent(txtMin, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																.addComponent(lblMinTid))
+																.addPreferredGap(ComponentPlacement.RELATED)
+																.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+																		.addComponent(txtIdeal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+																		.addComponent(lblIdealTid, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE))
+																		.addPreferredGap(ComponentPlacement.RELATED)
+																		.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+																				.addComponent(lblMaxTid, GroupLayout.PREFERRED_SIZE, 26, GroupLayout.PREFERRED_SIZE)
+																				.addComponent(txtmaxTid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+																				.addGap(30)
+																				.addComponent(btnTilfoej)
+																				.addContainerGap(16, Short.MAX_VALUE))
+				);
 		contentPane.setLayout(gl_contentPane);
 	}
 
