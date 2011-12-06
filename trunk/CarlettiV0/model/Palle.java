@@ -184,6 +184,7 @@ public class Palle {
 			if (m.erAfSammeType(produkttype, delbehandling) && m.naesteDelbehandlingGyldig(null)){
 				m.setIgangvaerendeDelbehandling(null);
 				m.setStatus(MellemvareStatus.FAERDIG);
+				m.addNuvaerendeTidspunkt();
 				behandledeMellemvarer.add(m);
 			}
 		}
@@ -203,6 +204,7 @@ public class Palle {
 				if (m.naesteDelbehandlingGyldig(null)){
 					m.setIgangvaerendeDelbehandling(null);
 					m.setStatus(MellemvareStatus.FAERDIG);
+					m.addNuvaerendeTidspunkt();
 				}
 			}
 		}
@@ -210,6 +212,7 @@ public class Palle {
 		else {
 			mellemvare.setIgangvaerendeDelbehandling(null);
 			mellemvare.setStatus(MellemvareStatus.FAERDIG);
+			mellemvare.addNuvaerendeTidspunkt();
 		}
 		return behandledeMellemvarer;
 	}
@@ -224,6 +227,7 @@ public class Palle {
 			if(m.erAfSammeType(produkttype, delbehandling)){
 				m.setIgangvaerendeDelbehandling(null);
 				m.setStatus(MellemvareStatus.KASSERET);
+				m.addNuvaerendeTidspunkt();
 				behandledeMellemvarer.add(m);
 			}
 
@@ -241,12 +245,14 @@ public class Palle {
 			for (Mellemvare m : mellemvarer){
 				m.setIgangvaerendeDelbehandling(null);
 				m.setStatus(MellemvareStatus.KASSERET);
+				m.addNuvaerendeTidspunkt();
 				behandledeMellemvarer.add(m);
 			}
 		}
 		else {
 			mellemvare.setIgangvaerendeDelbehandling(null);
 			mellemvare.setStatus(MellemvareStatus.KASSERET);
+			mellemvare.addNuvaerendeTidspunkt();
 			behandledeMellemvarer.add(mellemvare);
 		}
 		return behandledeMellemvarer;

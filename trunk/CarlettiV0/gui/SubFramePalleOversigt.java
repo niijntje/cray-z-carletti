@@ -665,13 +665,13 @@ public class SubFramePalleOversigt extends JFrame implements Observer, Subject {
 						if (list.getSelectedIndex()>=0){
 							btnKasserEn.setEnabled(true);
 						}
-						if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.DRAGERING)){
+						if (Service.getInstance().naesteDelbehandlingGyldig(m, DelbehandlingsType.DRAGERING)){
 							btnDrageringEn.setEnabled(true);
 						}
-						else if (Service.getInstance().naesteBehandlingGyldig(m, DelbehandlingsType.TOERRING)){
+						else if (Service.getInstance().naesteDelbehandlingGyldig(m, DelbehandlingsType.TOERRING)){
 							btnTilTrringEn.setEnabled(true);
 						}
-						else if (Service.getInstance().naesteBehandlingGyldig(m, null)){
+						else if (Service.getInstance().naesteDelbehandlingGyldig(m, null)){
 							btnTilFrdigvarelagerEn.setEnabled(true);
 						}
 					}

@@ -64,8 +64,7 @@ public class Mellemvare {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
-				.getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
 		this.status = MellemvareStatus.UNDERBEHANDLING;
 		addNuvaerendeTidspunkt();
 		setPalle(palle);
@@ -83,9 +82,11 @@ public class Mellemvare {
 			Palle palle, GregorianCalendar starttid) {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
-		this.status = MellemvareStatus.UNDERBEHANDLING;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		this.status = MellemvareStatus.UNDERBEHANDLING;
+		setPalle(palle);
+		
 		addTidspunkt(starttid);
 		this.setTestMode(true);
 	}

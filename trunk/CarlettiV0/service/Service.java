@@ -308,7 +308,7 @@ public class Service {
 	 */
 	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
 			Palle nyPalle) {
-		if (naesteBehandlingGyldig(mellemvare, null)) {
+		if (naesteDelbehandlingGyldig(mellemvare, null)) {
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(mellemvare);
 
@@ -922,7 +922,15 @@ public class Service {
 		dao.opdaterDatabase();
 	}
 
+	/**
+	 * @deprecated Use {@link #naesteDelbehandlingGyldig(Mellemvare,DelbehandlingsType)} instead
+	 */
 	public boolean naesteBehandlingGyldig(Mellemvare m,
+			DelbehandlingsType naesteDelbehandlingsType) {
+				return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
+			}
+
+	public boolean naesteDelbehandlingGyldig(Mellemvare m,
 			DelbehandlingsType naesteDelbehandlingsType) {
 		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
