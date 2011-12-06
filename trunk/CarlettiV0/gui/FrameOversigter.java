@@ -85,6 +85,7 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		contentPane.setForeground(Color.PINK);
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
+		this.setTitle("Oversigter");
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		contentPane.add(tabbedPane, BorderLayout.CENTER);

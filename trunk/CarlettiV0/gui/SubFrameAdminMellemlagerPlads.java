@@ -41,6 +41,7 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		this.setTitle("Administrér mellemlagerpladser");
 		this.observers = new ArrayList<Observer>();
 		registerObserver(mainFrame);
 
