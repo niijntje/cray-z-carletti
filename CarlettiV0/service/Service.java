@@ -32,8 +32,8 @@ import dao.ListDao;
  */
 public class Service {
 	private static Service uniqueInstance;
-//	private DAO dao = ListDao.getListDao();
-	 private DAO dao = JpaDao.getDao();
+	private DAO dao = ListDao.getListDao();
+//	 private DAO dao = JpaDao.getDao();
 
 	private boolean testMode;
 

@@ -124,8 +124,6 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 						txtpallestregkode.getText());
 				MellemlagerPlads mellemlagerPlads = Service.getInstance()
 						.soegMellemlagerPlads(txtPladsstregkode.getText());
-				System.out.println(palle);
-				System.out.println(mellemlagerPlads);
 				if (mellemlagerPlads == null || palle == null) {
 					lblPalleEllerPlads.setVisible(true);
 				} else {
@@ -138,7 +136,6 @@ public class SubFramePlacerPalle extends JFrame implements Observer, Subject {
 				update();
 				SubFramePlacerPalle.this.setVisible(false);
 			}
-			System.out.println("hej");
 			notifyObservers();
 		}
 	}
