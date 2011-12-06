@@ -1,11 +1,16 @@
 package gui;
 
+import java.util.GregorianCalendar;
+
 import model.Delbehandling;
 import model.Delbehandling.DelbehandlingsType;
+import model.Behandling;
 import model.Mellemvare;
 import model.Palle;
+import model.Produkttype;
 import service.ObjectCreater;
 import service.Service;
+import service.Validering;
 import dao.ListDao;
 
 public class App {
@@ -19,6 +24,21 @@ public class App {
 		MainFrame.getInstance().setVisible(true);
 		Service.getInstance().setTestMode(true);
 		
+		Palle palle1 = Service.getInstance().opretPalle("234");
+		Behandling behandling1 = Service.getInstance().opretBehandling("Behandling A");
+		Delbehandling delbehandling1 = Service.getInstance().opretToerring("T¿rring 1", behandling1, Validering.varighedStringTilMillisekunder("02-01:00"), Validering.varighedStringTilMillisekunder("02-03:30"), Validering.varighedStringTilMillisekunder("02-07:00"), -1);
+		Delbehandling delbehandling2 = Service.getInstance().opretDragering("Dragering 1", behandling1, Validering.varighedStringTilMillisekunder("00-04:00"), -1);
+		Produkttype produkttype1 = Service.getInstance().opretProdukttype("Produkttype X", "X's beskrivelse", behandling1);
+		Mellemvare mellemvare1 = Service.getInstance().opretMellemvare("123", produkttype1, palle1);
+//		GregorianCalendar starttid = new GregorianCalendar();
+//		starttid.setTimeInMillis(System.currentTimeMillis()-Validering.varighedStringTilMillisekunder("02-04:00"));	//Starttid s¾ttes til 
+//		mellemvare1.addTidspunkt(starttid);
+//		System.out.println(mellemvare1.getIgangvaerendeDelbehandling()+" "+mellemvare1.getTidspunkter().get(0).getTimeInMillis());
+//
+//		System.out.println(mellemvare1.getIgangvaerendeDelbehandling()+" "+mellemvare1.getTidspunkter().get(1).getTimeInMillis());
+//		System.out.println(Service.getInstance().naesteDelbehandlingGyldig(mellemvare1, DelbehandlingsType.DRAGERING));
+//		
+		System.out.println(mellemvare1.erAfSammeType(null, null));
 		
 //		System.out.println("MELLEMVARER:");
 //		for (Mellemvare m : ListDao.getListDao().mellemvarer()){
