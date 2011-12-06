@@ -26,7 +26,7 @@ public class Palle {
 	private String stregkode;
 	@OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	private MellemlagerPlads mellemlagerPlads;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.PERSIST)
 	private Drageringshal drageringshal;
 	@OneToMany(cascade={CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Mellemvare> mellemvarer;

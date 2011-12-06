@@ -424,6 +424,8 @@ public class MainFrame extends JFrame implements Observer, Subject {
 						}
 					}
 				}
+				notifyObservers();
+			Service.getInstance().opdaterDatabase();
 			}
 		}
 
@@ -460,7 +462,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 						nyPalle = askForPalle(palle);
 					}
 					if (e.getSource() == btnDrageringMange) {
-						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle,DelbehandlingsType.DRAGERING, nyPalle, null);
+						Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.DRAGERING, nyPalle, null);
 					}
 
 					else if (e.getSource() == btnTilTrringMange) {
@@ -481,8 +483,10 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 					else if (e.getSource() == btnKassrMange) {
 						Service.getInstance().kasserMellemvarer(produkttype,delbehandling, palle);
+						
 					}
 				}
+				
 				update();
 				notifyObservers();
 			}

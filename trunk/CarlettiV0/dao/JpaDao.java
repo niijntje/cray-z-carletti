@@ -11,6 +11,7 @@ import javax.persistence.Query;
 import model.Behandling;
 import model.MellemlagerPlads;
 import model.Mellemvare;
+import model.MellemvareStatus;
 import model.Palle;
 import model.Produkttype;
 
@@ -186,20 +187,20 @@ public class JpaDao implements DAO {
 
 	@Override
 	public List<Mellemvare> faerdigvarer() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = UNDERBEHANDLING", Mellemvare.class)
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :FAERDIG", Mellemvare.class).setParameter("FAERDIG", MellemvareStatus.FAERDIG)
 				.getResultList();
 	}
 
 	@Override
 	public List<Mellemvare> kasseredeVarer() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = KASSERET", Mellemvare.class)
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :kasseret", Mellemvare.class).setParameter("kasseret", MellemvareStatus.KASSERET)
 				.getResultList();
 	}
 	
 	
 	@Override
 	public List<Mellemvare> varerUnderBehandling() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = UNDERBEHANDLING", Mellemvare.class).getResultList();
+		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :underbehandling", Mellemvare.class).setParameter("underbehandling", MellemvareStatus.UNDERBEHANDLING).getResultList();
 	}
 
 	@Override

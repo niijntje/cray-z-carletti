@@ -5,6 +5,7 @@ package model;
 
 import java.util.GregorianCalendar;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -36,7 +37,7 @@ public abstract class Delbehandling {
 	private DelbehandlingsType delbehandlingstype;
 	private Behandling behandling;
 	private String navn;
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	private Delbehandling nextDelbehandling;
 
 	public Delbehandling(){
