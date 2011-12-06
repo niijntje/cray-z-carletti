@@ -47,6 +47,7 @@ public class SubFrameAdminPalle extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setTitle("Administrér paller");
 		setContentPane(contentPane);
 
 		JLabel lblPaller = new JLabel("Paller");

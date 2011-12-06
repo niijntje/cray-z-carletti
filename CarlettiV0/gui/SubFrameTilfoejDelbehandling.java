@@ -59,6 +59,7 @@ public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		this.behandling = behandling;
+		this.setTitle("Tilfoej delbehandlinger");
 		this.observers = new ArrayList<Observer>();
 		this.registerObserver(subFrameBehandling);
 		JLabel lblTilfoejDelbehandling = new JLabel("Tilfoej delbehandling");

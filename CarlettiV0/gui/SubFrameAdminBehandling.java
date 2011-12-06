@@ -53,6 +53,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		this.setTitle("Administrér behandlinger");
 		this.observers = new ArrayList<Observer>();
 		registerObserver(SubFrameAdminProdukttype.getInstance());
 		

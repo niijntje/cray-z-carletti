@@ -54,6 +54,7 @@ public class SubFrameAdminProdukttype extends JFrame implements Observer{
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		this.setTitle("Administrér produkttyper");
 		setContentPane(contentPane);
 
 		JLabel lblProdukttyper = new JLabel("Produkttyper");
