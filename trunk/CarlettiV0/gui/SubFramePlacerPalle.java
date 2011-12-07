@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Design: Cederdorff, Funktionalitet: Mads
+ * @author Design og Observer-Pattern: Rasmus Cederdorff, Funktionalitet: Mads
  * 
  */
 public class SubFramePlacerPalle extends JFrame implements Observer, Subject {

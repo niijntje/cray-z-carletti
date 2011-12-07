@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 /**
  * 
- * @author Cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public class CreateDatabase {

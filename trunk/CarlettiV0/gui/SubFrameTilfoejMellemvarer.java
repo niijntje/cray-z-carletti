@@ -23,7 +23,7 @@ import java.awt.Color;
 
 /**
  * 
- * @author Cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public class SubFrameTilfoejMellemvarer extends JFrame implements Observer,
