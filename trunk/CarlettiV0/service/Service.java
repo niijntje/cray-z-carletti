@@ -23,12 +23,9 @@ import dao.ListDao;
 
 /**
  * 
- * @author Cederdorff 
- * 
- */
-/**
- * @author nijntje
- * 
+ * @author Rita Holst Jacobsen: hvor det er angivet
+ * @author Rasmus Cederdorff: Singleton og hvor det er angivet
+ *
  */
 public class Service {
 	private static Service uniqueInstance;
@@ -52,6 +49,7 @@ public class Service {
 	 * Opretter en ny palle og gemmer den i databasen
 	 * 
 	 * @param stregkode
+	 * @author Rasmus Cederdorff
 	 */
 	public Palle opretPalle(String stregkode) {
 		Palle p = new Palle(stregkode);
@@ -66,6 +64,7 @@ public class Service {
 	 * @param produkttype
 	 * @param palle
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public Mellemvare opretMellemvare(String bakkestregkode,
 			Produkttype produkttype, Palle palle) {
@@ -85,6 +84,7 @@ public class Service {
 	 * @param beskrivelse
 	 * @param behandling
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public Produkttype opretProdukttype(String navn, String beskrivelse,
 			Behandling behandling) {
@@ -98,6 +98,7 @@ public class Service {
 	 * 
 	 * @param navn
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public Behandling opretBehandling(String navn) {
 		Behandling b = new Behandling(navn);
@@ -112,6 +113,7 @@ public class Service {
 	 * @param behandling
 	 * @param delbandlingNavn
 	 * @param delbandlingIndex
+	 * @author Rita Holst Jacobsen
 	 */
 	public void tilfoejDelbehandling(Behandling b,
 			Delbehandling nyDelbehandling, int delbehandlingIndex)
@@ -125,6 +127,7 @@ public class Service {
 	 * 
 	 * @param stregkode
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public MellemlagerPlads opretMellemlagerPlads(String stregkode) {
 		MellemlagerPlads m = new MellemlagerPlads(stregkode);
@@ -145,6 +148,7 @@ public class Service {
 	 *            . Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes
 	 *            sidst i listen
 	 * @return
+	 * @ Rita Holst Jacobsen
 	 */
 	public Delbehandling opretToerring(String navn, Behandling b, long minTid,
 			long idealTid, long maxTid, int index) {
@@ -152,7 +156,16 @@ public class Service {
 		tilfoejDelbehandling(b, d, index);
 		return d;
 	}
-
+	
+	/**
+	 * 
+	 * @param navn
+	 * @param b
+	 * @param varighed
+	 * @param index
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public Delbehandling opretDragering(String navn, Behandling b,
 			long varighed, int index) {
 		Delbehandling d = new Dragering(navn, b, varighed);
@@ -165,6 +178,7 @@ public class Service {
 	 * 
 	 * @param palle
 	 * @param placering
+	 * @author Rasmus Cederdorff
 	 */
 	public void placerPalleMellemvarelager(Palle palle,
 			MellemlagerPlads placering) {
@@ -173,6 +187,12 @@ public class Service {
 
 	}
 
+	/**
+	 * Returnerer true hvis alle varerne på en palle er ens
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean alleVarerErEns(Palle palle) {
 		return palle.alleVarerErEns();
 	}
@@ -183,6 +203,7 @@ public class Service {
 	 * @param palle
 	 * @param helePallen
 	 * @param alleAfSammeType
+	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,
 			DelbehandlingsType delbehandlingsType, Palle nyPalle,
@@ -239,6 +260,7 @@ public class Service {
 	 * @param nyPalle Krav: forskellig fra null, hvis kun en delmængde af alle mellemvarer behandles
 	 * @param nyMellemlagerPlads Krav: Skal være forskellig fra null hvis delbehandlingstypen er 
 	 * Tørring og nyPalle er forskellige fra null
+	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilNaesteDelbehandling(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle,
@@ -303,6 +325,7 @@ public class Service {
 	/**
 	 * @param mellemvare
 	 * @param palle
+	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
 			Palle nyPalle) {
@@ -340,6 +363,7 @@ public class Service {
 	 * @param palle
 	 * @param delbehandlingsType
 	 * @param nyPalle
+	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilFaerdigvareLager(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
@@ -375,6 +399,7 @@ public class Service {
 	 * @param mellemvare
 	 *            Hvis null kasseres alle varer på pallen
 	 * @param palle
+	 * @author Rita Holst Jacobsen
 	 */
 	public void kasserMellemvarer(Mellemvare mellemvare, Palle palle) {
 		ArrayList<Mellemvare> behandledeVarer = palle
@@ -394,6 +419,7 @@ public class Service {
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param palle
+	 * @author Rita Holst Jacobsen
 	 */
 	public void kasserMellemvarer(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle) {
@@ -414,6 +440,7 @@ public class Service {
 	 * Sender en palle med mellemvarer til dragering
 	 * 
 	 * @param palle
+	 * @author Rasmus Cederdorff
 	 */
 	public void sendPalleTilDragering(Palle palle) {
 		palle.placerPalle(null);
@@ -425,6 +452,7 @@ public class Service {
 	 * Sletter en given palle fra databasen
 	 * 
 	 * @param palle
+	 * @author Rasmus Cederdorff
 	 */
 	public void removePalle(Palle palle) {
 		dao.removePalle(palle);
@@ -434,6 +462,7 @@ public class Service {
 	 * Sletter en given produkttype fra databasen
 	 * 
 	 * @param produkttype
+	 * @author Rasmus Cederdorff
 	 */
 	public void removeProdukttype(Produkttype produkttype) {
 		dao.removeProdukttype(produkttype);
@@ -443,6 +472,7 @@ public class Service {
 	 * Sletter en given plads på mellemvarelageret
 	 * 
 	 * @param mellemlagerPlads
+	 * @author Rasmus Cederdorff
 	 */
 	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerPlads) {
 		dao.removeMellemlagerPlads(mellemlagerPlads);
@@ -452,6 +482,7 @@ public class Service {
 	 * Sletter en behandling fra databasen
 	 * 
 	 * @param behandling
+	 * @author Rasmus Cederdorff
 	 */
 	public void removeBehandling(Behandling behandling) {
 		dao.removeBehandling(behandling);
@@ -461,6 +492,7 @@ public class Service {
 	 * Returnerer en liste med alle mellemlagerpladserne
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<MellemlagerPlads> visOversigtOverMellemvarelager() {
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
@@ -470,6 +502,7 @@ public class Service {
 	 * Returnerer en liste med alle paller
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Palle> getPaller() {
 		return new ArrayList<Palle>(dao.paller());
@@ -479,6 +512,7 @@ public class Service {
 	 * Returnerer en liste med alle mellemlagerpladser
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<MellemlagerPlads> getPladser() {
 		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
@@ -488,6 +522,7 @@ public class Service {
 	 * Returnerer en liste med alle produkttyper
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Produkttype> getProdukttyper() {
 		return new ArrayList<Produkttype>(dao.produkttyper());
@@ -497,6 +532,7 @@ public class Service {
 	 * Returnerer en liste med alle mellemvarer
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Mellemvare> getMellemvarer() {
 		return new ArrayList<Mellemvare>(dao.mellemvarer());
@@ -506,6 +542,7 @@ public class Service {
 	 * Returnerer en liste med alle behandlinger
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Behandling> getBehandlinger() {
 		return new ArrayList<Behandling>(dao.behandlinger());
@@ -515,6 +552,7 @@ public class Service {
 	 * Returnerer en liste med alle færdigvarer
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Mellemvare> getFaerdigvarer() {
 		return new ArrayList<Mellemvare>(dao.faerdigvarer());
@@ -524,6 +562,7 @@ public class Service {
 	 * Returnerer en liste med alle kasserede varer
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Mellemvare> getKasserede() {
 		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
@@ -533,11 +572,16 @@ public class Service {
 	 * Returnerer en liste med alle mellemvarer som er under behandling
 	 * 
 	 * @return
+	 * @author Rasmus Cederdorff
 	 */
 	public ArrayList<Mellemvare> getVarerUnderBehandling() {
 		return new ArrayList<Mellemvare>(dao.varerUnderBehandling());
 	}
-
+	/**
+	 * 
+	 * @param palle
+	 * @return
+	 */
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
@@ -550,6 +594,12 @@ public class Service {
 		return mellemlagerPlads.getStregkode();
 	}
 
+	/**
+	 * 
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
 		return palle.getMellemvarer();
 	}
