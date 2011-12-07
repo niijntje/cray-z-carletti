@@ -10,6 +10,13 @@ import java.sql.Statement;
  * 
  */
 public class CreateDatabase {
+	/**
+	 * Denne metode opretter en database Det er vigtigt at der gives de rigtige
+	 * data med: - hvor driveren kan hentes til at kommunikere med databasen -
+	 * (IP-)adressen hvor databasen skal ligge - brugernavn - adgangskode
+	 * 
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		try {
 			// connection to MSSQL
@@ -19,7 +26,9 @@ public class CreateDatabase {
 					"jdbc:jtds:sqlserver://10.211.55.3/master", "sa", "01");
 
 			Statement stmt = myConnection.createStatement();
-//			stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem");
+			// stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem"); //
+			// udkommenteringen kan fjernes, hvis man ¿nsker at fjerne og
+			// oprette en ny database
 			stmt.executeUpdate("CREATE DATABASE CarlettiLageringssytem");
 
 			System.out.println("Database recreated!");

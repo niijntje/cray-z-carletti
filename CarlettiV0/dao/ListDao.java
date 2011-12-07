@@ -31,7 +31,13 @@ public class ListDao implements DAO {
 		mellemlagerPladser = new ArrayList<MellemlagerPlads>();
 		behandlinger = new ArrayList<Behandling>();
 	}
-
+	
+	/**
+	 * Metoden returnerer ListDao og sikrer at der kun oprettes en instans af
+	 * klassen
+	 * 
+	 * @return
+	 */
 	public static ListDao getListDao() {
 		if (listDao == null) {
 			listDao = new ListDao();
