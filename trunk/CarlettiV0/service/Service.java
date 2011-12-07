@@ -603,20 +603,43 @@ public class Service {
 	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
 		return palle.getMellemvarer();
 	}
-
+	/**
+	 * 
+	 * @param stregkode
+	 * @return
+	 * @author Mads Dahl Jensen
+	 */
 	public Palle soegPalle(String stregkode) {
 		return dao.soegPalle(stregkode);
 	}
-
+	
+	/**
+	 * 
+	 * @param stregkode
+	 * @return
+	 * @author Mads Dahl Jensen
+	 */
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
 		return dao.soegMellemlagerPlads(stregkode);
 	}
-
+	
+	/**
+	 * 
+	 * @param palle
+	 * @param nyStregkode
+	 * @author Rasmus Cederdorff
+	 */
 	public void redigerPalle(Palle palle, String nyStregkode) {
 		palle.setStregkode(nyStregkode);
 		opdaterDatabase();
 	}
-
+	/**
+	 * 
+	 * @param produkttype
+	 * @param nyBeskrivelse
+	 * @param nyBehandling
+	 * @author Rasmus Cederdorff
+	 */
 	public void redigerProdukttype(Produkttype produkttype,
 			String nyBeskrivelse, Behandling nyBehandling) {
 		produkttype.setBeskrivelse(nyBeskrivelse);
@@ -764,9 +787,9 @@ public class Service {
 	}
 
 	/**
-	 * Genererer et array til visning i SubFrameDrageringshalOversigt
+	 * Genererer data til visning i SubFrameDrageringshalOversigt
 	 * 
-	 * @author Cederdorff
+	 * @author Rasmus Cederdorff og Rita Holst Jacobsen
 	 */
 
 	public Object[][] generateViewDataDrageringshal() {
@@ -847,7 +870,10 @@ public class Service {
 		}
 		return oversigtsData;
 	}
-
+	/**
+	 * Genererer data til oversigten over kasserede varer
+	 * @return
+	 */
 	public Object[][] generateViewDataKasseredeVarer() {
 		ArrayList<Mellemvare> kasseredeVarer = getKasserede();
 		Object[][] data = new Object[kasseredeVarer.size()][3];
@@ -867,7 +893,7 @@ public class Service {
 	 * Genererer data til oversigten over faerdigvarer
 	 * 
 	 * @return
-	 * @author Cederdorff
+	 * @author Rasmus Cederdorff
 	 */
 	public Object[][] generateViewFaerdigvarer() {
 		ArrayList<Mellemvare> faerdigvarer = getFaerdigvarer();
@@ -976,6 +1002,7 @@ public class Service {
 
 	/**
 	 * Benyttes når databasen skal opdateres (kalder begin/commit)
+	 * @author Rasmus Cederdorff
 	 */
 	public void opdaterDatabase() {
 		dao.opdaterDatabase();
