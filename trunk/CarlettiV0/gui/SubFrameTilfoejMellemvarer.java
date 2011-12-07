@@ -26,7 +26,8 @@ import java.awt.Color;
  * @author Cederdorff
  * 
  */
-public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subject {
+public class SubFrameTilfoejMellemvarer extends JFrame implements Observer,
+		Subject {
 	private MainFrame mainFrame;
 	private JTextField txtPallestregkode;
 	private JTextField txtBakkestregkode;
@@ -57,19 +58,22 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 		gridBagLayout.rowHeights = new int[] { 20, 0, 0, 0, 0, 0, 154, 49, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0,
 				1.0, Double.MIN_VALUE };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
-				0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+				1.0, 0.0, Double.MIN_VALUE };
 		getContentPane().setLayout(gridBagLayout);
-		
-		lblIndtastStregkoderFor = new JLabel("Indtast stregkoder for palle og bakke. V\u00E6lg produkttype og tryk tilfoej");
-		lblIndtastStregkoderFor.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
+
+		lblIndtastStregkoderFor = new JLabel(
+				"Indtast stregkoder for palle og bakke. V\u00E6lg produkttype og tryk tilfoej");
+		lblIndtastStregkoderFor.setFont(new Font("Lucida Grande", Font.ITALIC,
+				11));
 		GridBagConstraints gbc_lblIndtastStregkoderFor = new GridBagConstraints();
 		gbc_lblIndtastStregkoderFor.anchor = GridBagConstraints.WEST;
 		gbc_lblIndtastStregkoderFor.gridwidth = 4;
 		gbc_lblIndtastStregkoderFor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIndtastStregkoderFor.gridx = 1;
 		gbc_lblIndtastStregkoderFor.gridy = 1;
-		getContentPane().add(lblIndtastStregkoderFor, gbc_lblIndtastStregkoderFor);
+		getContentPane().add(lblIndtastStregkoderFor,
+				gbc_lblIndtastStregkoderFor);
 
 		lblPalle = new JLabel("Palle");
 		lblPalle.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
@@ -157,9 +161,9 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 					Service.getInstance().opretMellemvare(
 							txtBakkestregkode.getText(),
 							(Produkttype) cBox.getSelectedItem(), palle);
-				}
-				else {					
-					SubFrameAdminPalle.getInstance().setPalleStregkodeTekst(txtPallestregkode.getText());
+				} else {
+					SubFrameAdminPalle.getInstance().setPalleStregkodeTekst(
+							txtPallestregkode.getText());
 					SubFrameAdminPalle.getInstance().setVisible(true);
 				}
 				update();
@@ -174,7 +178,7 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 
 		lblMellemvarerPPalle = new JLabel("Mellemvarer p\u00E5 palle");
 		lblMellemvarerPPalle
-		.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
+				.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		GridBagConstraints gbc_lblMellemvarerPPalle = new GridBagConstraints();
 		gbc_lblMellemvarerPPalle.gridwidth = 4;
 		gbc_lblMellemvarerPPalle.insets = new Insets(0, 0, 5, 5);
@@ -216,25 +220,26 @@ public class SubFrameTilfoejMellemvarer extends JFrame implements Observer, Subj
 
 	@Override
 	public void update() {
-		if (aktuelPalle!=null){
-			list.setListData(Service.getInstance().getMellemvarer(aktuelPalle).toArray());
+		if (aktuelPalle != null) {
+			list.setListData(Service.getInstance().getMellemvarer(aktuelPalle)
+					.toArray());
 		}
 		txtBakkestregkode.setText("");
 	}
 
 	@Override
 	public void registerObserver(Observer o) {
-		this.observers.add(o);		
+		this.observers.add(o);
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
-		this.observers.remove(o);		
+		this.observers.remove(o);
 	}
 
 	@Override
 	public void notifyObservers() {
-		for (Observer o : observers){
+		for (Observer o : observers) {
 			o.update();
 		}
 	}

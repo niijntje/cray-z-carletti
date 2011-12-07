@@ -33,7 +33,7 @@ import java.awt.Color;
  * @author cederdorff
  * 
  */
-public class SubFrameAdminProdukttype extends JFrame implements Observer{
+public class SubFrameAdminProdukttype extends JFrame implements Observer {
 
 	private JPanel contentPane;
 	private JTextField txtIndtastnavn;
@@ -132,20 +132,20 @@ public class SubFrameAdminProdukttype extends JFrame implements Observer{
 
 		comboBoxRediger = new JComboBox(combbModel);
 		comboBoxRediger.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
-		
 
 		btnGem = new JButton("Gem");
 		btnGem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Produkttype produkttype = (Produkttype) list.getSelectedValue();
-				Service.getInstance().redigerProdukttype(produkttype, txtBeskrivRediger.getText(), (Behandling) comboBoxRediger.getSelectedItem());
+				Service.getInstance().redigerProdukttype(produkttype,
+						txtBeskrivRediger.getText(),
+						(Behandling) comboBoxRediger.getSelectedItem());
 			}
 		});
 
 		lblSletProdukttype = new JLabel("Slet Produkttype");
 
-		lblMarkrProdukttypeOg = new JLabel(
-				"Mark\u00E9r og v\u00E6lg slet");
+		lblMarkrProdukttypeOg = new JLabel("Mark\u00E9r og v\u00E6lg slet");
 		lblMarkrProdukttypeOg
 				.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 
@@ -487,25 +487,28 @@ public class SubFrameAdminProdukttype extends JFrame implements Observer{
 		contentPane.setLayout(gl_contentPane);
 
 	}
-	public static SubFrameAdminProdukttype getInstance(){
-		if(adminProdukttype == null){
+
+	public static SubFrameAdminProdukttype getInstance() {
+		if (adminProdukttype == null) {
 			adminProdukttype = new SubFrameAdminProdukttype();
 		}
 		return adminProdukttype;
 	}
+
 	@Override
 	public void update() {
 		list.setListData(Service.getInstance().getProdukttyper().toArray());
 		opdaterComboxModel();
 	}
-	
+
 	/**
 	 * Opdaterer elementerne i comboboxmodel
 	 */
-	public void opdaterComboxModel(){
+	public void opdaterComboxModel() {
 		combbModel.removeAllElements();
-		for(int i = 0; i<Service.getInstance().getBehandlinger().size(); i++){
-			combbModel.addElement(Service.getInstance().getBehandlinger().get(i));
+		for (int i = 0; i < Service.getInstance().getBehandlinger().size(); i++) {
+			combbModel.addElement(Service.getInstance().getBehandlinger()
+					.get(i));
 		}
 	}
 }

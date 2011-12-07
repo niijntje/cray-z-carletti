@@ -3,8 +3,6 @@
  */
 package gui;
 
-
-
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,10 +22,10 @@ import java.awt.Color;
 
 /**
  * @author nijntje
- *
+ * 
  */
 public class PlaceringsDialog extends JDialog {
-	
+
 	private Controller controller;
 	public JTextField txfStregkode;
 	public JButton btnOk;
@@ -38,8 +36,8 @@ public class PlaceringsDialog extends JDialog {
 	private String stregkode = "";
 	private JTextArea txtrForklaring;
 	private JButton btnOpretNy;
-	
-	public PlaceringsDialog(JFrame owner, String title, String forklaring){
+
+	public PlaceringsDialog(JFrame owner, String title, String forklaring) {
 		super(owner);
 		getContentPane().setBackground(Color.PINK);
 		setAlwaysOnTop(true);
@@ -51,11 +49,10 @@ public class PlaceringsDialog extends JDialog {
 		getContentPane().setLayout(null);
 		this.setModal(true);
 
-
-
 		txfStregkode = new JTextField();
 		getContentPane().add(txfStregkode);
-		txfStregkode.setToolTipText("Indtast eller scan mellemlagerpladens stregkode");
+		txfStregkode
+				.setToolTipText("Indtast eller scan mellemlagerpladens stregkode");
 		txfStregkode.setLocation(15, 88);
 		txfStregkode.setSize(150, 25);
 
@@ -69,7 +66,7 @@ public class PlaceringsDialog extends JDialog {
 		getContentPane().add(btnCancel);
 		btnCancel.setLocation(95, 181);
 		btnCancel.setSize(70, 25);
-		
+
 		txtrForklaring = new JTextArea();
 		txtrForklaring.setLineWrap(true);
 		txtrForklaring.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
@@ -78,13 +75,13 @@ public class PlaceringsDialog extends JDialog {
 		txtrForklaring.setText(forklaring);
 		txtrForklaring.setBounds(15, 13, 150, 63);
 		getContentPane().add(txtrForklaring);
-		
+
 		btnOpretNy = new JButton("Opret ny");
 		btnOpretNy.setEnabled(false);
 		btnOpretNy.addActionListener(controller);
 		btnOpretNy.setBounds(35, 125, 117, 29);
 		getContentPane().add(btnOpretNy);
-		
+
 		btnCancel.addActionListener(controller);
 	}
 
@@ -92,41 +89,42 @@ public class PlaceringsDialog extends JDialog {
 		return this.closedByOk;
 	}
 
-	public MellemlagerPlads getMellemlagerPlads(){
+	public MellemlagerPlads getMellemlagerPlads() {
 		return this.mellemlagerPlads;
 	}
 
-	private class Controller implements ActionListener{
+	private class Controller implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource() == btnOk) {
 				stregkode = txfStregkode.getText();
-				mellemlagerPlads = Service.getInstance().soegMellemlagerPlads(stregkode);
+				mellemlagerPlads = Service.getInstance().soegMellemlagerPlads(
+						stregkode);
 
 				if (mellemlagerPlads == null) {
-					txtrForklaring.setText("Der findes ikke en mellemlagerplads med den angivne stregkode.\nOpret en ny?");
+					txtrForklaring
+							.setText("Der findes ikke en mellemlagerplads med den angivne stregkode.\nOpret en ny?");
 					btnOpretNy.setEnabled(true);
-				}
-				else {
+				} else {
 					closedByOk = true;
 					PlaceringsDialog.this.setVisible(false);
 				}
 			}
-			
+
 			else if (e.getSource() == btnCancel) {
 				closedByOk = false;
 				PlaceringsDialog.this.setVisible(false);
 			}
-			
-			else if (e.getSource()==btnOpretNy){
+
+			else if (e.getSource() == btnOpretNy) {
 				stregkode = txfStregkode.getText();
 				Service.getInstance().opretMellemlagerPlads(stregkode);
-				mellemlagerPlads = Service.getInstance().soegMellemlagerPlads(stregkode);
+				mellemlagerPlads = Service.getInstance().soegMellemlagerPlads(
+						stregkode);
 				closedByOk = true;
 				PlaceringsDialog.this.setVisible(false);
 			}
-
 
 		}
 

@@ -19,10 +19,9 @@ import model.Palle;
 import service.Service;
 import java.awt.Color;
 
-
 /**
  * @author nijntje
- *
+ * 
  */
 public class PalleDialog extends JDialog {
 
@@ -37,7 +36,7 @@ public class PalleDialog extends JDialog {
 	private JTextArea txtrForklaring;
 	private JButton btnOpretNy;
 
-	public PalleDialog(JFrame owner, String title, String forklaring){
+	public PalleDialog(JFrame owner, String title, String forklaring) {
 		super(owner);
 		getContentPane().setBackground(Color.PINK);
 		setAlwaysOnTop(true);
@@ -48,8 +47,6 @@ public class PalleDialog extends JDialog {
 		this.setSize(200, 250);
 		getContentPane().setLayout(null);
 		this.setModal(true);
-
-
 
 		txfStregkode = new JTextField();
 		getContentPane().add(txfStregkode);
@@ -67,7 +64,7 @@ public class PalleDialog extends JDialog {
 		getContentPane().add(btnCancel);
 		btnCancel.setLocation(95, 181);
 		btnCancel.setSize(70, 25);
-		
+
 		txtrForklaring = new JTextArea();
 		txtrForklaring.setLineWrap(true);
 		txtrForklaring.setFont(new Font("Lucida Grande", Font.PLAIN, 12));
@@ -76,13 +73,13 @@ public class PalleDialog extends JDialog {
 		txtrForklaring.setText(forklaring);
 		txtrForklaring.setBounds(15, 13, 150, 63);
 		getContentPane().add(txtrForklaring);
-		
+
 		btnOpretNy = new JButton("Opret ny");
 		btnOpretNy.setEnabled(false);
 		btnOpretNy.addActionListener(controller);
 		btnOpretNy.setBounds(35, 125, 117, 29);
 		getContentPane().add(btnOpretNy);
-		
+
 		btnCancel.addActionListener(controller);
 	}
 
@@ -90,11 +87,11 @@ public class PalleDialog extends JDialog {
 		return this.closedByOk;
 	}
 
-	public Palle getPalle(){
+	public Palle getPalle() {
 		return this.palle;
 	}
 
-	private class Controller implements ActionListener{
+	private class Controller implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -103,28 +100,27 @@ public class PalleDialog extends JDialog {
 				palle = Service.getInstance().soegPalle(stregkode);
 
 				if (palle == null) {
-					txtrForklaring.setText("Der findes ikke en palle med den angivne stregkode.\nOpret en ny?");
+					txtrForklaring
+							.setText("Der findes ikke en palle med den angivne stregkode.\nOpret en ny?");
 					btnOpretNy.setEnabled(true);
-				}
-				else {
+				} else {
 					closedByOk = true;
 					PalleDialog.this.setVisible(false);
 				}
 			}
-			
+
 			else if (e.getSource() == btnCancel) {
 				closedByOk = false;
 				PalleDialog.this.setVisible(false);
 			}
-			
-			else if (e.getSource()==btnOpretNy){
+
+			else if (e.getSource() == btnOpretNy) {
 				stregkode = txfStregkode.getText();
 				Service.getInstance().opretPalle(stregkode);
 				palle = Service.getInstance().soegPalle(stregkode);
 				closedByOk = true;
 				PalleDialog.this.setVisible(false);
 			}
-
 
 		}
 

@@ -148,7 +148,6 @@ public class JpaDao implements DAO {
 		tx.commit();
 
 	}
-	
 
 	@Override
 	public Palle soegPalle(String stregkode) {
@@ -156,12 +155,12 @@ public class JpaDao implements DAO {
 		String jplQuery = "SELECT p FROM Palle p WHERE p.stregkode = :stregkode";
 		Query query = em.createQuery(jplQuery);
 		query.setParameter("stregkode", stregkode);
-		
-		List<Palle>list = query.getResultList();
-		if(list.size()>0){
+
+		List<Palle> list = query.getResultList();
+		if (list.size() > 0) {
 			palle = list.get(0);
 		}
-		
+
 		return palle;
 	}
 
@@ -171,12 +170,12 @@ public class JpaDao implements DAO {
 		String jplQuery = "SELECT m FROM MellemlagerPlads m WHERE m.stregkode = :stregkode";
 		Query query = em.createQuery(jplQuery);
 		query.setParameter("stregkode", stregkode);
-		
-		List<MellemlagerPlads>list = query.getResultList();
-		if(list.size()>0){
+
+		List<MellemlagerPlads> list = query.getResultList();
+		if (list.size() > 0) {
 			plads = list.get(0);
 		}
-		
+
 		return plads;
 	}
 
@@ -187,20 +186,32 @@ public class JpaDao implements DAO {
 
 	@Override
 	public List<Mellemvare> faerdigvarer() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :FAERDIG", Mellemvare.class).setParameter("FAERDIG", MellemvareStatus.FAERDIG)
+		return em
+				.createQuery(
+						"SELECT m FROM Mellemvare m WHERE m.status = :FAERDIG",
+						Mellemvare.class)
+				.setParameter("FAERDIG", MellemvareStatus.FAERDIG)
 				.getResultList();
 	}
 
 	@Override
 	public List<Mellemvare> kasseredeVarer() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :kasseret", Mellemvare.class).setParameter("kasseret", MellemvareStatus.KASSERET)
+		return em
+				.createQuery(
+						"SELECT m FROM Mellemvare m WHERE m.status = :kasseret",
+						Mellemvare.class)
+				.setParameter("kasseret", MellemvareStatus.KASSERET)
 				.getResultList();
 	}
-	
-	
+
 	@Override
 	public List<Mellemvare> varerUnderBehandling() {
-		return em.createQuery("SELECT m FROM Mellemvare m WHERE m.status = :underbehandling", Mellemvare.class).setParameter("underbehandling", MellemvareStatus.UNDERBEHANDLING).getResultList();
+		return em
+				.createQuery(
+						"SELECT m FROM Mellemvare m WHERE m.status = :underbehandling",
+						Mellemvare.class)
+				.setParameter("underbehandling",
+						MellemvareStatus.UNDERBEHANDLING).getResultList();
 	}
 
 	@Override
@@ -208,7 +219,5 @@ public class JpaDao implements DAO {
 		tx.begin();
 		tx.commit();
 	}
-
-
 
 }

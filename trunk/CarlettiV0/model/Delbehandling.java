@@ -24,7 +24,7 @@ import javax.persistence.ManyToOne;
 public abstract class Delbehandling {
 	/**
 	 * @author nijntje
-	 *
+	 * 
 	 */
 	public enum DelbehandlingsType {
 		DRAGERING, TOERRING
@@ -37,14 +37,15 @@ public abstract class Delbehandling {
 	private DelbehandlingsType delbehandlingstype;
 	private Behandling behandling;
 	private String navn;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Delbehandling nextDelbehandling;
 
-	public Delbehandling(){
+	public Delbehandling() {
 		// Constructor uden parameter - JPA
 	}
-	
-	public Delbehandling(String navn, Behandling behandling, DelbehandlingsType delbehandlingsType){
+
+	public Delbehandling(String navn, Behandling behandling,
+			DelbehandlingsType delbehandlingsType) {
 		this.delbehandlingstype = delbehandlingsType;
 		this.setNavn(navn);
 		this.behandling = behandling;
@@ -58,13 +59,12 @@ public abstract class Delbehandling {
 	}
 
 	/**
-	 * @param delbehandlingstype the delbehandlingstype to set
+	 * @param delbehandlingstype
+	 *            the delbehandlingstype to set
 	 */
 	public void setDelbehandlingstype(DelbehandlingsType delbehandlingstype) {
 		this.delbehandlingstype = delbehandlingstype;
 	}
-
-
 
 	public Delbehandling getNextDelbehandling() {
 		return nextDelbehandling;
@@ -91,40 +91,42 @@ public abstract class Delbehandling {
 	}
 
 	/**
-	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes exception)
-	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden passeret, returneres tiden 0, modsat i getResterendeTidTilNaeste(),
-	 * hvor der returneres en negativ tid, hvis maxTid er overskredet.
+	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes
+	 * exception)
+	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden
+	 * passeret, returneres tiden 0, modsat i
+	 * getResterendeTidTilNaeste(), hvor der returneres en negativ tid,
+	 * hvis maxTid er overskredet.
 	 */
 	public abstract long[] getResterendeTider(GregorianCalendar startTid)
 			throws RuntimeException;
 
 	/**
-	 * @param startTid
-	 *            Krav: startTid < System.currentTimeMillis() (Ellers kastes
-	 *            exception)
+	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes
+	 * exception)
 	 * @return resterende tid. Hvis negativ er tiden overskredet. Alt efter
-	 *         typen af delbehandling kan det betyde at varen skal kasseres
-	 *         eller at den er f¾rdigbehandlet.
+	 * typen af delbehandling kan det betyde at varen skal kasseres
+	 * eller at den er f¾rdigbehandlet.
 	 * @throws RuntimeException
 	 */
 	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException;
 
-	public boolean naesteDelbehandlingGyldig(DelbehandlingsType potentielNaesteDelbehandlingsType){
-		if (potentielNaesteDelbehandlingsType==null){
-			return this.getNextDelbehandling()==null;
-		}
-		else {
-			if (getNextDelbehandling() != null){
-				return this.getNextDelbehandling().getDelbehandlingstype()==potentielNaesteDelbehandlingsType;
-			}
-			else {
+	public boolean naesteDelbehandlingGyldig(
+			DelbehandlingsType potentielNaesteDelbehandlingsType) {
+		if (potentielNaesteDelbehandlingsType == null) {
+			return this.getNextDelbehandling() == null;
+		} else {
+			if (getNextDelbehandling() != null) {
+				return this.getNextDelbehandling().getDelbehandlingstype() == potentielNaesteDelbehandlingsType;
+			} else {
 				return false;
 			}
 		}
 	}
 
-	public abstract boolean indenforTilladtBehandlingstid(GregorianCalendar startTid);
+	public abstract boolean indenforTilladtBehandlingstid(
+			GregorianCalendar startTid);
 
 	@Override
 	public String toString() {
@@ -132,6 +134,5 @@ public abstract class Delbehandling {
 	}
 
 	public abstract String toStringLong();
-
 
 }

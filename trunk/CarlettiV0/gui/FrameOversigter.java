@@ -72,7 +72,7 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	private String[] columnNamesKasserede;
 	private static FrameOversigter frameOversigter;
 	private JPanel panel_2;
-	private ArrayList<Observer>observers;
+	private ArrayList<Observer> observers;
 
 	private FrameOversigter(MainFrame mainFrame) {
 		mainFrame.registerObserver(this);
@@ -173,19 +173,24 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 				int row = tableDrageringshal
 						.convertRowIndexToModel(tableDrageringshal
 								.getSelectedRow());
-				Palle palle = (Palle) tableDrageringshalModel.getValueAt(row, 0);
-				Produkttype produkttype = (Produkttype) tableDrageringshalModel.getValueAt(row, 1);
-				Delbehandling delbehandling = (Delbehandling) tableDrageringshalModel.getValueAt(row, 2);
+				Palle palle = (Palle) tableDrageringshalModel
+						.getValueAt(row, 0);
+				Produkttype produkttype = (Produkttype) tableDrageringshalModel
+						.getValueAt(row, 1);
+				Delbehandling delbehandling = (Delbehandling) tableDrageringshalModel
+						.getValueAt(row, 2);
 
 				Palle nyPalle = askForPalle(palle);
-				MellemlagerPlads nyMellemlagerPlads  = null;
-				if(nyPalle != null){
-					 nyMellemlagerPlads = askForPlacering(nyPalle);
-				} else{
+				MellemlagerPlads nyMellemlagerPlads = null;
+				if (nyPalle != null) {
+					nyMellemlagerPlads = askForPlacering(nyPalle);
+				} else {
 					nyMellemlagerPlads = askForPlacering(palle);
 				}
 
-				Service.getInstance().sendTilNaesteDelbehandling(produkttype, delbehandling, palle, DelbehandlingsType.TOERRING, nyPalle, nyMellemlagerPlads);
+				Service.getInstance().sendTilNaesteDelbehandling(produkttype,
+						delbehandling, palle, DelbehandlingsType.TOERRING,
+						nyPalle, nyMellemlagerPlads);
 				update();
 				notifyObservers();
 			}
@@ -496,13 +501,14 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	public JTabbedPane getTabbedPane() {
 		return tabbedPane;
 	}
-	
-	private Palle askForPalle(Palle oprindeligPalle){
+
+	private Palle askForPalle(Palle oprindeligPalle) {
 		Palle nyPalle = null;
-		if (!Service.getInstance().alleVarerErEns(oprindeligPalle)){
-			PalleDialog palleDialog = new PalleDialog(this, "Vælg ny palle", "Kun nogle mellemvarer\nplukkes fra pallen.\n\nAngiv ny palle til disse:");
+		if (!Service.getInstance().alleVarerErEns(oprindeligPalle)) {
+			PalleDialog palleDialog = new PalleDialog(this, "Vælg ny palle",
+					"Kun nogle mellemvarer\nplukkes fra pallen.\n\nAngiv ny palle til disse:");
 			palleDialog.setVisible(true);
-			if (palleDialog.isOKed()){
+			if (palleDialog.isOKed()) {
 				nyPalle = palleDialog.getPalle();
 			}
 			palleDialog.dispose();
@@ -510,12 +516,16 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		return nyPalle;
 	}
 
-	private MellemlagerPlads askForPlacering(Palle palle){
-		MellemlagerPlads nyMellemlagerPlads = Service.getInstance().getMellemlagerPlads(palle);
-		if (nyMellemlagerPlads==null){
-			PlaceringsDialog placeringsDialog = new PlaceringsDialog(this, "Vælg ny placering", "Den valgte palle \ner endnu ikke placeret på mellemlageret.\n\nAngiv en ny placering:");
+	private MellemlagerPlads askForPlacering(Palle palle) {
+		MellemlagerPlads nyMellemlagerPlads = Service.getInstance()
+				.getMellemlagerPlads(palle);
+		if (nyMellemlagerPlads == null) {
+			PlaceringsDialog placeringsDialog = new PlaceringsDialog(
+					this,
+					"Vælg ny placering",
+					"Den valgte palle \ner endnu ikke placeret på mellemlageret.\n\nAngiv en ny placering:");
 			placeringsDialog.setVisible(true);
-			if (placeringsDialog.isOKed()){
+			if (placeringsDialog.isOKed()) {
 				nyMellemlagerPlads = placeringsDialog.getMellemlagerPlads();
 			}
 			placeringsDialog.dispose();
@@ -523,7 +533,7 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		return nyMellemlagerPlads;
 
 	}
-	
+
 	@Override
 	public void update() {
 		tableDrageringshalModel.setDataVector(Service.getInstance()
@@ -539,20 +549,20 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	@Override
 	public void registerObserver(Observer o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
-		
+
 	}
 
 	@Override
 	public void notifyObservers() {
-		for(Observer o : observers){
+		for (Observer o : observers) {
 			o.update();
 		}
-		
+
 	}
 }

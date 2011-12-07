@@ -24,7 +24,8 @@ import model.Behandling;
 import model.Delbehandling;
 import service.Service;
 
-public class SubFrameAdminBehandling extends JFrame implements Observer, Subject{
+public class SubFrameAdminBehandling extends JFrame implements Observer,
+		Subject {
 
 	private JPanel contentPane;
 	private JTextField txtNavn;
@@ -32,7 +33,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 	private SubFrameTilfoejDelbehandling subFrameTilfoejDelb;
 	private Behandling behandling;
 	private static SubFrameAdminBehandling adminBehandling;
-	private ArrayList<Observer>observers;
+	private ArrayList<Observer> observers;
 	private JLabel lblBehandlinger;
 	private JScrollPane scrollPane;
 	private JLabel lblOpretNyBehandling;
@@ -56,7 +57,7 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		this.setTitle("Administrér behandlinger");
 		this.observers = new ArrayList<Observer>();
 		registerObserver(SubFrameAdminProdukttype.getInstance());
-		
+
 		lblBehandlinger = new JLabel("Behandlinger");
 
 		scrollPane = new JScrollPane();
@@ -80,16 +81,15 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 			public void actionPerformed(ActionEvent arg0) {
 				if (txtNavn.getText() != null) {
 					Service.getInstance().opretBehandling(txtNavn.getText());
-					listBehandlinger.setListData(Service.getInstance().getBehandlinger().toArray());
+					listBehandlinger.setListData(Service.getInstance()
+							.getBehandlinger().toArray());
 				}
 				notifyObservers();
 			}
 		});
 
-		lblRedigrDelbehandlinger = new JLabel(
-				"Redig\u00E9r delbehandlinger");
-		lblOpretSletEller = new JLabel(
-				"Tilfoej eller slet delbehandlinger");
+		lblRedigrDelbehandlinger = new JLabel("Redig\u00E9r delbehandlinger");
+		lblOpretSletEller = new JLabel("Tilfoej eller slet delbehandlinger");
 		lblOpretSletEller.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 
 		scrollPane_1 = new JScrollPane();
@@ -98,9 +98,11 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		btnSletDelbehandling.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				Delbehandling delbehandling = (Delbehandling) listDelbehandlinger.getSelectedValue();
-				if(delbehandling != null){
-					((Behandling) listBehandlinger.getSelectedValue()).removeDelbehandling(delbehandling);
+				Delbehandling delbehandling = (Delbehandling) listDelbehandlinger
+						.getSelectedValue();
+				if (delbehandling != null) {
+					((Behandling) listBehandlinger.getSelectedValue())
+							.removeDelbehandling(delbehandling);
 					update();
 				}
 				notifyObservers();
@@ -114,7 +116,8 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 			public void actionPerformed(ActionEvent arg0) {
 				behandling = (Behandling) listBehandlinger.getSelectedValue();
 				if (behandling != null) {
-					subFrameTilfoejDelb = new SubFrameTilfoejDelbehandling(behandling, SubFrameAdminBehandling.this);
+					subFrameTilfoejDelb = new SubFrameTilfoejDelbehandling(
+							behandling, SubFrameAdminBehandling.this);
 					subFrameTilfoejDelb.setVisible(true);
 				}
 
@@ -126,80 +129,194 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		btnSletBehandling.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				if(listBehandlinger.getSelectedValue() != null){
-					Service.getInstance().removeBehandling((Behandling) listBehandlinger.getSelectedValue());
-					listBehandlinger.setListData(Service.getInstance().getBehandlinger().toArray());
+				if (listBehandlinger.getSelectedValue() != null) {
+					Service.getInstance().removeBehandling(
+							(Behandling) listBehandlinger.getSelectedValue());
+					listBehandlinger.setListData(Service.getInstance()
+							.getBehandlinger().toArray());
 				}
 				notifyObservers();
 			}
 		});
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(btnSletBehandling, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblOpretNyBehandling)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-									.addComponent(lblOpretSletEller)
-									.addComponent(lblRedigrDelbehandlinger)
-									.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-										.addGroup(gl_contentPane.createSequentialGroup()
-											.addComponent(btnTilfoej)
-											.addPreferredGap(ComponentPlacement.RELATED)
-											.addComponent(btnSletDelbehandling, GroupLayout.PREFERRED_SIZE, 55, GroupLayout.PREFERRED_SIZE))
-										.addComponent(scrollPane_1, Alignment.LEADING, 0, 0, Short.MAX_VALUE)
-										.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
-											.addComponent(lblNavn)
-											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-											.addComponent(txtNavn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-										.addComponent(lblIndtastNavnTilfoej, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addComponent(btnOpret))))
-							.addGap(52))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblBehandlinger)
-							.addContainerGap(323, Short.MAX_VALUE))))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblBehandlinger)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createSequentialGroup()
-								.addComponent(lblOpretNyBehandling)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(lblIndtastNavnTilfoej)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-									.addComponent(lblNavn)
-									.addComponent(txtNavn, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(btnOpret)
-								.addGap(19)
-								.addComponent(lblRedigrDelbehandlinger)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(lblOpretSletEller)
-								.addPreferredGap(ComponentPlacement.RELATED)
-								.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 98, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(btnSletDelbehandling)
-								.addComponent(btnTilfoej)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 229, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSletBehandling)))
-					.addGap(35))
-		);
+		gl_contentPane
+				.setHorizontalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.LEADING,
+																								false)
+																						.addComponent(
+																								btnSletBehandling,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								Short.MAX_VALUE)
+																						.addComponent(
+																								scrollPane,
+																								GroupLayout.DEFAULT_SIZE,
+																								145,
+																								Short.MAX_VALUE))
+																		.addGap(18)
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								lblOpretNyBehandling)
+																						.addGroup(
+																								gl_contentPane
+																										.createParallelGroup(
+																												Alignment.LEADING)
+																										.addComponent(
+																												lblOpretSletEller)
+																										.addComponent(
+																												lblRedigrDelbehandlinger)
+																										.addGroup(
+																												gl_contentPane
+																														.createParallelGroup(
+																																Alignment.TRAILING)
+																														.addGroup(
+																																gl_contentPane
+																																		.createSequentialGroup()
+																																		.addComponent(
+																																				btnTilfoej)
+																																		.addPreferredGap(
+																																				ComponentPlacement.RELATED)
+																																		.addComponent(
+																																				btnSletDelbehandling,
+																																				GroupLayout.PREFERRED_SIZE,
+																																				55,
+																																				GroupLayout.PREFERRED_SIZE))
+																														.addComponent(
+																																scrollPane_1,
+																																Alignment.LEADING,
+																																0,
+																																0,
+																																Short.MAX_VALUE)
+																														.addGroup(
+																																Alignment.LEADING,
+																																gl_contentPane
+																																		.createSequentialGroup()
+																																		.addComponent(
+																																				lblNavn)
+																																		.addPreferredGap(
+																																				ComponentPlacement.RELATED,
+																																				GroupLayout.DEFAULT_SIZE,
+																																				Short.MAX_VALUE)
+																																		.addComponent(
+																																				txtNavn,
+																																				GroupLayout.PREFERRED_SIZE,
+																																				GroupLayout.DEFAULT_SIZE,
+																																				GroupLayout.PREFERRED_SIZE))
+																														.addComponent(
+																																lblIndtastNavnTilfoej,
+																																Alignment.LEADING,
+																																GroupLayout.DEFAULT_SIZE,
+																																GroupLayout.DEFAULT_SIZE,
+																																Short.MAX_VALUE)
+																														.addComponent(
+																																btnOpret))))
+																		.addGap(52))
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				lblBehandlinger)
+																		.addContainerGap(
+																				323,
+																				Short.MAX_VALUE)))));
+		gl_contentPane
+				.setVerticalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(lblBehandlinger)
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addGroup(
+																				gl_contentPane
+																						.createSequentialGroup()
+																						.addComponent(
+																								lblOpretNyBehandling)
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED)
+																						.addComponent(
+																								lblIndtastNavnTilfoej)
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED)
+																						.addGroup(
+																								gl_contentPane
+																										.createParallelGroup(
+																												Alignment.BASELINE)
+																										.addComponent(
+																												lblNavn)
+																										.addComponent(
+																												txtNavn,
+																												GroupLayout.PREFERRED_SIZE,
+																												GroupLayout.DEFAULT_SIZE,
+																												GroupLayout.PREFERRED_SIZE))
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED)
+																						.addComponent(
+																								btnOpret)
+																						.addGap(19)
+																						.addComponent(
+																								lblRedigrDelbehandlinger)
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED)
+																						.addComponent(
+																								lblOpretSletEller)
+																						.addPreferredGap(
+																								ComponentPlacement.RELATED)
+																						.addComponent(
+																								scrollPane_1,
+																								GroupLayout.PREFERRED_SIZE,
+																								98,
+																								GroupLayout.PREFERRED_SIZE))
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								btnSletDelbehandling)
+																						.addComponent(
+																								btnTilfoej)))
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				scrollPane,
+																				GroupLayout.PREFERRED_SIZE,
+																				229,
+																				GroupLayout.PREFERRED_SIZE)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				btnSletBehandling)))
+										.addGap(35)));
 
 		listDelbehandlinger = new JList();
 		scrollPane_1.setViewportView(listDelbehandlinger);
@@ -210,11 +327,11 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 			public void valueChanged(ListSelectionEvent arg0) {
 				Behandling behandling = (Behandling) listBehandlinger
 						.getSelectedValue();
-				if(behandling != null){
-					listDelbehandlinger.setListData(behandling.getDelbehandlinger()
-							.toArray());
+				if (behandling != null) {
+					listDelbehandlinger.setListData(behandling
+							.getDelbehandlinger().toArray());
 				}
-				
+
 			}
 		});
 		scrollPane.setViewportView(listBehandlinger);
@@ -222,9 +339,9 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 		listBehandlinger.setListData(Service.getInstance().getBehandlinger()
 				.toArray());
 	}
-	
-	public static SubFrameAdminBehandling getInstance(MainFrame mainFrame){
-		if(adminBehandling == null){
+
+	public static SubFrameAdminBehandling getInstance(MainFrame mainFrame) {
+		if (adminBehandling == null) {
 			adminBehandling = new SubFrameAdminBehandling(mainFrame);
 		}
 		return adminBehandling;
@@ -232,26 +349,27 @@ public class SubFrameAdminBehandling extends JFrame implements Observer, Subject
 
 	@Override
 	public void update() {
-		listDelbehandlinger.setListData(behandling.getDelbehandlinger().toArray());
+		listDelbehandlinger.setListData(behandling.getDelbehandlinger()
+				.toArray());
 	}
 
 	@Override
 	public void registerObserver(Observer o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
-		
+
 	}
 
 	@Override
 	public void notifyObservers() {
-		for(Observer o : observers){
+		for (Observer o : observers) {
 			o.update();
 		}
-		
+
 	}
 }

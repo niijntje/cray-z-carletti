@@ -33,7 +33,7 @@ import dao.ListDao;
 public class Service {
 	private static Service uniqueInstance;
 	private DAO dao = ListDao.getListDao();
-//	 private DAO dao = JpaDao.getDao();
+	// private DAO dao = JpaDao.getDao();
 
 	private boolean testMode;
 
@@ -114,7 +114,8 @@ public class Service {
 	 * @param delbandlingIndex
 	 */
 	public void tilfoejDelbehandling(Behandling b,
-			Delbehandling nyDelbehandling, int delbehandlingIndex) throws IndexOutOfBoundsException{
+			Delbehandling nyDelbehandling, int delbehandlingIndex)
+					throws IndexOutOfBoundsException {
 		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
 		opdaterDatabase();
 	}
@@ -183,7 +184,9 @@ public class Service {
 	 * @param helePallen
 	 * @param alleAfSammeType
 	 */
-	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,DelbehandlingsType delbehandlingsType, Palle nyPalle, MellemlagerPlads nyMellemlagerPlads) {
+	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,
+			DelbehandlingsType delbehandlingsType, Palle nyPalle,
+			MellemlagerPlads nyMellemlagerPlads) {
 		boolean gyldig = false;
 		if (mellemvare == null) {
 			gyldig = palle.naesteDelbehandlingGyldig(null, null,
@@ -193,15 +196,30 @@ public class Service {
 		}
 
 		if (gyldig) {
-			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(mellemvare, delbehandlingsType);
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er behandlet, så pallen følger med
+			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(
+					mellemvare, delbehandlingsType);
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
+				// pallen
+				// er
+				// behandlet,
+				// så
+				// pallen
+				// følger
+				// med
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 					sendPalleTilDragering(palle);
 				} else if (delbehandlingsType == DelbehandlingsType.TOERRING) {
 					palle.setDrageringshal(null);
 					placerPalleMellemvarelager(palle, nyMellemlagerPlads);
 				}
-			} else if (mellemvare != null && nyPalle != null) { // Kun en delmængde af varerne er blevet behandlet, så disse flyttes til en ny palle
+			} else if (mellemvare != null && nyPalle != null) { // Kun en
+				// delmængde af
+				// varerne er
+				// blevet
+				// behandlet, så
+				// disse flyttes
+				// til en ny
+				// palle
 				palle.removeMellemvare(mellemvare);
 				nyPalle.addMellemvare(mellemvare);
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
@@ -218,14 +236,14 @@ public class Service {
 	 * @param delbehandling
 	 * @param palle
 	 * @param delbehandlingsType
-	 * @param nyPalle
-	 *            Krav: forskellig fra null, hvis kun en delmængde af alle
-	 *            mellemvarer behandles
-	 * @param nyMellemlagerPlads
-	 *            Krav: Skal være forskellig fra null hvis delbehandlingstypen
-	 *            er Tørring og nyPalle
+	 * @param nyPalle Krav: forskellig fra null, hvis kun en delmængde af alle mellemvarer behandles
+	 * @param nyMellemlagerPlads Krav: Skal være forskellig fra null hvis delbehandlingstypen er 
+	 * Tørring og nyPalle er forskellige fra null
 	 */
-	public void sendTilNaesteDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Palle palle, DelbehandlingsType delbehandlingsType, Palle nyPalle, MellemlagerPlads nyMellemlagerPlads) {
+	public void sendTilNaesteDelbehandling(Produkttype produkttype,
+			Delbehandling delbehandling, Palle palle,
+			DelbehandlingsType delbehandlingsType, Palle nyPalle,
+			MellemlagerPlads nyMellemlagerPlads) {
 		boolean gyldig = palle.naesteDelbehandlingGyldig(produkttype,
 				delbehandling, delbehandlingsType);
 		if (gyldig) {
@@ -233,13 +251,13 @@ public class Service {
 					produkttype, delbehandling, delbehandlingsType);
 
 			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-																			// pallen
-																			// er
-																			// behandlet,
-																			// så
-																			// pallen
-																			// følger
-																			// med
+				// pallen
+				// er
+				// behandlet,
+				// så
+				// pallen
+				// følger
+				// med
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 					sendPalleTilDragering(palle);
 				} else if (delbehandlingsType == DelbehandlingsType.TOERRING) {
@@ -249,7 +267,7 @@ public class Service {
 			}
 
 			else { // Kun en delmængde af varerne er blevet behandlet, så disse
-					// flyttes til en ny palle
+				// flyttes til en ny palle
 				if (nyPalle != null) {
 					for (Mellemvare m : behandledeVarer) {
 						palle.removeMellemvare(m);
@@ -257,19 +275,19 @@ public class Service {
 					}
 					if (nyMellemlagerPlads != null
 							&& delbehandlingsType == DelbehandlingsType.TOERRING) { // Hvis
-																					// nyMellemlagerplads
-																					// er
-																					// null,
-																					// antages
-																					// at
-																					// den
-																					// nye
-																					// palle
-																					// allerede
-																					// er
-																					// placeret
-																					// på
-																					// mellemvarelageret
+						// nyMellemlagerplads
+						// er
+						// null,
+						// antages
+						// at
+						// den
+						// nye
+						// palle
+						// allerede
+						// er
+						// placeret
+						// på
+						// mellemvarelageret
 						placerPalleMellemvarelager(nyPalle, nyMellemlagerPlads);
 						nyPalle.setDrageringshal(null);
 					}
@@ -286,25 +304,26 @@ public class Service {
 	 * @param mellemvare
 	 * @param palle
 	 */
-	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle, Palle nyPalle) {
+	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
+			Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(mellemvare, null)) {
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(mellemvare);
 
 			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-																			// pallen
-																			// er
-																			// blevet
-																			// behandlet
-																			// og
-																			// flytter
-																			// med
+				// pallen
+				// er
+				// blevet
+				// behandlet
+				// og
+				// flytter
+				// med
 				palle.placerPalle(null);
 				palle.setDrageringshal(null);
 			} else if (mellemvare != null) { // Kun en delmængde = én mellemvare
-												// er blevet behandlet og denne
-												// flyttes fra pallen til en
-												// evt. ny palle
+				// er blevet behandlet og denne
+				// flyttes fra pallen til en
+				// evt. ny palle
 				palle.removeMellemvare(mellemvare);
 				if (nyPalle != null) {
 					nyPalle.addMellemvare(mellemvare);
@@ -322,23 +341,24 @@ public class Service {
 	 * @param delbehandlingsType
 	 * @param nyPalle
 	 */
-	public void sendTilFaerdigvareLager(Produkttype produkttype, Delbehandling delbehandling, Palle palle, Palle nyPalle) {
+	public void sendTilFaerdigvareLager(Produkttype produkttype,
+			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(palle, produkttype, delbehandling, null)) {
 
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(produkttype, delbehandling);
 			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-																			// pallen
-																			// er
-																			// blevet
-																			// behandlet
-																			// og
-																			// flytter
-																			// med
+				// pallen
+				// er
+				// blevet
+				// behandlet
+				// og
+				// flytter
+				// med
 				palle.placerPalle(null);
 				palle.setDrageringshal(null);
 			} else { // Kun en delmængde af pallens mellemvarer er blevet
-						// behandlet og disse flyttes fra pallen
+				// behandlet og disse flyttes fra pallen
 				for (Mellemvare m : behandledeVarer) {
 					palle.removeMellemvare(m);
 					if (nyPalle != null) {
@@ -352,12 +372,15 @@ public class Service {
 	}
 
 	/**
-	 * @param mellemvare Hvis null kasseres alle varer på pallen
+	 * @param mellemvare
+	 *            Hvis null kasseres alle varer på pallen
 	 * @param palle
 	 */
 	public void kasserMellemvarer(Mellemvare mellemvare, Palle palle) {
-		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvarer(mellemvare);
-		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
+		ArrayList<Mellemvare> behandledeVarer = palle
+				.kasserMellemvarer(mellemvare);
+		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin
+		// hidtidige placering
 		if (behandledeVarer.size() == palle.getMellemvarer().size()) {
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
@@ -376,7 +399,8 @@ public class Service {
 			Delbehandling delbehandling, Palle palle) {
 		ArrayList<Mellemvare> behandledeVarer = palle.kasserMellemvarer(
 				produkttype, delbehandling);
-		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
+		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin
+		// hidtidige placering
 		if (behandledeVarer.size() == palle.getMellemvarer().size()) {
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
@@ -551,8 +575,9 @@ public class Service {
 	}
 
 	/**
-	 * Genererer data til brug for MainFrame - Dog ikke anvendt i den endelige version af systemet,
-	 * da vi traf beslutning om at alle tre resterende tider skulle vises
+	 * Genererer data til brug for MainFrame - Dog ikke anvendt i den endelige
+	 * version af systemet, da vi traf beslutning om at alle tre resterende
+	 * tider skulle vises
 	 * 
 	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
 	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
@@ -584,12 +609,12 @@ public class Service {
 			} else { // Plads med palle
 				Palle palle = mp.getPalle();
 				if (palle.getMellemvarer().size() == 0) { // Tom palle - men
-															// skal stadig
-															// vises!
+					// skal stadig
+					// vises!
 					pladsData[1] = palle;
 					listData.add(pladsData);
 				} else { // Pallen indeholder mellemvarer, og der skal vises en
-							// række pr. 'type'
+					// række pr. 'type'
 					Object[][] fullPalleData = generateViewDataPalle(palle,
 							false); // <--- false: Kun én resterende tid vises
 					for (int i = 0; i < fullPalleData.length; i++) {
@@ -600,9 +625,9 @@ public class Service {
 						mellemvareData[3] = fullPalleData[i][2]; // Delbehandling
 						mellemvareData[4] = fullPalleData[i][3]; // Antal
 						mellemvareData[5] = fullPalleData[i][5]; // Resterende
-																	// tid til
-																	// næste
-																	// tidsfrist
+						// tid til
+						// næste
+						// tidsfrist
 						listData.add(mellemvareData);
 					}
 				}
@@ -617,14 +642,13 @@ public class Service {
 		return data;
 	}
 
-
 	/**
 	 * Genererer data til brug for MainFrame
 	 * 
 	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
 	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
-	 * {@link Delbehandling}, Antal, Resterende tid til minTid, resterende
-	 * tid til idealTid, resterende tid til maxTid
+	 * {@link Delbehandling}, Antal, Resterende tid til minTid, resterende tid
+	 * til idealTid, resterende tid til maxTid
 	 * 
 	 * Hvis der er flere "varetyper" på samme Palle, udskrives en linie pr.
 	 * "varetype" (dvs. kombinationen Produkttype, Delbehandling)
@@ -651,12 +675,12 @@ public class Service {
 			} else { // Plads med palle
 				Palle palle = mp.getPalle();
 				if (palle.getMellemvarer().size() == 0) { // Tom palle - men
-															// skal stadig
-															// vises!
+					// skal stadig
+					// vises!
 					pladsData[1] = palle;
 					listData.add(pladsData);
 				} else { // Pallen indeholder mellemvarer, og der skal vises en
-							// række pr. 'type'
+					// række pr. 'type'
 					Object[][] fullPalleData = generateViewDataPalle(palle,
 							false); // <--- false: Kun én resterende tid vises
 					for (int i = 0; i < fullPalleData.length; i++) {
@@ -667,14 +691,14 @@ public class Service {
 						mellemvareData[3] = fullPalleData[i][2]; // Delbehandling
 						mellemvareData[4] = fullPalleData[i][3]; // Antal
 						mellemvareData[5] = fullPalleData[i][4]; // Resterende
-																	// tid til
-																	// minTid
+						// tid til
+						// minTid
 						mellemvareData[6] = fullPalleData[i][5]; // Resterende
-																	// tid til
-																	// idealTid
+						// tid til
+						// idealTid
 						mellemvareData[7] = fullPalleData[i][6]; // Resterende
-																	// tid til
-																	// maxTid
+						// tid til
+						// maxTid
 						listData.add(mellemvareData);
 					}
 				}
@@ -691,12 +715,13 @@ public class Service {
 
 	/**
 	 * Genererer et array til visning i SubFrameDrageringshalOversigt
+	 * 
 	 * @author Cederdorff
 	 */
 
 	public Object[][] generateViewDataDrageringshal() {
-		// Data gemmes i første omgang i en ArrayList, da størrelsen af data
-		// afhænger af
+		// Data gemmes i første omgang i en ArrayList, da størrelsen af
+		// dataafhænger af
 		// hvor mange forskellige typer mellemvarer der findes på hver enkelt
 		// palle.
 
@@ -710,14 +735,14 @@ public class Service {
 			if (palle.getMellemvarer().size() == 0) {
 				listData.add(palleData);
 			} else { // Pallen indeholder mellemvarer, og der skal vises en
-						// række pr. 'type'
+				// række pr. 'type'
 				Object[][] fullPalleData = generateViewDataPalle(palle, false); // <---
-																				// false:
-																				// Kun
-																				// én
-																				// resterende
-																				// tid
-																				// vises
+				// false:
+				// Kun
+				// én
+				// resterende
+				// tid
+				// vises
 				for (int i = 0; i < fullPalleData.length; i++) {
 					Object[] mellemvareData = new Object[5];
 					mellemvareData[0] = fullPalleData[i][0]; // Palle
@@ -725,8 +750,8 @@ public class Service {
 					mellemvareData[2] = fullPalleData[i][2]; // Delbehandling
 					mellemvareData[3] = fullPalleData[i][3]; // Antal
 					mellemvareData[4] = fullPalleData[i][5]; // Resterende tid
-																// til næste
-																// tidsfrist
+					// til næste
+					// tidsfrist
 					listData.add(mellemvareData);
 				}
 			}
@@ -764,7 +789,7 @@ public class Service {
 				mData[1] = fullData[i][2]; // Delbehandling
 				mData[2] = fullData[i][3]; // Antal
 				mData[3] = fullData[i][5]; // Tid (resterende tid til næste
-											// tidsfrist)
+				// tidsfrist)
 				oversigtsData[i] = mData;
 			}
 		} else {
@@ -822,22 +847,12 @@ public class Service {
 	 *            varer.
 	 * @return [Palle, Produkttype, Igangværende Delbehandling, Antal,
 	 *         Resterende tid, Resterende tid, Resterende tid (se
-	 *         @kunNaesteTidsfrist)]
+	 * @kunNaesteTidsfrist)]
 	 */
 	public Object[][] generateViewDataPalle(Palle palle,
 			boolean kunNaesteTidsfrist) {
 		Object[][] data;
-		if (palle != null && palle.getMellemvarer().size() > 0) { // Tror måske
-																	// ikke
-																	// dette
-																	// tjek er
-																	// nødvendigt,
-																	// men
-																	// bevarer
-																	// det lige
-																	// for en
-																	// sikkerheds
-																	// skyld
+		if (palle != null && palle.getMellemvarer().size() > 0) {
 			HashMap<Mellemvare, Integer> mellemvareAntal = palle
 					.getMellemvareAntalMapping();
 			data = new Object[mellemvareAntal.size()][7];
@@ -898,8 +913,8 @@ public class Service {
 			infoString += "\n\nBehandlings-log:\n";
 			ArrayList<GregorianCalendar> delbehandlingstider = m
 					.getTidspunkter();
-			ArrayList<Delbehandling> delbehandlinger = (ArrayList<Delbehandling>) m.getProdukttype()
-					.getBehandling().getDelbehandlinger();
+			ArrayList<Delbehandling> delbehandlinger = (ArrayList<Delbehandling>) m
+					.getProdukttype().getBehandling().getDelbehandlinger();
 			for (int i = 0; i < delbehandlingstider.size(); i++) {
 				GregorianCalendar c = delbehandlingstider.get(i);
 				infoString += Validering.calendarTilCalendarString(c) + "\t"
@@ -917,18 +932,23 @@ public class Service {
 	}
 
 	/**
-	 * @deprecated Use {@link #naesteDelbehandlingGyldig(Mellemvare,DelbehandlingsType)} instead
+	 * @deprecated Use
+	 *             {@link #naesteDelbehandlingGyldig(Mellemvare,DelbehandlingsType)}
+	 *             instead
 	 */
 	public boolean naesteBehandlingGyldig(Mellemvare m,
 			DelbehandlingsType naesteDelbehandlingsType) {
-				return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
-			}
+		return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
+	}
 
-	public boolean naesteDelbehandlingGyldig(Mellemvare m, DelbehandlingsType naesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(Mellemvare m,
+			DelbehandlingsType naesteDelbehandlingsType) {
 		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
-	public boolean naesteDelbehandlingGyldig(Palle palle, Produkttype produkttype, Delbehandling delbehandling,DelbehandlingsType naesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(Palle palle,
+			Produkttype produkttype, Delbehandling delbehandling,
+			DelbehandlingsType naesteDelbehandlingsType) {
 		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling,
 				naesteDelbehandlingsType);
 	}

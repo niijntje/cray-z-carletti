@@ -5,15 +5,16 @@ package model;
 
 /**
  * @author nijntje
- *
+ * 
  */
 public class Varighed {
-	
+
 	/**
 	 * @param varighedMillisekunder
 	 * @return
 	 */
-	public static String getVarighedDagTimeSekundFormateret(long varighedMillisekunder) {
+	public static String getVarighedDagTimeSekundFormateret(
+			long varighedMillisekunder) {
 		int dage;
 		int timer;
 		int minutter;
@@ -24,6 +25,5 @@ public class Varighed {
 
 		return dage + " d. " + timer + " t. " + minutter + " m.";
 	}
-
 
 }

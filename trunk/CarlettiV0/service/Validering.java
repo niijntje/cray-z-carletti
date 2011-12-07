@@ -5,7 +5,8 @@ import java.util.GregorianCalendar;
 
 public class Validering {
 	/**
-	 * @author Mads Dahl Jensen (public static String millisekunderTildato(long tid)) 
+	 * @author Mads Dahl Jensen (public static String millisekunderTildato(long
+	 *         tid))
 	 * @author Rita Holst Jacobsen (resten)
 	 * 
 	 */
@@ -16,24 +17,24 @@ public class Validering {
 
 		dage = (int) tid / 86400000;
 		String dageString = "";
-		if (dage<10){
+		if (dage < 10) {
 			dageString += "0";
 		}
-		dageString +=dage;
-		
+		dageString += dage;
+
 		timer = (int) (tid - (86400000 * dage)) / 3600000;
 		String timerString = "";
-		if (timer<10){
+		if (timer < 10) {
 			timerString += "0";
 		}
-		timerString +=timer;
-		
+		timerString += timer;
+
 		minutter = (int) (tid - 86400000 * dage - 3600000 * timer) / 60000;
 		String minutterString = "";
-		if (minutter<10){
+		if (minutter < 10) {
 			minutterString += "0";
 		}
-		minutterString +=minutter;
+		minutterString += minutter;
 
 		return dageString + "d " + timerString + "t " + minutterString + "m";
 	}
@@ -41,7 +42,7 @@ public class Validering {
 	/**
 	 * @param varighed
 	 *            i formatet DD:HH:MM
-	 * @return	varighed i millisekunder
+	 * @return varighed i millisekunder
 	 */
 	public static long varighedStringTilMillisekunder(String varighed) {
 		long varighedMillisekunder = 0;
