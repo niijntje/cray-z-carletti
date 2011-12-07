@@ -193,7 +193,7 @@ public class ListDao implements DAO {
 		}
 		return kasseredeVarer;
 	}
-	
+
 	@Override
 	public List<Mellemvare> varerUnderBehandling() {
 		ArrayList<Mellemvare> varerUnderBehandling = new ArrayList<Mellemvare>();
@@ -210,7 +210,5 @@ public class ListDao implements DAO {
 		// DO NOTHING
 
 	}
-
-
 
 }

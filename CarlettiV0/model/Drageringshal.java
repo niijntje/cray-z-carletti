@@ -12,7 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
-
 /**
  * v.0.3
  * 
@@ -25,9 +24,9 @@ public class Drageringshal {
 	@GeneratedValue
 	private int id;
 	private static Drageringshal drageringshal;
-	@OneToMany(cascade=CascadeType.PERSIST)
+	@OneToMany(cascade = CascadeType.PERSIST)
 	private List<Palle> paller;
-	
+
 	private Drageringshal() {
 		paller = new ArrayList<Palle>();
 	}

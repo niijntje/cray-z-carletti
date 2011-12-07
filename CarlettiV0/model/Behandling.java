@@ -37,14 +37,18 @@ public class Behandling {
 	/**
 	 * 
 	 * @param navn
-	 * @param index Hvis index == -1, skal delbehandlingen blot tilf¿jes sidst i listen.
+	 * @param index
+	 *            Hvis index == -1, skal delbehandlingen blot tilf¿jes sidst i
+	 *            listen.
 	 * @return
 	 */
-	public Delbehandling addDelbehandling(Delbehandling nyDelbehandling, int index) throws IndexOutOfBoundsException {
+	public Delbehandling addDelbehandling(Delbehandling nyDelbehandling,
+			int index) throws IndexOutOfBoundsException {
 
 		if (index == -1) {
 			if (delbehandlinger.size() > 0) {
-				delbehandlinger.get(delbehandlinger.size() - 1).setNextDelbehandling(nyDelbehandling);
+				delbehandlinger.get(delbehandlinger.size() - 1)
+						.setNextDelbehandling(nyDelbehandling);
 			}
 			delbehandlinger.add(nyDelbehandling);
 		} else if (index <= delbehandlinger.size()) {
@@ -53,7 +57,8 @@ public class Behandling {
 						nyDelbehandling);
 			}
 			if (index < delbehandlinger.size()) {
-				nyDelbehandling.setNextDelbehandling(delbehandlinger.get(index));
+				nyDelbehandling
+						.setNextDelbehandling(delbehandlinger.get(index));
 			}
 			delbehandlinger.add(index, nyDelbehandling);
 		}
@@ -103,9 +108,9 @@ public class Behandling {
 	public void setNavn(String navn) {
 		this.navn = navn;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return this.navn;
 	}
 

@@ -14,17 +14,25 @@ import javax.persistence.Entity;
  * 
  */
 @Entity
-public class Toerring extends Delbehandling {	
+public class Toerring extends Delbehandling {
 	private long minVarighed;
 	private long idealVarighed;
 	private long maxVarighed;
 
-	public Toerring(){
-		// Constructor - JPA 
+	public Toerring() {
+		// Constructor - JPA
 	}
-	
-	public Toerring(String navn, Behandling behandling, long minVarighed,long idealVarighed, long maxVarighed) {
-		super(navn, behandling,DelbehandlingsType.TOERRING);
+
+	/**
+	 * @param navn
+	 * @param behandling
+	 * @param minVarighed
+	 * @param idealVarighed
+	 * @param maxVarighed
+	 */
+	public Toerring(String navn, Behandling behandling, long minVarighed,
+			long idealVarighed, long maxVarighed) {
+		super(navn, behandling, DelbehandlingsType.TOERRING);
 		this.setMinVarighed(minVarighed);
 		this.setIdealVarighed(idealVarighed);
 		this.setMaxVarighed(maxVarighed);
@@ -117,7 +125,7 @@ public class Toerring extends Delbehandling {
 	@Override
 	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
 		long[] restTider = this.getResterendeTider(startTid);
-		return (restTider[0]==0 && restTider[2]!=0);
+		return (restTider[0] == 0 && restTider[2] != 0);
 	}
 
 }

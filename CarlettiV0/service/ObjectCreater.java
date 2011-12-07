@@ -49,9 +49,9 @@ public class ObjectCreater {
 	 * Opretter objekter og tilf¿jer dem til Dao.
 	 */
 	public void createSomeObjects() {
-		
+
 		Palle pa1 = Service.getInstance().opretPalle("00001");
-		Palle pa2= Service.getInstance().opretPalle("00002");
+		Palle pa2 = Service.getInstance().opretPalle("00002");
 		Palle palle1 = Service.getInstance().opretPalle("00003");
 		Service.getInstance().opretPalle("00004");
 		Service.getInstance().opretPalle("00005");
@@ -60,14 +60,17 @@ public class ObjectCreater {
 		Service.getInstance().opretPalle("00008");
 		Service.getInstance().opretPalle("00009");
 		Service.getInstance().opretPalle("00010");
-		
-		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads("001");
+
+		MellemlagerPlads pl1 = Service.getInstance().opretMellemlagerPlads(
+				"001");
 		Service.getInstance().opretMellemlagerPlads("002");
 		Service.getInstance().opretMellemlagerPlads("003");
-		MellemlagerPlads pl4 = Service.getInstance().opretMellemlagerPlads("004");
+		MellemlagerPlads pl4 = Service.getInstance().opretMellemlagerPlads(
+				"004");
 		Service.getInstance().opretMellemlagerPlads("005");
 		Service.getInstance().opretMellemlagerPlads("006");
-		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads("007");
+		MellemlagerPlads pl2 = Service.getInstance().opretMellemlagerPlads(
+				"007");
 		Service.getInstance().opretMellemlagerPlads("008");
 		Service.getInstance().opretMellemlagerPlads("009");
 		Service.getInstance().opretMellemlagerPlads("010");
@@ -94,10 +97,14 @@ public class ObjectCreater {
 
 		Behandling b3 = Service.getInstance().opretBehandling(
 				"B3 - MŒnegrus og lakridspinde. Kernest¿rrelse 2.5-3.5");
-		Service.getInstance().opretToerring("T¿rring 1a", b3, varighed1,varighed2, varighed4, -1);
-		Delbehandling d2 = Service.getInstance().opretDragering("Dragering 2e", b3, varighed10, -1);
-		Service.getInstance().opretToerring("T¿rring 1b", b3, varighed5,varighed6, varighed8, -1);
-		Service.getInstance().opretDragering("Dragering 2e", b3, varighed11, -1);
+		Service.getInstance().opretToerring("T¿rring 1a", b3, varighed1,
+				varighed2, varighed4, -1);
+		Delbehandling d2 = Service.getInstance().opretDragering("Dragering 2e",
+				b3, varighed10, -1);
+		Service.getInstance().opretToerring("T¿rring 1b", b3, varighed5,
+				varighed6, varighed8, -1);
+		Service.getInstance()
+				.opretDragering("Dragering 2e", b3, varighed11, -1);
 		Service.getInstance().opretToerring("T¿rring 1c", b3, varighed9,
 				varighed10, varighed11, -1);
 
@@ -109,7 +116,9 @@ public class ObjectCreater {
 		Produkttype pt1 = Service.getInstance().opretProdukttype(
 				"Lakridspinde 1",
 				"Gr¿nne lakridspinde med kernest¿rrelse 3.\nOpskrift: B3", b3);
-		Produkttype pt2 = Service.getInstance().opretProdukttype(
+		Produkttype pt2 = Service
+				.getInstance()
+				.opretProdukttype(
 						"MŒnegrus 2B",
 						"Rester fra lakridspinde med varierende kernest¿rrelse.\nOpskrift: B3",
 						b3);
@@ -127,7 +136,6 @@ public class ObjectCreater {
 		opretMellemvare("300000008", pt1, pa1, dato6);
 		opretMellemvare("300000009", pt1, pa1, dato6);
 
-		
 		Mellemvare m1 = pa1.getMellemvarer().get(0);
 
 		Service.getInstance().placerPalleMellemvarelager(pa1, pl1);
@@ -167,24 +175,48 @@ public class ObjectCreater {
 			}
 		}
 		m1.setIgangvaerendeDelbehandling(d2);
-		
+
 		Palle pa3 = Service.getInstance().opretPalle("00011");
 		Service.getInstance().placerPalleMellemvarelager(pa3, pl4);
-		Behandling kortBehandling = Service.getInstance().opretBehandling("Ritas ultrakorte behandling");
-		Delbehandling kortDelbehandling = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"), -1);
-		Delbehandling kortDelbehandling2 = Service.getInstance().opretDragering("Ultrakort dragering", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"),-1);
-		Delbehandling kortDelbehandling3 = Service.getInstance().opretToerring("Ultrakort t¿rring", kortBehandling, Validering.varighedStringTilMillisekunder("00-00:01"), Validering.varighedStringTilMillisekunder("00-00:02"), Validering.varighedStringTilMillisekunder("00-00:03"),-1);
-		Produkttype hurtigProdukttype = Service.getInstance().opretProdukttype("Hurtige bolsjer", "De her bolsjer er BARE hurtige at lave!", kortBehandling);
+		Behandling kortBehandling = Service.getInstance().opretBehandling(
+				"Ritas ultrakorte behandling");
+		Delbehandling kortDelbehandling = Service.getInstance().opretToerring(
+				"Ultrakort t¿rring", kortBehandling,
+				Validering.varighedStringTilMillisekunder("00-00:01"),
+				Validering.varighedStringTilMillisekunder("00-00:02"),
+				Validering.varighedStringTilMillisekunder("00-00:03"), -1);
+		Delbehandling kortDelbehandling2 = Service.getInstance()
+				.opretDragering("Ultrakort dragering", kortBehandling,
+						Validering.varighedStringTilMillisekunder("00-00:01"),
+						-1);
+		Delbehandling kortDelbehandling3 = Service.getInstance().opretToerring(
+				"Ultrakort t¿rring", kortBehandling,
+				Validering.varighedStringTilMillisekunder("00-00:01"),
+				Validering.varighedStringTilMillisekunder("00-00:02"),
+				Validering.varighedStringTilMillisekunder("00-00:03"), -1);
+		Produkttype hurtigProdukttype = Service.getInstance().opretProdukttype(
+				"Hurtige bolsjer", "De her bolsjer er BARE hurtige at lave!",
+				kortBehandling);
 		GregorianCalendar cal = new GregorianCalendar();
 		cal.setTimeInMillis(System.currentTimeMillis() - 60000);
-		
-		Mellemvare m3 = new Mellemvare("21312", hurtigProdukttype, pa3, cal); //<---Kan ikke kaldes gennem Service, da varianter hvor tidspunkt kan s¾ttes i konstruktoren.
+
+		Mellemvare m3 = new Mellemvare("21312", hurtigProdukttype, pa3, cal); // <---Kan
+																				// ikke
+																				// kaldes
+																				// gennem
+																				// Service,
+																				// da
+																				// varianter
+																				// hvor
+																				// tidspunkt
+																				// kan
+																				// s¾ttes
+																				// i
+																				// konstruktoren.
 		pa3.addMellemvare(m3);
 		dao.gemMellemvare(m3);
-//		 placerPalleMellemvarelager(pa1, mPlads1);
+		// placerPalleMellemvarelager(pa1, mPlads1);
 	}
-	
-
 
 	/**
 	 * Benyttes af createSomeObjects()
@@ -200,7 +232,7 @@ public class ObjectCreater {
 		palle.addMellemvare(m);
 		this.dao.gemMellemvare(m);
 	}
-	
+
 	/**
 	 * Udskriver alle mellemlagerPladser, der er gemt i databasen
 	 */
@@ -210,6 +242,5 @@ public class ObjectCreater {
 			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
 		}
 	}
-
 
 }

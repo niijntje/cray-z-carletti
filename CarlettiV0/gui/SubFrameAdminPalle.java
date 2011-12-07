@@ -85,7 +85,8 @@ public class SubFrameAdminPalle extends JFrame {
 		btnOpret.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String stregkode = txtstregkodeOpret.getText();
-				if (stregkode != null && Service.getInstance().soegPalle(stregkode)==null) {
+				if (stregkode != null
+						&& Service.getInstance().soegPalle(stregkode) == null) {
 					Service.getInstance().opretPalle(stregkode);
 					list.setListData(Service.getInstance().getPaller()
 							.toArray());
@@ -93,63 +94,132 @@ public class SubFrameAdminPalle extends JFrame {
 
 			}
 		});
-		
+
 		JLabel lblSletPalle = new JLabel("Slet palle");
-		
-		JLabel lblMarkrEnPalle = new JLabel("Mark\u00E9r en palle og v\u00E6lg slet");
+
+		JLabel lblMarkrEnPalle = new JLabel(
+				"Mark\u00E9r en palle og v\u00E6lg slet");
 		lblMarkrEnPalle.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblPaller)
-						.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 159, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(lblOpretNyPalle)
-						.addComponent(lblIndtastStregkodeOg)
-						.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-							.addComponent(btnOpret)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblSletPalle)
-								.addGroup(gl_contentPane.createSequentialGroup()
-									.addComponent(lblStregkodeOpret)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtstregkodeOpret, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-								.addComponent(lblMarkrEnPalle))
-							.addComponent(btnSlet)))
-					.addGap(136))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(lblPaller)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblOpretNyPalle)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblIndtastStregkodeOg)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblStregkodeOpret)
-								.addComponent(txtstregkodeOpret, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnOpret)
-							.addPreferredGap(ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
-							.addComponent(lblSletPalle)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(lblMarkrEnPalle)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnSlet)
-							.addGap(39))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 249, Short.MAX_VALUE)
-							.addContainerGap())))
-		);
+		gl_contentPane
+				.setHorizontalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(lblPaller)
+														.addComponent(
+																scrollPane,
+																GroupLayout.PREFERRED_SIZE,
+																159,
+																GroupLayout.PREFERRED_SIZE))
+										.addGap(18)
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addComponent(
+																lblOpretNyPalle)
+														.addComponent(
+																lblIndtastStregkodeOg)
+														.addGroup(
+																gl_contentPane
+																		.createParallelGroup(
+																				Alignment.TRAILING)
+																		.addComponent(
+																				btnOpret)
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.LEADING)
+																						.addComponent(
+																								lblSletPalle)
+																						.addGroup(
+																								gl_contentPane
+																										.createSequentialGroup()
+																										.addComponent(
+																												lblStregkodeOpret)
+																										.addPreferredGap(
+																												ComponentPlacement.RELATED)
+																										.addComponent(
+																												txtstregkodeOpret,
+																												GroupLayout.PREFERRED_SIZE,
+																												GroupLayout.DEFAULT_SIZE,
+																												GroupLayout.PREFERRED_SIZE))
+																						.addComponent(
+																								lblMarkrEnPalle))
+																		.addComponent(
+																				btnSlet)))
+										.addGap(136)));
+		gl_contentPane
+				.setVerticalGroup(gl_contentPane
+						.createParallelGroup(Alignment.LEADING)
+						.addGroup(
+								gl_contentPane
+										.createSequentialGroup()
+										.addContainerGap()
+										.addComponent(lblPaller)
+										.addPreferredGap(
+												ComponentPlacement.RELATED)
+										.addGroup(
+												gl_contentPane
+														.createParallelGroup(
+																Alignment.LEADING)
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				lblOpretNyPalle)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				lblIndtastStregkodeOg)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addGroup(
+																				gl_contentPane
+																						.createParallelGroup(
+																								Alignment.BASELINE)
+																						.addComponent(
+																								lblStregkodeOpret)
+																						.addComponent(
+																								txtstregkodeOpret,
+																								GroupLayout.PREFERRED_SIZE,
+																								GroupLayout.DEFAULT_SIZE,
+																								GroupLayout.PREFERRED_SIZE))
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				btnOpret)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED,
+																				40,
+																				Short.MAX_VALUE)
+																		.addComponent(
+																				lblSletPalle)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				lblMarkrEnPalle)
+																		.addPreferredGap(
+																				ComponentPlacement.RELATED)
+																		.addComponent(
+																				btnSlet)
+																		.addGap(39))
+														.addGroup(
+																gl_contentPane
+																		.createSequentialGroup()
+																		.addComponent(
+																				scrollPane,
+																				GroupLayout.DEFAULT_SIZE,
+																				249,
+																				Short.MAX_VALUE)
+																		.addContainerGap()))));
 
 		list = new JList();
 		list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -157,14 +227,15 @@ public class SubFrameAdminPalle extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 		list.setListData(Service.getInstance().getPaller().toArray());
 	}
-	
-	public static SubFrameAdminPalle getInstance(){
-		if(adminPalle == null){
+
+	public static SubFrameAdminPalle getInstance() {
+		if (adminPalle == null) {
 			adminPalle = new SubFrameAdminPalle();
 		}
 		return adminPalle;
 	}
-	public void setPalleStregkodeTekst(String stregkode){
+
+	public void setPalleStregkodeTekst(String stregkode) {
 		this.txtstregkodeOpret.setText(stregkode);
 	}
 }

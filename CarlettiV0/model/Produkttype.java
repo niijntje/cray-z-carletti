@@ -21,9 +21,10 @@ public class Produkttype {
 	@ManyToOne
 	private Behandling behandling;
 
-	public Produkttype(){
-		
+	public Produkttype() {
+
 	}
+
 	public Produkttype(String navn, String beskrivelse, Behandling behandling) {
 
 		this.navn = navn;

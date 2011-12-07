@@ -24,7 +24,7 @@ import javax.swing.event.ListSelectionListener;
 import model.MellemlagerPlads;
 import service.Service;
 
-public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
+public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject {
 
 	private JPanel contentPane;
 	private JTextField txtstregkode;
@@ -33,7 +33,7 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 	private static SubFrameAdminMellemlagerPlads adminMellemlagerPlads;
 	private ArrayList<Observer> observers;
 	private MainFrame mainFrame;
-	
+
 	private SubFrameAdminMellemlagerPlads(MainFrame mainFrame) {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 400, 300);
@@ -87,8 +87,9 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 		JButton btnSlet = new JButton("Slet");
 		btnSlet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MellemlagerPlads plads = (MellemlagerPlads) list.getSelectedValue();
-				if (plads != null &&plads.getPalle() == null) {
+				MellemlagerPlads plads = (MellemlagerPlads) list
+						.getSelectedValue();
+				if (plads != null && plads.getPalle() == null) {
 					Service.getInstance().removeMellemlagerPlads(
 							(MellemlagerPlads) list.getSelectedValue());
 					list.setListData(Service.getInstance().getPladser()
@@ -249,9 +250,9 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 		scrollPane.setViewportView(list);
 		contentPane.setLayout(gl_contentPane);
 	}
-	
-	public static SubFrameAdminMellemlagerPlads getInstance(MainFrame mainFrame){
-		if(adminMellemlagerPlads == null){
+
+	public static SubFrameAdminMellemlagerPlads getInstance(MainFrame mainFrame) {
+		if (adminMellemlagerPlads == null) {
 			adminMellemlagerPlads = new SubFrameAdminMellemlagerPlads(mainFrame);
 		}
 		return adminMellemlagerPlads;
@@ -260,20 +261,20 @@ public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject{
 	@Override
 	public void registerObserver(Observer o) {
 		observers.add(o);
-		
+
 	}
 
 	@Override
 	public void removeObserver(Observer o) {
 		observers.remove(o);
-		
+
 	}
 
 	@Override
 	public void notifyObservers() {
-		for (Observer o : observers){
+		for (Observer o : observers) {
 			o.update();
 		}
-		
+
 	}
 }

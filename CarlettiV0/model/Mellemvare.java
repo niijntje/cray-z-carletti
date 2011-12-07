@@ -49,14 +49,15 @@ public class Mellemvare {
 	}
 
 	/**
-	 * @param testMode the testMode to set
+	 * @param testMode
+	 *            the testMode to set
 	 */
 	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
 	}
-	
-	public Mellemvare(){
-		
+
+	public Mellemvare() {
+
 	}
 
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
@@ -64,7 +65,8 @@ public class Mellemvare {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
+				.getDelbehandling(0);
 		this.status = MellemvareStatus.UNDERBEHANDLING;
 		addNuvaerendeTidspunkt();
 		setPalle(palle);
@@ -83,10 +85,11 @@ public class Mellemvare {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling().getDelbehandling(0);
+		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
+				.getDelbehandling(0);
 		this.status = MellemvareStatus.UNDERBEHANDLING;
 		setPalle(palle);
-		
+
 		addTidspunkt(starttid);
 		this.setTestMode(true);
 	}
@@ -172,8 +175,8 @@ public class Mellemvare {
 	}
 
 	public long[] getResterendeTider() {
-		long [] tider = new long[0];
-		if (this.getStatus() == MellemvareStatus.UNDERBEHANDLING){
+		long[] tider = new long[0];
+		if (this.getStatus() == MellemvareStatus.UNDERBEHANDLING) {
 			tider = this.getIgangvaerendeDelbehandling().getResterendeTider(
 					getTidspunkter().get(tidspunkter.size() - 1));
 		}
@@ -220,19 +223,22 @@ public class Mellemvare {
 	 *            behandlingens delbehandlingsliste.
 	 * @return
 	 */
-	public boolean naesteDelbehandlingGyldig(DelbehandlingsType potentielNaesteDelbehandlingsType) {
+	public boolean naesteDelbehandlingGyldig(
+			DelbehandlingsType potentielNaesteDelbehandlingsType) {
 		boolean gyldig = false;
 		if (igangvaerendeDelbehandling != null) {
-			gyldig = igangvaerendeDelbehandling.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
+			gyldig = igangvaerendeDelbehandling
+					.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
 		}
-		if (!isTestMode()){
+		if (!isTestMode()) {
 			gyldig = gyldig && indenforTilladtBehandlingstid();
 		}
 		return gyldig;
 	}
 
 	private boolean indenforTilladtBehandlingstid() {
-		return igangvaerendeDelbehandling.indenforTilladtBehandlingstid(getSidsteStarttid());
+		return igangvaerendeDelbehandling
+				.indenforTilladtBehandlingstid(getSidsteStarttid());
 	}
 
 	private GregorianCalendar getSidsteStarttid() {

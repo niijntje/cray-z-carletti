@@ -42,11 +42,11 @@ public class MellemlagerPlads {
 	}
 
 	void placerPalleUD(Palle palle) throws RuntimeException {
-			this.palle = palle;
+		this.palle = palle;
 	}
 
 	public void placerPalle(Palle palle) {
-		if (this.palle.getPlacering()!=null){
+		if (this.palle.getPlacering() != null) {
 			this.palle.getPlacering().placerPalleUD(null);
 		}
 		this.placerPalleUD(palle);
