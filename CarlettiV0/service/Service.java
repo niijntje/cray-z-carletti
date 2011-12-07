@@ -581,15 +581,28 @@ public class Service {
 	 * 
 	 * @param palle
 	 * @return
+	 * @author Rita Holst Jacobsen
 	 */
 	public String getStregkode(Palle palle) {
 		return palle.getStregkode();
 	}
-
+	
+	/**
+	 * 
+	 * @param mellemvare
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public String getStregkode(Mellemvare mellemvare) {
 		return mellemvare.getBakkestregkode();
 	}
 
+	/**
+	 * 
+	 * @param mellemlagerPlads
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
 		return mellemlagerPlads.getStregkode();
 	}
@@ -971,6 +984,7 @@ public class Service {
 	 * 
 	 * @param m
 	 * @return
+	 * @author Rita Holst Jacobsen
 	 */
 	public String getMellemvareInfo(Mellemvare m) {
 		String infoString = "";
@@ -1012,17 +1026,34 @@ public class Service {
 	 * @deprecated Use
 	 *             {@link #naesteDelbehandlingGyldig(Mellemvare,DelbehandlingsType)}
 	 *             instead
+	 * @author Rita Holst Jacobsen
 	 */
 	public boolean naesteBehandlingGyldig(Mellemvare m,
 			DelbehandlingsType naesteDelbehandlingsType) {
 		return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
 	}
 
+	/**
+	 * 
+	 * @param m
+	 * @param naesteDelbehandlingsType
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean naesteDelbehandlingGyldig(Mellemvare m,
 			DelbehandlingsType naesteDelbehandlingsType) {
 		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
+	/**
+	 * 
+	 * @param palle
+	 * @param produkttype
+	 * @param delbehandling
+	 * @param naesteDelbehandlingsType
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean naesteDelbehandlingGyldig(Palle palle,
 			Produkttype produkttype, Delbehandling delbehandling,
 			DelbehandlingsType naesteDelbehandlingsType) {
@@ -1030,20 +1061,43 @@ public class Service {
 				naesteDelbehandlingsType);
 	}
 
+	/**
+	 * 
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public String getPallePlaceringsString(Palle palle) {
 		return palle.getPlaceringsString();
 	}
 
+	/**
+	 * 
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean getPalleIkkeIBrug(Palle palle) {
 		return (palle.getPlacering() == null
 				&& palle.getDrageringshal() == null && palle.getMellemvarer()
 				.size() == 0);
 	}
 
+	/**
+	 * 
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public MellemlagerPlads getMellemlagerPlads(Palle palle) {
 		return palle.getPlacering();
 	}
 
+	/**
+	 * 
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean isTestMode() {
 		return testMode;
 	}
@@ -1053,6 +1107,7 @@ public class Service {
 	 * gyldige/ugyldige uafh¾ngigt af om evt. tidsfrister er overholdt
 	 * 
 	 * @param testMode
+	 * @author Rita Holst Jacobsen
 	 */
 	public void setTestMode(boolean testMode) {
 		this.testMode = testMode;
