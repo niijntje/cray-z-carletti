@@ -17,13 +17,10 @@ import model.Produkttype;
 
 /**
  * 
- * @author Cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
-/**
- * @author cederdorff
- *
- */
+
 public class JpaDao implements DAO {
 	private static JpaDao dao;
 	private EntityManagerFactory emf = Persistence
