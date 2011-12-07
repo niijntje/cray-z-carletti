@@ -317,7 +317,12 @@ public class MainFrame extends JFrame implements Observer, Subject {
 
 		// -----------------------------------------------//
 	}
-
+	
+	/**
+	 * 	 * Singleton - metode der returnerer MainFrame og sikrer, at der kun
+	 * bliver oprettet en instants af klassen
+	 * @return
+	 */
 	public static MainFrame getInstance() {
 		if (mainFrame == null) {
 			mainFrame = new MainFrame();
