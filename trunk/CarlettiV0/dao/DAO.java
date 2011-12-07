@@ -137,7 +137,7 @@ public interface DAO {
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode);
 
 	/**
-	 * S¿ger efter en given 
+	 * S¿ger efter given MellemlagerPlads
 	 * @param stregkode
 	 * @return
 	 * @author Mads Dahl Jensen
