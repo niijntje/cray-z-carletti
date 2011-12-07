@@ -10,7 +10,8 @@ import model.Produkttype;
 
 /**
  * 
- * @author Rasmus Cederdorff
+ * @author Mads Dahl Jensen: de to soeg-metoder
+ * @author Rasmus Cederdorff: Resten
  * 
  */
 public interface DAO {
@@ -131,6 +132,7 @@ public interface DAO {
 	 * S¿ger efter en given MellemlagerPlads og tager en
 	 * @param stregkode
 	 * @return Mellemvare
+	 * @author Mads Dahl Jensen
 	 */
 	public MellemlagerPlads soegMellemlagerPlads(String stregkode);
 
@@ -138,6 +140,7 @@ public interface DAO {
 	 * S¿ger efter en given 
 	 * @param stregkode
 	 * @return
+	 * @author Mads Dahl Jensen
 	 */
 	public Palle soegPalle(String stregkode);
 

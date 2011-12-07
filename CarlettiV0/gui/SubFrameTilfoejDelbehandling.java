@@ -28,7 +28,7 @@ import service.Validering;
 
 /**
  * 
- * @author cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public class SubFrameTilfoejDelbehandling extends JFrame implements Subject {
