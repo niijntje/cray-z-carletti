@@ -31,7 +31,7 @@ import java.awt.Color;
 
 /**
  * 
- * @author cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public class SubFrameAdminPalle extends JFrame {

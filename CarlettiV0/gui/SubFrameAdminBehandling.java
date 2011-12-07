@@ -23,7 +23,11 @@ import javax.swing.event.ListSelectionListener;
 import model.Behandling;
 import model.Delbehandling;
 import service.Service;
-
+/**
+ * 
+ * @author Rasmus Cederdorff
+ *
+ */
 public class SubFrameAdminBehandling extends JFrame implements Observer,
 		Subject {
 

@@ -27,6 +27,12 @@ import model.Palle;
 import model.Produkttype;
 import service.Service;
 
+/**
+ * 
+ * @author Mads Dahl Jensen: Drageringshal oversigten, 
+ * Rasmus Cederdorff: Oversigterne - faerdigvarelager, kasserede varer og paller
+ * Rita Holst Jacobsen: dialog-funktionalitet
+ */
 public class FrameOversigter extends JFrame implements Observer, Subject {
 
 	private JPanel contentPane;
@@ -480,6 +486,14 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 
 	}
 
+	/**
+	 * Singleton - metode der returnerer FrameOversigter og sikrer, at der kun
+	 * bliver oprettet en instants af klassen
+	 * 
+	 * @param mainFrame
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public static FrameOversigter getInstance(MainFrame mainFrame) {
 		if (frameOversigter == null) {
 			frameOversigter = new FrameOversigter(mainFrame);
@@ -502,6 +516,11 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		return tabbedPane;
 	}
 
+	/**
+	 * 
+	 * @param oprindeligPalle
+	 * @return
+	 */
 	private Palle askForPalle(Palle oprindeligPalle) {
 		Palle nyPalle = null;
 		if (!Service.getInstance().alleVarerErEns(oprindeligPalle)) {
@@ -516,6 +535,12 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		return nyPalle;
 	}
 
+	/**
+	 * Kontrollerer om pallen har en placering. Hvis dette ikke er tilf¾ldet bedes der i en dialog om en ny placering. 
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
 	private MellemlagerPlads askForPlacering(Palle palle) {
 		MellemlagerPlads nyMellemlagerPlads = Service.getInstance()
 				.getMellemlagerPlads(palle);

@@ -23,7 +23,11 @@ import javax.swing.event.ListSelectionListener;
 
 import model.MellemlagerPlads;
 import service.Service;
-
+/**
+ * 
+ * @author Rasmus Cederdorff
+ *
+ */
 public class SubFrameAdminMellemlagerPlads extends JFrame implements Subject {
 
 	private JPanel contentPane;
