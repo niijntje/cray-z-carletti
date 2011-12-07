@@ -19,7 +19,7 @@ public class CreateDatabase {
 					"jdbc:jtds:sqlserver://10.211.55.3/master", "sa", "01");
 
 			Statement stmt = myConnection.createStatement();
-			stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem");
+//			stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem");
 			stmt.executeUpdate("CREATE DATABASE CarlettiLageringssytem");
 
 			System.out.println("Database recreated!");
