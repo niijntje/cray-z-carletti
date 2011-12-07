@@ -30,8 +30,8 @@ import service.Service;
 /**
  * 
  * @author Mads Dahl Jensen: Drageringshal oversigten, 
- * Rasmus Cederdorff: Oversigterne - faerdigvarelager, kasserede varer og paller
- * Rita Holst Jacobsen: dialog-funktionalitet
+ * @author Rasmus Cederdorff: Oversigterne - faerdigvarelager, kasserede varer og paller
+ * @author Rita Holst Jacobsen: dialog-funktionalitet
  */
 public class FrameOversigter extends JFrame implements Observer, Subject {
 
