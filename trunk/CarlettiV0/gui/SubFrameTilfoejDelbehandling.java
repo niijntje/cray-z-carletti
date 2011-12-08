@@ -1,3 +1,6 @@
+/**
+ * SUBFRAMETILFOEJDELBEHANDLING
+ */
 package gui;
 
 import java.awt.Color;
@@ -27,6 +30,7 @@ import service.Service;
 import service.Validering;
 
 /**
+ * Til administration af behandlinger - tilf¿jelse af delbehandling
  * 
  * @author Rasmus Cederdorff
  * 

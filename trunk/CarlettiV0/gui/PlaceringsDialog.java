@@ -1,5 +1,5 @@
 /**
- * 
+ * PLACERINGSDIALOG
  */
 package gui;
 
@@ -37,6 +37,13 @@ public class PlaceringsDialog extends JDialog {
 	private JTextArea txtrForklaring;
 	private JButton btnOpretNy;
 
+	/**
+	 * Benyttes af andre gui-klasser, når der er behov for at brugeren vælger en ny placering på mellemvarelageret
+	 * 
+	 * @author Rita Holst Jacobsen
+	 * 
+	 */
+	
 	public PlaceringsDialog(JFrame owner, String title, String forklaring) {
 		super(owner);
 		getContentPane().setBackground(Color.PINK);

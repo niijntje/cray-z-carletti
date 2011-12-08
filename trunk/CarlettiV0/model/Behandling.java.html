@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="mac-roman"?>
+<!DOCTYPE html
+     PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+<title>/Users/nijntje/Kode/Eclipse/workspace/CarlettiV1/model/Behandling.java</title>
+<style type="text/css">
+body.default {
+    font-family: Monaco;
+    color: #000000;
+    background-color: #ffffff;
+    font-size: 18.0px;
+    font-weight: normal;
+    font-style: normal;
+}
+span.commentdockeyworderror {
+    color: #0000dd;
+}
+span.bracebad {
+    color: #c86464;
+    font-weight: bold;
+}
+span.stdin {
+}
+span.verbatim {
+}
+span.stdout {
+}
+span.operators {
+    color: #781f87;
+}
+span.keywords2 {
+    color: #871f78;
+}
+span.linenumbers {
+    color: #555555;
+}
+span.UUIDs {
+}
+span.keywords {
+    color: #871f78;
+}
+span.commentdockeyword {
+}
+span.regex {
+    color: #c86400;
+}
+span.preprocessor {
+    color: #696969;
+}
+span.stringeol {
+}
+span.default {
+}
+span.identifiers {
+}
+span.indent_guides {
+    color: #808080;
+}
+span.comments {
+    color: #696969;
+    font-style: italic;
+}
+span.globalclass {
+    color: #008b8b;
+}
+span.bracehighlight {
+    color: #c86464;
+    font-weight: bold;
+}
+span.stderr {
+    color: #0000ff;
+    font-style: italic;
+}
+span.strings {
+    color: #23238e;
+}
+span.control_characters {
+}
+span.numbers {
+    color: #8b0000;
+}
+
+</style>
+</head>
+<body class="default"><p>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">/**
+</span><br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*/</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">package</span><span class="default">&nbsp;</span><span class="identifiers">model</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">java</span><span class="operators">.</span><span class="identifiers">util</span><span class="operators">.</span><span class="identifiers">ArrayList</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">java</span><span class="operators">.</span><span class="identifiers">util</span><span class="operators">.</span><span class="identifiers">List</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">javax</span><span class="operators">.</span><span class="identifiers">persistence</span><span class="operators">.</span><span class="identifiers">CascadeType</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">javax</span><span class="operators">.</span><span class="identifiers">persistence</span><span class="operators">.</span><span class="identifiers">Entity</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">javax</span><span class="operators">.</span><span class="identifiers">persistence</span><span class="operators">.</span><span class="identifiers">Id</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;12&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">javax</span><span class="operators">.</span><span class="identifiers">persistence</span><span class="operators">.</span><span class="identifiers">JoinColumn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">import</span><span class="default">&nbsp;</span><span class="identifiers">javax</span><span class="operators">.</span><span class="identifiers">persistence</span><span class="operators">.</span><span class="identifiers">OneToMany</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">/**
+</span><br /><span class="linenumbers">&nbsp;&nbsp;16&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;Denne&nbsp;klasse&nbsp;ses&nbsp;som&nbsp;mellemvarens&nbsp;opskrift&nbsp;og&nbsp;indeholder&nbsp;beskrivelser&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;17&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;af&nbsp;mellemvaren&nbsp;samt&nbsp;hvilke&nbsp;delbehandlinger&nbsp;mellemvaren&nbsp;skal&nbsp;igennem.&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;18&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;19&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;</span><span class="comments">@author</span><span class="comments">&nbsp;nijntje
+</span><br /><span class="linenumbers">&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;21&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;*/</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;22&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">@Entity</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;23&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="keywords">class</span><span class="default">&nbsp;</span><span class="identifiers">Behandling</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;24&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">@Id</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;25&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">private</span><span class="default">&nbsp;</span><span class="identifiers">String</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;26&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">@OneToMany</span><span class="operators">(</span><span class="identifiers">cascade</span><span class="default">&nbsp;</span><span class="operators">=</span><span class="default">&nbsp;</span><span class="operators">{</span><span class="default">&nbsp;</span><span class="identifiers">CascadeType</span><span class="operators">.</span><span class="identifiers">PERSIST</span><span class="operators">,</span><span class="default">&nbsp;</span><span class="identifiers">CascadeType</span><span class="operators">.</span><span class="identifiers">REMOVE</span><span class="default">&nbsp;</span><span class="operators">})</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;27&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">private</span><span class="default">&nbsp;</span><span class="identifiers">List</span><span class="operators">&lt;</span><span class="identifiers">Delbehandling</span><span class="operators">&gt;</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;28&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;29&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">Behandling</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;30&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;31&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;32&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;33&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">Behandling</span><span class="operators">(</span><span class="identifiers">String</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;34&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">this</span><span class="operators">.</span><span class="identifiers">navn</span><span class="default">&nbsp;</span><span class="operators">=</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;35&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">this</span><span class="operators">.</span><span class="identifiers">delbehandlinger</span><span class="default">&nbsp;</span><span class="operators">=</span><span class="default">&nbsp;</span><span class="keywords">new</span><span class="default">&nbsp;</span><span class="identifiers">ArrayList</span><span class="operators">&lt;</span><span class="identifiers">Delbehandling</span><span class="operators">&gt;();</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;36&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;37&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;38&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">/**
+</span><br /><span class="linenumbers">&nbsp;&nbsp;39&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@param</span><span class="comments">&nbsp;navn
+</span><br /><span class="linenumbers">&nbsp;&nbsp;41&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@param</span><span class="comments">&nbsp;index&nbsp;Hvis&nbsp;index&nbsp;==&nbsp;-1,&nbsp;skal&nbsp;delbehandlingen&nbsp;blot&nbsp;tilføjes&nbsp;sidst&nbsp;i
+</span><br /><span class="linenumbers">&nbsp;&nbsp;42&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;listen.
+</span><br /><span class="linenumbers">&nbsp;&nbsp;43&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@return</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;44&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;45&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">Delbehandling</span><span class="default">&nbsp;</span><span class="identifiers">addDelbehandling</span><span class="operators">(</span><span class="identifiers">Delbehandling</span><span class="default">&nbsp;</span><span class="identifiers">nyDelbehandling</span><span class="operators">,</span><span class="keywords">int</span><span class="default">&nbsp;</span><span class="identifiers">index</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="keywords">throws</span><span class="default">&nbsp;</span><span class="identifiers">IndexOutOfBoundsException</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;46&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;47&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">index</span><span class="default">&nbsp;</span><span class="operators">==</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="numbers">1</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;48&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">size</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">&gt;</span><span class="default">&nbsp;</span><span class="numbers">0</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;49&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">size</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">)</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">.</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span><span class="identifiers">nyDelbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;51&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;52&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">add</span><span class="operators">(</span><span class="identifiers">nyDelbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;53&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span><span class="default">&nbsp;</span><span class="keywords">else</span><span class="default">&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">index</span><span class="default">&nbsp;</span><span class="operators">&lt;=</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">size</span><span class="operators">())</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;54&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">index</span><span class="default">&nbsp;</span><span class="operators">&gt;</span><span class="default">&nbsp;</span><span class="numbers">0</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;55&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">index</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">).</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;56&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">nyDelbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;57&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;58&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">index</span><span class="default">&nbsp;</span><span class="operators">&lt;</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">size</span><span class="operators">())</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;59&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">nyDelbehandling</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;60&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">.</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">index</span><span class="operators">));</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;61&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;62&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">add</span><span class="operators">(</span><span class="identifiers">index</span><span class="operators">,</span><span class="default">&nbsp;</span><span class="identifiers">nyDelbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;63&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;64&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">return</span><span class="default">&nbsp;</span><span class="identifiers">nyDelbehandling</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;65&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;66&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;67&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">/**
+</span><br /><span class="linenumbers">&nbsp;&nbsp;68&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@param</span><span class="comments">&nbsp;delbehandling
+</span><br /><span class="linenumbers">&nbsp;&nbsp;69&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="keywords">void</span><span class="default">&nbsp;</span><span class="identifiers">removeDelbehandling</span><span class="operators">(</span><span class="identifiers">Delbehandling</span><span class="default">&nbsp;</span><span class="identifiers">delbehandling</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;71&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">int</span><span class="default">&nbsp;</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">=</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">indexOf</span><span class="operators">(</span><span class="identifiers">delbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;72&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">&gt;</span><span class="default">&nbsp;</span><span class="numbers">0</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;73&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">if</span><span class="default">&nbsp;</span><span class="operators">(</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">&lt;</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">size</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;74&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">).</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;75&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">+</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">));</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;76&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span><span class="default">&nbsp;</span><span class="keywords">else</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;77&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">indexOf</span><span class="default">&nbsp;</span><span class="operators">-</span><span class="default">&nbsp;</span><span class="numbers">1</span><span class="operators">).</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span><span class="keywords">null</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;78&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;79&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandling</span><span class="operators">.</span><span class="identifiers">setNextDelbehandling</span><span class="operators">(</span><span class="keywords">null</span><span class="operators">);</span><span class="default">&nbsp;
+</span><br /><span class="linenumbers">&nbsp;&nbsp;81&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandling</span><span class="operators">.</span><span class="identifiers">setBehandling</span><span class="operators">(</span><span class="keywords">null</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;82&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">remove</span><span class="operators">(</span><span class="identifiers">delbehandling</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;83&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;84&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;85&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;86&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">/**
+</span><br /><span class="linenumbers">&nbsp;&nbsp;87&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@param</span><span class="comments">&nbsp;index
+</span><br /><span class="linenumbers">&nbsp;&nbsp;88&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Krav:&nbsp;index&nbsp;&gt;=&nbsp;0&nbsp;og&nbsp;index&nbsp;&lt;&nbsp;delbehandlinger.size()
+</span><br /><span class="linenumbers">&nbsp;&nbsp;89&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*&nbsp;</span><span class="comments">@return</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;90&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="comments">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;91&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">Delbehandling</span><span class="default">&nbsp;</span><span class="identifiers">getDelbehandling</span><span class="operators">(</span><span class="keywords">int</span><span class="default">&nbsp;</span><span class="identifiers">index</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;92&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">return</span><span class="default">&nbsp;</span><span class="keywords">this</span><span class="operators">.</span><span class="identifiers">delbehandlinger</span><span class="operators">.</span><span class="identifiers">get</span><span class="operators">(</span><span class="identifiers">index</span><span class="operators">);</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;93&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;94&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;95&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">List</span><span class="operators">&lt;</span><span class="identifiers">Delbehandling</span><span class="operators">&gt;</span><span class="default">&nbsp;</span><span class="identifiers">getDelbehandlinger</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;96&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">return</span><span class="default">&nbsp;</span><span class="identifiers">delbehandlinger</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;97&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;98&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;&nbsp;99&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;100&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">String</span><span class="default">&nbsp;</span><span class="identifiers">getNavn</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;101&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">return</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;102&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;103&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;104&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="keywords">void</span><span class="default">&nbsp;</span><span class="identifiers">setNavn</span><span class="operators">(</span><span class="identifiers">String</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">)</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;105&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">this</span><span class="operators">.</span><span class="identifiers">navn</span><span class="default">&nbsp;</span><span class="operators">=</span><span class="default">&nbsp;</span><span class="identifiers">navn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;106&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;107&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;108&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="identifiers">@Override</span>
+<br /><span class="linenumbers">&nbsp;109&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">public</span><span class="default">&nbsp;</span><span class="identifiers">String</span><span class="default">&nbsp;</span><span class="identifiers">toString</span><span class="operators">()</span><span class="default">&nbsp;</span><span class="operators">{</span>
+<br /><span class="linenumbers">&nbsp;110&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="keywords">return</span><span class="default">&nbsp;</span><span class="keywords">this</span><span class="operators">.</span><span class="identifiers">navn</span><span class="operators">;</span>
+<br /><span class="linenumbers">&nbsp;111&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="default">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+<br /><span class="linenumbers">&nbsp;112&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<br /><span class="linenumbers">&nbsp;113&nbsp;&nbsp;&nbsp;&nbsp;</span><span class="operators">}</span>
+</p></body></html>

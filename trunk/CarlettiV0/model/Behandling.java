@@ -1,5 +1,5 @@
 /**
- * 
+ * BEHANDLING
  */
 package model;
 
@@ -13,9 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
 /**
- * v.0.3
+ * Denne klasse ses som mellemvarens opskrift og indeholder beskrivelser 
+ * af mellemvaren samt hvilke delbehandlinger mellemvaren skal igennem. 
  * 
- * @author nijntje
+ * @author Rita Holst Jacobsen
+ * @author Rasmus Cederdorff: JPA
  * 
  */
 @Entity
@@ -29,29 +31,29 @@ public class Behandling {
 
 	}
 
+	/**
+	 * @param navn
+	 */
 	public Behandling(String navn) {
 		this.navn = navn;
 		this.delbehandlinger = new ArrayList<Delbehandling>();
 	}
 
-	/**
-	 * 
-	 * @param navn
-	 * @param index
-	 *            Hvis index == -1, skal delbehandlingen blot tilf¿jes sidst i
-	 *            listen.
+	/** Tilf¿jer nyDelbehandling til listen og opdaterer linket nextDelbehandling fra
+	 * den foregŒende delbehandling, sŒ det i stedet peger pŒ nyDelbehandling
+	 * @param nyDelbehandling
+	 * @param index Hvis index == -1, skal delbehandlingen blot tilf¿jes sidst i listen.
 	 * @return
 	 */
-	public Delbehandling addDelbehandling(Delbehandling nyDelbehandling,
-			int index) throws IndexOutOfBoundsException {
+	public Delbehandling addDelbehandling(Delbehandling nyDelbehandling,int index) throws IndexOutOfBoundsException {
 
 		if (index == -1) {
 			if (delbehandlinger.size() > 0) {
-				delbehandlinger.get(delbehandlinger.size() - 1)
-						.setNextDelbehandling(nyDelbehandling);
+				delbehandlinger.get(delbehandlinger.size() - 1).setNextDelbehandling(nyDelbehandling);
 			}
 			delbehandlinger.add(nyDelbehandling);
-		} else if (index <= delbehandlinger.size()) {
+		}
+		else if (index <= delbehandlinger.size()) {
 			if (index > 0) {
 				delbehandlinger.get(index - 1).setNextDelbehandling(
 						nyDelbehandling);
@@ -65,7 +67,8 @@ public class Behandling {
 		return nyDelbehandling;
 	}
 
-	/**
+	/**Fjerner delbehandling fra listen og opdaterer linket nextDelbehandling 
+	 * fra den foregŒende delbehandling, sŒ det i stedet peger pŒ den efterf¿lgende
 	 * @param delbehandling
 	 */
 	public void removeDelbehandling(Delbehandling delbehandling) {
@@ -78,18 +81,14 @@ public class Behandling {
 				delbehandlinger.get(indexOf - 1).setNextDelbehandling(null);
 			}
 		}
-		delbehandling.setNextDelbehandling(null); // Er det n¿dvendigt at fjerne
-													// denne reference, hvis jeg
-													// ikke kommer til at bruge
-													// delbehandlingen igen?
-		delbehandling.setBehandling(null); // Og hvad med denne?
+		delbehandling.setNextDelbehandling(null); 
+		delbehandling.setBehandling(null);
 		delbehandlinger.remove(delbehandling);
-
 	}
 
 	/**
-	 * @param index
-	 *            Krav: index >= 0 og index < delbehandlinger.size()
+	 * @param index 
+	 * Krav: index >= 0 og index < delbehandlinger.size()
 	 * @return
 	 */
 	public Delbehandling getDelbehandling(int index) {

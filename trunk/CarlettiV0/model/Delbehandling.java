@@ -1,5 +1,5 @@
 /**
- * 
+ * DELBEHANDLING
  */
 package model;
 
@@ -14,18 +14,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 /**
- * v.0.3
+ * Denne klasse repr¾senterer et trin i en behandling/opskrift, der kan tilh¿re Žn
+ * af en r¾kke foruddefinerede delbehandlingstyper defineret af den implementerende
+ * klasse og attributten DelbehandlingsType
  * 
- * @author nijntje
+ * @author Rita Holst Jacobsen
+ * @author Rasmus Cederdorff: JPA
  * 
  */
 
 @Entity
 public abstract class Delbehandling {
-	/**
-	 * @author nijntje
-	 * 
-	 */
+
 	public enum DelbehandlingsType {
 		DRAGERING, TOERRING
 	}
@@ -44,8 +44,12 @@ public abstract class Delbehandling {
 		// Constructor uden parameter - JPA
 	}
 
-	public Delbehandling(String navn, Behandling behandling,
-			DelbehandlingsType delbehandlingsType) {
+	/**
+	 * @param navn
+	 * @param behandling
+	 * @param delbehandlingsType fx TOERRING, DRAGERING
+	 */
+	public Delbehandling(String navn, Behandling behandling, DelbehandlingsType delbehandlingsType) {
 		this.delbehandlingstype = delbehandlingsType;
 		this.setNavn(navn);
 		this.behandling = behandling;
@@ -93,25 +97,27 @@ public abstract class Delbehandling {
 	/**
 	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes
 	 * exception)
-	 * @return resterende tider for hhv. minTid, idealTid og maxTid. Er tiden
-	 * passeret, returneres tiden 0, modsat i
-	 * getResterendeTidTilNaeste(), hvor der returneres en negativ tid,
-	 * hvis maxTid er overskredet.
+	 * @return Resterende tider i millisekunder for hver af de tidsfrister, den implementerende
+	 * klasse har defineret. Er tiden passeret, returneres tiden 0, modsat i getResterendeTidTilNaeste(), 
+	 * hvor der returneres en negativ tid, hvis maxTid er overskredet.
+	 * @throws RuntimeException
 	 */
-	public abstract long[] getResterendeTider(GregorianCalendar startTid)
-			throws RuntimeException;
+	public abstract long[] getResterendeTider(GregorianCalendar startTid) throws RuntimeException;
 
 	/**
 	 * @param startTid Krav: startTid < System.currentTimeMillis() (Ellers kastes
 	 * exception)
-	 * @return resterende tid. Hvis negativ er tiden overskredet. Alt efter
-	 * typen af delbehandling kan det betyde at varen skal kasseres
-	 * eller at den er f¾rdigbehandlet.
+	 * @return resterende tid i millisekunder. Hvis negativ er tiden overskredet. Alt efter typen af 
+	 * delbehandling kan det betyde at varen skal kasseres eller at den er f¾rdigbehandlet.
 	 * @throws RuntimeException
 	 */
 	public abstract long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException;
 
+	/**
+	 * @param potentielNaesteDelbehandlingsType. Hvis null: Returnerer om nextDelbehandling er null
+	 * @return Om nextDelbehandling er af typen potentielNaesteDelbehandlingsType
+	 */
 	public boolean naesteDelbehandlingGyldig(
 			DelbehandlingsType potentielNaesteDelbehandlingsType) {
 		if (potentielNaesteDelbehandlingsType == null) {
@@ -125,6 +131,11 @@ public abstract class Delbehandling {
 		}
 	}
 
+	/**
+	 * @param startTid Starttid for den konkrete delbehandling, der sp¿rges til
+	 * @return Om varigheden af en delbehandling startet pŒ det angivne tidspunkt ligger indenfor det 
+	 * tilladte tidsrum iflg. den implementerede klasses definition af dette
+	 */
 	public abstract boolean indenforTilladtBehandlingstid(
 			GregorianCalendar startTid);
 
@@ -133,6 +144,9 @@ public abstract class Delbehandling {
 		return getNavn();
 	}
 
+	/** Benyttes af gui
+	 * @return
+	 */
 	public abstract String toStringLong();
 
 }

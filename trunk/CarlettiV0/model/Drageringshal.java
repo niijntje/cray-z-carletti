@@ -1,5 +1,5 @@
 /**
- * 
+ * DRAGERINGSHAL
  */
 package model;
 
@@ -13,9 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
 /**
- * v.0.3
+ * Denne klasse repræsenterer mellemvarernes/pallernes fysiske placering, når de ikke er placeret
+ * på mellemvarelageret.
  * 
- * @author Mads Dahl Jensen
+ * @author Rasmus Cederdorff: JPA + Singleton
+ * @Mads Dahl Jensen: Resten
  * 
  */
 @Entity

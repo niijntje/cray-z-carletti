@@ -7,7 +7,7 @@
         <class className="model.Mellemvare" project="CarlettiV0" xLocation="1729" yLocation="1516"/>
         <class className="model.Palle" project="CarlettiV0" xLocation="100" yLocation="1284"/>
         <class className="model.Delbehandling" project="CarlettiV0" xLocation="2917" yLocation="1458"/>
-        <class className="model.Varighed" project="CarlettiV0" xLocation="2183" yLocation="2228"/>
+        <class className="service.Varighed" project="CarlettiV0" xLocation="2183" yLocation="2228"/>
         <class className="model.Produkttype" project="CarlettiV0" xLocation="1858" yLocation="1078"/>
         <class className="model.MellemlagerPlads" project="CarlettiV0" xLocation="704" yLocation="1976"/>
         <class className="model.Behandling" project="CarlettiV0" xLocation="2583" yLocation="1079"/>
