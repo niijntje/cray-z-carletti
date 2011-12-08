@@ -1,3 +1,6 @@
+/**
+ * SUBFRAMEADMINPALLE
+ */
 package gui;
 
 import java.awt.BorderLayout;
@@ -31,7 +34,11 @@ import java.awt.Color;
 
 /**
  * 
+<<<<<<< .mine
+ * @author Rasmus cederdorff
+=======
  * @author Rasmus Cederdorff
+>>>>>>> .r201
  * 
  */
 public class SubFrameAdminPalle extends JFrame {
