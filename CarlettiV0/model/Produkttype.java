@@ -1,5 +1,5 @@
 /**
- * 
+ * PRODUKTTYPE
  */
 package model;
 
@@ -8,11 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 /**
- * v.0.3
+ * Klassen repræsenterer den produkttype, en mellemvare er af, og udgør således bindeleddet mellem mellemvare
+ * og behandling/delbehandlinger. Til en produkttype er knyttet én behandling, der til gengæld godt kan være 
+ * tilknyttet flere produkttyper.
  * 
- * @author nijntje
- * 
+ * @author Rasmus Cederdorff
  */
+
 @Entity
 public class Produkttype {
 	@Id
@@ -26,7 +28,6 @@ public class Produkttype {
 	}
 
 	public Produkttype(String navn, String beskrivelse, Behandling behandling) {
-
 		this.navn = navn;
 		this.beskrivelse = beskrivelse;
 		this.behandling = behandling;

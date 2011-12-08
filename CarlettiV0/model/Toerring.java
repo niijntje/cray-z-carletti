@@ -1,5 +1,5 @@
 /**
- * 
+ * TOERRING
  */
 package model;
 
@@ -7,12 +7,17 @@ import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
 
+import service.Varighed;
+
 /**
- * v.0.3
+ * Denne klasse implementerer den abstrakte klasse Delbehandling og repræsenterer et trin i
+ * en behandling/opskrift, hvor mellemvaren tørres på mellemvarelageret.
  * 
- * @author nijntje
+ * @author Rita Holst Jacobsen
+ * @author Rasmus Cederdorff: JPA
  * 
  */
+
 @Entity
 public class Toerring extends Delbehandling {
 	private long minVarighed;
@@ -62,6 +67,11 @@ public class Toerring extends Delbehandling {
 		this.maxVarighed = maxVarighed;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#getResterendeTider(java.util.GregorianCalendar)
+	 * Returnerer et long[] af længden 3, svarende til den resterende tid til tidsfristerne
+	 * min-tid, ideal-tid og max-tid for den igangværende tørring.
+	 */
 	@Override
 	public long[] getResterendeTider(GregorianCalendar startTid)
 			throws RuntimeException {
@@ -92,6 +102,13 @@ public class Toerring extends Delbehandling {
 		return tider;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#getResterendeTidTilNaeste(java.util.GregorianCalendar)
+	 * Returnerer den resterende tid i millisekunder for hhv. minTid, idealTid og maxTid.
+	 * Er tidsfristen overskredet, returneres 0 - dog ikke hvis max-tid er overskredet - da
+	 * returneres et negativt antal millisekunder svarende til den tid der er gået siden
+	 * tidsfristen blev overskredet.
+	 */
 	@Override
 	public long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException {
@@ -122,6 +139,11 @@ public class Toerring extends Delbehandling {
 				+ Varighed.getVarighedDagTimeSekundFormateret(maxVarighed);
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#indenforTilladtBehandlingstid(java.util.GregorianCalendar)
+	 * For en tørring er den tilladte behandlingstid defineret som tidsrummet efter min-tid
+	 * er gået, men før max-tid er gået.
+	 */
 	@Override
 	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
 		long[] restTider = this.getResterendeTider(startTid);

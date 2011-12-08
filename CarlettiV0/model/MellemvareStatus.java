@@ -1,10 +1,10 @@
 /**
- * 
+ * MELLEMVARESTATUS
  */
 package model;
 
 /**
- * @author cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public enum MellemvareStatus {

@@ -1,5 +1,5 @@
 /**
- * 
+ * DRAGERING
  */
 package model;
 
@@ -7,12 +7,17 @@ import java.util.GregorianCalendar;
 
 import javax.persistence.Entity;
 
+import service.Varighed;
+
 /**
- * v.0.3
+ * Denne klasse implementerer den abstrakte klasse Delbehandling og repræsenterer et trin i
+ * en behandling/opskrift, hvor mellemvaren drageres.
  * 
- * @author nijntje
+ * @author Rita Holst Jacobsen
+ * @author Rasmus Cederdorff: JPA
  * 
  */
+
 @Entity
 public class Dragering extends Delbehandling {
 	private long varighed;
@@ -38,6 +43,11 @@ public class Dragering extends Delbehandling {
 		this.varighed = varighed;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#getResterendeTider(java.util.GregorianCalendar)
+	 * Returnerer et long[] af længden 1, svarende til varigheden af den dragering,
+	 * der repræsenteres minus den tid der er gået siden startTid.
+	 */
 	@Override
 	public long[] getResterendeTider(GregorianCalendar startTid)
 			throws RuntimeException {
@@ -56,6 +66,11 @@ public class Dragering extends Delbehandling {
 		return tid;
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#getResterendeTidTilNaeste(java.util.GregorianCalendar)
+	 * Da der kun findes én varighed/tidsfrist af en dragering, returneres altid et positivt
+	 * antal millisekunder før varigheden er gået og et negativt efter.
+	 */
 	@Override
 	public long getResterendeTidTilNaeste(GregorianCalendar startTid)
 			throws RuntimeException {
@@ -70,10 +85,15 @@ public class Dragering extends Delbehandling {
 
 	@Override
 	public String toStringLong() {
-		return super.toString() + "\t Varighed: "
+		return super.toString()+ "\t Varighed: "
 				+ Varighed.getVarighedDagTimeSekundFormateret(varighed);
 	}
 
+	/* (non-Javadoc)
+	 * @see model.Delbehandling#indenforTilladtBehandlingstid(java.util.GregorianCalendar)
+	 * I Dragering-klassen tolkes tilladt behandlingstid som et vilkårligt tidspunkt efter
+	 * at drageringens varighed er gået.
+	 */
 	@Override
 	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
 		long tidGaaet = System.currentTimeMillis() - startTid.getTimeInMillis();

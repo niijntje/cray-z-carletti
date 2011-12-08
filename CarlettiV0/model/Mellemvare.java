@@ -1,8 +1,11 @@
+/**
+ * MELLEMVARE
+ */
 package model;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
+
 import java.util.List;
 
 import javax.persistence.CollectionTable;
@@ -18,11 +21,17 @@ import javax.persistence.TemporalType;
 import model.Delbehandling.DelbehandlingsType;
 
 /**
- * v.0.3
+ * Klassen repræsenterer den mængde mellemvarer der findes i én bakke. For hver gang der støbes 
+ * en mængde mellemvarer vil der altså blive oprettet flere objekter af Mellemvare. Systemet antager, 
+ * at det er muligt at følge hver enkelt bakkefuld hele vejen gennem behandlingsprocessen, uanset om 
+ * mellemvarerne i realiteten blandes og fordeles på en ny måde ved hver dragering (det er dog muligt 
+ * at ændre den tilknyttede bakke-stregkode).
  * 
- * @author nijntje
+ * @author Rasmus Cederdorff: JPA og hvor angivet ved metoderne
+ * @author Rita Holst Jacobsen: Hvor angivet ved metoderne
  * 
  */
+
 @Entity
 public class Mellemvare {
 	@Id
@@ -41,25 +50,22 @@ public class Mellemvare {
 	private MellemvareStatus status;
 	private boolean testMode;
 
-	/**
-	 * @return the testMode
-	 */
-	public boolean isTestMode() {
-		return testMode;
-	}
-
-	/**
-	 * @param testMode
-	 *            the testMode to set
-	 */
-	public void setTestMode(boolean testMode) {
-		this.testMode = testMode;
-	}
-
 	public Mellemvare() {
 
 	}
 
+	/**
+	 * Opretter en instans af Mellemvare og påbegynder den første delbehandling, tilføjer det 
+	 * nuværende tidspunkt til behandlingsloggen, dvs. listen tidspunkter,
+	 * sætter MellemvareStatus til "under behandling" (UNDERBEHANDLING) og knytter mellemvaren 
+	 * til den angivne palle.
+	 * 
+	 * @param bakkestregkode
+	 * @param produkttype
+	 * @param palle
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle) {
 		this.bakkestregkode = bakkestregkode;
@@ -78,34 +84,46 @@ public class Mellemvare {
 	 * @param bakkestregkode
 	 * @param produkttype
 	 * @param palle
-	 * @param starttid
+	 * @param starttid Kan sættes, da dette gør det noget lettere at teste systemet ;-)
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle, GregorianCalendar starttid) {
-		this.bakkestregkode = bakkestregkode;
-		this.produkttype = produkttype;
+		this(bakkestregkode, produkttype, palle);
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
-		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
-				.getDelbehandling(0);
-		this.status = MellemvareStatus.UNDERBEHANDLING;
-		setPalle(palle);
-
-		addTidspunkt(starttid);
+		tidspunkter.add(starttid);
 		this.setTestMode(true);
 	}
 
+	/**
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public String getBakkestregkode() {
 		return bakkestregkode;
 	}
 
+	/**
+	 * @param bakkestregkode
+	 * @author Rasmus Cederdorff
+	 */
 	public void setBakkestregkode(String bakkestregkode) {
 		this.bakkestregkode = bakkestregkode;
 	}
 
+	/**
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public ArrayList<GregorianCalendar> getTidspunkter() {
 		return new ArrayList<GregorianCalendar>(tidspunkter);
 	}
 
+	/**
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public Delbehandling getIgangvaerendeDelbehandling() {
 		return igangvaerendeDelbehandling;
 	}
@@ -118,25 +136,18 @@ public class Mellemvare {
 	 * @param dayOfMonth
 	 * @param hourOfDay
 	 * @param minute
+	 * 
+	 * @author Rasmus Cederdorff
 	 */
-	public void addTidspunkt(int year, int month, int dayOfMonth,
-			int hourOfDay, int minute) {
-		GregorianCalendar calendar = new GregorianCalendar(year, month - 1,
-				dayOfMonth, hourOfDay, minute);
+	public void addTidspunkt(int year, int month, int dayOfMonth, int hourOfDay, int minute) {
+		GregorianCalendar calendar = new GregorianCalendar(year, month - 1, dayOfMonth, hourOfDay, minute);
 		tidspunkter.add(calendar);
 	}
 
 	/**
-	 * Benyttes af Service.createSomeObjects()
-	 * 
-	 * @param gCal
-	 */
-	public void addTidspunkt(GregorianCalendar gCal) {
-		tidspunkter.add(gCal);
-	}
-
-	/**
 	 * Tilføjer systemets nuværende tidspunkt til listen tidspunkter
+	 * 
+	 * @author Rasmus Cederdorff
 	 */
 	public void addNuvaerendeTidspunkt() {
 		GregorianCalendar calendar = new GregorianCalendar();
@@ -144,24 +155,45 @@ public class Mellemvare {
 		this.tidspunkter.add(calendar);
 	}
 
+	/**
+	 * Igangsætter næste delbehandling
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
 	public void goToNextDelbehandling() {
 		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling
 				.getNextDelbehandling();
 		this.addNuvaerendeTidspunkt();
 	}
 
+	/**
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public Produkttype getProdukttype() {
 		return produkttype;
 	}
 
+	/**
+	 * @param produkttype
+	 * @author Rasmus Cederdorff
+	 */
 	public void setProdukttype(Produkttype produkttype) {
 		this.produkttype = produkttype;
 	}
 
+	/**
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
 	public Palle getPalle() {
 		return palle;
 	}
 
+	/**
+	 * @param palle
+	 * @author Rasmus Cederdorff
+	 */
 	public void setPalleUD(Palle palle) {
 		if (this.palle != null) {
 			this.palle.removeMellemvareUD(this);
@@ -169,11 +201,20 @@ public class Mellemvare {
 		this.palle = palle;
 	}
 
+	/**
+	 * @param palle
+	 * @author Rasmus Cederdorff
+	 */
 	public void setPalle(Palle palle) {
 		this.setPalleUD(palle);
 		palle.addMellemvareUD(this);
 	}
 
+	/**
+	 * @return Array med resterende tid i millisekunder til de(n) næste tidsfrist(er)
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
 	public long[] getResterendeTider() {
 		long[] tider = new long[0];
 		if (this.getStatus() == MellemvareStatus.UNDERBEHANDLING) {
@@ -183,6 +224,11 @@ public class Mellemvare {
 		return tider;
 	}
 
+	/**
+	 * @return Resterende tid i millisekunder til næste tidsfrist er nået
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
 	public long getResterendeTidTilNaeste() {
 		long tid = 0;
 		if (this.getIgangvaerendeDelbehandling() != null) {
@@ -199,13 +245,24 @@ public class Mellemvare {
 	 * delbehandlingen.
 	 * 
 	 * @param mellemvare
-	 * @return
+	 * @return Om denne Mellemvare (this) er af samme type som mellemvare
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
 	public boolean erAfSammeType(Mellemvare mellemvare) {
 		return this.erAfSammeType(mellemvare.getProdukttype(),
 				mellemvare.getIgangvaerendeDelbehandling());
 	}
 
+	/**
+	 * Returnerer om mellemvaren er af en bestemt 'type', defineret som kombinationen af mellemvarens
+	 * produkttype og igangværende delbehandling.
+	 * @param produkttype
+	 * @param delbehandling
+	 * @return
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
 	public boolean erAfSammeType(Produkttype produkttype,
 			Delbehandling delbehandling) {
 		if (produkttype == this.getProdukttype()
@@ -216,19 +273,24 @@ public class Mellemvare {
 	}
 
 	/**
+	 * Tjekker om en given delbehandlingstype er gyldig som næste delbehandling for den 
+	 * pågældende mellemvare, samt om behandlingstiden for den igangværende delbehandling
+	 * ligger indenfor den tilladte behandlingstid defineret af Delbehandling.
 	 * @param delbehandling
 	 *            . Hvis null, skal den igangværende delbehandling være den
 	 *            sidste i behandlingens delbehandlingsliste. Ellers skal
 	 *            delbehandling være af samme klasse som den næste i
 	 *            behandlingens delbehandlingsliste.
-	 * @return
+	 * @return Om nextDelbehandling er af den angivne delbehandlingstype, samt om 
+	 * indenforTilladtBehandlingstid() returnerer true.
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
 	public boolean naesteDelbehandlingGyldig(
 			DelbehandlingsType potentielNaesteDelbehandlingsType) {
 		boolean gyldig = false;
 		if (igangvaerendeDelbehandling != null) {
-			gyldig = igangvaerendeDelbehandling
-					.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
+			gyldig = igangvaerendeDelbehandling.naesteDelbehandlingGyldig(potentielNaesteDelbehandlingsType);
 		}
 		if (!isTestMode()) {
 			gyldig = gyldig && indenforTilladtBehandlingstid();
@@ -236,11 +298,24 @@ public class Mellemvare {
 		return gyldig;
 	}
 
+	/**
+	 * @return Om behandlingstiden har varet længe nok/ikke for længe, og altså dermed om mellemvaren
+	 * er klar til at blive plukket.
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
 	private boolean indenforTilladtBehandlingstid() {
-		return igangvaerendeDelbehandling
-				.indenforTilladtBehandlingstid(getSidsteStarttid());
+		return igangvaerendeDelbehandling.indenforTilladtBehandlingstid(getSidsteStarttid());
 	}
 
+	/** Anvendes internt i klassen af metoderne getResterendeTidTilNaeste() og
+	 * indenforTilladtBehandlingstid
+	 * 
+	 * @return Det seneste tidspunkt i tidspunkter - dvs. det tidspunkt, den igangværende
+	 * delbehandling påbegyndtes.
+	 * 
+ 	 * @author Rita Holst Jacobsen
+	 */
 	private GregorianCalendar getSidsteStarttid() {
 		return getTidspunkter().get(tidspunkter.size() - 1);
 	}
@@ -251,28 +326,66 @@ public class Mellemvare {
 	}
 
 	/**
-	 * Benyttes af ObjectCreater.createSomeObjects()
+	 * Benyttes bl.a. af ObjectCreater.createSomeObjects()
 	 * 
 	 * @param nextDelbehandling
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
 	public void setIgangvaerendeDelbehandling(Delbehandling nyDelbehandling) {
 		this.igangvaerendeDelbehandling = nyDelbehandling;
-
 	}
 
 	/**
 	 * @return the status
+	 * @author Rasmus Cederdorff
 	 */
 	public MellemvareStatus getStatus() {
 		return status;
 	}
 
 	/**
-	 * @param status
-	 *            the status to set
+	 * @param status the status to set
+	 * @author Rasmus Cederdorff
 	 */
 	public void setStatus(MellemvareStatus status) {
 		this.status = status;
+	}
+	
+	/**
+	 * Testmode betyder, at naesteDelbehandlingGyldig() ikke tager højde for
+	 * om tidsfristen er overholdt, men udelukkende kigger på om den foreslåede
+	 * delbehandling er af den rigtige type.
+	 * 
+	 * @return the testMode
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
+	public boolean isTestMode() {
+		return testMode;
+	}
+
+	/**
+	 * Testmode betyder, at naesteDelbehandlingGyldig() ikke tager højde for
+	 * om tidsfristen er overholdt, men udelukkende kigger på om den foreslåede
+	 * delbehandling er af den rigtige type.
+	 * 
+	 * @param testMode the testMode to set
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode;
+	}
+	
+	/**
+	 * Benyttes KUN af Service.createSomeObjects()
+	 * 
+	 * @param gCal
+	 * @author Rasmus Cederdorff
+	 */
+	public void addTidspunkt(GregorianCalendar gCal) {
+		tidspunkter.add(gCal);
 	}
 
 }

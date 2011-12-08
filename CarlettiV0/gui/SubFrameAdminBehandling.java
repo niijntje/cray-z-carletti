@@ -1,3 +1,6 @@
+/**
+ * SUBFRAMEADMINBEHANDLING
+ */
 package gui;
 
 import java.awt.Color;
@@ -28,6 +31,13 @@ import service.Service;
  * @author Rasmus Cederdorff
  *
  */
+/**
+ * Til administration af behandlinger
+ * 
+ * @author Rasmus Cederdorff
+ * 
+ */
+
 public class SubFrameAdminBehandling extends JFrame implements Observer,
 		Subject {
 

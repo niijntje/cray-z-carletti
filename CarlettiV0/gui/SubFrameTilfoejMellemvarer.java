@@ -1,3 +1,6 @@
+/**
+ * SUBFRAMETILFOEJMELLEMVARER
+ */
 package gui;
 
 import java.awt.Font;
@@ -22,12 +25,12 @@ import service.Service;
 import java.awt.Color;
 
 /**
+ * Benyttes hver gang brugeren ¿nsker at registrere at nye mellemvarer er ankommet til mellemvarelageret
  * 
  * @author Rasmus Cederdorff
  * 
  */
-public class SubFrameTilfoejMellemvarer extends JFrame implements Observer,
-		Subject {
+public class SubFrameTilfoejMellemvarer extends JFrame implements Observer,Subject {
 	private MainFrame mainFrame;
 	private JTextField txtPallestregkode;
 	private JTextField txtBakkestregkode;

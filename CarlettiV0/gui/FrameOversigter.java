@@ -1,3 +1,6 @@
+/**
+ * FRAMEOVERSIGTER
+ */
 package gui;
 
 import java.awt.BorderLayout;
@@ -28,23 +31,18 @@ import model.Produkttype;
 import service.Service;
 
 /**
+ * Viser oversigter over mellemvarer, der befinder sig hhv. i drageringshallen, på færdigvarelageret eller
+ * er kasserede
  * 
  * @author Mads Dahl Jensen: Drageringshal oversigten, 
  * @author Rasmus Cederdorff: Oversigterne - faerdigvarelager, kasserede varer og paller
  * @author Rita Holst Jacobsen: dialog-funktionalitet
  */
+
+
 public class FrameOversigter extends JFrame implements Observer, Subject {
 
 	private JPanel contentPane;
-	private JTable faerdigvarer;
-	private JTable kasserede;
-	private DefaultTableModel drageringModel;
-	private DefaultTableModel faerdigvarerModel;
-	private DefaultTableModel kasseredeModel;
-	private String[] columnNames;
-	private Object[][] data;
-	private JTable paller;
-	private JPanel panelDragering;
 	private MainFrame mainFrame;
 	private JTable tableDrageringshal;
 	private JTabbedPane tabbedPane;

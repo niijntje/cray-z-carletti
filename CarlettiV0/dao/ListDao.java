@@ -1,3 +1,6 @@
+/**
+ * LISTDAO
+ */
 package dao;
 
 import java.util.ArrayList;
@@ -12,7 +15,7 @@ import model.Produkttype;
 
 /**
  * 
- * @author Cederdorff
+ * @author Rasmus Cederdorff
  * 
  */
 public class ListDao implements DAO {

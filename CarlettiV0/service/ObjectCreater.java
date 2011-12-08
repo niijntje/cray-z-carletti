@@ -1,5 +1,5 @@
 /**
- * 
+ * OBJECTCREATER
  */
 package service;
 
@@ -10,15 +10,19 @@ import dao.ListDao;
 
 import model.Behandling;
 import model.Delbehandling;
-import model.Dragering;
 import model.MellemlagerPlads;
 import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
-import model.Toerring;
 
 /**
- * @author nijntje
+ * Klassen generer data til brug for testkørsel af systemet og demonstration af den vigtigste funktionalitet.
+ * 
+ * Data er ikke genereret på en systematisk måde men skrevet ad hoc efterhånden som der var brug for at teste
+ * konkrete use cases, hvilket i vores øjne har gjort dem mere 'spændende' ;-)
+ * 
+ * @author Rita Holst Jacobsen
+ * @author Rasmus Cederdorff
  * 
  */
 public class ObjectCreater {
@@ -231,16 +235,6 @@ public class ObjectCreater {
 		Mellemvare m = new Mellemvare(bakkestregkode, produkttype, palle, dato);
 		palle.addMellemvare(m);
 		this.dao.gemMellemvare(m);
-	}
-
-	/**
-	 * Udskriver alle mellemlagerPladser, der er gemt i databasen
-	 */
-	public void udskrivMellemlagerPladser() {
-
-		for (int i = 0; i < dao.mellemlagerPladser().size(); i++) {
-			System.out.println(dao.mellemlagerPladser().get(i).toStringLong());
-		}
 	}
 
 }

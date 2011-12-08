@@ -1,3 +1,6 @@
+/**
+ * SUBFRAMEPLACERPALLE
+ */
 package gui;
 
 import java.awt.Font;
@@ -17,7 +20,8 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Design og Observer-Pattern: Rasmus Cederdorff, Funktionalitet: Mads
+ * @author Rasmus Cederdorff: Design og Observer-Pattern
+ * @author Mads Dahle Jensen: Funktionalitet
  * 
  */
 public class SubFramePlacerPalle extends JFrame implements Observer, Subject {

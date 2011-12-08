@@ -1,6 +1,14 @@
+/**
+ * SUBJECT
+ */
 package gui;
 /**
  * Interface til at håndtere Observer-pattern
+ * @author Rasmus Cederdorff
+ *
+ */
+/**
+ * 
  * @author Rasmus Cederdorff
  *
  */

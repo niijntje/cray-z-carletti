@@ -1,5 +1,5 @@
 /**
- * 
+ * MELLEMLAGERPLADS
  */
 package model;
 
@@ -8,11 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
 /**
- * v.0.3
  * 
  * @author Mads Dahl Jensen
+ * @author Rasmus Cederdorff: JPA
  * 
  */
+
 @Entity
 public class MellemlagerPlads {
 	@Id
@@ -58,13 +59,5 @@ public class MellemlagerPlads {
 	@Override
 	public String toString() {
 		return this.getStregkode();
-	}
-
-	public String toStringLong() {
-		String palleString = "";
-		if (this.getPalle() != null) {
-			palleString = " - " + this.getPalle().toString();
-		}
-		return this.toString() + palleString;
 	}
 }

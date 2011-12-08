@@ -1,5 +1,5 @@
 /**
- * 
+ * PALLEDIALOG
  */
 package gui;
 
@@ -20,7 +20,9 @@ import service.Service;
 import java.awt.Color;
 
 /**
- * @author nijntje
+ * Benyttes af andre gui-klasser, når der er behov for at brugeren vælger en ny palle
+ * 
+ * @author Rita Holst Jacobsen
  * 
  */
 public class PalleDialog extends JDialog {

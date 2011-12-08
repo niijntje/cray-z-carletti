@@ -1,11 +1,14 @@
+/**
+ * SERVICE
+ */
 package service;
 
 import gui.MainFrame;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+
 import model.Behandling;
 import model.Delbehandling;
 import model.Delbehandling.DelbehandlingsType;
@@ -13,31 +16,41 @@ import model.Dragering;
 import model.Drageringshal;
 import model.MellemlagerPlads;
 import model.Mellemvare;
-import model.MellemvareStatus;
 import model.Palle;
 import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
-import dao.JpaDao;
 import dao.ListDao;
 
 /**
+ * Klassen strukturerer al information, der skal vises af gui og delegerer operationer på model- og dao-
+ * laget nedefter. 
  * 
- * @author Rita Holst Jacobsen: hvor det er angivet
  * @author Rasmus Cederdorff: Singleton og hvor det er angivet
- *
+ * @author Rita Holst Jacobsen: hvor det er angivet
+ * 
  */
+
 public class Service {
 	private static Service uniqueInstance;
-	private DAO dao = ListDao.getListDao();
-	// private DAO dao = JpaDao.getDao();
+	private DAO dao = ListDao.getListDao();	//<-- Udkommenter den version af dao,
+	// private DAO dao = JpaDao.getDao();		//<-- der ikke skal benyttes.
 
 	private boolean testMode;
 
+	/**
+	 * @author Rasmus Cederdorff 
+	 */
 	private Service() {
 		this.setTestMode(false);
 	}
 
+	/**
+	 * Singleton
+	 * @return En unik instans af Service.
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
 	public static Service getInstance() {
 		if (uniqueInstance == null) {
 			uniqueInstance = new Service();
@@ -45,164 +58,41 @@ public class Service {
 		return uniqueInstance;
 	}
 
-	/**
-	 * Opretter en ny palle og gemmer den i databasen
-	 * 
-	 * @param stregkode
-	 * @author Rasmus Cederdorff
-	 */
-	public Palle opretPalle(String stregkode) {
-		Palle p = new Palle(stregkode);
-		dao.gemPalle(p);
-		return p;
+	public boolean isTestMode() {
+		return testMode;
 	}
 
 	/**
-	 * Opretter og returnerer mellemvare
+	 * Testmode vil sige, at handlinger på mellemvarer betragtes som
+	 * gyldige/ugyldige uafhængigt af om evt. tidsfrister er overholdt
 	 * 
-	 * @param bakkestregkode
-	 * @param produkttype
-	 * @param palle
-	 * @return
-	 * @author Rasmus Cederdorff
+	 * @param testMode
+	 * 
+	 * @author Rita Holst Jacobsen
 	 */
-	public Mellemvare opretMellemvare(String bakkestregkode,
-			Produkttype produkttype, Palle palle) {
-		Mellemvare m = new Mellemvare(bakkestregkode, produkttype, palle);
-		palle.addMellemvare(m);
-		dao.gemMellemvare(m);
-		if (this.isTestMode()) {
-			m.setTestMode(true);
+	public void setTestMode(boolean testMode) {
+		this.testMode = testMode;
+		for (Mellemvare m : dao.mellemvarer()) {
+			m.setTestMode(testMode);
 		}
-		return m;
 	}
 
-	/**
-	 * Opretter ny produkttype
-	 * 
-	 * @param navn
-	 * @param beskrivelse
-	 * @param behandling
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public Produkttype opretProdukttype(String navn, String beskrivelse,
-			Behandling behandling) {
-		Produkttype p = new Produkttype(navn, beskrivelse, behandling);
-		dao.gemProdukttype(p);
-		return p;
-	}
+	/*----------Centrale operationer--------------*/
 
 	/**
-	 * Opretter ny behandling
+	 * Igangsætter næste delbehandling for en eller alle varer på en given palle, hvis de opfylder
+	 * betingelserne for at kunne gå videre til næste delbehandling
 	 * 
-	 * @param navn
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public Behandling opretBehandling(String navn) {
-		Behandling b = new Behandling(navn);
-		dao.gemBehandling(b);
-		return b;
-	}
-
-	/**
-	 * Tilfoejer en delbehandling til en behandling Krav: Behandling skal
-	 * eksistere i databasen
-	 * 
-	 * @param behandling
-	 * @param delbandlingNavn
-	 * @param delbandlingIndex
-	 * @author Rita Holst Jacobsen
-	 */
-	public void tilfoejDelbehandling(Behandling b,
-			Delbehandling nyDelbehandling, int delbehandlingIndex)
-					throws IndexOutOfBoundsException {
-		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
-		opdaterDatabase();
-	}
-
-	/**
-	 * Opretter ny mellemlagerPlads
-	 * 
-	 * @param stregkode
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public MellemlagerPlads opretMellemlagerPlads(String stregkode) {
-		MellemlagerPlads m = new MellemlagerPlads(stregkode);
-		dao.gemMellemlagerPlads(m);
-		return m;
-	}
-
-	/**
-	 * Opretter en ny Delbehandling af typen Toerring og tilføjer den til
-	 * Behandling b
-	 * 
-	 * @param navn
-	 * @param b
-	 * @param minTid
-	 * @param idealTid
-	 * @param maxTid
-	 * @param index
-	 *            . Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes
-	 *            sidst i listen
-	 * @return
-	 * @ Rita Holst Jacobsen
-	 */
-	public Delbehandling opretToerring(String navn, Behandling b, long minTid,
-			long idealTid, long maxTid, int index) {
-		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
-		tilfoejDelbehandling(b, d, index);
-		return d;
-	}
-	
-	/**
-	 * 
-	 * @param navn
-	 * @param b
-	 * @param varighed
-	 * @param index
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public Delbehandling opretDragering(String navn, Behandling b,
-			long varighed, int index) {
-		Delbehandling d = new Dragering(navn, b, varighed);
-		tilfoejDelbehandling(b, d, index);
-		return d;
-	}
-
-	/**
-	 * Placerer en palle på en placering i mellemvarelageret
-	 * 
+	 * @param mellemvare	Hvis null betyder det at alle varer på palle ønskes behandlet
 	 * @param palle
-	 * @param placering
-	 * @author Rasmus Cederdorff
-	 */
-	public void placerPalleMellemvarelager(Palle palle,
-			MellemlagerPlads placering) {
-		palle.placerPalle(placering);
-		opdaterDatabase();
-
-	}
-
-	/**
-	 * Returnerer true hvis alle varerne på en palle er ens
-	 * @param palle
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public boolean alleVarerErEns(Palle palle) {
-		return palle.alleVarerErEns();
-	}
-
-	/**
-	 * @param produkttype
-	 * @param delbehandling
-	 * @param palle
-	 * @param helePallen
-	 * @param alleAfSammeType
+	 * @param delbehandlingsType
+	 * @param nyPalle	Hvis mellemvare != null, skal nyPalle != null, da behandling af en delmængde som
+	 * 					udgangspunkt fører til at denne flyttes til en ny palle.
+	 * @param nyMellemlagerPlads Hvis palle, hhv. nyPalle ikke allerede er placeret på mellemvarelageret, bør
+	 * 					nyMellemlagerPlads != null, men er den null, forhindrer det ikke at mellemvarerne
+	 * 					behandles - de vil blot (i systemet) forblive på den samme palle, uanset dens 
+	 * 					fysiske placering.
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilNaesteDelbehandling(Mellemvare mellemvare, Palle palle,
@@ -219,14 +109,8 @@ public class Service {
 		if (gyldig) {
 			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(
 					mellemvare, delbehandlingsType);
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-				// pallen
-				// er
-				// behandlet,
-				// så
-				// pallen
-				// følger
-				// med
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er behandlet, så 
+				//pallen følger med
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 					sendPalleTilDragering(palle);
 				} else if (delbehandlingsType == DelbehandlingsType.TOERRING) {
@@ -253,33 +137,30 @@ public class Service {
 	}
 
 	/**
+	 *	Igangsætter næste delbehandling for en delmængde eller alle varer på en given palle, hvis de opfylder
+	 * betingelserne for at kunne gå videre til næste delbehandling
+
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param palle
 	 * @param delbehandlingsType
-	 * @param nyPalle Krav: forskellig fra null, hvis kun en delmængde af alle mellemvarer behandles
-	 * @param nyMellemlagerPlads Krav: Skal være forskellig fra null hvis delbehandlingstypen er 
-	 * Tørring og nyPalle er forskellige fra null
+	 * @param nyPalle 
+	 * 				Krav: forskellig fra null, hvis kun en delmængde af alle mellemvarer behandles
+	 * @param nyMellemlagerPlads 
+	 * 				Krav: Skal være forskellig fra null hvis delbehandlingstypen er Tørring og nyPalle 
+	 * 				er forskellige fra null
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
-	public void sendTilNaesteDelbehandling(Produkttype produkttype,
-			Delbehandling delbehandling, Palle palle,
-			DelbehandlingsType delbehandlingsType, Palle nyPalle,
-			MellemlagerPlads nyMellemlagerPlads) {
-		boolean gyldig = palle.naesteDelbehandlingGyldig(produkttype,
-				delbehandling, delbehandlingsType);
+	public void sendTilNaesteDelbehandling(Produkttype produkttype, Delbehandling delbehandling, Palle palle,
+			DelbehandlingsType delbehandlingsType, Palle nyPalle, MellemlagerPlads nyMellemlagerPlads) {
+		boolean gyldig = palle.naesteDelbehandlingGyldig(produkttype, delbehandling, delbehandlingsType);
 		if (gyldig) {
-			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(
-					produkttype, delbehandling, delbehandlingsType);
+			ArrayList<Mellemvare> behandledeVarer = palle.startDelbehandling(produkttype, delbehandling, 
+					delbehandlingsType);
 
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-				// pallen
-				// er
-				// behandlet,
-				// så
-				// pallen
-				// følger
-				// med
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er behandlet, så 
+																								//pallen følger med
 				if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 					sendPalleTilDragering(palle);
 				} else if (delbehandlingsType == DelbehandlingsType.TOERRING) {
@@ -288,32 +169,17 @@ public class Service {
 				}
 			}
 
-			else { // Kun en delmængde af varerne er blevet behandlet, så disse
-				// flyttes til en ny palle
+			else { 	// Kun en delmængde af varerne er blevet behandlet, så disse flyttes til en ny palle
 				if (nyPalle != null) {
 					for (Mellemvare m : behandledeVarer) {
 						palle.removeMellemvare(m);
 						nyPalle.addMellemvare(m);
 					}
-					if (nyMellemlagerPlads != null
-							&& delbehandlingsType == DelbehandlingsType.TOERRING) { // Hvis
-						// nyMellemlagerplads
-						// er
-						// null,
-						// antages
-						// at
-						// den
-						// nye
-						// palle
-						// allerede
-						// er
-						// placeret
-						// på
-						// mellemvarelageret
+					// Hvis nyMellemlagerplads er null, antages at den nye palle allerede er placeret på mellemvarelageret
+					if (nyMellemlagerPlads != null && delbehandlingsType == DelbehandlingsType.TOERRING) { 
 						placerPalleMellemvarelager(nyPalle, nyMellemlagerPlads);
 						nyPalle.setDrageringshal(null);
 					}
-
 					else if (delbehandlingsType == DelbehandlingsType.DRAGERING) {
 						sendPalleTilDragering(nyPalle);
 					}
@@ -323,30 +189,29 @@ public class Service {
 	}
 
 	/**
-	 * @param mellemvare
+	 * Sender en, ingen eller alle mellemvarer til færdigvarelageret og markerer deres
+	 * status som færdig. Hvis alle ønskes behandlet, sker dette kun, hvis alle varer 
+	 * på pallen er ens.
+	 * 
+	 * @param mellemvare Hvis null ønskes alle varer 'behandlet'. Ellers kun den pågældende.
 	 * @param palle
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
+
 	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
 			Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(mellemvare, null)) {
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(mellemvare);
 
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-				// pallen
-				// er
-				// blevet
-				// behandlet
-				// og
-				// flytter
-				// med
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er blevet behandlet 
+																								// og flytter med
 				palle.placerPalle(null);
 				palle.setDrageringshal(null);
-			} else if (mellemvare != null) { // Kun en delmængde = én mellemvare
-				// er blevet behandlet og denne
-				// flyttes fra pallen til en
-				// evt. ny palle
+			} else if (mellemvare != null) { // Kun en delmængde = én mellemvare er blevet behandlet og denne
+														// flyttes fra pallen til en evt. ny palle (varer på færdigvarelageret
+														// er ikke nødvendigvis tilknyttet en palle fra systemet
 				palle.removeMellemvare(mellemvare);
 				if (nyPalle != null) {
 					nyPalle.addMellemvare(mellemvare);
@@ -358,31 +223,29 @@ public class Service {
 	}
 
 	/**
+	 * Sender en eller flere mellemvarer af angivne type til færdigvarelager.
+	 * Fjerner desuden associationen mellem palle og 'behandlede' mellemvarer, hvis disse kun udgør en
+	 * delmængde af pallens mellemvarer.
+	 * 
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param palle
 	 * @param delbehandlingsType
 	 * @param nyPalle
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public void sendTilFaerdigvareLager(Produkttype produkttype,
 			Delbehandling delbehandling, Palle palle, Palle nyPalle) {
 		if (naesteDelbehandlingGyldig(palle, produkttype, delbehandling, null)) {
-
-			ArrayList<Mellemvare> behandledeVarer = palle
-					.sendTilFaerdigvareLager(produkttype, delbehandling);
-			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele
-				// pallen
-				// er
-				// blevet
-				// behandlet
-				// og
-				// flytter
-				// med
+			ArrayList<Mellemvare> behandledeVarer = palle.sendTilFaerdigvareLager(produkttype, 
+					delbehandling);
+			if (behandledeVarer.size() == palle.getMellemvarer().size()) { // Hele pallen er blevet behandlet 
+																								// og flytter med
 				palle.placerPalle(null);
 				palle.setDrageringshal(null);
 			} else { // Kun en delmængde af pallens mellemvarer er blevet
-				// behandlet og disse flyttes fra pallen
+						// behandlet og disse flyttes fra pallen
 				for (Mellemvare m : behandledeVarer) {
 					palle.removeMellemvare(m);
 					if (nyPalle != null) {
@@ -396,16 +259,19 @@ public class Service {
 	}
 
 	/**
+	 * Kasserer en eller alle mellemvarer, på en given palle uanset type
+	 * 
 	 * @param mellemvare
-	 *            Hvis null kasseres alle varer på pallen
+	 *            Hvis null: Alle mellemvarer kasseres! Ellers kasseres kun den
+	 *            angivne mellemvare.
 	 * @param palle
+	 *           
 	 * @author Rita Holst Jacobsen
 	 */
 	public void kasserMellemvarer(Mellemvare mellemvare, Palle palle) {
 		ArrayList<Mellemvare> behandledeVarer = palle
 				.kasserMellemvarer(mellemvare);
-		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin
-		// hidtidige placering
+		// Hvis alle varer på pallen kasseres, skal pallen 'frigives' fra sin hidtidige placering
 		if (behandledeVarer.size() == palle.getMellemvarer().size()) {
 			palle.placerPalle(null);
 			palle.setDrageringshal(null);
@@ -416,9 +282,13 @@ public class Service {
 	}
 
 	/**
+	 * Kasserer en eller flere mellemvarer af angivne type fra en palle. 
+	 * Fjerner desuden associationen mellem palle og 'behandlede' mellemvarer.
+	 * 
 	 * @param produkttype
 	 * @param delbehandling
 	 * @param palle
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public void kasserMellemvarer(Produkttype produkttype,
@@ -436,314 +306,119 @@ public class Service {
 		}
 	}
 
+	/*--------------------Input-validering--------------------*/
+
 	/**
-	 * Sender en palle med mellemvarer til dragering
+	 * Returnerer om en given delbehandling/sending til færdigvarelageret er tilladt for mellemvaren
 	 * 
-	 * @param palle
-	 * @author Rasmus Cederdorff
+	 * @param m
+	 * @param naesteDelbehandlingsType Hvis null: Om mellemvaren må sendes til færdigvarelager
+	 * @return
+	 * @author Rita Holst Jacobsen
 	 */
-	public void sendPalleTilDragering(Palle palle) {
-		palle.placerPalle(null);
-		palle.setDrageringshal(Drageringshal.getInstance());
-		opdaterDatabase();
+	public boolean naesteDelbehandlingGyldig(Mellemvare m, DelbehandlingsType naesteDelbehandlingsType) {
+		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
 	}
 
 	/**
-	 * Sletter en given palle fra databasen
+	 * Returnerer om en given delbehandling/sending til færdigvarelageret er tilladt for mellemvarer
+	 * på pallen af den angivne produkttype og i gang med den angivne delbehandling. Tjekker for hver
+	 * enkelt mellemvare, der opfylder udvælgelseskriteriet, om handlingen er lovlig.
 	 * 
 	 * @param palle
-	 * @author Rasmus Cederdorff
-	 */
-	public void removePalle(Palle palle) {
-		dao.removePalle(palle);
-	}
-
-	/**
-	 * Sletter en given produkttype fra databasen
-	 * 
 	 * @param produkttype
-	 * @author Rasmus Cederdorff
-	 */
-	public void removeProdukttype(Produkttype produkttype) {
-		dao.removeProdukttype(produkttype);
-	}
-
-	/**
-	 * Sletter en given plads på mellemvarelageret
-	 * 
-	 * @param mellemlagerPlads
-	 * @author Rasmus Cederdorff
-	 */
-	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerPlads) {
-		dao.removeMellemlagerPlads(mellemlagerPlads);
-	}
-
-	/**
-	 * Sletter en behandling fra databasen
-	 * 
-	 * @param behandling
-	 * @author Rasmus Cederdorff
-	 */
-	public void removeBehandling(Behandling behandling) {
-		dao.removeBehandling(behandling);
-	}
-
-	/**
-	 * Returnerer en liste med alle mellemlagerpladserne
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<MellemlagerPlads> visOversigtOverMellemvarelager() {
-		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
-	}
-
-	/**
-	 * Returnerer en liste med alle paller
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Palle> getPaller() {
-		return new ArrayList<Palle>(dao.paller());
-	}
-
-	/**
-	 * Returnerer en liste med alle mellemlagerpladser
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<MellemlagerPlads> getPladser() {
-		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
-	}
-
-	/**
-	 * Returnerer en liste med alle produkttyper
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Produkttype> getProdukttyper() {
-		return new ArrayList<Produkttype>(dao.produkttyper());
-	}
-
-	/**
-	 * Returnerer en liste med alle mellemvarer
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Mellemvare> getMellemvarer() {
-		return new ArrayList<Mellemvare>(dao.mellemvarer());
-	}
-
-	/**
-	 * Returnerer en liste med alle behandlinger
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Behandling> getBehandlinger() {
-		return new ArrayList<Behandling>(dao.behandlinger());
-	}
-
-	/**
-	 * Returnerer en liste med alle færdigvarer
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Mellemvare> getFaerdigvarer() {
-		return new ArrayList<Mellemvare>(dao.faerdigvarer());
-	}
-
-	/**
-	 * Returnerer en liste med alle kasserede varer
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Mellemvare> getKasserede() {
-		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
-	}
-
-	/**
-	 * Returnerer en liste med alle mellemvarer som er under behandling
-	 * 
-	 * @return
-	 * @author Rasmus Cederdorff
-	 */
-	public ArrayList<Mellemvare> getVarerUnderBehandling() {
-		return new ArrayList<Mellemvare>(dao.varerUnderBehandling());
-	}
-	/**
-	 * 
-	 * @param palle
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public String getStregkode(Palle palle) {
-		return palle.getStregkode();
-	}
-	
-	/**
-	 * 
-	 * @param mellemvare
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public String getStregkode(Mellemvare mellemvare) {
-		return mellemvare.getBakkestregkode();
-	}
-
-	/**
-	 * 
-	 * @param mellemlagerPlads
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
-		return mellemlagerPlads.getStregkode();
-	}
-
-	/**
-	 * 
-	 * @param palle
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
-		return palle.getMellemvarer();
-	}
-	/**
-	 * 
-	 * @param stregkode
-	 * @return
-	 * @author Mads Dahl Jensen
-	 */
-	public Palle soegPalle(String stregkode) {
-		return dao.soegPalle(stregkode);
-	}
-	
-	/**
-	 * 
-	 * @param stregkode
-	 * @return
-	 * @author Mads Dahl Jensen
-	 */
-	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
-		return dao.soegMellemlagerPlads(stregkode);
-	}
-	
-	/**
-	 * 
-	 * @param palle
-	 * @param nyStregkode
-	 * @author Rasmus Cederdorff
-	 */
-	public void redigerPalle(Palle palle, String nyStregkode) {
-		palle.setStregkode(nyStregkode);
-		opdaterDatabase();
-	}
-	/**
-	 * 
-	 * @param produkttype
-	 * @param nyBeskrivelse
-	 * @param nyBehandling
-	 * @author Rasmus Cederdorff
-	 */
-	public void redigerProdukttype(Produkttype produkttype,
-			String nyBeskrivelse, Behandling nyBehandling) {
-		produkttype.setBeskrivelse(nyBeskrivelse);
-		produkttype.setBehandling(nyBehandling);
-		opdaterDatabase();
-	}
-
-	/**
-	 * Genererer data til brug for MainFrame - Dog ikke anvendt i den endelige
-	 * version af systemet, da vi traf beslutning om at alle tre resterende
-	 * tider skulle vises
-	 * 
-	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
-	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
-	 * {@link Delbehandling}, Antal, Resterende tid
-	 * 
-	 * Hvis der er flere "varetyper" på samme Palle, udskrives en linie pr.
-	 * "varetype" (dvs. kombinationen Produkttype, Delbehandling)
-	 * 
-	 * Er der ikke tilknyttet en {@link Palle} til en givet
-	 * {@link MellemlagerPlads}, repræsenteres denne med et Object[] pData, hvor
-	 * pData[0] er den pågældende {@link MellemlagerPlads}, og pData[1]-[5] er
-	 * null. Det er så op til {@link MainFrame}-klassen at håndtere, om
-	 * oversigten skal vises med eller uden tomme pladser.
+	 * @param delbehandling
+	 * @param naesteDelbehandlingsType
+	 * @return True hvis handlingen er lovlig for samtlige mellemvarer af produkttypen der er i gang
+	 * 			med delbehandlingen
 	 * 
 	 * @author Rita Holst Jacobsen
 	 */
-	public Object[][] generateViewDataMellemlagerOversigt() {
-		// Data gemmes i første omgang i en ArrayList, da størrelsen af data
-		// afhænger af
-		// hvor mange forskellige typer mellemvarer der findes på hver enkelt
-		// palle.
+	public boolean naesteDelbehandlingGyldig(Palle palle,
+			Produkttype produkttype, Delbehandling delbehandling,
+			DelbehandlingsType naesteDelbehandlingsType) {
+		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling,
+				naesteDelbehandlingsType);
+	}
 
-		ArrayList<Object[]> listData = new ArrayList<Object[]>();
-		for (MellemlagerPlads mp : getPladser()) {
-			Object[] pladsData = new Object[6];
-			pladsData[0] = mp;
-			if (mp.getPalle() == null) { // Tom mellemlagerplads
-				listData.add(pladsData);
-			} else { // Plads med palle
-				Palle palle = mp.getPalle();
-				if (palle.getMellemvarer().size() == 0) { // Tom palle - men
-					// skal stadig
-					// vises!
-					pladsData[1] = palle;
-					listData.add(pladsData);
-				} else { // Pallen indeholder mellemvarer, og der skal vises en
-					// række pr. 'type'
-					Object[][] fullPalleData = generateViewDataPalle(palle,
-							false); // <--- false: Kun én resterende tid vises
-					for (int i = 0; i < fullPalleData.length; i++) {
-						Object[] mellemvareData = new Object[6];
-						mellemvareData[0] = mp; // Mellemlagerplads
-						mellemvareData[1] = fullPalleData[i][0]; // Palle
-						mellemvareData[2] = fullPalleData[i][1]; // Produkttype
-						mellemvareData[3] = fullPalleData[i][2]; // Delbehandling
-						mellemvareData[4] = fullPalleData[i][3]; // Antal
-						mellemvareData[5] = fullPalleData[i][5]; // Resterende
-						// tid til
-						// næste
-						// tidsfrist
-						listData.add(mellemvareData);
-					}
+	/*--------Strukturering af data til brug for gui----------*/
+
+	/**
+	 * Genererer/strukturerer data til brug for generateViewDataMellemlagerOversigt3Tider(), 
+	 * generateViewDataDrageringshal() og generateViewDataProdukttypeDelbehandlingAntalTid(),
+	 * der alle benyttes af gui.
+	 * 
+	 * @param palle For hver kombination af produkttype og delbehandling på en
+	 *            palle returneres et array med al information om mellemvarerne.
+	 * @param kunNaesteTidsfrist
+	 *            Hvis true vil søjle 5 vise resterende tid til næste tidsfrist,
+	 *            uanset om der er tale om min-, max-, ideal-tid eller
+	 *            simpelthen varighed (hvis dragering) mens søjle 4 og 6 vil
+	 *            være tomme. Hvis false vil søjle 4-5-6 vise hhv. [min-, ideal-
+	 *            og max-tid] for tørring, vise [null, varighed og null] for
+	 *            dragering, og [null, null og null] for færdige og kasserede
+	 *            varer.
+	 * @return [Palle, Produkttype, Igangværende Delbehandling, Antal,
+	 *         Resterende tid, Resterende tid, Resterende tid (se @kunNaesteTidsfrist)]
+	 *         
+	 * @author Rita Holst Jacobsen
+	 */
+	public Object[][] generateViewDataPalle(Palle palle,
+			boolean kunNaesteTidsfrist) {
+		Object[][] data;
+		if (palle != null && palle.getMellemvarer().size() > 0) {
+			HashMap<Mellemvare, Integer> mellemvareAntal = palle
+					.getMellemvareAntalMapping();
+			data = new Object[mellemvareAntal.size()][7];
+
+			int i = 0;
+			for (Mellemvare m : mellemvareAntal.keySet()) {
+				Object[] mData = new Object[7];
+				mData[0] = palle;
+				mData[1] = m.getProdukttype();
+				mData[2] = m.getIgangvaerendeDelbehandling();
+				mData[3] = mellemvareAntal.get(m);
+				mData[4] = "-";
+				mData[5] = "-";
+				mData[6] = "-";
+				long[] tider = m.getResterendeTider();
+				if (tider.length == 1) {
+					mData[5] = Validering
+							.millisekunderTilVarighedString(tider[0]);
+				} else if (tider.length == 3) {
+					mData[4] = Validering
+							.millisekunderTilVarighedString(tider[0]);
+					mData[5] = Validering
+							.millisekunderTilVarighedString(tider[1]);
+					mData[6] = Validering
+							.millisekunderTilVarighedString(tider[2]);
 				}
+				data[i] = mData;
+				i++;
 			}
-		}
-		Object[][] data = new Object[listData.size()][6];
-		int i = 0;
-		for (Object[] pladsDataArray : listData) {
-			data[i] = pladsDataArray;
-			i++;
+
+		} else {
+			data = new Object[0][7];
 		}
 		return data;
 	}
 
+	
 	/**
-	 * Genererer data til brug for MainFrame
-	 * 
-	 * Object[][] - Opsummering af mellemlagerets indhold i form af:
-	 * {@link MellemlagerPlads}, {@link Palle}, {@link Produkttype},
-	 * {@link Delbehandling}, Antal, Resterende tid til minTid, resterende tid
-	 * til idealTid, resterende tid til maxTid
+	 * Genererer/strukturerer data til brug for MainFrame
 	 * 
 	 * Hvis der er flere "varetyper" på samme Palle, udskrives en linie pr.
 	 * "varetype" (dvs. kombinationen Produkttype, Delbehandling)
 	 * 
-	 * Er der ikke tilknyttet en {@link Palle} til en givet
-	 * {@link MellemlagerPlads}, repræsenteres denne med et Object[] pData, hvor
-	 * pData[0] er den pågældende {@link MellemlagerPlads}, og pData[1]-[7] er
-	 * null. Det er så op til {@link MainFrame}-klassen at håndtere, om
-	 * oversigten skal vises med eller uden tomme pladser.
+	 * Er der ikke tilknyttet en {@link Palle} til en given {@link MellemlagerPlads}, 
+	 * repræsenteres denne med et Object[] pData, hvor pData[0] er den pågældende 
+	 * {@link MellemlagerPlads}, og pData[1]-[7] er null. 
+	 * Det er så op til {@link MainFrame}-klassen at håndtere, om oversigten skal vises med 
+	 * eller uden tomme pladser.
+	 * 
+	 * @return Object[][] - Opsummering af mellemlagerets indhold i form af: {@link MellemlagerPlads}, 
+	 * 							{@link Palle}, {@link Produkttype}, {@link Delbehandling}, Antal, 
+	 * 							Resterende tid til minTid, resterende tid til idealTid, resterende tid til maxTid
 	 * 
 	 * @author Rita Holst Jacobsen
 	 */
@@ -802,9 +477,11 @@ public class Service {
 	/**
 	 * Genererer data til visning i SubFrameDrageringshalOversigt
 	 * 
+	 * @return Object[][] - Opsummering af drageringshallens indhold i form af: Palle, Produkttype,
+	 * 							Delbehandling, Antal, Resterende tid
+	 * 
 	 * @author Rasmus Cederdorff og Rita Holst Jacobsen
 	 */
-
 	public Object[][] generateViewDataDrageringshal() {
 		// Data gemmes i første omgang i en ArrayList, da størrelsen af
 		// dataafhænger af
@@ -822,13 +499,8 @@ public class Service {
 				listData.add(palleData);
 			} else { // Pallen indeholder mellemvarer, og der skal vises en
 				// række pr. 'type'
-				Object[][] fullPalleData = generateViewDataPalle(palle, false); // <---
-				// false:
-				// Kun
-				// én
-				// resterende
-				// tid
-				// vises
+				Object[][] fullPalleData = generateViewDataPalle(palle, false); // <--- false: Kun én resterende 
+																									//tid vises
 				for (int i = 0; i < fullPalleData.length; i++) {
 					Object[] mellemvareData = new Object[5];
 					mellemvareData[0] = fullPalleData[i][0]; // Palle
@@ -861,6 +533,7 @@ public class Service {
 	 *         Produkttype, Delbehandling (igangværende), antal af denne
 	 *         kombination på pallen og resterende tid til _næste_ tidsfrist for
 	 *         samme.
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public Object[][] generateViewDataProdukttypeDelbehandlingAntalTid(
@@ -883,9 +556,14 @@ public class Service {
 		}
 		return oversigtsData;
 	}
+
 	/**
-	 * Genererer data til oversigten over kasserede varer
-	 * @return
+	 * Genererer/strukturerer data til brug for gui.FrameOversigter
+	 * 
+	 * @return Object[][] - Opsummering af kasserede varer i form af: Mellemvarens bakkestregkode, 
+	 * 							Produkttype, MellemvareStatus
+	 * 
+	 * @author Rasmus Cederdorff
 	 */
 	public Object[][] generateViewDataKasseredeVarer() {
 		ArrayList<Mellemvare> kasseredeVarer = getKasserede();
@@ -895,7 +573,6 @@ public class Service {
 				data[i][0] = kasseredeVarer.get(i).getBakkestregkode();
 				data[i][1] = kasseredeVarer.get(i).getProdukttype();
 				data[i][2] = kasseredeVarer.get(i).getStatus();
-
 			}
 		}
 
@@ -903,9 +580,11 @@ public class Service {
 	}
 
 	/**
-	 * Genererer data til oversigten over faerdigvarer
+	 * Genererer data til oversigten over faerdigvarer (gui.FrameOversigter)
 	 * 
-	 * @return
+	 * @return Object[][] - Opsummering af færdigvarelagerets indhold i form af Mellemvarens bakkestregkode, 
+	 * 							Produkttype, MellemvareStatus
+	 * 
 	 * @author Rasmus Cederdorff
 	 */
 	public Object[][] generateViewFaerdigvarer() {
@@ -922,68 +601,14 @@ public class Service {
 		return data;
 	}
 
-	/**
-	 * @param palle
-	 *            For hver kombination af produkttype og delbehandling på en
-	 *            palle returneres et array med al information om mellemvarerne.
-	 * @param kunNaesteTidsfrist
-	 *            Hvis true vil søjle 5 vise resterende tid til næste tidsfrist,
-	 *            uanset om der er tale om min-, max-, ideal-tid eller
-	 *            simpelthen varighed (hvis dragering) mens søjle 4 og 6 vil
-	 *            være tomme. Hvis false vil søjle 4-5-6 vise hhv. [min-, ideal-
-	 *            og max-tid] for tørring, vise [null, varighed og null] for
-	 *            dragering, og [null, null og null] for færdige og kasserede
-	 *            varer.
-	 * @return [Palle, Produkttype, Igangværende Delbehandling, Antal,
-	 *         Resterende tid, Resterende tid, Resterende tid (se
-	 * @kunNaesteTidsfrist)]
-	 */
-	public Object[][] generateViewDataPalle(Palle palle,
-			boolean kunNaesteTidsfrist) {
-		Object[][] data;
-		if (palle != null && palle.getMellemvarer().size() > 0) {
-			HashMap<Mellemvare, Integer> mellemvareAntal = palle
-					.getMellemvareAntalMapping();
-			data = new Object[mellemvareAntal.size()][7];
-
-			int i = 0;
-			for (Mellemvare m : mellemvareAntal.keySet()) {
-				Object[] mData = new Object[7];
-				mData[0] = palle;
-				mData[1] = m.getProdukttype();
-				mData[2] = m.getIgangvaerendeDelbehandling();
-				mData[3] = mellemvareAntal.get(m);
-				mData[4] = "-";
-				mData[5] = "-";
-				mData[6] = "-";
-				long[] tider = m.getResterendeTider();
-				if (tider.length == 1) {
-					mData[5] = Validering
-							.millisekunderTilVarighedString(tider[0]);
-				} else if (tider.length == 3) {
-					mData[4] = Validering
-							.millisekunderTilVarighedString(tider[0]);
-					mData[5] = Validering
-							.millisekunderTilVarighedString(tider[1]);
-					mData[6] = Validering
-							.millisekunderTilVarighedString(tider[2]);
-				}
-				data[i] = mData;
-				i++;
-			}
-
-		} else {
-			data = new Object[0][7];
-		}
-		return data;
-	}
 
 	/**
 	 * Benyttes af gui.SubFramePalleOversigt til at vise detaljerede
 	 * informationer om individuelle bakker på en given palle
 	 * 
-	 * @param m
-	 * @return
+	 * @param m Den aktuelle mellemvare
+	 * @return En beskrivelse af den aktuelle mellemvare
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public String getMellemvareInfo(Mellemvare m) {
@@ -1014,67 +639,336 @@ public class Service {
 		return infoString;
 	}
 
-	/**
-	 * Benyttes når databasen skal opdateres (kalder begin/commit)
-	 * @author Rasmus Cederdorff
-	 */
-	public void opdaterDatabase() {
-		dao.opdaterDatabase();
-	}
-
-	/**
-	 * @deprecated Use
-	 *             {@link #naesteDelbehandlingGyldig(Mellemvare,DelbehandlingsType)}
-	 *             instead
-	 * @author Rita Holst Jacobsen
-	 */
-	public boolean naesteBehandlingGyldig(Mellemvare m,
-			DelbehandlingsType naesteDelbehandlingsType) {
-		return naesteDelbehandlingGyldig(m, naesteDelbehandlingsType);
-	}
-
-	/**
-	 * 
-	 * @param m
-	 * @param naesteDelbehandlingsType
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public boolean naesteDelbehandlingGyldig(Mellemvare m,
-			DelbehandlingsType naesteDelbehandlingsType) {
-		return m.naesteDelbehandlingGyldig(naesteDelbehandlingsType);
-	}
-
-	/**
-	 * 
-	 * @param palle
-	 * @param produkttype
-	 * @param delbehandling
-	 * @param naesteDelbehandlingsType
-	 * @return
-	 * @author Rita Holst Jacobsen
-	 */
-	public boolean naesteDelbehandlingGyldig(Palle palle,
-			Produkttype produkttype, Delbehandling delbehandling,
-			DelbehandlingsType naesteDelbehandlingsType) {
-		return palle.naesteDelbehandlingGyldig(produkttype, delbehandling,
-				naesteDelbehandlingsType);
-	}
-
-	/**
+	/** 
+	 * Benyttes af SubFramePalleOversigt til at vise den aktuelle palles placering.
 	 * 
 	 * @param palle
 	 * @return
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public String getPallePlaceringsString(Palle palle) {
 		return palle.getPlaceringsString();
 	}
 
+	/*----------CRUD-operationer - oprettelser----------*/
+
 	/**
+	 * Opretter og returnerer en ny palle
+	 * 
+	 * @param stregkode
+	 * @return Den nyoprettede palle
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
+	public Palle opretPalle(String stregkode) {
+		Palle p = new Palle(stregkode);
+		dao.gemPalle(p);
+		return p;
+	}
+
+	/**
+	 * Opretter og returnerer en mellemvare
+	 * 
+	 * @param bakkestregkode
+	 * @param produkttype
+	 * @param palle
+	 * @return Den nyoprettede mellemvare
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
+	public Mellemvare opretMellemvare(String bakkestregkode, Produkttype produkttype, Palle palle) {
+		Mellemvare m = new Mellemvare(bakkestregkode, produkttype, palle);
+		dao.gemMellemvare(m);
+		if (this.isTestMode()) {
+			m.setTestMode(true);
+		}
+		return m;
+	}
+
+	/**
+	 * Opretter og returnerer en ny produkttype
+	 * 
+	 * @param navn
+	 * @param beskrivelse
+	 * @param behandling
+	 * @return Den nyoprettede produkttype
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
+	public Produkttype opretProdukttype(String navn, String beskrivelse, Behandling behandling) {
+		Produkttype p = new Produkttype(navn, beskrivelse, behandling);
+		dao.gemProdukttype(p);
+		return p;
+	}
+
+	/**
+	 * Opretter og returnerer en ny behandling
+	 * 
+	 * @param navn
+	 * @return Den nyoprettede behandling
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
+	public Behandling opretBehandling(String navn) {
+		Behandling b = new Behandling(navn);
+		dao.gemBehandling(b);
+		return b;
+	}
+
+	/**
+	 * Tilfoejer en delbehandling til en behandling 
+	 * 
+	 * @param behandling
+	 * Krav: behandling skal eksistere i systemet/databasen
+	 * @param delbehandlingNavn 
+	 * @param delbehandlingIndex 
+	 *            Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes sidst i listen
+	 * 
+	 * @author Rita Holst Jacobsen 
+	 */
+	public void tilfoejDelbehandling(Behandling b,
+			Delbehandling nyDelbehandling, int delbehandlingIndex)
+					throws IndexOutOfBoundsException {
+		b.addDelbehandling(nyDelbehandling, delbehandlingIndex);
+		opdaterDatabase();
+	}
+
+	/**
+	 * Opretter og returnerer en ny mellemlagerPlads
+	 * 
+	 * @param stregkode
+	 * @return Den nyoprettede mellemlagerPlads
+	 * 
+	 * @author Rasmus Cederdorff 
+	 */
+	public MellemlagerPlads opretMellemlagerPlads(String stregkode) {
+		MellemlagerPlads m = new MellemlagerPlads(stregkode);
+		dao.gemMellemlagerPlads(m);
+		return m;
+	}
+
+	/**
+	 * Opretter og returnerer en ny delbehandling af typen tørring og tilføjer den til
+	 * Behandling b
+	 * 
+	 * @param navn
+	 * @param b	Den behandling som delbehandlingen skal være en del af
+	 * @param minTid Den minimale tørretid i millisekunder
+	 * @param idealTid Den ideelle tørretid i millisekunder
+	 * @param maxTid	Den maximale tørretid i millisekunder
+	 * @param index
+	 *            Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes sidst i listen
+	 *            
+	 * @return Den nyoprettede Delbehandling af subklassen Tørring
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
+	public Delbehandling opretToerring(String navn, Behandling b, long minTid,
+			long idealTid, long maxTid, int index) {
+		Delbehandling d = new Toerring(navn, b, minTid, idealTid, maxTid);
+		tilfoejDelbehandling(b, d, index);
+		return d;
+	}
+
+	/**
+	 * Opretter og returnerer en ny delbehandling af typen dragering og tilføjer den til
+	 * Behandling b
+	 * 
+	 * @param navn
+	 * @param b	Den behandling som delbehandlingen skal være en del af
+	 * @param varighed Den tid (i millisekunder) det tager varen at blive drageret
+	 * @param index
+	 *            Placering i rækkefølgen af b's delbehandlinger. -1: tilføjes sidst i listen
+	 *            
+	 * @return Den nyoprettede Delbehandling af subklassen Dragering
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public Delbehandling opretDragering(String navn, Behandling b,
+			long varighed, int index) {
+		Delbehandling d = new Dragering(navn, b, varighed);
+		tilfoejDelbehandling(b, d, index);
+		return d;
+	}
+
+	/*----------CRUD-operationer - Read/gettere----------*/
+
+	/**
+	 * Returnerer en liste med alle mellemlagerpladserne
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<MellemlagerPlads> visOversigtOverMellemvarelager() {
+		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
+	}
+
+	/**
+	 * Returnerer en liste med alle paller
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Palle> getPaller() {
+		return new ArrayList<Palle>(dao.paller());
+	}
+
+	/**
+	 * Returnerer en liste med alle mellemlagerpladser
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<MellemlagerPlads> getPladser() {
+		return new ArrayList<MellemlagerPlads>(dao.mellemlagerPladser());
+	}
+
+	/**
+	 * Returnerer en liste med alle produkttyper
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Produkttype> getProdukttyper() {
+		return new ArrayList<Produkttype>(dao.produkttyper());
+	}
+
+	/**
+	 * Returnerer en liste med alle mellemvarer
+	 * 
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public ArrayList<Mellemvare> getMellemvarer() {
+		return new ArrayList<Mellemvare>(dao.mellemvarer());
+	}
+
+	/**
+	 * Returnerer en liste med alle behandlinger
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Behandling> getBehandlinger() {
+		return new ArrayList<Behandling>(dao.behandlinger());
+	}
+
+	/**
+	 * Returnerer en liste med alle færdigvarer
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Mellemvare> getFaerdigvarer() {
+		return new ArrayList<Mellemvare>(dao.faerdigvarer());
+	}
+
+	/**
+	 * Returnerer en liste med alle kasserede varer
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Mellemvare> getKasserede() {
+		return new ArrayList<Mellemvare>(dao.kasseredeVarer());
+	}
+
+	/**
+	 * Returnerer en liste med alle mellemvarer som er under behandling
+	 * 
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Mellemvare> getVarerUnderBehandling() {
+		return new ArrayList<Mellemvare>(dao.varerUnderBehandling());
+	}
+
+	/**
+	 * @param palle
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public String getStregkode(Palle palle) {
+		return palle.getStregkode();
+	}
+	
+	/**
+	 * @param stregkode
+	 * @return
+	 * @author Mads Dahl Jensen
+	 */
+	public Palle soegPalle(String stregkode) {
+		return dao.soegPalle(stregkode);
+	}
+
+	/**
+	 * @param mellemlagerPlads
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public String getStregkode(MellemlagerPlads mellemlagerPlads) {
+		return mellemlagerPlads.getStregkode();
+	}
+	
+	/**
+	 * @param stregkode
+	 * @return
+	 * @author Mads Dahl Jensen
+	 */
+	public MellemlagerPlads soegMellemlagerPlads(String stregkode) {
+		return dao.soegMellemlagerPlads(stregkode);
+	}
+
+	/**
+	 * @param mellemvare
+	 * @return
+	 * @author Rita Holst Jacobsen
+	 */
+	public String getStregkode(Mellemvare mellemvare) {
+		return mellemvare.getBakkestregkode();
+	}
+
+	/**
+	 * @param palle
+	 * @return
+	 * @author Rasmus Cederdorff
+	 */
+	public ArrayList<Mellemvare> getMellemvarer(Palle palle) {
+		return palle.getMellemvarer();
+	}
+
+	/**
+	 * @param palle
+	 * @return
+	 * @author
+	 */
+	public MellemlagerPlads getMellemlagerPlads(Palle palle) {
+		return palle.getPlacering();
+	}
+
+	/**
+	 * Returnerer om alle varer på pallen er ens, dvs. er af samme produkttype og i gang med samme delbehandling
+	 * 
+	 * @param palle
+	 * @return True hvis alle varer er af samme produkttype og i gang med samme delbehandling.
+	 * 
+	 * @author Rita Holst Jacobsen
+	 */
+	public boolean alleVarerErEns(Palle palle) {
+		return palle.alleVarerErEns();
+	}
+
+	/**
+	 * Benyttes af gui til at afgøre, om brugeren skal præsenteres for en dialog, der muliggør placering
+	 * på mellemvarelageret.
+	 * 
+	 * Hvis pallen hverken er tilknyttet drageringshallen, en mellemlagerPlads eller mindst 1 mellemvare,
+	 * er den pr. definition ikke i brug, og bør derfor placeres, første gang der kommer varer på den igen.
 	 * 
 	 * @param palle
 	 * @return
+	 * 
 	 * @author Rita Holst Jacobsen
 	 */
 	public boolean getPalleIkkeIBrug(Palle palle) {
@@ -1083,37 +977,117 @@ public class Service {
 				.size() == 0);
 	}
 
+	/*----------CRUD-operationer - opdateringer/settere----------*/
+
 	/**
+	 * Benyttes når databasen skal opdateres (kalder begin/commit)
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void opdaterDatabase() {
+		dao.opdaterDatabase();
+	}
+
+	/**
+	 * Placerer en palle på en placering i mellemvarelageret
 	 * 
 	 * @param palle
-	 * @return
-	 * @author Rita Holst Jacobsen
+	 * @param placering
+	 * 
+	 * author Rasmus Cederdorff
 	 */
-	public MellemlagerPlads getMellemlagerPlads(Palle palle) {
-		return palle.getPlacering();
+	public void placerPalleMellemvarelager(Palle palle,
+			MellemlagerPlads placering) {
+		palle.placerPalle(placering);
+		opdaterDatabase();
+	}
+	
+	/**
+	 * Placerer en palle med mellemvarer i drageringshallen
+	 * 
+	 * @param palle
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void sendPalleTilDragering(Palle palle) {
+		palle.placerPalle(null);
+		palle.setDrageringshal(Drageringshal.getInstance());
+		opdaterDatabase();
+	}
+
+
+	/**
+	 * @param palle
+	 * @param nyStregkode
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void redigerPalle(Palle palle, String nyStregkode) {
+		palle.setStregkode(nyStregkode);
+		opdaterDatabase();
 	}
 
 	/**
+	 * @param produkttype
+	 * @param nyBeskrivelse
+	 * @param nyBehandling
 	 * 
-	 * @return
-	 * @author Rita Holst Jacobsen
+	 * @author Rasmus Cederdorff
 	 */
-	public boolean isTestMode() {
-		return testMode;
+	public void redigerProdukttype(Produkttype produkttype,
+			String nyBeskrivelse, Behandling nyBehandling) {
+		produkttype.setBeskrivelse(nyBeskrivelse);
+		produkttype.setBehandling(nyBehandling);
+		opdaterDatabase();
+	}
+	
+	/*----------CRUD-operationer - sletninger----------*/
+	
+	/**
+	 * Sletter en given palle fra databasen
+	 * 
+	 * @param palle
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void removePalle(Palle palle) {
+		dao.removePalle(palle);
 	}
 
 	/**
-	 * Testmode vil sige, at handlinger på mellemvarer betragtes som
-	 * gyldige/ugyldige uafhængigt af om evt. tidsfrister er overholdt
+	 * Sletter en given produkttype fra databasen
 	 * 
-	 * @param testMode
-	 * @author Rita Holst Jacobsen
+	 * @param produkttype
+	 * 
+	 * @author Rasmus Cederdorff
 	 */
-	public void setTestMode(boolean testMode) {
-		this.testMode = testMode;
-		for (Mellemvare m : dao.mellemvarer()) {
-			m.setTestMode(testMode);
-		}
+	public void removeProdukttype(Produkttype produkttype) {
+		dao.removeProdukttype(produkttype);
 	}
+
+	/**
+	 * Sletter en given plads på mellemvarelageret
+	 * 
+	 * @param mellemlagerPlads
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void removeMellemlagerPlads(MellemlagerPlads mellemlagerPlads) {
+		dao.removeMellemlagerPlads(mellemlagerPlads);
+	}
+
+	/**
+	 * Sletter en behandling fra databasen
+	 * 
+	 * @param behandling
+	 * 
+	 * @author Rasmus Cederdorff
+	 */
+	public void removeBehandling(Behandling behandling) {
+		dao.removeBehandling(behandling);
+	}
+
+
+	
 
 }
