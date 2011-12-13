@@ -13,6 +13,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.Color;
 
 /**
  * @author Rita Holst Jacobsen
@@ -22,13 +23,19 @@ public class CaosFrame extends JFrame {
 	private JButton btnOpgb;
 	private Controller controller;
 	private JButton btnOpgc;
+	private JButton btnOpgd;
+	private JButton btnOpge;
+	private JButton btnOpgf;
+	private JButton btnOpgg;
 
 	public CaosFrame() {
+		getContentPane().setBackground(Color.PINK);
 		setTitle("CAOS - Opg. 2");
 		this.setSize(200, 300);
 		this.controller = new Controller();
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(Color.PINK);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -53,13 +60,15 @@ public class CaosFrame extends JFrame {
 		btnOpgc = new JButton("Opg 2c");
 		btnOpgc.addActionListener(controller);
 		
-		JButton btnOpgd = new JButton("Opg 2d");
+		btnOpgd = new JButton("Opg 2d");
 		
-		JButton btnOpge = new JButton("Opg 2e");
+		btnOpge = new JButton("Opg 2e");
 		
-		JButton btnOpgf = new JButton("Opg 2f");
+		btnOpgf = new JButton("Opg 2f");
+		btnOpgf.addActionListener(controller);
 		
-		JButton btnOpgg = new JButton("Opg 2g");
+		btnOpgg = new JButton("Opg 2g");
+		
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -115,9 +124,13 @@ public class CaosFrame extends JFrame {
 				
 			}
 			if(e.getSource() == btnOpgc){
-				Opg2c opg2c;
-				opg2c = new Opg2c();
+				Opg2c opg2c = new Opg2c();
             opg2c.setVisible(true);
+			}
+			if(e.getSource() == btnOpgf){
+				Opg2f opg2f = new Opg2f();
+				opg2f.setVisible(true);
+				
 			}
 	      
 	      
