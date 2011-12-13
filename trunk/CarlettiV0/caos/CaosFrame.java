@@ -21,6 +21,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 public class CaosFrame extends JFrame {
 	private JButton btnOpgb;
 	private Controller controller;
+	private JButton btnOpgc;
 
 	public CaosFrame() {
 		setTitle("CAOS - Opg. 2");
@@ -49,7 +50,8 @@ public class CaosFrame extends JFrame {
 		btnOpgb = new JButton("Opg 2b");
 		btnOpgb.addActionListener(controller);
 		
-		JButton btnOpgc = new JButton("Opg 2c");
+		btnOpgc = new JButton("Opg 2c");
+		btnOpgc.addActionListener(controller);
 		
 		JButton btnOpgd = new JButton("Opg 2d");
 		
@@ -111,6 +113,11 @@ public class CaosFrame extends JFrame {
 	            e1.printStackTrace();
             }
 				
+			}
+			if(e.getSource() == btnOpgc){
+				Opg2c opg2c;
+				opg2c = new Opg2c();
+            opg2c.setVisible(true);
 			}
 	      
 	      
