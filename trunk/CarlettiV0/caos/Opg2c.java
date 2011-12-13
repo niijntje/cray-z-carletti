@@ -1,29 +1,36 @@
 package caos;
 
-import java.awt.EventQueue;
+import java.awt.Color;
 import java.awt.Font;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.ListSelectionModel;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
-import java.awt.Color;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.HierarchyListener;
+import java.awt.event.HierarchyEvent;
 
 /**
  * 
@@ -35,11 +42,15 @@ public class Opg2c extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtMintrretid;
 	private JTextField txtMaxtrretid;
-	private JList list;
+	private JTable table;
+	private DefaultTableModel tableModel;
+	private Object[][] data;
+	private JLabel lblValgteMellemvare;
+	private JLabel lblvalgtmellemvare;
 
 	public Opg2c() {
 		setTitle("Samlede t\u00F8rretider");
-		setBounds(100, 100, 420, 300);
+		setBounds(100, 100, 436, 420);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.PINK);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -48,7 +59,7 @@ public class Opg2c extends JFrame {
 
 		JScrollPane scrollPane = new JScrollPane();
 
-		JLabel lblMellevarer = new JLabel("Mellevarer (bakkestrekode):");
+		JLabel lblMellevarer = new JLabel("Mellevarer");
 
 		JLabel lblSamletMintrretid = new JLabel("Samlet minT\u00F8rretid:");
 		lblSamletMintrretid.setFont(new Font("Lucida Grande", Font.BOLD, 11));
@@ -69,182 +80,139 @@ public class Opg2c extends JFrame {
 		txtMaxtrretid.setColumns(10);
 
 		JTextPane txtpnVlgEnMellemvare = new JTextPane();
-		txtpnVlgEnMellemvare.setBackground(Color.WHITE);
+		txtpnVlgEnMellemvare.setBackground(Color.PINK);
 		txtpnVlgEnMellemvare.setEditable(false);
+		txtpnVlgEnMellemvare.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 		txtpnVlgEnMellemvare
-				.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
-		txtpnVlgEnMellemvare
-				.setText("V\u00E6lg en mellemvare p\u00E5 listen for at se de samlede t\u00F8rretider, mellemvaren befinder sig p\u00E5 mellevarelageret");
+		      .setText("Klik p\u00E5 en mellemvare i tabellen for at se de samlede t\u00F8rretider, mellemvaren befinder sig p\u00E5 mellevarelageret");
+
+		lblValgteMellemvare = new JLabel("Valgte mellemvare:");
+		lblValgteMellemvare.setFont(new Font("Lucida Grande", Font.BOLD, 11));
+
+		lblvalgtmellemvare = new JLabel("");
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane
-				.setHorizontalGroup(gl_contentPane
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addComponent(
-																				scrollPane,
-																				GroupLayout.PREFERRED_SIZE,
-																				182,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addGroup(
-																				gl_contentPane
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addComponent(
-																								txtpnVlgEnMellemvare,
-																								GroupLayout.PREFERRED_SIZE,
-																								205,
-																								GroupLayout.PREFERRED_SIZE)
-																						.addGroup(
-																								gl_contentPane
-																										.createSequentialGroup()
-																										.addGap(6)
-																										.addGroup(
-																												gl_contentPane
-																														.createParallelGroup(
-																																Alignment.LEADING)
-																														.addComponent(
-																																lblSamletMintrretid)
-																														.addComponent(
-																																lblSamletMaxtrretid)
-																														.addGroup(
-																																gl_contentPane
-																																		.createSequentialGroup()
-																																		.addGap(6)
-																																		.addComponent(
-																																				txtMaxtrretid))
-																														.addGroup(
-																																gl_contentPane
-																																		.createSequentialGroup()
-																																		.addGap(6)
-																																		.addComponent(
-																																				txtMintrretid)))
-																										.addGap(73))))
-														.addComponent(
-																lblMellevarer))
-										.addGap(15)));
-		gl_contentPane
-				.setVerticalGroup(gl_contentPane
-						.createParallelGroup(Alignment.TRAILING)
-						.addGroup(
-								gl_contentPane
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(lblMellevarer)
-										.addGroup(
-												gl_contentPane
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addGap(12)
-																		.addComponent(
-																				txtpnVlgEnMellemvare,
-																				GroupLayout.PREFERRED_SIZE,
-																				51,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.UNRELATED)
-																		.addComponent(
-																				lblSamletMintrretid)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				txtMintrretid,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addGap(12)
-																		.addComponent(
-																				lblSamletMaxtrretid)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				txtMaxtrretid,
-																				GroupLayout.PREFERRED_SIZE,
-																				GroupLayout.DEFAULT_SIZE,
-																				GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																gl_contentPane
-																		.createSequentialGroup()
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				scrollPane,
-																				GroupLayout.PREFERRED_SIZE,
-																				225,
-																				GroupLayout.PREFERRED_SIZE)))
-										.addContainerGap(15, Short.MAX_VALUE)));
+		gl_contentPane.setHorizontalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(
+		      gl_contentPane
+		            .createSequentialGroup()
+		            .addContainerGap()
+		            .addGroup(
+		                  gl_contentPane
+		                        .createParallelGroup(Alignment.LEADING)
+		                        .addGroup(
+		                              gl_contentPane
+		                                    .createSequentialGroup()
+		                                    .addGroup(
+		                                          gl_contentPane
+		                                                .createParallelGroup(Alignment.LEADING)
+		                                                .addComponent(txtpnVlgEnMellemvare, GroupLayout.PREFERRED_SIZE, 205,
+		                                                      GroupLayout.PREFERRED_SIZE)
+		                                                .addGroup(
+		                                                      gl_contentPane.createSequentialGroup()
+		                                                            .addComponent(lblValgteMellemvare).addGap(18)
+		                                                            .addComponent(lblvalgtmellemvare)))
+		                                    .addGap(47)
+		                                    .addGroup(
+		                                          gl_contentPane.createParallelGroup(Alignment.LEADING)
+		                                                .addComponent(txtMaxtrretid, 120, 120, 120)
+		                                                .addComponent(lblSamletMaxtrretid)
+		                                                .addComponent(txtMintrretid, 120, 120, 120)
+		                                                .addComponent(lblSamletMintrretid))).addComponent(lblMellevarer)
+		                        .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 413, GroupLayout.PREFERRED_SIZE))
+		            .addContainerGap(7, Short.MAX_VALUE)));
+		gl_contentPane.setVerticalGroup(gl_contentPane.createParallelGroup(Alignment.LEADING).addGroup(
+		      gl_contentPane
+		            .createSequentialGroup()
+		            .addContainerGap()
+		            .addComponent(lblMellevarer)
+		            .addPreferredGap(ComponentPlacement.RELATED)
+		            .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
+		            .addGroup(
+		                  gl_contentPane
+		                        .createParallelGroup(Alignment.LEADING, false)
+		                        .addGroup(
+		                              gl_contentPane
+		                                    .createSequentialGroup()
+		                                    .addGap(18)
+		                                    .addComponent(lblSamletMintrretid)
+		                                    .addPreferredGap(ComponentPlacement.RELATED)
+		                                    .addComponent(txtMintrretid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                          GroupLayout.PREFERRED_SIZE).addPreferredGap(ComponentPlacement.RELATED)
+		                                    .addComponent(lblSamletMaxtrretid))
+		                        .addGroup(gl_contentPane.createSequentialGroup().addGap(18).addComponent(txtpnVlgEnMellemvare)))
+		            .addPreferredGap(ComponentPlacement.RELATED)
+		            .addGroup(
+		                  gl_contentPane
+		                        .createParallelGroup(Alignment.BASELINE)
+		                        .addComponent(txtMaxtrretid, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                              GroupLayout.PREFERRED_SIZE).addComponent(lblValgteMellemvare)
+		                        .addComponent(lblvalgtmellemvare)).addGap(19)));
 
-		list = new JList();
-		list.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
+		data = getAlleMellemvarer();
+		String[] columnNames = { "Bakkestregkode", "Produkttype", "Status" };
+		tableModel = new DefaultTableModel(data, columnNames);
+		table = new JTable(tableModel);
 
-				samledeVarigheder(list.getSelectedValue().toString());
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				int row = table.getSelectedRow();
+				String bakkestregkode = (String) table.getModel().getValueAt(row, 0);
+				if (bakkestregkode != null) {
+					samledeVarigheder(bakkestregkode);
+					lblvalgtmellemvare.setText(bakkestregkode);
+				}
 			}
 		});
-		scrollPane.setViewportView(list);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane.setViewportView(table);
 		contentPane.setLayout(gl_contentPane);
-		list.setListData(getAlleMellemvarer().toArray());
 	}
 
 	/**
-	 * Metoden opretter forbindelse til databasen og tr¾kker data ud -
-	 * bakkestregkode fra Mellemvare-tabellen Data returneres i en ArrayList
+	 * Metoden opretter forbindelse til databasen og tr¾kker data ud - bakkestregkode fra Mellemvare-tabellen Data returneres i en
+	 * ArrayList
 	 * 
 	 * @return
 	 */
-	public ArrayList<String> getAlleMellemvarer() {
-		ArrayList<String> listdata = new ArrayList<String>();
-		 ResultSet res = ConnectionHandler.getInstance().getSQLResult("select bakkestregkode from Mellemvare");
+	public Object[][] getAlleMellemvarer() {
+		ResultSet res = ConnectionHandler.getInstance().getSQLResult("select * from Mellemvare");
+		ArrayList<Object[]> resultArrays = new ArrayList<Object[]>();
+		Object[][] results = null;
+		try {
+			while (res.next()) {
+				Object[] resultLine = new Object[3];
+				resultLine[0] = res.getString("BAKKESTREGKODE");
+				resultLine[1] = res.getString(6);
+				resultLine[2] = res.getString(2);
+				resultArrays.add(resultLine);
 
-			try {
-	         while (res.next()) {
-	         	listdata.add(res.getString("BAKKESTREGKODE"));
-	         }
-	         
-	      	ConnectionHandler.getInstance().closeConnection();
-         }
-	
-         catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-         }
-		
-		return listdata;
+			}
+			results = new Object[resultArrays.size()][6];
+			for (int i = 0; i < resultArrays.size(); i++) {
+				results[i] = resultArrays.get(i);
+			}
+			ConnectionHandler.getInstance().closeConnection();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return results;
 	}
 
 	/**
-	 * Metoden opretter forbindelse til databasen. Samlet mint¿rretid og
-	 * maxt¿rretid beregnes pŒ den givne mellemvare tekstfelterne txtMintrrtid
-	 * og txtMaxtrretid opdateres
+	 * Metoden opretter forbindelse til databasen. Samlet mint¿rretid og maxt¿rretid beregnes pŒ den givne mellemvare tekstfelterne
+	 * txtMintrrtid og txtMaxtrretid opdateres
 	 * 
 	 * @param bakkestregkode
 	 */
 	public void samledeVarigheder(String bakkestregkode) {
 		try {
 			String sqlQuery = "select SUM(d.MINVARIGHED) as SamletMinVarighed, SUM(d.MAXVARIGHED) as SamletMaxVarighed "
-					+ "from MELLEMVARE m, PRODUKTTYPE p, BEHANDLING b, BEHANDLING_DELBEHANDLING bd, DELBEHANDLING d "
-					+ "where m.BAKKESTREGKODE = "
-					+ bakkestregkode
-					+ ""
-					+ "and m.PRODUKTTYPE_NAVN = p.NAVN "
-					+ "and p.BEHANDLING_NAVN = b.NAVN "
-					+ "and b.NAVN = bd.Behandling_NAVN "
-					+ "and bd.delbehandlinger_ID = d.ID "
-					+ "and d.DELBEHANDLINGSTYPE = 'TOERRING'";
+			      + "from MELLEMVARE m, PRODUKTTYPE p, BEHANDLING b, BEHANDLING_DELBEHANDLING bd, DELBEHANDLING d "
+			      + "where m.BAKKESTREGKODE = " + bakkestregkode + "" + "and m.PRODUKTTYPE_NAVN = p.NAVN "
+			      + "and p.BEHANDLING_NAVN = b.NAVN " + "and b.NAVN = bd.Behandling_NAVN " + "and bd.delbehandlinger_ID = d.ID "
+			      + "and d.DELBEHANDLINGSTYPE = 'TOERRING'";
 			ResultSet res = ConnectionHandler.getInstance().getSQLResult(sqlQuery);
 
 			while (res.next()) {
@@ -254,15 +222,16 @@ public class Opg2c extends JFrame {
 				txtMaxtrretid.setText(millisekunderTildato(sumMax));
 
 			}
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			System.out.println("error:  " + e.getMessage());
 		}
 
 	}
 
 	/**
-	 * Denne metode omskriver millisekunder til dage, timer og minutter
-	 * og returnerer dette. 
+	 * Denne metode omskriver millisekunder til dage, timer og minutter og returnerer dette.
+	 * 
 	 * @param tid
 	 * @return
 	 */
