@@ -18,9 +18,11 @@ public class App {
 	 */
 	public static void main(String[] args) throws SQLException {
 		
-		Opg2b opg2 = new Opg2b();
-		opg2.setVisible(true);
-				
+		CaosFrame caosFrame = new CaosFrame();
+		caosFrame.setVisible(true);
+		
+//		Opg2b opg2b = new Opg2b();
+//		opg2b.setVisible(true);
 		
 
 	}
