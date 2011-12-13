@@ -54,8 +54,8 @@ public class ConnectionHandler {
 			// connection to MSSQL
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			myConnection = DriverManager.getConnection(
-					"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
-//			"jdbc:jtds:sqlserver://10.77.44.115/master", "sa", "hemmeligtPassword");
+			"jdbc:jtds:sqlserver://10.77.44.212/master", "sa", "hemmeligtPassword");
+//			"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
 
 			Statement stmt = myConnection.createStatement();
 
