@@ -20,7 +20,7 @@ import model.Palle;
 import model.Produkttype;
 import model.Toerring;
 import dao.DAO;
-import dao.ListDao;
+import dao.JpaDao;
 
 /**
  * Klassen strukturerer al information, der skal vises af gui og delegerer operationer på model- og dao-
@@ -33,8 +33,8 @@ import dao.ListDao;
 
 public class Service {
 	private static Service uniqueInstance;
-	private DAO dao = ListDao.getListDao();	//<-- Udkommenter den version af dao,
-	// private DAO dao = JpaDao.getDao();		//<-- der ikke skal benyttes.
+//	private DAO dao = ListDao.getListDao();	//<-- Udkommenter den version af dao,
+	 private DAO dao = JpaDao.getDao();		//<-- der ikke skal benyttes.
 
 	private boolean testMode;
 

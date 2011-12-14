@@ -23,8 +23,6 @@ public class App {
 		
 //		Opg2b opg2b = new Opg2b();
 //		opg2b.setVisible(true);
-		
-
 	}
 
 }

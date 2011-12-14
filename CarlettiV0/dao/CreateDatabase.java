@@ -29,10 +29,10 @@ public class CreateDatabase {
 					"jdbc:jtds:sqlserver://10.211.55.3/master", "sa", "01");
 
 			Statement stmt = myConnection.createStatement();
-			// stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem"); //
+			 stmt.executeUpdate("DROP DATABASE CarlettiLageringssystem"); //
 			// udkommenteringen kan fjernes, hvis man ¿nsker at fjerne og
 			// oprette en ny database
-			stmt.executeUpdate("CREATE DATABASE CarlettiLageringssytem");
+			stmt.executeUpdate("CREATE DATABASE CarlettiLageringssystem");
 
 			System.out.println("Database recreated!");
 

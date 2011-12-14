@@ -1,7 +1,9 @@
+package caos;
+
 /**
  * 
  */
-package caos;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -35,8 +37,9 @@ public class ConnectionHandler {
 			// connection to MSSQL
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			myConnection = DriverManager.getConnection(
-					"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
+//					"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
 //			"jdbc:jtds:sqlserver://10.77.44.115/master", "sa", "hemmeligtPassword");
+			"jdbc:jtds:sqlserver://10.211.55.3/CarlettiLageringssystem", "sa", "01");
 
 			
 
@@ -54,7 +57,7 @@ public class ConnectionHandler {
 			// connection to MSSQL
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			myConnection = DriverManager.getConnection(
-			"jdbc:jtds:sqlserver://10.77.44.212/master", "sa", "hemmeligtPassword");
+			"jdbc:jtds:sqlserver://10.211.55.3/CarlettiLageringssystem", "sa", "01");
 //			"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
 
 			Statement stmt = myConnection.createStatement();
