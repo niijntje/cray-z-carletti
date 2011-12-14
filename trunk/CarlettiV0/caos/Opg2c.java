@@ -33,7 +33,7 @@ import java.awt.event.HierarchyListener;
 import java.awt.event.HierarchyEvent;
 
 /**
- * 
+ * Opgave 2 - Punkt c
  * @author Rasmus Cederdorff
  * 
  */
@@ -201,27 +201,30 @@ public class Opg2c extends JFrame {
 	}
 
 	/**
-	 * Metoden opretter forbindelse til databasen. Samlet mintørretid og maxtørretid beregnes på den givne mellemvare tekstfelterne
-	 * txtMintrrtid og txtMaxtrretid opdateres
-	 * 
+	 * Sætter tekstfelterne txtMintrrtid og txtMaxtrretid 
+	 * Samlet mintørretid og maxtørretid beregnes på den givne mellemvare
+	 * Metoden oprette også forbindelse til databasen og lukker den igen
 	 * @param bakkestregkode
 	 */
 	public void samledeVarigheder(String bakkestregkode) {
 		try {
-			String sqlQuery = "select SUM(d.MINVARIGHED) as SamletMinVarighed, SUM(d.MAXVARIGHED) as SamletMaxVarighed "
-			      + "from MELLEMVARE m, PRODUKTTYPE p, BEHANDLING b, BEHANDLING_DELBEHANDLING bd, DELBEHANDLING d "
-			      + "where m.BAKKESTREGKODE = " + bakkestregkode + "" + "and m.PRODUKTTYPE_NAVN = p.NAVN "
-			      + "and p.BEHANDLING_NAVN = b.NAVN " + "and b.NAVN = bd.Behandling_NAVN " + "and bd.delbehandlinger_ID = d.ID "
-			      + "and d.DELBEHANDLINGSTYPE = 'TOERRING'";
+			String sqlQuery = "select SUM(d.MINVARIGHED) as SamletMinVarighed, SUM(d.MAXVARIGHED) as SamletMaxVarighed " +
+					"from MELLEMVARE m " +
+					"inner join Produkttype p on m.PRODUKTTYPE_NAVN = p.NAVN " +
+					"inner join Behandling b on p.BEHANDLING_NAVN = b.NAVN " +
+					"inner join Behandling_Delbehandling bd on b.NAVN = bd.Behandling_NAVN " +
+					"inner join Delbehandling d on bd.delbehandlinger_ID = d.ID " +
+					"where m.BAKKESTREGKODE = " + bakkestregkode+ "" +
+					"and d.DELBEHANDLINGSTYPE = 'TOERRING';";
+			
 			ResultSet res = ConnectionHandler.getInstance().getSQLResult(sqlQuery);
-
 			while (res.next()) {
 				int sumMin = res.getInt(1);
 				int sumMax = res.getInt(2);
 				txtMintrretid.setText(millisekunderTildato(sumMin));
 				txtMaxtrretid.setText(millisekunderTildato(sumMax));
-
 			}
+			ConnectionHandler.getInstance().closeConnection();
 		}
 		catch (Exception e) {
 			System.out.println("error:  " + e.getMessage());

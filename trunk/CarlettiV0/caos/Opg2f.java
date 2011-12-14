@@ -21,7 +21,11 @@ import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
 
 import com.apple.dnssd.TXTRecord;
-
+/**
+ * Opgave 2 - Punkt f
+ * @author Rasmus Cederdorff
+ *
+ */
 public class Opg2f extends JFrame {
 
 	private JPanel contentPane;
