@@ -38,7 +38,11 @@ public class ConnectionHandler {
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			myConnection = DriverManager.getConnection(
 //					"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
+
 //			"jdbc:jtds:sqlserver://10.77.44.115/master", "sa", "hemmeligtPassword");
+//      "jdbc:jtds:sqlserver://10.77.43.184/CarlettiLageringssytem", "sa", "hemmeligtPassword");
+//          "jdbc:jtds:sqlserver://192.168.1.106/CarlettiLageringssytem", "sa", "hemmeligtPassword");
+
 			"jdbc:jtds:sqlserver://10.211.55.3/CarlettiLageringssystem", "sa", "01");
 
 			
