@@ -33,7 +33,7 @@ public class Opg2b extends JFrame {
 	private JTable table;
 	private JPanel panel;
 	private JScrollPane scrollPane;
-	private JTextArea txtrProgrammetSkalKunne;
+	private JTextArea textArea;
 
 	public Opg2b() throws SQLException {
 		this.setTitle("Mellemvarer (Opg. 2b)");
@@ -46,10 +46,13 @@ public class Opg2b extends JFrame {
 		JLabel lblMellemvarer = new JLabel("Mellemvarer");
 		lblMellemvarer.setFont(new Font("Lucida Grande", Font.PLAIN, 16));
 		
-		txtrProgrammetSkalKunne = new JTextArea();
-		txtrProgrammetSkalKunne.setEditable(false);
+		textArea = new JTextArea();
 		
-		txtrProgrammetSkalKunne.setText("Programmet skal kunne udskrive en liste over mellemvarerne p\u00E5 mellemvarelageret.\nListen skal indeholde en oplysning om hvor t\u00E6t mellemvaren er p\u00E5 at overskride \nmaksimumt\u00F8rretiden.\nListen skal endvidere v\u00E6re sorteret efter denne oplysning, s\u00E5 de varer, der er t\u00E6ttest\np\u00E5 maksimumt\u00F8rretiden kommer f\u00F8rst.\nI skal udf\u00F8re s\u00E5 meget som muligt af beregningerne i SQL.");
+		textArea.setText("Programmet skal kunne udskrive en liste over mellemvarerne paÃä mellemvarelageret.\n" +
+				"Listen skal indeholde en oplysning om hvor t√¶t mellemvaren er paÃä at overskride \nmaksimumt√∏rretiden.\n" +
+				"Listen skal endvidere v√¶re sorteret efter denne oplysning, saÃä de varer, der er t√¶ttest\n" +
+				"paÃä maksimumt√∏rretiden kommer f√∏rst.\n" +
+				"I skal udf√∏re saÃä meget som muligt af beregningerne i SQL.");
 		
 		JLabel lblOpgavea = new JLabel("Opgave 2b");
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
@@ -60,6 +63,10 @@ public class Opg2b extends JFrame {
 					.addComponent(lblOpgavea)
 					.addContainerGap(316, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(53)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(54, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(290)
 					.addComponent(lblMellemvarer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 					.addGap(303))
@@ -67,19 +74,15 @@ public class Opg2b extends JFrame {
 					.addContainerGap()
 					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
 					.addContainerGap())
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(53)
-					.addComponent(txtrProgrammetSkalKunne, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(54, Short.MAX_VALUE))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblOpgavea)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(txtrProgrammetSkalKunne, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
 					.addComponent(lblMellemvarer)
 					.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE))
@@ -115,7 +118,7 @@ public class Opg2b extends JFrame {
 	}
 	
 	public Object[][] showMellemvareData() throws SQLException{
-		String mellemvareQuery = "use CarlettiLageringssystem select M.BAKKESTREGKODE as Bakke#, M.PRODUKTTYPE_NAVN as Produkttype, D.NAVN as Delbehandling, " +
+		String mellemvareQuery = "select M.BAKKESTREGKODE as Bakke#, M.PRODUKTTYPE_NAVN as Produkttype, D.NAVN as Delbehandling, " +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))/(60*24) as days, " +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))%(60*24)/60 as hours," +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))%(60*24)%60 as minutes " +
