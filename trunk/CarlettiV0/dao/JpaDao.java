@@ -27,7 +27,7 @@ import model.Produkttype;
 public class JpaDao implements DAO {
 	private static JpaDao dao;
 	private EntityManagerFactory emf = Persistence
-			.createEntityManagerFactory("CarlettiLageringssytem");
+			.createEntityManagerFactory("CarlettiLageringssystem");
 
 	private EntityManager em = emf.createEntityManager();
 	private EntityTransaction tx = em.getTransaction();
