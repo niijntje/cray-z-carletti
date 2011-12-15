@@ -1,17 +1,13 @@
 /**
- * 
+ * CAOS - App
  */
 package caos;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import model.Mellemvare;
-
-import service.Service;
-
 /**
- * @author nijntje
+ * @author Rita Holst Jacobsen
  *
  */
 public class App {
@@ -22,13 +18,9 @@ public class App {
 	 */
 	public static void main(String[] args) throws SQLException {
 		
-//		CaosFrame caosFrame = new CaosFrame();
-//		caosFrame.setVisible(true);
+		CaosFrame caosFrame = new CaosFrame();
+		caosFrame.setVisible(true);
 		
-		Opg2g opg2g = new Opg2g();
-		opg2g.setVisible(true);
-//		
-
 	}
 
 }

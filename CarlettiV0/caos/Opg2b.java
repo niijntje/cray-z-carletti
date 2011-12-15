@@ -24,6 +24,8 @@ import java.awt.FlowLayout;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Rita Holst Jacobsen
@@ -34,6 +36,11 @@ public class Opg2b extends JFrame {
 	private JPanel panel;
 	private JScrollPane scrollPane;
 	private JTextArea textArea;
+	private JButton btnOpdater;
+	private ActionListener controller;
+	private DefaultTableModel dm;
+	private Object[][] results;
+	private String[] columns;
 
 	public Opg2b() throws SQLException {
 		this.setTitle("Mellemvarer (Opg. 2b)");
@@ -41,6 +48,7 @@ public class Opg2b extends JFrame {
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setBounds(100, 100, 690, 714);
 
+		this.controller = new Controller();
 		panel = new JPanel();
 		
 		JLabel lblMellemvarer = new JLabel("Mellemvarer");
@@ -48,13 +56,16 @@ public class Opg2b extends JFrame {
 		
 		textArea = new JTextArea();
 		
-		textArea.setText("Programmet skal kunne udskrive en liste over mellemvarerne paÃä mellemvarelageret.\n" +
-				"Listen skal indeholde en oplysning om hvor t√¶t mellemvaren er paÃä at overskride \nmaksimumt√∏rretiden.\n" +
-				"Listen skal endvidere v√¶re sorteret efter denne oplysning, saÃä de varer, der er t√¶ttest\n" +
-				"paÃä maksimumt√∏rretiden kommer f√∏rst.\n" +
-				"I skal udf√∏re saÃä meget som muligt af beregningerne i SQL.");
+		textArea.setText("Programmet skal kunne udskrive en liste over mellemvarerne på mellemvarelageret.\n" +
+				"Listen skal indeholde en oplysning om hvor tæt mellemvaren er på at overskride \nmaksimumtørretiden.\n" +
+				"Listen skal endvidere være sorteret efter denne oplysning, så de varer, der er tættest\n" +
+				"på maksimumtørretiden kommer først.\n" +
+				"I skal udføre så meget som muligt af beregningerne i SQL.");
 		
 		JLabel lblOpgavea = new JLabel("Opgave 2b");
+		
+		btnOpdater = new JButton("Opdater");
+		btnOpdater.addActionListener(controller);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -63,28 +74,35 @@ public class Opg2b extends JFrame {
 					.addComponent(lblOpgavea)
 					.addContainerGap(316, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+					.addContainerGap())
+				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(53)
 					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(54, Short.MAX_VALUE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(290)
-					.addComponent(lblMellemvarer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGap(303))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addContainerGap()
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
-					.addContainerGap())
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(btnOpdater)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(lblMellemvarer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+							.addGap(303))))
 		);
 		groupLayout.setVerticalGroup(
-			groupLayout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
 					.addContainerGap()
 					.addComponent(lblOpgavea)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 91, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(lblMellemvarer)
-					.addPreferredGap(ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(btnOpdater)
+					.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 509, GroupLayout.PREFERRED_SIZE))
 		);
 		
@@ -92,9 +110,9 @@ public class Opg2b extends JFrame {
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		getContentPane().setLayout(groupLayout);
 		
-		String[] columns = {"Bakke#", "Produkttype","Delbehandling","Dage","Timer","Minutter"};
-		Object[][] results = this.showMellemvareData();
-		DefaultTableModel dm = new DefaultTableModel(results, columns);
+		columns = new String[] {"Bakke#", "Produkttype","Delbehandling","Dage","Timer","Minutter"};
+		results = this.showMellemvareData();
+		dm = new DefaultTableModel(results, columns);
 		
 		table = new JTable(dm);
 		scrollPane.setViewportView(table);
@@ -118,7 +136,8 @@ public class Opg2b extends JFrame {
 	}
 	
 	public Object[][] showMellemvareData() throws SQLException{
-		String mellemvareQuery = "select M.BAKKESTREGKODE as Bakke#, M.PRODUKTTYPE_NAVN as Produkttype, D.NAVN as Delbehandling, " +
+		String mellemvareQuery = 
+				"select M.BAKKESTREGKODE as Bakke#, M.PRODUKTTYPE_NAVN as Produkttype, D.NAVN as Delbehandling, " +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))/(60*24) as days, " +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))%(60*24)/60 as hours," +
 				"datediff(minute, getdate(), DATEADD (MILLISECOND, D.MAXVARIGHED, MAX(CAST (T.tidspunkter AS DATETIME))))%(60*24)%60 as minutes " +
@@ -132,8 +151,6 @@ public class Opg2b extends JFrame {
 		ResultSet res = ConnectionHandler.getInstance().getSQLResult(mellemvareQuery);
 		ArrayList<Object[]> resultArrays = new ArrayList<Object[]>();
 
-//		String mellemvareInfo = "Bakke#\tProdukttype\t\tDelbehandling\t\tDage\tTimer\tMinutter\n\n";
-
 		while (res.next()){
 			Object[] resultLine = new Object[6];
 			resultLine[0] = res.getString("BAKKE#");
@@ -143,24 +160,31 @@ public class Opg2b extends JFrame {
 			resultLine[4] = res.getString("hours");
 			resultLine[5] = res.getString("minutes");
 			resultArrays.add(resultLine);
-
-//			String mellemvareLinje = "";
-//			mellemvareLinje += res.getString("BAKKE#") + "\t";
-//			mellemvareLinje += res.getString("Produkttype") + "\t\t";
-//			mellemvareLinje += res.getString("Delbehandling") + "\t\t";
-//			mellemvareLinje += res.getString("days") + "\t";
-//			mellemvareLinje += res.getString("hours") + "\t";
-//			mellemvareLinje += res.getString("minutes") + "\t";
-//			mellemvareInfo += mellemvareLinje +"\n";
 		}
 
 		Object[][] results = new Object[resultArrays.size()][6];
 		for (int i = 0; i < resultArrays.size(); i++){
 			results[i] = resultArrays.get(i);
 		}
-//		System.out.println(mellemvareInfo);
 		
 		ConnectionHandler.getInstance().closeConnection();
 				return results;
+	}
+	
+	private class Controller implements ActionListener {
+
+		@Override
+      public void actionPerformed(ActionEvent e) {
+	      if (e.getSource()==btnOpdater){
+	      	try {
+	            dm.setDataVector(showMellemvareData(), columns);
+            }
+            catch (SQLException e1) {
+	            e1.printStackTrace();
+            }
+	      }
+	      
+      }
+		
 	}
 }

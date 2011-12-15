@@ -1,3 +1,6 @@
+/**
+ * CAOS - Opg. 2c
+ */
 package caos;
 
 import java.awt.Color;
@@ -48,7 +51,7 @@ public class Opg2c extends JFrame {
 	private JLabel lblValgteMellemvare;
 	private JLabel lblvalgtmellemvare;
 
-	public Opg2c() {
+	public Opg2c() throws SQLException {
 		setTitle("Samlede t\u00F8rretider");
 		setBounds(100, 100, 436, 420);
 		contentPane = new JPanel();
@@ -173,8 +176,9 @@ public class Opg2c extends JFrame {
 	 * ArrayList
 	 * 
 	 * @return
+	 * @throws SQLException 
 	 */
-	public Object[][] getAlleMellemvarer() {
+	public Object[][] getAlleMellemvarer() throws SQLException {
 		ResultSet res = ConnectionHandler.getInstance().getSQLResult("select * from Mellemvare");
 		ArrayList<Object[]> resultArrays = new ArrayList<Object[]>();
 		Object[][] results = null;
