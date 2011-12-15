@@ -1,3 +1,6 @@
+/**
+ * CAOS - Opg. 2f
+ */
 package caos;
 
 import java.awt.BorderLayout;

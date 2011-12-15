@@ -90,65 +90,65 @@ public class Opg2g extends JFrame {
 		separator.setBackground(Color.RED);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addGap(307)
-						.addComponent(lblOpgavea)
-						.addContainerGap(316, Short.MAX_VALUE))
-						.addGroup(groupLayout.createSequentialGroup()
-								.addGap(53)
-								.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
-								.addContainerGap(54, Short.MAX_VALUE))
-								.addGroup(groupLayout.createSequentialGroup()
-										.addGap(290)
-										.addComponent(lblMellemvarer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-										.addGap(303))
-										.addGroup(groupLayout.createSequentialGroup()
-												.addGap(12)
-												.addComponent(panel, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE))
-												.addGroup(groupLayout.createSequentialGroup()
-														.addGap(265)
-														.addComponent(btnOpdater)
-														.addContainerGap(270, Short.MAX_VALUE))
-														.addGroup(groupLayout.createSequentialGroup()
-																.addContainerGap()
-																.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
-																.addGap(3))
-																.addGroup(groupLayout.createSequentialGroup()
-																		.addGap(276)
-																		.addComponent(lblFejlbehandlinger)
-																		.addContainerGap(282, Short.MAX_VALUE))
-																		.addGroup(groupLayout.createSequentialGroup()
-																				.addGap(23)
-																				.addComponent(separator, GroupLayout.PREFERRED_SIZE, 637, GroupLayout.PREFERRED_SIZE)
-																				.addContainerGap(30, Short.MAX_VALUE))
-				);
+					.addGap(307)
+					.addComponent(lblOpgavea)
+					.addContainerGap(316, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(53)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 583, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(54, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(290)
+					.addComponent(lblMellemvarer, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(303))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(12)
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(panel_1, GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+					.addGap(3))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(23)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 637, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(30, Short.MAX_VALUE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addContainerGap(305, Short.MAX_VALUE)
+					.addComponent(btnOpdater)
+					.addGap(291))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGap(291)
+					.addComponent(lblFejlbehandlinger, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGap(267))
+		);
 		groupLayout.setVerticalGroup(
-				groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(groupLayout.createSequentialGroup()
-						.addContainerGap()
-						.addComponent(lblOpgavea)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-						.addPreferredGap(ComponentPlacement.UNRELATED)
-						.addComponent(lblMellemvarer)
-						.addPreferredGap(ComponentPlacement.RELATED)
-						.addComponent(panel, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addComponent(btnOpdater)
-						.addGap(18)
-						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addGap(5)
-						.addComponent(lblFejlbehandlinger)
-						.addGap(18)
-						.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-				);
+					.addContainerGap()
+					.addComponent(lblOpgavea)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(textArea, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(lblMellemvarer)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(btnOpdater)
+					.addGap(18)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(5)
+					.addComponent(lblFejlbehandlinger)
+					.addGap(18)
+					.addComponent(panel_1, GroupLayout.PREFERRED_SIZE, 262, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 
 		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-		columnsFejlbehandlinger = new String[] {"Bakke#", "Delbehandling", "Timer","Minutter", "Fejltekst"};
+		columnsFejlbehandlinger = new String[] {"Bakke#", "Delbehandling", "Timer","Minutter", "Fejltekst", "Registreret"};
 		resultsFejlbehandlinger = this.showFejlbehandlinger();
 		dmFejlbehandlinger = new DefaultTableModel(resultsFejlbehandlinger, columnsFejlbehandlinger);
 
@@ -215,8 +215,6 @@ public class Opg2g extends JFrame {
 		ResultSet res = ConnectionHandler.getInstance().getSQLResult(mellemvareQuery);
 		ArrayList<Object[]> resultArrays = new ArrayList<Object[]>();
 
-		//		String mellemvareInfo = "Bakke#\tProdukttype\t\tDelbehandling\t\tDage\tTimer\tMinutter\n\n";
-
 		while (res.next()){
 			Object[] resultLine = new Object[6];
 			resultLine[0] = res.getString("BAKKE#");
@@ -226,29 +224,20 @@ public class Opg2g extends JFrame {
 			resultLine[4] = res.getString("hours");
 			resultLine[5] = res.getString("minutes");
 			resultArrays.add(resultLine);
-
-			//			String mellemvareLinje = "";
-			//			mellemvareLinje += res.getString("BAKKE#") + "\t";
-			//			mellemvareLinje += res.getString("Produkttype") + "\t\t";
-			//			mellemvareLinje += res.getString("Delbehandling") + "\t\t";
-			//			mellemvareLinje += res.getString("days") + "\t";
-			//			mellemvareLinje += res.getString("hours") + "\t";
-			//			mellemvareLinje += res.getString("minutes") + "\t";
-			//			mellemvareInfo += mellemvareLinje +"\n";
 		}
 
 		Object[][] results = new Object[resultArrays.size()][6];
 		for (int i = 0; i < resultArrays.size(); i++){
 			results[i] = resultArrays.get(i);
 		}
-		//		System.out.println(mellemvareInfo);
 
 		ConnectionHandler.getInstance().closeConnection();
 		return results;
 	}
 
 	public Object[][] showFejlbehandlinger() throws SQLException{
-		String fejlbehandlingsQuery = "select * from fejlBehandlinger";
+		String fejlbehandlingsQuery = "select fb.bakkestregkode, D.NAVN as delbehandling, fb.tidOverskredetTimer, fb.tidOverskredetMinutter, fb.fejlTekst, fb.tidspunkt " +
+				"from fejlBehandlinger fb left join DELBEHANDLING D on fb.delbehandling = D.ID";
 
 		Object[][] results = new Object[0][0];	//<--Initieres, så der findes noget at returnere selvom det mislykkes at hente fra databasen.
 		
@@ -257,16 +246,17 @@ public class Opg2g extends JFrame {
 	      ArrayList<Object[]> resultArrays = new ArrayList<Object[]>();
 
 	      while (res.next()){
-	      	Object[] resultLine = new Object[5];
+	      	Object[] resultLine = new Object[6];
 	      	resultLine[0] = res.getString("bakkestregkode");
 	      	resultLine[1] = res.getString("delbehandling");
 	      	resultLine[2] = res.getString("tidOverskredetTimer");
 	      	resultLine[3] = res.getString("tidOverskredetMinutter");
 	      	resultLine[4] = res.getString("fejlTekst");
+	      	resultLine[5] = res.getString("tidspunkt");
 	      	resultArrays.add(resultLine);
 	      }
 
-	      results = new Object[resultArrays.size()][5];
+	      results = new Object[resultArrays.size()][6];
 	      for (int i = 0; i < resultArrays.size(); i++){
 	      	results[i] = resultArrays.get(i);
 	      }
@@ -274,7 +264,6 @@ public class Opg2g extends JFrame {
 	      ConnectionHandler.getInstance().closeConnection();
       }
       catch (Exception e) {
-	      // TODO Auto-generated catch block
 	      e.printStackTrace();
       }
 		return results;
@@ -290,19 +279,7 @@ public class Opg2g extends JFrame {
 					stregkode = (String) tableMellemvarelager.getValueAt(tableMellemvarelager.getSelectedRow(), 0);
 					System.out.println(stregkode);
 				}
-//				Mellemvare m = Service.getInstance().soegMellemvare(stregkode);
-//				if (m!=null){
-//					try {
-//						Service.getInstance().sendTilNaesteDelbehandling(m, null, DelbehandlingsType.DRAGERING, null, null);
-//					}
-//					catch (Exception e2) {
-//						System.out.println("'Send til næste delbehandling' mislykkedes!");
-//						e2.printStackTrace();
-//					}
-//				}
-//				else {
-//					System.out.println("Der findes ikke en mellemvare i databasen med den valgte bakkestregkode");
-//				}
+
 				try {
 					dmMellemvareLager.setDataVector(showMellemvareData(), columnsMellemvarelager);
 				}
