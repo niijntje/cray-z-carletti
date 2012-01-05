@@ -1,3 +1,6 @@
+/**
+ * CAOS - Opg. 2d
+ */
 package caos;
 
 import javax.swing.JFrame;
