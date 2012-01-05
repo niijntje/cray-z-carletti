@@ -1,3 +1,6 @@
+/**
+ * CAOS - Opg. 2e
+ */
 package caos;
 
 import java.awt.Color;
