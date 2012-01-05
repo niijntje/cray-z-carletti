@@ -20,9 +20,11 @@
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
+
+				value="jdbc:jtds:sqlserver://192.168.1.111/CarlettiLageringssytem" />
 				value="jdbc:jtds:sqlserver://10.211.55.3/CarlettiLageringssystem" />
 			<property name="javax.persistence.jdbc.user" value="sa" />
-			<property name="javax.persistence.jdbc.password" value="01" />
+			<property name="javax.persistence.jdbc.password" value="hemmeligtPassword" />
 
 			<!-- EclipseLink should create the database schema automatically -->
 			<property name="eclipselink.ddl-generation" value="create-tables" />
