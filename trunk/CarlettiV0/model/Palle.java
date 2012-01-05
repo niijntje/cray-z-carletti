@@ -5,6 +5,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -415,11 +416,11 @@ public class Palle {
 	 * @author Rita Holst Jacobsen
 	 */
 	public HashMap<Mellemvare, Integer> getMellemvareAntalMapping() {
-		HashMap<Produkttype, Delbehandling> optaltePDpar = new HashMap<Produkttype, Delbehandling>();
+		HashMap<Produkttype, Delbehandling> optaltePDpar = new HashMap<Produkttype, Delbehandling>();	
 		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();
 		for (Mellemvare m : mellemvarer) {
-			if (!(optaltePDpar.containsKey(m.getProdukttype()) && optaltePDpar
-					.get(m.getProdukttype()) == m
+			if (!(optaltePDpar.containsKey(m.getProdukttype()) && optaltePDpar 
+					.get(m.getProdukttype()) == m	//<-- Hovsa - hverken delbehandling eller produkttype er jo unikke identifiers for par af samme!!
 					.getIgangvaerendeDelbehandling())) {
 				optaltePDpar.put(m.getProdukttype(),
 						m.getIgangvaerendeDelbehandling());
@@ -428,6 +429,21 @@ public class Palle {
 		}
 		return ensMellemvareAntalMapping;
 	}
+	
+	public HashMap<Mellemvare, Integer> getMellemvareAntalMappingKORREKT() {
+		HashSet<Mellemvare> mellemvareSet = new HashSet<Mellemvare>(getMellemvarer());
+		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();
+		while (!mellemvareSet.isEmpty()){
+			Mellemvare m = mellemvareSet.iterator().next();
+			ArrayList<Mellemvare> ensMellemvarer = getMellemvarerAfSammeType(m);
+			ensMellemvareAntalMapping.put(m, ensMellemvarer.size());
+			mellemvareSet.removeAll(ensMellemvarer);
+		}
+		return ensMellemvareAntalMapping;
+	}
+
+	
+	
 
 	/**
 	 * Returnerer om alle eller en delmængde af mellemvarerne på pallen er klar

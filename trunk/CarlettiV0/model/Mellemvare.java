@@ -5,6 +5,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
 
 import java.util.List;
 
@@ -38,8 +39,13 @@ public class Mellemvare {
 	private String bakkestregkode;
 	@ElementCollection
 	@CollectionTable(name = "tidspunkter")
-	@Temporal(TemporalType.TIMESTAMP)
+	@Temporal(TemporalType.TIME)
 	private List<GregorianCalendar> tidspunkter;
+
+//	@Temporal(TemporalType.TIMESTAMP)
+	private List<Long> millisekundTider;	
+//	@Temporal(TemporalType.TIME)
+
 	@ManyToOne
 	private Produkttype produkttype;
 	@ManyToOne
@@ -71,6 +77,7 @@ public class Mellemvare {
 		this.bakkestregkode = bakkestregkode;
 		this.produkttype = produkttype;
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
+		this.millisekundTider = new ArrayList<Long>();
 		this.igangvaerendeDelbehandling = this.produkttype.getBehandling()
 				.getDelbehandling(0);
 		this.status = MellemvareStatus.UNDERBEHANDLING;
@@ -94,6 +101,22 @@ public class Mellemvare {
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		tidspunkter.add(starttid);
 		this.setTestMode(true);
+	}
+	
+
+	/**
+	 * Krav: tidspunkter.size() > 0
+	 * @param tidspunkter
+	 * @param foersteDelbehandling
+	 */
+	public void addTidspunkter(ArrayList<GregorianCalendar> tidspunkter, Delbehandling foersteDelbehandling) {
+		this.igangvaerendeDelbehandling = foersteDelbehandling;
+		Iterator<GregorianCalendar> tidspunktIterator = tidspunkter.iterator();
+		this.tidspunkter.add(tidspunktIterator.next());
+		while (tidspunktIterator.hasNext() && igangvaerendeDelbehandling != null){
+			goToNextDelbehandling(tidspunktIterator.next());
+		}	
+		
 	}
 
 	/**
@@ -153,6 +176,7 @@ public class Mellemvare {
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTimeInMillis(System.currentTimeMillis());
 		this.tidspunkter.add(calendar);
+		this.millisekundTider.add(calendar.getTimeInMillis());
 	}
 
 	/**
@@ -164,6 +188,15 @@ public class Mellemvare {
 		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling
 				.getNextDelbehandling();
 		this.addNuvaerendeTidspunkt();
+	}
+	
+	/**
+	 * Krav: Der findes en igangv¾rende delbehandling
+	 * @param tidspunkt
+	 */
+	public void goToNextDelbehandling(GregorianCalendar tidspunkt) {
+		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling.getNextDelbehandling();
+		this.addTidspunkt(tidspunkt);
 	}
 
 	/**
@@ -218,8 +251,22 @@ public class Mellemvare {
 	public long[] getResterendeTider() {
 		long[] tider = new long[0];
 		if (this.getStatus() == MellemvareStatus.UNDERBEHANDLING) {
-			tider = this.getIgangvaerendeDelbehandling().getResterendeTider(
-					getTidspunkter().get(tidspunkter.size() - 1));
+			try {
+	         tider = this.getIgangvaerendeDelbehandling().getResterendeTider(
+	         		getTidspunkter().get(tidspunkter.size() - 1));
+         }
+         catch (ClassCastException e) {
+         	System.out.println("JPA-problemer med cast af String til GregorianCalendar igenigen");
+         	System.out.println(getTidspunkter().get(tidspunkter.size() - 1).toString());
+//         	try {
+//         		String calendarstring = getTidspunkter().get(tidspunkter.size() - 1);
+//         	}
+//         	catch (Exception f) {
+//         		System.out.println(f.getStackTrace());
+//         	}
+//         	
+//	         e.printStackTrace();
+         }
 		}
 		return tider;
 	}
@@ -317,7 +364,15 @@ public class Mellemvare {
  	 * @author Rita Holst Jacobsen
 	 */
 	private GregorianCalendar getSidsteStarttid() {
-		return getTidspunkter().get(tidspunkter.size() - 1);
+		GregorianCalendar sidsteStarttid = new GregorianCalendar();
+		try {
+			sidsteStarttid = getTidspunkter().get(tidspunkter.size() - 1);
+		}
+		catch (ClassCastException c){
+			System.out.println("JPA-problem med at caste String som GregorianCalendar");
+			System.out.println(getTidspunkter().get(tidspunkter.size() - 1).toString());
+		}
+		return sidsteStarttid;
 	}
 
 	@Override

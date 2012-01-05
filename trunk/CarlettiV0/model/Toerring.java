@@ -23,6 +23,10 @@ public class Toerring extends Delbehandling {
 	private long minVarighed;
 	private long idealVarighed;
 	private long maxVarighed;
+	
+	private Varighed vMinVarighed;
+	private Varighed vIdealVarighed;
+	private Varighed vMaxVarighed;
 
 	public Toerring() {
 		// Constructor - JPA
@@ -41,7 +45,36 @@ public class Toerring extends Delbehandling {
 		this.setMinVarighed(minVarighed);
 		this.setIdealVarighed(idealVarighed);
 		this.setMaxVarighed(maxVarighed);
+		this.vMinVarighed = new Varighed(minVarighed);
+		this.vIdealVarighed = new Varighed(idealVarighed);
+		this.vMaxVarighed = new Varighed(maxVarighed);
 	}
+	
+	public Toerring(String navn, Behandling behandling, Varighed minVarighed,
+			Varighed idealVarighed, Varighed maxVarighed) {
+		super(navn, behandling, DelbehandlingsType.TOERRING);
+		this.vMinVarighed = minVarighed;
+		this.vIdealVarighed = idealVarighed;
+		this.vMaxVarighed = maxVarighed;
+		this.setMinVarighed(minVarighed.getVarighedMillisekunder());
+		this.setIdealVarighed(idealVarighed.getVarighedMillisekunder());
+		this.setMaxVarighed(maxVarighed.getVarighedMillisekunder());
+	}
+	
+	public Toerring(String navn, Behandling behandling, String minVarighed,
+			String idealVarighed, String maxVarighed) {
+		super(navn, behandling, DelbehandlingsType.TOERRING);
+		this.vMinVarighed = new Varighed(minVarighed);
+		this.vIdealVarighed = new Varighed(idealVarighed);
+		this.vMaxVarighed = new Varighed(maxVarighed);
+		this.setMinVarighed(vMinVarighed.getVarighedMillisekunder());
+		this.setIdealVarighed(vIdealVarighed.getVarighedMillisekunder());
+		this.setMaxVarighed(vMaxVarighed.getVarighedMillisekunder());
+	}
+
+	
+	
+
 
 	public long getMinVarighed() {
 		return minVarighed;

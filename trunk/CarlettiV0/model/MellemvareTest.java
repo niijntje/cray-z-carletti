@@ -21,8 +21,7 @@ import service.Validering;
  */
 public class MellemvareTest {
 
-	private Mellemvare mellemvare1, mellemvare2, mellemvare3, mellemvare4,
-			mellemvare5, mellemvare6;
+	private Mellemvare mellemvare1, mellemvare2, mellemvare3, mellemvare4, mellemvare5, mellemvare6;
 	private Mellemvare mellemvare7;
 	private Mellemvare mellemvare11;
 	private Produkttype produkttype11;

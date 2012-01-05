@@ -13,6 +13,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import org.hamcrest.core.IsAnything;
+
+import model.Toerring;
+
 /**
  * Denne klasse repr¾senterer et trin i en behandling/opskrift, der kan tilh¿re n
  * af en r¾kke foruddefinerede delbehandlingstyper defineret af den implementerende
@@ -131,6 +135,7 @@ public abstract class Delbehandling {
 		}
 	}
 
+	
 	/**
 	 * @param startTid Starttid for den konkrete delbehandling, der sp¿rges til
 	 * @return Om varigheden af en delbehandling startet pŒ det angivne tidspunkt ligger indenfor det 

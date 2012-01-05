@@ -20,27 +20,42 @@ import service.Varighed;
 
 @Entity
 public class Dragering extends Delbehandling {
-	private long varighed;
+	private long longVarighed;
+	private Varighed vVarighed;
 
 	public Dragering() {
 		// Constructor - JPA
 	}
 
+
 	/**
 	 * @param navn
 	 * @param behandling
+	 * @param varighed
 	 */
 	public Dragering(String navn, Behandling behandling, long varighed) {
 		super(navn, behandling, DelbehandlingsType.DRAGERING);
-		this.varighed = varighed;
+		this.longVarighed = varighed;
+		this.vVarighed = new Varighed(longVarighed);
+	}
+
+	/**
+	 * @param navn
+	 * @param behandling
+	 * @param varighed
+	 */
+	public Dragering(String navn, Behandling behandling, Varighed varighed) {
+		super(navn, behandling, DelbehandlingsType.DRAGERING);
+		this.longVarighed = varighed.getVarighedMillisekunder();
+		this.vVarighed = new Varighed(longVarighed);
 	}
 
 	public long getVarighed() {
-		return varighed;
+		return longVarighed;
 	}
 
 	public void setVarighed(long varighed) {
-		this.varighed = varighed;
+		this.longVarighed = varighed;
 	}
 
 	/* (non-Javadoc)
@@ -49,8 +64,7 @@ public class Dragering extends Delbehandling {
 	 * der repræsenteres minus den tid der er gået siden startTid.
 	 */
 	@Override
-	public long[] getResterendeTider(GregorianCalendar startTid)
-			throws RuntimeException {
+	public long[] getResterendeTider(GregorianCalendar startTid) throws RuntimeException {
 		long tidSidenStart = System.currentTimeMillis()
 				- startTid.getTimeInMillis();
 		if (tidSidenStart < 0) {
@@ -86,7 +100,7 @@ public class Dragering extends Delbehandling {
 	@Override
 	public String toStringLong() {
 		return super.toString()+ "\t Varighed: "
-				+ Varighed.getVarighedDagTimeSekundFormateret(varighed);
+				+ Varighed.getVarighedDagTimeSekundFormateret(longVarighed);
 	}
 
 	/* (non-Javadoc)
@@ -97,7 +111,7 @@ public class Dragering extends Delbehandling {
 	@Override
 	public boolean indenforTilladtBehandlingstid(GregorianCalendar startTid) {
 		long tidGaaet = System.currentTimeMillis() - startTid.getTimeInMillis();
-		return tidGaaet > this.varighed;
+		return tidGaaet > this.longVarighed;
 	}
 
 }
