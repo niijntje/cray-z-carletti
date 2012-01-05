@@ -136,6 +136,25 @@ public class ListDao implements DAO {
 		behandlinger.remove(behandling);
 
 	}
+	
+	@Override
+   public Mellemvare soegMellemvare(String stregkode) {
+		boolean found = false;
+		int i = 0;
+
+		while (!found && i < mellemvarer.size()) {
+			if (mellemvarer.get(i).getBakkestregkode().equals(stregkode)) {
+				found = true;
+			} else {
+				i++;
+			}
+		}
+		if (found) {
+			return mellemvarer.get(i);
+		} else {
+			return null;
+		}
+   }
 
 	@Override
 	public Palle soegPalle(String stregkode) {
@@ -219,5 +238,7 @@ public class ListDao implements DAO {
 		// DO NOTHING
 
 	}
+
+
 
 }

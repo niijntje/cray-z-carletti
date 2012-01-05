@@ -201,6 +201,19 @@ public class JpaDao implements DAO {
 
 		return plads;
 	}
+	
+	@Override
+	public Mellemvare soegMellemvare(String stregkode){
+		Mellemvare mellemvare = null;
+		String jplQuery = "SELECT m FROM Mellemvare m WHERE m.bakkestregkode = :stregkode";
+		Query query = em.createQuery(jplQuery);
+		query.setParameter("stregkode", stregkode);
+		List<Mellemvare> list = query.getResultList();
+		if (list.size() > 0) {
+			mellemvare = list.get(0);
+		}
+		return mellemvare;
+	}
 
 	@Override
 	public Palle soegPalle(String stregkode) {
