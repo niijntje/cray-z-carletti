@@ -10,6 +10,7 @@ package gui;
  */
 
 public interface Observer {
+	
 	/**
 	 * Metoden kaldes af klasser der implementerer Subject
 	 * S¿rger for at der opdateres det ¿nskede

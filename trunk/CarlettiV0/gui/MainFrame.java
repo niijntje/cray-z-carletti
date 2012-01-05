@@ -4,6 +4,7 @@
 package gui;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -12,25 +13,39 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import javax.swing.Box;
 import javax.swing.DefaultRowSorter;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
+
 import model.Delbehandling;
 import model.Delbehandling.DelbehandlingsType;
 import model.MellemlagerPlads;
+import model.Mellemvare;
 import model.Palle;
 import model.Produkttype;
 import service.Service;
+import service.Varighed;
+
 import javax.swing.JCheckBox;
 import javax.swing.SwingConstants;
 import javax.swing.JMenuBar;
@@ -73,7 +88,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private static MainFrame mainFrame;
 
 	private SubFrameTilfoejMellemvarer subFrameTilfoejMellemvarer;
-	public SubFramePalleOversigt subFramePalleOversigt;
+	public SubFramePalleOversigt subFramePalleOversigt;	//Hmm, ikke gennemtænkt - der kan jo sagtens være flere...
 	private SubFramePlacerPalle subFramePlacerPalle;
 	public Object subFrameAdminBehandling;
 	private JMenu mnOversigter;
@@ -84,11 +99,14 @@ public class MainFrame extends JFrame implements Observer, Subject {
 	private String[] columnNames3;
 	private Object[][] data3;
 	private DefaultTableModel dm3;
+	private Timer timer;
+	private TimeController timecontroller;
 
 	private MainFrame() {
 		this.observers = new ArrayList<Observer>();
 		getContentPane().setBackground(Color.PINK);
 		controller = new Controller();
+		timecontroller = new TimeController();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Mellemvarelager - Oversigt");
 		this.setLocation(0, 0);
@@ -166,7 +184,71 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				"Tid til ideal-tid", "Tid til max-tid" };
 		data3 = Service.getInstance()
 				.generateViewDataMellemlagerOversigt3Tider();
-		dm3 = new DefaultTableModel(data3, columnNames3);
+		dm3 = new DefaultTableModel(data3, columnNames3){
+			@Override
+			public Class<?> getColumnClass(int columnIndex) {
+			   if (columnIndex > 4){
+			   	return Varighed.class;
+			   }
+			   else{
+			   	return super.getColumnClass(columnIndex);
+			   }
+			}
+		};
+		table = new JTable(dm3)
+		{
+			public Component prepareRenderer(TableCellRenderer renderer, int row, int column)
+			{
+				if (column >4){
+					((JLabel) renderer).setHorizontalAlignment(SwingConstants.RIGHT);
+				}
+				else ((JLabel) renderer).setHorizontalAlignment(SwingConstants.LEFT);
+				
+				Component c = super.prepareRenderer(renderer, row, column);
+				if (this.getSelectedRow()!=row){
+					c.setBackground(Color.white);
+					Palle p = (Palle) table.getValueAt(row, 1);
+					Produkttype pt = (Produkttype) table.getValueAt(row, 2);
+					Delbehandling d = (Delbehandling) table.getValueAt(row, 3);
+					if (p != null && pt != null && d != null){
+						ArrayList<Mellemvare> mellemvarer = Service.getInstance().getMellemvarerAfSammeType(p, pt, d);
+						if (mellemvarer.size()>0){
+							Mellemvare m = mellemvarer.get(0);
+							Color color = FarveKoder.getFarve(m);
+							c.setBackground(color);
+						}
+					}
+				}
+				return c;
+			}
+		};
+
+		
+		table.setFillsViewportHeight(true);
+		scrollPane.setViewportView(table);
+//				table.setAutoCreateRowSorter(true);
+		//---------------Nedenstående benyttes hvis man ønsker at pågældende søjle skal sorteres vha.
+		//---------------det bagvedliggende Object's compareTo()-metode
+		TableRowSorter<TableModel> sorter = new TableRowSorter<TableModel>(dm3);
+		Comparator<Varighed> comparatorVarighed = new Comparator<Varighed>(){
+			@Override
+         public int compare(Varighed o1, Varighed o2) {
+	         if (o1 != null){
+	         	return o1.compareTo(o2);
+	         }
+	         else if (o2 != null){
+	         	return -1*o2.compareTo(o1);
+	         }
+	         else return 0;
+         }	
+		};
+		
+		table.setAutoCreateColumnsFromModel(false);
+
+		sorter.setComparator(5, comparatorVarighed);
+		sorter.setComparator(6, comparatorVarighed);
+		sorter.setComparator(7, comparatorVarighed);
+		sorter.setSortsOnUpdates(false);
 
 		tomPladsFilter = new RowFilter<Object, Object>() {
 			@Override
@@ -175,15 +257,12 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				return (entry.getValue(1) != null);
 			}
 		};
-
-		table = new JTable(dm3);
-		table.setFillsViewportHeight(true);
-		scrollPane.setViewportView(table);
-		table.setAutoCreateRowSorter(true);
+		sorter.setRowFilter(tomPladsFilter);
+		
+		table.setRowSorter(sorter);
+		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.getSelectionModel().addListSelectionListener(controller);
-		((DefaultRowSorter<DefaultTableModel, Integer>) table.getRowSorter())
-		.setRowFilter(tomPladsFilter);
 
 		setColumnWidths(3);
 
@@ -316,8 +395,11 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		mnOversigter.add(mntmPaller_1);
 
 		// -----------------------------------------------//
+		
+		timer = new Timer(1000, timecontroller);
+		timer.start();
 	}
-	
+
 	/**
 	 * Singleton - metode der returnerer MainFrame og sikrer, at der kun
 	 * bliver oprettet en instans af klassen
@@ -340,18 +422,18 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		for (int i = 0; i < 5 + antalTider; i++) {
 			column = table.getColumnModel().getColumn(i);
 			if (i == 0 || i == 1) {
-				column.setPreferredWidth(75);// Placering og Palle
-				column.setMinWidth(70);
-				column.setMaxWidth(85);
+				column.setPreferredWidth(55);// Placering og Palle
+				column.setMinWidth(50);
+				column.setMaxWidth(55);
 			}
 			if (i == 4) {
 				column.setPreferredWidth(40); // Antal
 				column.setMinWidth(35);
 				column.setMaxWidth(50);
 			} else if (i == 5 || i == 6 || i == 7) {
-				column.setPreferredWidth(85);// Resterende tid
-				column.setMinWidth(80);
-				column.setMaxWidth(90);
+				column.setPreferredWidth(100);// Resterende tid
+				column.setMinWidth(90);
+				column.setMaxWidth(100);
 			}
 
 			else {
@@ -441,7 +523,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 								0) != null) {
 					int row = table.convertRowIndexToModel(table
 							.getSelectedRow()); 	// <---VIGTIGT! - Da vi sorterer/filtrerer, er tabellens og modellens
-														// række-indicer ofte ikke de samme!
+					// række-indicer ofte ikke de samme!
 					MellemlagerPlads mellemlagerPlads = (MellemlagerPlads) table.getModel().getValueAt(row, 0);
 					Palle palle = null;
 					Produkttype produkttype = null;
@@ -491,16 +573,19 @@ public class MainFrame extends JFrame implements Observer, Subject {
 					subFrameTilfoejMellemvarer
 					.registerObserver(subFramePalleOversigt);
 				}
-			} else {
+			} else if (table.getSelectedRowCount()>0){
 				int row = table.convertRowIndexToModel(table.getSelectedRow()); // <---VIGTIGT!
 				// - Da vi sorterer/filtrerer, er tabellens og
 				//modellens række-indicer oftest ikke de samme"
 				Palle palle = (Palle) table.getModel().getValueAt(row, 1);
 
 				if (e.getSource() == btnVisPalle) {
+					subFramePalleOversigt = new SubFramePalleOversigt(MainFrame.this, palle);
+					subFramePalleOversigt.setVisible(true);
 					if (subFrameTilfoejMellemvarer != null) {
 						subFramePalleOversigt.registerObserver(subFrameTilfoejMellemvarer);
 						subFrameTilfoejMellemvarer.registerObserver(subFramePalleOversigt);
+
 					}
 				} 
 				else { // Nedenfor er alle de knapper, der udfører handlinger på paller/mellemvarer
@@ -540,11 +625,37 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			}
 		}
 	}
+	
+	private class TimeController implements ActionListener{
+
+		@Override
+      public void actionPerformed(ActionEvent e) {
+			if (e.getSource()==timer){
+				int selectedRow = table.getSelectedRow();
+				update();
+				if (selectedRow>-1){
+					table.setRowSelectionInterval(selectedRow, selectedRow);
+					
+				}
+			}
+
+	      
+      }
+		
+	}
 
 	@Override
 	public void update() {
+		List<? extends SortKey> rs = table.getRowSorter().getSortKeys();
 		dm3.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames3);
 		setColumnWidths(3);
+		table.getRowSorter().setSortKeys(rs);
+	}
+	
+	public void setTableSelection(int row){
+		if (row >-1){
+			table.setRowSelectionInterval(row, row);
+		}
 	}
 
 	@Override
