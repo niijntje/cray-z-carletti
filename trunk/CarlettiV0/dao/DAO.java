@@ -130,6 +130,12 @@ public interface DAO {
 	 * @param produkttype
 	 */
 	public void removeProdukttype(Produkttype produkttype);
+	
+	/**S¿ger efter en Mellemvare med den angivne stregkode
+	 * @param stregkode
+	 * @return
+	 */
+	public Mellemvare soegMellemvare(String stregkode);
 
 	/**
 	 * S¿ger efter en given MellemlagerPlads og tager en
