@@ -26,15 +26,17 @@ public class CreateDatabase {
 			Connection myConnection;
 			Class.forName("net.sourceforge.jtds.jdbc.Driver");
 			myConnection = DriverManager.getConnection(
-					"jdbc:jtds:sqlserver://10.211.55.3/master", "sa", "01");
+			"jdbc:jtds:sqlserver://10.77.44.212/master", "sa", "hemmeligtPassword");
+//			"jdbc:jtds:sqlserver://192.168.1.106/master", "sa", "hemmeligtPassword");
 
 			Statement stmt = myConnection.createStatement();
+
+//			 stmt.executeUpdate("DROP DATABASE CarlettiLageringssytem"); //
 			 stmt.executeUpdate("DROP DATABASE CarlettiLageringssystem"); //
 			// udkommenteringen kan fjernes, hvis man ¿nsker at fjerne og
 			// oprette en ny database
 			stmt.executeUpdate("CREATE DATABASE CarlettiLageringssystem");
 
-			System.out.println("Database recreated!");
 
 		} catch (Exception e) {
 			System.out.println("Error connecting to database:  "
