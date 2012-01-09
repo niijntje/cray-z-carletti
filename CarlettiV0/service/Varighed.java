@@ -20,12 +20,21 @@ public class Varighed implements Comparable<Varighed>{
 	private int minutter;
 
 	private long varighedMillisekunder;
+	private boolean negativ;
 
+	
 	public Varighed(long millisekunder){
+		if (millisekunder < 0){
+			this.negativ = true;
+			millisekunder = -1*millisekunder;
+		}
 		this.setVarighedMillisekunder(millisekunder);
-		this.setDage((int) getVarighedMillisekunder() / 86400000);
-		this.setTimer((int) (getVarighedMillisekunder() - (86400000 * dage)) / 3600000);
-		this.setMinutter((int) (getVarighedMillisekunder() - 86400000 * dage - 3600000 * timer) / 60000);
+		long dage = millisekunder/(24*60*60*1000);
+		this.setDage((int) dage);
+		long timer = (millisekunder-(dage * 24*60*60*1000))/(60*60*1000);
+		this.setTimer((int) timer);
+		long minutter = (millisekunder-(dage * 24*60*60*1000)-(timer*60*60*1000))/60000;
+		this.setMinutter((int) minutter);
 	}
 
 	public Varighed(int dage, int timer, int minutter){
@@ -48,6 +57,9 @@ public class Varighed implements Comparable<Varighed>{
 	 */
 	public String getVarighedDDTTMM() {
 		String varighed = "";
+		if (negativ){
+			varighed += "-";
+		}
 		if (dage > 0){
 			varighed += dage+ " d. ";
 		}
