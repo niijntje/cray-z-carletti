@@ -272,17 +272,13 @@ public class Palle {
 		if (mellemvare == null && this.alleVarerErEns()) {
 			for (Mellemvare m : mellemvarer) {
 				if (m.naesteDelbehandlingGyldig(null)) {
-					m.setIgangvaerendeDelbehandling(null);
-					m.setStatus(MellemvareStatus.FAERDIG);
-					m.addNuvaerendeTidspunkt();
+					m.faerdig();
 				}
 			}
 		}
 		// Ellers sendes kun den angivne mellemvare til f¾rdigvarelager
 		else {
-			mellemvare.setIgangvaerendeDelbehandling(null);
-			mellemvare.setStatus(MellemvareStatus.FAERDIG);
-			mellemvare.addNuvaerendeTidspunkt();
+			mellemvare.faerdig();
 		}
 		return behandledeMellemvarer;
 	}
@@ -301,9 +297,7 @@ public class Palle {
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		for (Mellemvare m : mellemvarer) {
 			if (m.erAfSammeType(produkttype, delbehandling)) {
-				m.setIgangvaerendeDelbehandling(null);
-				m.setStatus(MellemvareStatus.KASSERET);
-				m.addNuvaerendeTidspunkt();
+				m.kasser();
 				behandledeMellemvarer.add(m);
 			}
 		}
@@ -323,15 +317,11 @@ public class Palle {
 		ArrayList<Mellemvare> behandledeMellemvarer = new ArrayList<Mellemvare>();
 		if (mellemvare == null) {
 			for (Mellemvare m : mellemvarer) {
-				m.setIgangvaerendeDelbehandling(null);
-				m.setStatus(MellemvareStatus.KASSERET);
-				m.addNuvaerendeTidspunkt();
+				m.kasser();
 				behandledeMellemvarer.add(m);
 			}
 		} else {
-			mellemvare.setIgangvaerendeDelbehandling(null);
-			mellemvare.setStatus(MellemvareStatus.KASSERET);
-			mellemvare.addNuvaerendeTidspunkt();
+			mellemvare.kasser();
 			behandledeMellemvarer.add(mellemvare);
 		}
 		return behandledeMellemvarer;
@@ -429,7 +419,7 @@ public class Palle {
 		}
 		return ensMellemvareAntalMapping;
 	}
-	
+
 	public HashMap<Mellemvare, Integer> getMellemvareAntalMappingKORREKT() {
 		HashSet<Mellemvare> mellemvareSet = new HashSet<Mellemvare>(getMellemvarer());
 		HashMap<Mellemvare, Integer> ensMellemvareAntalMapping = new HashMap<Mellemvare, Integer>();
@@ -442,8 +432,8 @@ public class Palle {
 		return ensMellemvareAntalMapping;
 	}
 
-	
-	
+
+
 
 	/**
 	 * Returnerer om alle eller en delm¾ngde af mellemvarerne pŒ pallen er klar
@@ -477,13 +467,13 @@ public class Palle {
 				aktuelleMellemvarer = getMellemvarerAfSammeType(produkttype,
 						delbehandling);
 			} else if (alleVarerErEns()) { 	// Hvis produkttype og/eller delbehandling derimod er ukendt
-														// skal alle mellemvarer pŒ pallen v¾re ens
+				// skal alle mellemvarer pŒ pallen v¾re ens
 				aktuelleMellemvarer = getMellemvarer();
 			}
 			if (aktuelleMellemvarer.size() > 0) {
 				gyldig = true;
 				for (Mellemvare m : aktuelleMellemvarer) {
-														// OG klar til n¾ste delbehandling/f¾rdigvarelager
+					// OG klar til n¾ste delbehandling/f¾rdigvarelager
 					if (!m.naesteDelbehandlingGyldig(naesteDelbehandlingsType)) { 
 						gyldig = false;
 					}

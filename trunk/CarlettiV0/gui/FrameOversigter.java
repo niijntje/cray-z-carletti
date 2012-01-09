@@ -29,6 +29,8 @@ import model.MellemlagerPlads;
 import model.Palle;
 import model.Produkttype;
 import service.Service;
+import javax.swing.ListSelectionModel;
+import javax.swing.ScrollPaneConstants;
 
 /**
  * Viser oversigter over mellemvarer, der befinder sig hhv. i drageringshallen, på færdigvarelageret eller
@@ -58,8 +60,6 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	private JScrollPane scrollPane_2;
 	private JLabel lblOversigtOverFrdigvarelager;
 	private JLabel lblOversigtOverPaller;
-	private JScrollPane scrollPane_3;
-	private JList listPaller;
 	private JLabel lblKasseredeVarer;
 	private JButton btnVisPalle;
 	private JLabel lblVisPalleoversigt;
@@ -77,6 +77,7 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 	private static FrameOversigter frameOversigter;
 	private JPanel panel_2;
 	private ArrayList<Observer> observers;
+	private JList listPaller;
 
 	private FrameOversigter(MainFrame mainFrame) {
 		mainFrame.registerObserver(this);
@@ -337,18 +338,18 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 
 		lblOversigtOverPaller = new JLabel("Oversigt over paller");
 
-		scrollPane_3 = new JScrollPane();
-
 		btnVisPalle = new JButton("Vis palle");
 		btnVisPalle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Palle palle = (Palle) listPaller.getSelectedValue();
+				if (listPaller.getSelectedIndex()>0){
 				FrameOversigter.this.mainFrame.subFramePalleOversigt = new SubFramePalleOversigt(
 						getMainFrame(), palle);
 				FrameOversigter.this.mainFrame.subFramePalleOversigt
 						.setVisible(true);
 				FrameOversigter.this.mainFrame
 						.registerObserver(FrameOversigter.this.mainFrame.subFramePalleOversigt);
+				}
 			}
 		});
 
@@ -359,129 +360,75 @@ public class FrameOversigter extends JFrame implements Observer, Subject {
 		lblMarkrEnPalle.setFont(new Font("Lucida Grande", Font.ITALIC, 11));
 
 		panel_2 = new JPanel();
-
-		listPaller = new JList();
-		listPaller.setListData(Service.getInstance().getPaller().toArray());
+		
+		JPanel panel_3 = new JPanel();
 		GroupLayout gl_panelPaller = new GroupLayout(panelPaller);
-		gl_panelPaller
-				.setHorizontalGroup(gl_panelPaller
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panelPaller
-										.createSequentialGroup()
-										.addContainerGap()
-										.addGroup(
-												gl_panelPaller
-														.createParallelGroup(
-																Alignment.TRAILING,
-																false)
-														.addGroup(
-																gl_panelPaller
-																		.createSequentialGroup()
-																		.addComponent(
-																				listPaller,
-																				GroupLayout.PREFERRED_SIZE,
-																				149,
-																				GroupLayout.PREFERRED_SIZE)
-																		.addPreferredGap(
-																				ComponentPlacement.RELATED)
-																		.addComponent(
-																				scrollPane_3,
-																				0,
-																				0,
-																				Short.MAX_VALUE))
-														.addComponent(
-																lblOversigtOverPaller,
-																Alignment.LEADING))
-										.addGap(18)
-										.addGroup(
-												gl_panelPaller
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addComponent(
-																lblVisPalleoversigt)
-														.addGroup(
-																gl_panelPaller
-																		.createSequentialGroup()
-																		.addGap(1)
-																		.addGroup(
-																				gl_panelPaller
-																						.createParallelGroup(
-																								Alignment.TRAILING)
-																						.addComponent(
-																								btnVisPalle)
-																						.addComponent(
-																								lblMarkrEnPalle))))
-										.addContainerGap(82, Short.MAX_VALUE))
-						.addGroup(
-								Alignment.TRAILING,
-								gl_panelPaller
-										.createSequentialGroup()
-										.addContainerGap(
-												GroupLayout.DEFAULT_SIZE,
-												Short.MAX_VALUE)
-										.addComponent(panel_2,
-												GroupLayout.PREFERRED_SIZE,
-												517, GroupLayout.PREFERRED_SIZE)
-										.addContainerGap()));
-		gl_panelPaller
-				.setVerticalGroup(gl_panelPaller
-						.createParallelGroup(Alignment.LEADING)
-						.addGroup(
-								gl_panelPaller
-										.createSequentialGroup()
-										.addContainerGap()
-										.addComponent(lblOversigtOverPaller)
-										.addGroup(
-												gl_panelPaller
-														.createParallelGroup(
-																Alignment.LEADING)
-														.addGroup(
-																gl_panelPaller
-																		.createSequentialGroup()
-																		.addGap(40)
-																		.addComponent(
-																				scrollPane_3,
-																				GroupLayout.PREFERRED_SIZE,
-																				190,
-																				GroupLayout.PREFERRED_SIZE))
-														.addGroup(
-																gl_panelPaller
-																		.createSequentialGroup()
-																		.addGap(27)
-																		.addGroup(
-																				gl_panelPaller
-																						.createParallelGroup(
-																								Alignment.LEADING)
-																						.addGroup(
-																								gl_panelPaller
-																										.createSequentialGroup()
-																										.addComponent(
-																												lblVisPalleoversigt)
-																										.addPreferredGap(
-																												ComponentPlacement.RELATED)
-																										.addGroup(
-																												gl_panelPaller
-																														.createSequentialGroup()
-																														.addComponent(
-																																lblMarkrEnPalle)
-																														.addPreferredGap(
-																																ComponentPlacement.RELATED)
-																														.addComponent(
-																																btnVisPalle)))
-																						.addComponent(
-																								listPaller,
-																								GroupLayout.DEFAULT_SIZE,
-																								323,
-																								Short.MAX_VALUE))))
-										.addPreferredGap(
-												ComponentPlacement.RELATED)
-										.addComponent(panel_2,
-												GroupLayout.PREFERRED_SIZE, 66,
-												GroupLayout.PREFERRED_SIZE)));
+		gl_panelPaller.setHorizontalGroup(
+			gl_panelPaller.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_panelPaller.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblOversigtOverPaller)
+						.addComponent(panel_3, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblVisPalleoversigt)
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addGap(1)
+							.addGroup(gl_panelPaller.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnVisPalle)
+								.addComponent(lblMarkrEnPalle))))
+					.addContainerGap(81, Short.MAX_VALUE))
+				.addGroup(gl_panelPaller.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 517, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap())
+		);
+		gl_panelPaller.setVerticalGroup(
+			gl_panelPaller.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panelPaller.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblOversigtOverPaller)
+					.addGroup(gl_panelPaller.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addGap(27)
+							.addComponent(lblVisPalleoversigt)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblMarkrEnPalle)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnVisPalle))
+						.addGroup(gl_panelPaller.createSequentialGroup()
+							.addGap(18)
+							.addComponent(panel_3, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(panel_2, GroupLayout.PREFERRED_SIZE, 66, GroupLayout.PREFERRED_SIZE))
+		);
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		scrollPane_3.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane_3.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		listPaller = new JList();
+		listPaller.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollPane_3.setViewportView(listPaller);
+		GroupLayout gl_panel_3 = new GroupLayout(panel_3);
+		gl_panel_3.setHorizontalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		gl_panel_3.setVerticalGroup(
+			gl_panel_3.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel_3.createSequentialGroup()
+					.addGap(5)
+					.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 242, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		panel_3.setLayout(gl_panel_3);
 		panelPaller.setLayout(gl_panelPaller);
 		this.mainFrame = mainFrame;
-
+		update();
 	}
 
 	/**

@@ -26,6 +26,7 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.RowSorter;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.Timer;
 import javax.swing.event.ListSelectionEvent;
@@ -172,6 +173,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 		chckbxVisTommePladser.addItemListener(controller);
 
 		scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridwidth = 4;
@@ -205,6 +207,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				else ((JLabel) renderer).setHorizontalAlignment(SwingConstants.LEFT);
 				
 				Component c = super.prepareRenderer(renderer, row, column);
+				
 				if (this.getSelectedRow()!=row){
 					c.setBackground(Color.white);
 					Palle p = (Palle) table.getValueAt(row, 1);
@@ -430,7 +433,7 @@ public class MainFrame extends JFrame implements Observer, Subject {
 				column.setPreferredWidth(40); // Antal
 				column.setMinWidth(35);
 				column.setMaxWidth(50);
-			} else if (i == 5 || i == 6 || i == 7) {
+			} else if (i >= 5) {
 				column.setPreferredWidth(100);// Resterende tid
 				column.setMinWidth(90);
 				column.setMaxWidth(100);
@@ -633,23 +636,9 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			if (e.getSource()==timer){
 				int selectedRow = table.getSelectedRow();
 				update();
-				if (selectedRow>-1){
-					table.setRowSelectionInterval(selectedRow, selectedRow);
-					
-				}
+				setTableSelection(selectedRow);
 			}
-
-	      
-      }
-		
-	}
-
-	@Override
-	public void update() {
-		List<? extends SortKey> rs = table.getRowSorter().getSortKeys();
-		dm3.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames3);
-		setColumnWidths(3);
-		table.getRowSorter().setSortKeys(rs);
+      }	
 	}
 	
 	public void setTableSelection(int row){
@@ -657,6 +646,18 @@ public class MainFrame extends JFrame implements Observer, Subject {
 			table.setRowSelectionInterval(row, row);
 		}
 	}
+
+	@Override
+	public void update() {
+		List<? extends SortKey> rs = table.getRowSorter().getSortKeys();
+
+		dm3.setDataVector(Service.getInstance().generateViewDataMellemlagerOversigt3Tider(), columnNames3);
+		
+		setColumnWidths(3);
+		table.getRowSorter().setSortKeys(rs);
+	}
+	
+
 
 	@Override
 	public void registerObserver(Observer o) {

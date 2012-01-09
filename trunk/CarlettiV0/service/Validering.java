@@ -79,10 +79,19 @@ public class Validering {
 	 */
 	public static long varighedStringTilMillisekunder(String varighed) {
 		long varighedMillisekunder = 0;
+		varighedMillisekunder += Long.parseLong(varighed.substring(0, 2))* 1000 * 60 * 60 * 24; // dage
+		varighedMillisekunder += Long.parseLong(varighed.substring(3, 5)) * 1000 * 60 * 60; // timer
+		varighedMillisekunder += Long.parseLong(varighed.substring(6, 8)) * 1000 * 60; // minutter
+		return varighedMillisekunder;
+	}
+
+	public static long varighedStringDDTTMMSSTilMillisekunder(String varighed) {
+		long varighedMillisekunder = 0;
 		varighedMillisekunder += Long.parseLong(varighed.substring(0, 2))
 				* 1000 * 60 * 60 * 24; // dage
 		varighedMillisekunder += Long.parseLong(varighed.substring(3, 5)) * 1000 * 60 * 60; // timer
 		varighedMillisekunder += Long.parseLong(varighed.substring(6, 8)) * 1000 * 60; // minutter
+		varighedMillisekunder += Long.parseLong(varighed.substring(9))*1000;
 		return varighedMillisekunder;
 	}
 

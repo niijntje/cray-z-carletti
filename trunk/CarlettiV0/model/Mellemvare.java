@@ -98,8 +98,11 @@ public class Mellemvare {
 	public Mellemvare(String bakkestregkode, Produkttype produkttype,
 			Palle palle, GregorianCalendar starttid) {
 		this(bakkestregkode, produkttype, palle);
+		this.igangvaerendeDelbehandling = produkttype.getBehandling().getDelbehandling(0);
 		this.tidspunkter = new ArrayList<GregorianCalendar>();
 		tidspunkter.add(starttid);
+		this.status = MellemvareStatus.UNDERBEHANDLING;
+		setPalle(palle);
 		this.setTestMode(true);
 	}
 	
@@ -112,10 +115,15 @@ public class Mellemvare {
 	public void addTidspunkter(ArrayList<GregorianCalendar> tidspunkter, Delbehandling foersteDelbehandling) {
 		this.igangvaerendeDelbehandling = foersteDelbehandling;
 		Iterator<GregorianCalendar> tidspunktIterator = tidspunkter.iterator();
-		this.tidspunkter.add(tidspunktIterator.next());
+		if (tidspunktIterator.hasNext()){
+			this.tidspunkter.add(tidspunktIterator.next());			
+		}
 		while (tidspunktIterator.hasNext() && igangvaerendeDelbehandling != null){
 			goToNextDelbehandling(tidspunktIterator.next());
-		}	
+		}
+		if (this.igangvaerendeDelbehandling==null){
+			setStatus(MellemvareStatus.FAERDIG);
+		}
 		
 	}
 
@@ -197,6 +205,18 @@ public class Mellemvare {
 	public void goToNextDelbehandling(GregorianCalendar tidspunkt) {
 		this.igangvaerendeDelbehandling = igangvaerendeDelbehandling.getNextDelbehandling();
 		this.addTidspunkt(tidspunkt);
+	}
+	
+	public void kasser(){
+		setIgangvaerendeDelbehandling(null);
+		setStatus(MellemvareStatus.KASSERET);
+		addNuvaerendeTidspunkt();
+	}
+	
+	public void faerdig(){
+			setIgangvaerendeDelbehandling(null);
+			setStatus(MellemvareStatus.FAERDIG);
+			addNuvaerendeTidspunkt();
 	}
 
 	/**

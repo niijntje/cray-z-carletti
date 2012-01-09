@@ -17,6 +17,7 @@ import model.Dragering;
 import model.Drageringshal;
 import model.MellemlagerPlads;
 import model.Mellemvare;
+import model.MellemvareStatus;
 import model.Palle;
 import model.Produkttype;
 import model.Toerring;
@@ -203,7 +204,14 @@ public class Service {
 
 	public void sendTilFaerdigvareLager(Mellemvare mellemvare, Palle palle,
 			Palle nyPalle) {
-		if (naesteDelbehandlingGyldig(mellemvare, null)) {
+		boolean gyldig = false;
+		if (mellemvare == null){
+			gyldig = palle.naesteDelbehandlingGyldig(null, null, null);
+		}
+		else {
+			gyldig = mellemvare.naesteDelbehandlingGyldig(null);
+		}
+		if (gyldig) {
 			ArrayList<Mellemvare> behandledeVarer = palle
 					.sendTilFaerdigvareLager(mellemvare);
 
@@ -698,13 +706,13 @@ public class Service {
 		String infoString = "";
 		if (m != null) {
 			long[] tider = m.getResterendeTider();
+			Varighed[] varigheder = new Varighed[3];
 			infoString = "#" + m.toString() + "\t"
 					+ m.getIgangvaerendeDelbehandling() + "\n"
 					+ "\nN¾ste delbehandling om:\n";
-			for (int i = 0; i < tider.length; i++) {
-				infoString += Validering
-						.millisekunderTilVarighedString(tider[i]);
-				if (i < tider.length - 1) {
+			for (int i = 0; i < varigheder.length; i++) {
+				infoString += varigheder[i];
+				if (i < varigheder.length - 1) {
 					infoString += " /\t";
 				}
 			}
