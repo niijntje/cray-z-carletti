@@ -1,0 +1,1 @@
+School project about managing products entering and leaving a storage facility going through different production cycles on a chocolate factory.
